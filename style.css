@@ -11,19 +11,16 @@
 
 
 
-  
-
-
-
 .wrapper-1{
 
-  max-width: 300px;
+  width: 300px;
+  max-width: 450px;
+
+  padding: 0 20px; }  
 
 
 
-  padding: 0 20px;
 
-}
 
  }
 
