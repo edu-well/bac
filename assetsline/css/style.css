@@ -1,0 +1,114 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@200;300;400;600;700&display=swap');
+
+
+
+
+:root{
+
+    --main-colorpp:#586f7c;
+    --main-color2:#a987a8;
+
+    --main-color:#fab23d;
+    --bg-color-1:#eee;
+    --bg-color-2:#fff;
+    --text-color-1:#444;
+    --text-color-2:#666;
+    --box-shadow:0 .5rem 1.5rem rgba(0,0,0,.1);
+}
+
+*{
+    font-family: 'Nunito', sans-serif;
+    margin:0; padding:0;
+    box-sizing: border-box;
+    outline: none; border:none;
+    text-decoration: none;
+    text-transform: capitalize;
+    transition: .2s linear;
+}
+
+
+
+
+
+
+
+.services_1 .box_1-container_1{
+    
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(20rem, .5fr));
+    gap:1rem;
+    
+}
+
+.services_1 .box_1-container_1 .box_1{
+    padding:3rem;
+    box-shadow: var(--box-shadow);
+    border-radius: .5rem;
+    background: var(--bg-color-2);
+    position:relative;
+    
+    
+}
+
+.services_1 .box_1-container_1 .box_1 span1{
+    font-size: 3rem;
+    color:var(--text-color-2);
+    font-weight: bolder;
+    opacity: .2;
+    position: absolute;
+    top:1rem; right: 2.5rem;
+}
+
+.services_1 .box_1-container_1 .box_1 i{
+    height: 3.5rem;
+    line-height: 5.5rem;
+    width: 4.5rem;
+    font-size: 2.5rem;
+    border-radius: 30%;
+    color:#fff;
+    background: var(--main-color);
+    margin-bottom: .5rem;
+    text-align: center;
+}
+
+.services_1 .box_1-container_1 .box_1 h4{
+    color:var(--text-color-1);
+    font-size: 2.5rem;
+    padding:1rem 0;
+}
+
+.services_1 .box_1-container_1 .box_1 p_1{
+    color:var(--text-color-2);
+    font-size: .5rem;
+    line-height: 1.8;
+}
+
+
+
+/* media queries  */
+@media (max-width:991px){
+
+    .services_1 .box_1-container_1 .box_1{
+        position: relative;
+        left: 50px;
+    }
+   
+
+    section1{
+        padding:.1rem;
+    }
+
+}
+
+
+@media (max-width:450px){
+
+    .container {
+        margin-left: auto;
+        margin-right: auto;
+        grid-template-columns:50%;
+        padding:.1rem;
+        font-size : 50%;
+      }
+     
+}
