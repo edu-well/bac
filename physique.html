@@ -16,7 +16,9 @@
     - custom css link
   -->
   <link rel="stylesheet" href="./assets/css/style.css">
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style00.css">
+ 
+ 
     <script src="https://kit.fontawesome.com/a076d05399.js"></script>
 
   <!--
@@ -28,14 +30,12 @@
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
 </head>
 
-
 <body>
 
   <!--
     - #MAIN
   -->
 
-  
   <main>
 
     <!--
@@ -84,7 +84,7 @@
             <div class="contact-info">
               <p class="contact-title">Notification</p>
 
-              <address> No Notification for today ,</address>
+              <address> No Notification for today</address>
             </div>
 
          </li> 
@@ -127,8 +127,6 @@
 
 
 
-
-
     <!--
       - #main-content
     -->
@@ -148,9 +146,9 @@
 
 
 
-            
+          
             <li class="navbar-item">
-              <button class="navbar-link" data-nav-link>Devoir</button>
+              <button class="navbar-link" data-nav-link>Home</button>
             </li>
   
              
@@ -158,14 +156,16 @@
            
          
 
+          
+
           <li class="navbar-item">
             <button class="navbar-link" data-nav-link>Documents</button>
           </li>
 
-
           <li class="navbar-item">
-            <button class="navbar-link" data-nav-link>Cours</button>
+            <button class="navbar-link" data-nav-link>Books</button>
           </li>
+
 
          
         </ul>
@@ -186,221 +186,352 @@
       -->
 
       
-      <article class="devoir  active" data-page="devoir">
+      <article class="about  active" data-page="home">
 
         <header>
-          <h2 class="h2 article-title">PHY&CHI #</h2>
+          <h2 class="h2 article-title">Home</h2>
         </header>
-       
-  
-          <section class="projects">
-  
-            <ul class="filter-list">
-  
-              <li class="filter-item">
-                <button  data-filter-btn>Condensateur</button>
-              </li>
-    
-              
-  
-              <li class="filter-item">
-                <button data-filter-btn>RC</button>
-              </li>
-  
-              <li class="filter-item">
-                <button data-filter-btn>Bobine</button>
-              </li>
-                 <li class="filter-item">
-                <button data-filter-btn>RL</button>
-              </li>
-            </li>
+
+        <section class="projects">
+
+          <ul class="filter-list">
+
             <li class="filter-item">
-           <button data-filter-btn>RLC</button>
-         </li>
-  
-  
-            </ul>
-              
-            
-              
-              
-              
-              
-              
-              
-              
-              
-  
-            <div class="filter-select-box">
-  
-              <button class="filter-select" data-select>
-  
-                <div class="select-value" data-selecct-value>Select Cours</div>
-  
-                <div class="select-icon">
-                  <ion-icon name="chevron-down"></ion-icon>
-                </div>
-  
-              </button>
-  
-              <ul class="select-list">
-  
-                
-                <li class="select-item">
-                  <button data-select-item>Condensateur</button>
-                </li>
-              
-              
+              <button class="active" data-filter-btn>All</button>
+            </li>
+
+            <li class="filter-item">
+              <button data-filter-btn>Avancement</button>
+            </li>
+
+            <li class="filter-item">
+              <button data-filter-btn>Esterification</button>
+            </li>
+
+
+            <li class="filter-item">
+              <button data-filter-btn>RC</button>
+            </li>
+
+           
+
+            <li class="filter-item">
+              <button data-filter-btn>RL</button>
+            </li>
+            <li class="select-item">
+              <button data-select-item>RLC Libre Amortie Et Non Amortie</button>
+            </li>
+
+            <li class="select-item">
+              <button data-select-item>RLC Force</button>
+            </li>
+
+           
+
+          </ul>
+
+          <div class="filter-select-box">
+
+            <button class="filter-select" data-select>
+
+              <div class="select-value" data-selecct-value>Select category</div>
+
+              <div class="select-icon">
+                <ion-icon name="chevron-down"></ion-icon>
+              </div>
+
+            </button>
+
+            <ul class="select-list">
 
               <li class="select-item">
-                <button data-select-item>rc</button>
+                <button data-select-item>All</button>
               </li>
 
               <li class="select-item">
-                <button data-select-item>bobine</button>
+                <button data-select-item>Avancement</button>
               </li>
+
               <li class="select-item">
-                <button data-select-item>rl</button>
+                <button data-select-item>Esterification</button>
               </li>
+
               <li class="select-item">
-                <button data-select-item>rlc</button>
+                <button data-select-item>RC</button>
               </li>
-          
-    
-              </ul>
                
-  
-            </div>
-              
-              
-              
-              
-  
-  
-            <ul class="project-list">
-                
-                
-                
-                 <!-- -----  T1 ---- -->
-                
-  
-              <li class="project-item  " data-filter-item data-category="Condensateur">
-                <a href="#">
-  
-                  <section class="timeline">
-                    <p>1</p>
-                        
-                      </section>
-             
+               <li class="select-item">
+                <button data-select-item>RL</button>
+              </li>
+               <li class="select-item">
+                <button data-select-item>RLC Libre Amortie Et Non Amortie</button>
+              </li>
+              <li class="select-item">
+                <button data-select-item>RLC Force</button>
+              </li>
 
-</a>
-</li>
+            </ul>
 
+          </div>
 
+          <ul class="project-list">
 
+            <li class="project-item  active" data-filter-item data-category="avancement">
+              <a href="#">
 
+                <figure class="project-img">
+                  <div class="project-item-icon-box">
+                    <ion-icon name="eye-outline"></ion-icon>
+                  </div>
 
+                  <img src="https://drive.google.com/uc?export=view&id=1o20e2VZg35z62agBWt8ctN8NdlPdlFxD" alt="Ducument File" loading="lazy">
+                </figure>
 
+                <h3 class="project-title">Avancement</h3>
 
+                <p class="project-category">Chimie - bac scientifique</p>
 
+              </a>
+            </li>
+            <li class="project-item  active" data-filter-item data-category="avancement">
+              <a href="#">
 
+                <figure class="project-img">
+                  <div class="project-item-icon-box">
+                    <ion-icon name="eye-outline"></ion-icon>
+                  </div>
 
+                  <img src="https://drive.google.com/uc?export=view&id=1R8_ceo2r8EI4yp2kGHYmTbyfg1gYAycs" alt="Ducument File" loading="lazy">
+                </figure>
 
+                <h3 class="project-title">Avancement (Exercice)</h3>
 
+                <p class="project-category">Chimie - bac scientifique</p>
 
+              </a>
+            </li>
+            <li class="project-item  active" data-filter-item data-category="esterification">
+              <a href="#">
 
+                <figure class="project-img">
+                  <div class="project-item-icon-box">
+                    <ion-icon name="eye-outline"></ion-icon>
+                  </div>
 
+                  <img src="https://drive.google.com/uc?export=view&id=1hkxS1KQbhbWZHz4hu-kaqSBDP3QYNDEU" alt="Ducument File" loading="lazy">
+                </figure>
 
-<!-- ----- ends T1 ---- -->  
+                <h3 class="project-title">Esterification</h3>
 
+                <p class="project-category">Chimie - bac scientifique</p>
 
+              </a>
+            </li>
+            <li class="project-item  active" data-filter-item data-category="esterification">
+              <a href="#">
 
+                <figure class="project-img">
+                  <div class="project-item-icon-box">
+                    <ion-icon name="eye-outline"></ion-icon>
+                  </div>
 
+                  <img src="https://drive.google.com/uc?export=view&id=1h06NU2JJDR1NHaxHD2V8BQh7YxBWOO1h" alt="Ducument File" loading="lazy">
+                </figure>
 
+                <h3 class="project-title">Esterification (Exercice)</h3>
 
+                <p class="project-category">Chimie - bac scientifique</p>
 
+              </a>
+            </li>
 
+            <li class="project-item  active" data-filter-item data-category="rc">
+              <a href="https://drive.google.com/file/d/1lipyp91L-zqmSvYFCmVqMto_Kx7W_YNK/view?usp=share_link">
 
+                <figure class="project-img">
+                  <div class="project-item-icon-box">
+                    <ion-icon name="eye-outline"></ion-icon>
+                  </div>
 
+                  <img src="https://drive.google.com/uc?export=view&id=1ewPCe2nRn30iH39R1orWXFTwIUKDTrdO" alt="Ducument File" loading="lazy">
+                </figure>
 
+                <h3 class="project-title">Le Condensateur</h3>
 
-<!-- -----  T2 ---- -->
+                <p class="project-category">Physique - bac scientifique</p>
 
+              </a>
+            </li>
 
+            <li class="project-item  active" data-filter-item data-category="rc">
+              <a href="https://drive.google.com/file/d/1tWtpBgMxbynTFQq8I5sUMflVMrneiOtO/view?usp=share_link">
 
+                <figure class="project-img">
+                  <div class="project-item-icon-box">
+                    <ion-icon name="eye-outline"></ion-icon>
+                  </div>
 
+                  <img src="https://drive.google.com/uc?export=view&id=1y6R-mThu4SSpCTbMd8t8wk5_G8Q4noQ0" alt="Ducument File" loading="lazy">
+                </figure>
 
-   <li class="project-item" data-filter-item data-category="rc">
-<a href="#">
+                <h3 class="project-title">RC</h3>
 
- 
-  <section class="timeline">
-<p>1</p>
+                <p class="project-category">Physique - bac scientifique</p>
+
+              </a>
+            </li>
+            <li class="project-item  active" data-filter-item data-category="rc">
+              <a href="#">
+
+                <figure class="project-img">
+                  <div class="project-item-icon-box">
+                    <ion-icon name="eye-outline"></ion-icon>
+                  </div>
+
+                  <img src="https://drive.google.com/uc?export=view&id=1mzM0f8KWjpQobF8c9lJoq0GOtyube8F4" alt="Ducument File" loading="lazy">
+                </figure>
+
+                <h3 class="project-title">RC (Exercice)</h3>
+
+                <p class="project-category">Physique - bac scientifique</p>
+
+              </a>
+            </li>
+            <li class="project-item  active" data-filter-item data-category="rl">
+              <a href="https://drive.google.com/file/d/10da6ESpjBBsKg5sk-Gsp5SC6Fn7hClQi/view?usp=share_link">
+
+                <figure class="project-img">
+                  <div class="project-item-icon-box">
+                    <ion-icon name="eye-outline"></ion-icon>
+                  </div>
+
+                  <img src="https://drive.google.com/uc?export=view&id=1ZcKgYjCB3B7vT4JmyDpqhsc43xqc0bZ0" alt="Ducument File" loading="lazy">
+                </figure>
+
+                <h3 class="project-title">La bobine et le circuit RL</h3>
+
+                <p class="project-category">Physique - bac scientifique</p>
+
+              </a>
+            </li>
+            <li class="project-item  active" data-filter-item data-category="rl">
+              <a href="#">
+
+                <figure class="project-img">
+                  <div class="project-item-icon-box">
+                    <ion-icon name="eye-outline"></ion-icon>
+                  </div>
+
+                  <img src="https://drive.google.com/uc?export=view&id=1wMTxHOX55ZBcn-w-bCqTey1cg79VWNq8" alt="Ducument File" loading="lazy">
+                </figure>
+
+                <h3 class="project-title">RL (Exercice)</h3>
+
+                <p class="project-category">Physique - bac scientifique</p>
+
+              </a>
+            </li>
+            <li class="project-item  active" data-filter-item data-category="rlc libre amortie et non amortie">
+              <a href="https://drive.google.com/file/d/1SrPKnr4F5RKfrcDJjK8XfkcuqInOXsc5/view?usp=share_link">
+
+                <figure class="project-img">
+                  <div class="project-item-icon-box">
+                    <ion-icon name="eye-outline"></ion-icon>
+                  </div>
+
+                  <img src="https://drive.google.com/uc?export=view&id=1gxQm_rLbTRLTCzGw-GNVzZ2R_0hWD2of" alt="Ducument File" loading="lazy">
+                </figure>
+
+                <h3 class="project-title">L'oscillateur électrique libre et amortie</h3>
+
+                <p class="project-category">Physique - bac scientifique</p>
+
+              </a>
+            </li>
+            <li class="project-item  active" data-filter-item data-category="rlc libre amortie et non amortie">
+              <a href="https://drive.google.com/file/d/1ND2_Bo5otdAHKY_rwcBDcHmQ-cLK50CV/view?usp=share_link">
+
+                <figure class="project-img">
+                  <div class="project-item-icon-box">
+                    <ion-icon name="eye-outline"></ion-icon>
+                  </div>
+
+                  <img src="https://drive.google.com/uc?export=view&id=1NvZvnW5KOWkQkCz4YhIAKBCh49q1Mlin" alt="Ducument File" loading="lazy">
+                </figure>
+
+                <h3 class="project-title">L'oscillateur électrique libre et non amortie</h3>
+
+                <p class="project-category">Physique - bac scientifique</p>
+
+              </a>
+            </li>
+            <li class="project-item  active" data-filter-item data-category="rlc libre amortie et non amortie">
+              <a href="#">
+
+                <figure class="project-img">
+                  <div class="project-item-icon-box">
+                    <ion-icon name="eye-outline"></ion-icon>
+                  </div>
+
+                  <img src="https://drive.google.com/uc?export=view&id=1TqIUhvGRVK7THHvj8i7aarnuvcxUYVzC" alt="Ducument File" loading="lazy">
+                </figure>
+
+                <h3 class="project-title">L'oscillateur électrique libre amortie et non amortie (Exercice)</h3>
+
+                <p class="project-category">Physique - bac scientifique</p>
+
+              </a>
+            </li>
+            <li class="project-item  active" data-filter-item data-category="rlc force">
+              <a href="#">
+
+                <figure class="project-img">
+                  <div class="project-item-icon-box">
+                    <ion-icon name="eye-outline"></ion-icon>
+                  </div>
+
+                  <img src="https://drive.google.com/uc?export=view&id=1-mMZAQMnCHeOjU72Wkc5k2tBdQZdDQvP" alt="Ducument File" loading="lazy">
+                </figure>
+
+                <h3 class="project-title">RLC Forcé</h3>
+
+                <p class="project-category">Physique - bac scientifique</p>
+
+              </a>
+            </li>
+            <li class="project-item  active" data-filter-item data-category="rlc force">
+              <a href="#">
+
+                <figure class="project-img">
+                  <div class="project-item-icon-box">
+                    <ion-icon name="eye-outline"></ion-icon>
+                  </div>
+
+                  <img src="https://drive.google.com/uc?export=view&id=1Rlo98bPbzS-AJpZWPS64-tAV5T4VBkQ5" alt="Ducument File" loading="lazy">
+                </figure>
+
+                <h3 class="project-title">RLC Forcé (Exercice)</h3>
+
+                <p class="project-category">Physique - bac scientifique</p>
+
+              </a>
+            </li>
+
+            
+            
+
+          </ul>
+
+        </section>
+
+      
+
     
-  </section>
-  
+    <section>
+    
 
 
 </section>
-</a>
-</li>
-
-
-
-
-
-
-
-<!-- ----- ends  T2  ---- -->      
-
-
-
-<!-- -----  T3 ---- -->     
-
-<li class="project-item " data-filter-item data-category="bobine">
-<a href="#">
-
- 
-  
-  <section class="timeline">
-    <p>1</p>
-        
-      </section>
-</a>
-</li>
-
-
-
-
-<!-- -----  ends T3 ---- -->  
-
-
-<!-- -----  Derivabilite  ---- -->     
-
-<li class="project-item " data-filter-item data-category="rl">
-<a href="#">
-
-
-  <section class="timeline">
-    <p>3</p>
-        
-      </section>
-
-
-
-</a>
-</li>
-<!-- -----  T4  ---- -->     
-
-<li class="project-item " data-filter-item data-category="rlc">
-<a href="#">
-
-
-  <section class="timeline">
-    <p>4</p>
-        
-      </section>
-
 
   </a>
 </li>
@@ -429,18 +560,17 @@
 
             <li class="testimonials-item">
               <div class="content-card" data-testimonials-item>
-
                 <figure class="testimonials-avatar-box">
-                  <img src="./SaaS - Classic - One Page_files/s_ab2.png"  width="60" data-testimonials-avatar>
+                  <img src="https://drive.google.com/uc?export=view&id=1pguWWqtvJAac5Rkbmf-fV6cVvyQFpooO" alt="Daniel lewis" width="80" height="80" data-modal-img >
                 </figure>
-
+<br>
                 <h4 class="h4 testimonials-item-title" data-testimonials-title>Eduwell Plus </h4>
 
                 <div class="testimonials-text" data-testimonials-text>
                   <p> This Speace For Peaple Who Look For Help To Build Her Future With Us
-                    "If You Want To Build Somthing Big, You Have To Start With A Small Step".<br> I'm a MT Professor and her you can find my Profile
+                    "If You Want To Build Somthing Big, You Have To Start With A Small Step"
 
-                    <p><a href="eduwellplus.html" >her</a><p>
+                    <p><a href="eduwellplus.html" >here</a><p>
 ⁣
 
 </p>
@@ -453,32 +583,29 @@
               <div class="content-card" data-testimonials-item>
 
                 <figure class="testimonials-avatar-box">
-                  <img src="https://drive.google.com/uc?export=view&id=1mZTTlWcLxdwxoZA1sZIXfrHSUCo-zJco" alt="Emily evans" width="60" data-testimonials-avatar>
+                  <img src="https://drive.google.com/uc?export=view&id=1YBG8ZQQplNiSwPBqMLwdNhzSg7UCI2-d" alt="Daniel lewis"  width="80" height="80" data-modal-img>
                 </figure>
-
-                <h4 class="h4 testimonials-item-title" data-testimonials-title>#META3-MT</h4>
+<br>
+                <h4 class="h4 testimonials-item-title" data-testimonials-title>#UHG Club</h4>
 
                 <div class="testimonials-text" data-testimonials-text>
-                  <p> Teaching is Not a Profession - it is a passion . <br>#teaching_is_not_profession<br><br> I'm a MT Professor and her you can find my Profile
-                    <p><a href="#" >her</a><p>
+                  <p> Education is not easy, but it is easy to find a teacher who is wiling to educate you with ease .<br> I'm a MT Professor and her you can find my Profile
 
-—
+                    <p><a href="#" >here</a><p>
+⁣
 
-
-                  </p>
+</p>
                 </div>
 
               </div>
             </li>
 
+               
           </ul>
 
         </section>
 
-
-        
-          
-        
+ 
 
         <div class="modal-container" data-modal-container>
 
@@ -500,17 +627,13 @@
 
             <div class="modal-content">
 
-              <h4 class="h3 modal-title" data-modal-title>Daniel lewis</h4>
+              <h4 class="h3 modal-title" data-modal-title></h4>
 
-              <time datetime="2021-06-14">14 June, 2021</time>
+              <time datetime="2021-06-14"></time>
 
               <div data-modal-text>
                 <p>
-                  Richard was hired to create a corporate identity. We were very pleased with the work done. She has a
-                  lot of experience
-                  and is very concerned about the needs of client. Lorem ipsum dolor sit amet, ullamcous cididt
-                  consectetur adipiscing
-                  elit, seds do et eiusmod tempor incididunt ut laborels dolore magnarels alia.
+                 
                 </p>
               </div>
 
@@ -518,6 +641,9 @@
 
           </section>
         </div>
+        
+         
+       
 
 
        
@@ -550,369 +676,245 @@
         
 
     <!-- docements -->
+  
+   
 
-      <article class="documents" data-page="documents">
 
-        <header>
-          <h2 class="h2 article-title">Documents</h2>
-        </header>
+<!---- END COURS -->
 
-        <section class="blog-posts">
 
-          <ul class="blog-posts-list">
 
-            <li class="blog-post-item">
-              <a href="#">
+<!---- START DOC EDU +-->
 
-                <figure class="blog-banner-box">
-                  <img src="https://drive.google.com/uc?export=view&id=1NmHEFB8Cr7pTOiCKcDwsSKDtbJZT_pFh" alt="Design conferences in 2022" loading="lazy">
-                </figure>
 
-                <div class="blog-content">
 
-                  <div class="blog-meta">
-                    <p class="blog-category">EduWell Plus</p>
+<article class="documents" data-page="documents">
 
-                    <span class="dot"></span>
+<header>
+  <h2 class="h2 article-title">Documents</h2>
+</header>
 
-                    <time datetime="2022-02-23">DOC</time>
-                  </div>
+<section class="blog-posts">
 
-                  <h3 class="h3 blog-item-title">Cinetique Chimique</h3>
+  <ul class="blog-posts-list">
 
-                  <p class="blog-text">
-                    CHIMIE
-                  </p>
 
-                </div>
 
-              </a>
-            </li>
 
-            <li class="blog-post-item">
-              <a href="#">
+    <li class="blog-post-item">
+      <a href="#">
 
-                <figure class="blog-banner-box">
-                  <img src="https://drive.google.com/uc?export=view&id=1n-B9oO6zTwQYp7KBinwesJNQHh5xNqbx" alt="Best fonts every designer" loading="lazy">
-                </figure>
+        <figure class="blog-banner-box">
+          <img src="https://drive.google.com/uc?export=view&id=1Je7uj2WG88F2uGenLIDAuJ-Q691k79Uj" alt="Ducument File" loading="lazy">
+        </figure>
 
-                <div class="blog-content">
+        <div class="blog-content">
 
-                  <div class="blog-meta">
-                    <p class="blog-category">EduWell Plus</p>
+          <div class="blog-meta">
+            <p class="blog-category">EduWell Plus</p>
 
-                    <span class="dot"></span>
+            <span class="dot"></span>
 
-                    <time datetime="2022-02-23">DOC</time>
-                  </div>
+            <time datetime="2022-02-23">DOC</time>
+          </div>
 
-                  <h3 class="h3 blog-item-title">Fiche De Methode Dipole RC</h3>
+          <h3 class="h3 blog-item-title">Devoirs premiere trimestre : Controle 1</h3>
 
-                  <p class="blog-text">
-                    Phisique
-                  </p>
+          <p class="blog-text">
+              EDUWELL - PDF
+          </p>
 
-                </div>
+        </div>
 
-              </a>
-            </li>
-            <li class="blog-post-item">
-              <a href="#">
+      </a>
+    </li>
 
-                <figure class="blog-banner-box">
-                  <img src="https://drive.google.com/uc?export=view&id=1X7fABMoNDDVH95aaGb6sAcXglMcVg4SN" alt="Best fonts every designer" loading="lazy">
-                </figure>
+    <li class="blog-post-item">
+      <a href="#">
 
-                <div class="blog-content">
+        <figure class="blog-banner-box">
+          <img src="https://drive.google.com/uc?export=view&id=1ZUWtzaaVefS1j2OgKOMxvVKqFfQYtrAU" alt="Ducument File" loading="lazy">
+        </figure>
 
-                  <div class="blog-meta">
-                    <p class="blog-category">EduWell Plus</p>
+        <div class="blog-content">
 
-                    <span class="dot"></span>
+          <div class="blog-meta">
+            <p class="blog-category">EduWell Plus</p>
 
-                    <time datetime="2022-02-23">DOC</time>
-                  </div>
+            <span class="dot"></span>
 
-                  <h3 class="h3 blog-item-title">Fiche De Methode Cinetique Chimique</h3>
+            <time datetime="2022-02-23">DOC</time>
+          </div>
 
-                  <p class="blog-text">
-                    Chimie
-                  </p>
+          <h3 class="h3 blog-item-title">Devoirs premiere trimestre : Synthese 1</h3>
 
-                </div>
+          <p class="blog-text">
+            EDUWELL - PDF
+          </p>
 
-              </a>
-            </li>
+        </div>
 
-            
-           
-           
+      </a>
+    </li>
 
-          </ul>
 
-        </section>
 
-      </article>
+    <li class="blog-post-item">
+      <a href="#">
 
+        <figure class="blog-banner-box">
+          <img src="https://drive.google.com/uc?export=view&id=1W5lvl2vuldwAJ_B1RrocDcWtIoI1JclW" alt="Ducument File" loading="lazy">
+        </figure>
 
+        <div class="blog-content">
 
-      <article class="cours" data-page="cours">
+          <div class="blog-meta">
+            <p class="blog-category">EduWell Plus</p>
 
-        <header>
-          <h2 class="h2 article-title">PHY&CHI #</h2>
-        </header>
-        <section class="blog-posts">
+            <span class="dot"></span>
 
-          <ul class="blog-posts-list">
+            <time datetime="2022-02-23">DOC</time>
+          </div>
 
+          <h3 class="h3 blog-item-title">Devoirs deuxieme trimestre : Controle 2</h3>
 
-      
+          <p class="blog-text">
+            EDUWELL - PDF
+          </p>
 
+        </div>
 
-          <!---section hathi tab3a les cours -->
+      </a>
+    </li>
 
 
-          <li class="blog-post-item">
-            <a href="https://drive.google.com/file/d/1lipyp91L-zqmSvYFCmVqMto_Kx7W_YNK/view?usp=share_link">
+    <li class="blog-post-item">
+      <a href="#">
 
-              <figure class="blog-banner-box">
-                <img src="https://drive.google.com/uc?export=view&id=1ewPCe2nRn30iH39R1orWXFTwIUKDTrdO" alt="Doc  cours" loading="lazy">
-              </figure>
+        <figure class="blog-banner-box">
+          <img src="https://drive.google.com/uc?export=view&id=1gMnoDMdvC7ICdjqWSCcRP-O3jvyXpSTc" alt="Ducument File" loading="lazy">
+        </figure>
 
-              <div class="blog-content">
+        <div class="blog-content">
 
-                <div class="blog-meta">
-                  <p class="blog-category">EduWell</p>
+          <div class="blog-meta">
+            <p class="blog-category">EduWell Plus</p>
 
-                  <span class="dot"></span>
+            <span class="dot"></span>
 
-                  <time datetime="2022-02-23">DOC</time>
-                </div>
+            <time datetime="2022-02-23">DOC</time>
+          </div>
 
-                <h3 class="h3 blog-item-title">Le Condensateur</h3>
+          <h3 class="h3 blog-item-title">Devoirs deuxieme trimestre : Synthese 2</h3>
 
-                <p class="blog-text">
-                  Physique
-                </p>
+          <p class="blog-text">
+            EDUWELL - PDF
+          </p>
 
-              </div>
+        </div>
 
-            </a>
-          </li>
+      </a>
+    </li>
+  
 
+    
 
+    
+   
+   
 
+  </ul>
 
+</section>
 
+</article>
 
+<article class="book" data-page="books">
 
+  
+<header>
+  <h2 class="h2 article-title">Books</h2>
+</header>
 
+<section class="blog-posts">
 
-          
- 
+  <ul class="blog-posts-list">
 
-          
-          <li class="blog-post-item">
-            <a href="https://drive.google.com/file/d/1tWtpBgMxbynTFQq8I5sUMflVMrneiOtO/view?usp=share_link">
 
-              <figure class="blog-banner-box">
-                <img src="https://drive.google.com/uc?export=view&id=1y6R-mThu4SSpCTbMd8t8wk5_G8Q4noQ0" alt="Doc  cours" loading="lazy">
-              </figure>
 
-              <div class="blog-content">
 
-                <div class="blog-meta">
-                  <p class="blog-category">EduWell</p>
+    <li class="blog-post-item">
+      <a href="#">
 
-                  <span class="dot"></span>
+        <figure class="blog-banner-box">
+          <img src="https://drive.google.com/uc?export=view&id=1mzM0f8KWjpQobF8c9lJoq0GOtyube8F4" alt="sciencs" loading="lazy">
+        </figure>
 
-                  <time datetime="2022-02-23">DOC</time>
-                </div>
+        <div class="blog-content">
 
-                <h3 class="h3 blog-item-title">Le circuit RC</h3>
+          <div class="blog-meta">
+            <p class="blog-category">EduWell Plus</p>
 
-                <p class="blog-text">
-                  Physique
-                </p>
+            <span class="dot"></span>
 
-              </div>
+            <time datetime="2022-02-23">DOC</time>
+          </div>
 
-            </a>
-          </li>
-          <li class="blog-post-item">
-            <a href="https://drive.google.com/file/d/10da6ESpjBBsKg5sk-Gsp5SC6Fn7hClQi/view?usp=share_link">
+          <h3 class="h3 blog-item-title">400 devoir #EDUWELL</h3>
 
-              <figure class="blog-banner-box">
-                <img src="https://drive.google.com/uc?export=view&id=1ZcKgYjCB3B7vT4JmyDpqhsc43xqc0bZ0" alt="Doc  cours" loading="lazy">
-              </figure>
+          <p class="blog-text">
+              EDUWELL - PDF Book - #BAC
+          </p>
 
-              <div class="blog-content">
+        </div>
 
-                <div class="blog-meta">
-                  <p class="blog-category">EduWell</p>
+      </a>
+    </li>
 
-                  <span class="dot"></span>
+    <li class="blog-post-item">
+      <a href="https://drive.google.com/file/d/11560fexqaRVaUHjQb07gCkUlQU61nPmg/view?usp=drive_open">
 
-                  <time datetime="2022-02-23">DOC</time>
-                </div>
+        <figure class="blog-banner-box">
+          <img src="https://drive.google.com/uc?export=view&id=13wqijJnZcDZ5PC9oNa8rIcFlZemjKPoJ" alt="sciencs" loading="lazy">
+        </figure>
 
-                <h3 class="h3 blog-item-title">La bobine et le circuit RL </h3>
+        <div class="blog-content">
 
-                <p class="blog-text">
-                  Physique
-                </p>
+          <div class="blog-meta">
+            <p class="blog-category">EduWell Plus</p>
 
-              </div>
+            <span class="dot"></span>
 
-            </a>
-          </li>
+            <time datetime="2022-02-23">DOC</time>
+          </div>
 
+          <h3 class="h3 blog-item-title">Physique 30 #EDUWELL</h3>
 
+          <p class="blog-text">
+              EDUWELL - PDF Book - #BAC
+          </p>
 
-          <li class="blog-post-item">
-            <a href="https://drive.google.com/file/d/1SrPKnr4F5RKfrcDJjK8XfkcuqInOXsc5/view?usp=share_link">
+        </div>
 
-              <figure class="blog-banner-box">
-                <img src="https://drive.google.com/uc?export=view&id=1gxQm_rLbTRLTCzGw-GNVzZ2R_0hWD2of" alt="Doc  cours" loading="lazy">
-              </figure>
+      </a>
+    </li>
+   
+    
 
-              <div class="blog-content">
+    
 
-                <div class="blog-meta">
-                  <p class="blog-category">EduWell</p>
+    
+   
+   
 
-                  <span class="dot"></span>
+  </ul>
 
-                  <time datetime="2022-02-23">DOC</time>
-                </div>
+</section>
 
-                <h3 class="h3 blog-item-title">L'oscillateur électrique libre et amorti
-                </h3>
+</article>
 
-                <p class="blog-text">
-                  Physique
-                </p>
 
-              </div>
-
-            </a>
-          </li>
-          <li class="blog-post-item">
-            <a href="https://drive.google.com/file/d/1ND2_Bo5otdAHKY_rwcBDcHmQ-cLK50CV/view?usp=share_link">
-
-              <figure class="blog-banner-box">
-                <img src="https://drive.google.com/uc?export=view&id=1NvZvnW5KOWkQkCz4YhIAKBCh49q1Mlin" alt="Doc  cours" loading="lazy">
-              </figure>
-
-              <div class="blog-content">
-
-                <div class="blog-meta">
-                  <p class="blog-category">EduWell</p>
-
-                  <span class="dot"></span>
-
-                  <time datetime="2022-02-23">DOC</time>
-                </div>
-
-                <h3 class="h3 blog-item-title">L'oscillateur électrique libre et non amorti</h3>
-
-                <p class="blog-text">
-                  Physique
-                </p>
-
-              </div>
-
-            </a>
-          </li>
-          <li class="blog-post-item">
-            <a href="#">
-
-              <figure class="blog-banner-box">
-                <img src="https://drive.google.com/uc?export=view&id=1-mMZAQMnCHeOjU72Wkc5k2tBdQZdDQvP" alt="Doc  cours" loading="lazy">
-              </figure>
-
-              <div class="blog-content">
-
-                <div class="blog-meta">
-                  <p class="blog-category">EduWell</p>
-
-                  <span class="dot"></span>
-
-                  <time datetime="2022-02-23">DOC</time>é
-                </div>
-
-                <h3 class="h3 blog-item-title">L'oscillateur électrique forc</h3>
-
-                <p class="blog-text">
-                  Physique
-                </p>
-
-              </div>
-
-            </a>
-          </li>
-
-         
-<!-----
-          <li class="blog-post-item">
-            <a href="#">
-
-              <figure class="blog-banner-box">
-                <img src="https://drive.google.com/uc?export=view&id=17qSooeaespKe6C9Ar3xWTKY_wCYOBW5w" alt="Doc  cours" loading="lazy">
-              </figure>
-
-              <div class="blog-content">
-
-                <div class="blog-meta">
-                  <p class="blog-category">EduWell</p>
-
-                  <span class="dot"></span>
-
-                  <time datetime="2022-02-23">DOC</time>
-                </div>
-
-                <h3 class="h3 blog-item-title">La Bobine</h3>
-
-                <p class="blog-text">
-                  Physique
-                </p>
-
-              </div>
-
-            </a>
-          </li>
-          --->
-
-          </ul>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        </section>
-
-
-        
-
-
-      </article>
-
-
-
-
-
-    </div>
-
+</div>
   </main>
 
 
@@ -920,17 +922,18 @@
 
 
 
-  
   <!--
     - custom js link
   -->
   <script src="./assets/js/script.js"></script>
-
-  <!--
+  <script src="img slide.js"></script>
+<!--
     - ionicon link
   -->
   <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
   <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+
+  
 
 </body>
 
