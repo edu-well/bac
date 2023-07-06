@@ -330,7 +330,7 @@ main {
 }
 
 .avatar-box {
-  background: linear-gradient(to top left, white 0% ,#e8b7d4 100%); 
+  background: black; 
   backdrop-filter:blur(10px);
     -webkit-backdrop-filter:blur(10px);
   border-radius: 20px;
