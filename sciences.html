@@ -28,6 +28,360 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Travel Itinerary | Buddy</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+      :root {
+          --system-background: #f5f5f7;
+          --secondary-background: #ffffff;
+          --label-primary: #1c1c1e;
+          --label-secondary: #636366;
+          --label-tertiary: #aeaeb2;
+          --system-blue: #0a84ff;
+          --system-gray: #f2f2f7;
+          --system-gray2: #e5e5ea;
+          --system-gray3: #d1d1d6;
+          --accent-yellow: #ffcc00;
+          --corner-radius: 14px;
+          --shadow-sm: 0 1px 3px rgba(0,0,0,0.04), 0 1px 2px rgba(0,0,0,0.06);
+          --shadow-md: 0 4px 12px rgba(0,0,0,0.05), 0 2px 6px rgba(0,0,0,0.05);
+          --shadow-lg: 0 8px 24px rgba(0,0,0,0.05), 0 4px 12px rgba(0,0,0,0.05);
+      }
+
+      * {
+          margin: 0;
+          padding: 0;
+          box-sizing: border-box;
+          -webkit-font-smoothing: antialiased;
+          -moz-osx-font-smoothing: grayscale;
+      }
+
+      body {
+          background-color: var(--system-background);
+          font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+          color: var(--label-primary);
+          padding: 40px 24px;
+          line-height: 1.5;
+      }
+
+      .container {
+          max-width: 1200px;
+          margin: 0 auto;
+      }
+
+      /* Header Section */
+      .app-header {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          margin-bottom: 32px;
+      }
+
+      .app-logo {
+          font-size: 24px;
+          font-weight: 700;
+          letter-spacing: -0.25px;
+          color: var(--label-primary);
+      }
+
+      .user-avatar {
+          width: 36px;
+          height: 36px;
+          border-radius: 50%;
+          background-color: var(--system-gray3);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-weight: 500;
+          color: var(--label-secondary);
+      }
+
+      /* Search Bar */
+      .search-container {
+          margin-bottom: 32px;
+          max-width: 600px;
+      }
+
+      .search-bar {
+          display: flex;
+          align-items: center;
+          background-color: var(--secondary-background);
+          border-radius: 10px;
+          padding: 12px 16px;
+          box-shadow: var(--shadow-sm);
+          border: 1px solid var(--system-gray2);
+          transition: all 0.2s ease;
+      }
+
+      .search-bar:focus-within {
+          border-color: var(--system-blue);
+          box-shadow: 0 0 0 3px rgba(10, 132, 255, 0.1);
+      }
+
+      .search-bar input {
+          flex: 1;
+          border: none;
+          outline: none;
+          font-size: 16px;
+          font-weight: 500;
+          padding: 0 12px;
+          background: transparent;
+          color: var(--label-primary);
+      }
+      .itinerary-items {
+  display: flex;
+  overflow-x: auto;
+  gap: 16px;
+  padding-bottom: 16px;
+  scrollbar-width: none;
+  flex-wrap: nowrap;
+}
+
+.itinerary-item {
+  flex: 0 0 280px;
+  scroll-snap-align: start;
+  transition: opacity 0.3s ease;
+}
+
+.itinerary-item[style*="display: none"] {
+  width: 0;
+  opacity: 0;
+  margin: 0;
+  padding: 0;
+  border: none;
+}
+
+      .search-bar input::placeholder {
+          color: var(--label-tertiary);
+          font-weight: 400;
+      }
+
+      /* Itinerary Card */
+      .itinerary-card {
+          background-color: var(--secondary-background);
+          border-radius: var(--corner-radius);
+          box-shadow: var(--shadow-md);
+          overflow: hidden;
+          margin-bottom: 40px;
+      }
+
+      .card-header {
+          padding: 24px;
+          border-bottom: 1px solid var(--system-gray2);
+      }
+
+      .card-title {
+          font-size: 22px;
+          font-weight: 600;
+          margin-bottom: 4px;
+          letter-spacing: -0.2px;
+      }
+
+      .card-subtitle {
+          font-size: 15px;
+          color: var(--label-secondary);
+          font-weight: 500;
+      }
+
+      /* Itinerary Items */
+      .itinerary-items {
+          display: flex;
+          overflow-x: auto;
+          padding: 16px 24px;
+          gap: 16px;
+          scrollbar-width: none;
+          scroll-snap-type: x mandatory;
+      }
+
+      .itinerary-items::-webkit-scrollbar {
+          display: none;
+      }
+
+      .itinerary-item {
+          scroll-snap-align: start;
+          flex: 0 0 280px;
+      }
+
+      .item-container {
+          background-color: var(--system-background);
+          border-radius: 12px;
+          padding: 20px;
+          height: 100%;
+          border: 1px solid var(--system-gray2);
+          transition: all 0.3s cubic-bezier(0.25, 0.1, 0.25, 1);
+      }
+
+      .item-container:hover {
+          transform: translateY(-4px);
+          box-shadow: var(--shadow-lg);
+          border-color: var(--system-gray3);
+      }
+
+      .item-title {
+          font-size: 18px;
+          font-weight: 600;
+          margin-bottom: 12px;
+          position: relative;
+          display: inline-block;
+      }
+
+      .item-title::after {
+          content: '';
+          position: absolute;
+          bottom: -4px;
+          left: 0;
+          width: 24px;
+          height: 2px;
+          background-color: var(--accent-yellow);
+          border-radius: 1px;
+      }
+
+      .item-description {
+          font-size: 14px;
+          color: var(--label-secondary);
+          margin-bottom: 16px;
+          line-height: 1.5;
+      }
+
+      .item-meta {
+          display: flex;
+          align-items: center;
+          font-size: 13px;
+          color: var(--label-tertiary);
+          font-weight: 500;
+      }
+
+      .item-meta svg {
+          margin-right: 6px;
+          width: 14px;
+          height: 14px;
+          fill: currentColor;
+      }
+
+      /* Next Trips Section */
+      .section-header {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          margin-bottom: 20px;
+      }
+
+      .section-title {
+          font-size: 20px;
+          font-weight: 600;
+          letter-spacing: -0.2px;
+      }
+
+      .see-all {
+          font-size: 15px;
+          color: var(--system-blue);
+          font-weight: 500;
+          text-decoration: none;
+      }
+
+      .next-trips {
+          display: flex;
+          overflow-x: auto;
+          gap: 12px;
+          padding-bottom: 8px;
+          scrollbar-width: none;
+      }
+
+      .next-trips::-webkit-scrollbar {
+          display: none;
+      }
+
+      .trip-card {
+          background-color: var(--secondary-background);
+          border-radius: 10px;
+          padding: 16px;
+          min-width: 140px;
+          box-shadow: var(--shadow-sm);
+          border: 1px solid var(--system-gray2);
+          text-align: center;
+          flex-shrink: 0;
+      }
+
+      .trip-city {
+          font-weight: 600;
+          margin-bottom: 2px;
+      }
+
+      .trip-country {
+          font-size: 13px;
+          color: var(--label-tertiary);
+      }
+
+      /* Footer */
+      .app-footer {
+          margin-top: 60px;
+          padding-top: 40px;
+          border-top: 1px solid var(--system-gray2);
+      }
+
+      .footer-title {
+          font-size: 24px;
+          font-weight: 600;
+          margin-bottom: 16px;
+          letter-spacing: -0.25px;
+      }
+
+      .footer-text {
+          font-size: 15px;
+          color: var(--label-secondary);
+          max-width: 500px;
+          line-height: 1.6;
+          margin-bottom: 24px;
+      }
+
+      .footer-meta {
+          display: flex;
+          gap: 20px;
+          font-size: 13px;
+          color: var(--label-tertiary);
+      }
+
+      /* Responsive Adjustments */
+      @media (max-width: 768px) {
+          body {
+              padding: 24px 16px;
+          }
+          
+          .card-header {
+              padding: 20px;
+          }
+          
+          .itinerary-items {
+              padding: 16px 20px;
+          }
+          
+          .itinerary-item {
+              flex: 0 0 240px;
+          }
+      }
+
+      @media (max-width: 480px) {
+          .app-header {
+              margin-bottom: 24px;
+          }
+          
+          .search-container {
+              margin-bottom: 24px;
+          }
+          
+          .itinerary-item {
+              flex: 0 0 200px;
+          }
+          
+          .trip-card {
+              min-width: 120px;
+              padding: 12px;
+          }
+      }
+  </style>
 </head>
 
 <body>
@@ -257,6 +611,159 @@
             </ul>
 
           </div>
+   
+
+          <div class="container">
+            <header class="app-header">
+                <div class="app-logo">buddy</div>
+                <div class="user-avatar">👤</div>
+            </header>
+            <div class="search-container">
+              <div class="search-bar">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="opacity: 0.5;">
+                  <path d="M11 19C15.4183 19 19 15.4183 19 11C19 6.58172 15.4183 3 11 3C6.58172 3 3 6.58172 3 11C3 15.4183 6.58172 19 11 19Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                  <path d="M21 21L16.65 16.65" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                <input type="text" id="itinerarySearch" placeholder="Search locations...">
+              </div>
+            </div>
+    
+      <div class="itinerary-carnd">
+          <div class="card-header">
+              <h2 class="card-title">Berlin Itinerary</h2>
+              <p class="card-subtitle">Your personalized travel plan for 25 days in Berlin</p>
+          </div>
+          
+          <div class="itinerary-items">
+              <div class="itinerary-item">
+                  <div class="item-container">
+                      <h3 class="item-title">East Side Gallery</h3>
+                      <p class="item-description">The longest open-air gallery in the world, featuring murals painted directly on remnants of the Berlin Wall.</p>
+                      <div class="item-meta">
+                          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                              <path d="M12 2C8.13 2 5 5.13 5 9C5 14.25 12 22 12 22C12 22 19 14.25 19 9C19 5.13 15.87 2 12 2Z" fill="currentColor"/>
+                              <path d="M12 11.5C13.3807 11.5 14.5 10.3807 14.5 9C14.5 7.61929 13.3807 6.5 12 6.5C10.6193 6.5 9.5 7.61929 9.5 9C9.5 10.3807 10.6193 11.5 12 11.5Z" fill="white"/>
+                          </svg>
+                          Friedrichshain, Berlin
+                      </div>
+                  </div>
+              </div>
+              
+              <div class="itinerary-item">
+                  <div class="item-container">
+                      <h3 class="item-title">Da Giuseppe</h3>
+                      <p class="item-description">Authentic Italian pizzeria known for its wood-fired oven and traditional Neapolitan-style pizzas.</p>
+                      <div class="item-meta">
+                          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                              <path d="M12 2C8.13 2 5 5.13 5 9C5 14.25 12 22 12 22C12 22 19 14.25 19 9C19 5.13 15.87 2 12 2Z" fill="currentColor"/>
+                              <path d="M12 11.5C13.3807 11.5 14.5 10.3807 14.5 9C14.5 7.61929 13.3807 6.5 12 6.5C10.6193 6.5 9.5 7.61929 9.5 9C9.5 10.3807 10.6193 11.5 12 11.5Z" fill="white"/>
+                          </svg>
+                          Mitte, Berlin
+                      </div>
+                  </div>
+              </div>
+              
+              <div class="itinerary-item">
+                  <div class="item-container">
+                      <h3 class="item-title">Rex de Diego</h3>
+                      <p class="item-description">Vibrant cocktail bar with Spanish influences, famous for its creative drinks and lively atmosphere.</p>
+                      <div class="item-meta">
+                          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                              <path d="M12 2C8.13 2 5 5.13 5 9C5 14.25 12 22 12 22C12 22 19 14.25 19 9C19 5.13 15.87 2 12 2Z" fill="currentColor"/>
+                              <path d="M12 11.5C13.3807 11.5 14.5 10.3807 14.5 9C14.5 7.61929 13.3807 6.5 12 6.5C10.6193 6.5 9.5 7.61929 9.5 9C9.5 10.3807 10.6193 11.5 12 11.5Z" fill="white"/>
+                          </svg>
+                          Kreuzberg, Berlin
+                      </div>
+                  </div>
+              </div>
+              
+              <div class="itinerary-item">
+                  <div class="item-container">
+                      <h3 class="item-title">Dale</h3>
+                      <p class="item-description">Trendy café serving specialty coffee and healthy breakfast options in a minimalist setting.</p>
+                      <div class="item-meta">
+                          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                              <path d="M12 2C8.13 2 5 5.13 5 9C5 14.25 12 22 12 22C12 22 19 14.25 19 9C19 5.13 15.87 2 12 2Z" fill="currentColor"/>
+                              <path d="M12 11.5C13.3807 11.5 14.5 10.3807 14.5 9C14.5 7.61929 13.3807 6.5 12 6.5C10.6193 6.5 9.5 7.61929 9.5 9C9.5 10.3807 10.6193 11.5 12 11.5Z" fill="white"/>
+                          </svg>
+                          Prenzlauer Berg, Berlin
+                      </div>
+                  </div>
+              </div>
+              
+              <div class="itinerary-item">
+                  <div class="item-container">
+                      <h3 class="item-title">Pozzi Night</h3>
+                      <p class="item-description">Popular nightclub with themed parties and electronic music events until the early morning.</p>
+                      <div class="item-meta">
+                          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                              <path d="M12 2C8.13 2 5 5.13 5 9C5 14.25 12 22 12 22C12 22 19 14.25 19 9C19 5.13 15.87 2 12 2Z" fill="currentColor"/>
+                              <path d="M12 11.5C13.3807 11.5 14.5 10.3807 14.5 9C14.5 7.61929 13.3807 6.5 12 6.5C10.6193 6.5 9.5 7.61929 9.5 9C9.5 10.3807 10.6193 11.5 12 11.5Z" fill="white"/>
+                          </svg>
+                          Charlottenburg, Berlin
+                      </div>
+                  </div>
+              </div>
+              
+              <div class="itinerary-item">
+                  <div class="item-container">
+                      <h3 class="item-title">Party</h3>
+                      <p class="item-description">Exclusive rooftop party with panoramic views of Berlin's skyline and international DJs.</p>
+                      <div class="item-meta">
+                          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                              <path d="M12 2C8.13 2 5 5.13 5 9C5 14.25 12 22 12 22C12 22 19 14.25 19 9C19 5.13 15.87 2 12 2Z" fill="currentColor"/>
+                              <path d="M12 11.5C13.3807 11.5 14.5 10.3807 14.5 9C14.5 7.61929 13.3807 6.5 12 6.5C10.6193 6.5 9.5 7.61929 9.5 9C9.5 10.3807 10.6193 11.5 12 11.5Z" fill="white"/>
+                          </svg>
+                          Mitte, Berlin
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+
+      <div class="next-trips-section">
+          <div class="section-header">
+              <h3 class="section-title">Next trips</h3>
+              <a href="#" class="see-all">See all</a>
+          </div>
+          <div class="next-trips">
+              <div class="trip-card">
+                  <div class="trip-city">Berlin</div>
+                  <div class="trip-country">Germany</div>
+              </div>
+              <div class="trip-card">
+                  <div class="trip-city">Bruges</div>
+                  <div class="trip-country">Belgium</div>
+              </div>
+              <div class="trip-card">
+                  <div class="trip-city">Amsterdam</div>
+                  <div class="trip-country">Netherlands</div>
+              </div>
+              <div class="trip-card">
+                  <div class="trip-city">Paris</div>
+                  <div class="trip-country">France</div>
+              </div>
+              <div class="trip-card">
+                  <div class="trip-city">Rome</div>
+                  <div class="trip-country">Italy</div>
+              </div>
+          </div>
+      </div>
+
+      <footer class="app-footer">
+          <h3 class="footer-title">Your new travel friend, buddy</h3>
+          <p class="footer-text">
+              Streamline your travel planning with our app, offering seamless booking, 
+              personalized recommendations, and real-time updates for hassle-free 
+              adventures around the globe.
+          </p>
+          <div class="footer-meta">
+              <div>Project Location: Argentina</div>
+              <div>Project: Buddy</div>
+              <div>Date: 2024</div>
+          </div>
+      </footer>
+  </div>
 
           <ul class="project-list">
 
@@ -295,7 +802,7 @@
 
               </a>
             </li>
-
+<!--
             <li class="project-item  active" data-filter-item data-category="reproduction chez la femme">
               <a href="#">
 
@@ -366,225 +873,15 @@
               </a>
             </li>
 
-             <!--
-
-            <li class="project-item  active" data-filter-item data-category="procreation">
-              <a href="#">
-
-                <figure class="project-img">
-                  <div class="project-item-icon-box">
-                    <ion-icon name="eye-outline"></ion-icon>
-                  </div>
-
-                  <img src="https://drive.google.com/uc?export=view&id=15F4LnWikHu8eq0ZR54WluNJYsqFZTkcb" alt="Ducument File" loading="lazy">
-                </figure>
-
-                <h3 class="project-title">Procreation</h3>
-
-                <p class="project-category">Reproduction humaine et sante - bac science</p>
-
-              </a>
-            </li>
-
-            <li class="project-item  active" data-filter-item data-category="procreation">
-              <a href="#">
-
-                <figure class="project-img">
-                  <div class="project-item-icon-box">
-                    <ion-icon name="eye-outline"></ion-icon>
-                  </div>
-
-                  <img src="https://drive.google.com/uc?export=view&id=1JVh8mdvbZmXOuFCAdp-tuu8avN0tV3dd" alt="Ducument File" loading="lazy">
-                </figure>
-
-                <h3 class="project-title">Procreation</h3>
-
-                <p class="project-category">Reproduction humaine et sante - bac science</p>
-
-              </a>
-            </li>
-
-            <li class="project-item  active" data-filter-item data-category="procreation">
-              <a href="#">
-
-                <figure class="project-img">
-                  <div class="project-item-icon-box">
-                    <ion-icon name="eye-outline"></ion-icon>
-                  </div>
-
-                  <img src="https://drive.google.com/uc?export=view&id=19svgOvl6wfiwl-GjIjaXHIDweTudd6vG" alt="Ducument File" loading="lazy">
-                </figure>
-
-                <h3 class="project-title">Procreation (Exercice)</h3>
-
-                <p class="project-category">Reproduction humaine et sante - bac science</p>
-
-              </a>
-            </li>
-
-            <li class="project-item  active" data-filter-item data-category="genetique de diploides">
-              <a href="#">
-
-                <figure class="project-img">
-                  <div class="project-item-icon-box">
-                    <ion-icon name="eye-outline"></ion-icon>
-                  </div>
-
-                  <img src="https://drive.google.com/uc?export=view&id=1QIJS5X7Bexp969fN66AapR21BSgdbqUE" alt="Ducument File" loading="lazy">
-                </figure>
-
-                <h3 class="project-title">genetique de diploides</h3>
-
-                <p class="project-category">Genetique - bac science</p>
-
-              </a>
-            </li>
-
-            <li class="project-item  active" data-filter-item data-category="genetique de diploides">
-              <a href="#">
-
-                <figure class="project-img">
-                  <div class="project-item-icon-box">
-                    <ion-icon name="eye-outline"></ion-icon>
-                  </div>
-
-                  <img src="https://drive.google.com/uc?export=view&id=1SvwGhEI4sZfvyLGzRnedr6JVXlxWj3Ee" alt="Ducument File" loading="lazy">
-                </figure>
-
-                <h3 class="project-title">genetique de diploides (Exercice)</h3>
-
-                <p class="project-category">Genetique - bac science</p>
-
-              </a>
-            </li>
-            <li class="project-item  active" data-filter-item data-category="genetique de diploides">
-              <a href="#">
-
-                <figure class="project-img">
-                  <div class="project-item-icon-box">
-                    <ion-icon name="eye-outline"></ion-icon>
-                  </div>
-
-                  <img src="https://drive.google.com/uc?export=view&id=1Mxqy2L3jBnOVhzy3pLzFx0ICgMLo33mt" alt="Ducument File" loading="lazy">
-                </figure>
-
-                <h3 class="project-title">genetique de diploides (Exercice)</h3>
-
-                <p class="project-category">Genetique - bac science</p>
-
-              </a>
-            </li>
-
-          
-            <li class="project-item  active" data-filter-item data-category="genetique humaine">
-              <a href="#">
-
-                <figure class="project-img">
-                  <div class="project-item-icon-box">
-                    <ion-icon name="eye-outline"></ion-icon>
-                  </div>
-
-                  <img src="https://drive.google.com/uc?export=view&id=1erybyBgAJmq9kpX_lVGFsJB-4y5sJ_xp" alt="Ducument File" loading="lazy">
-                </figure>
-
-                <h3 class="project-title">Genetique humaine</h3>
-
-                <p class="project-category">Genetique - bac science</p>
-
-              </a>
-            </li>
-
-            <li class="project-item  active" data-filter-item data-category="genetique humaine">
-              <a href="#">
-
-                <figure class="project-img">
-                  <div class="project-item-icon-box">
-                    <ion-icon name="eye-outline"></ion-icon>
-                  </div>
-                  <img src="https://drive.google.com/uc?export=view&id=1dZM3pV8W89mao_CX9YUq6FqrSojsBAbt" alt="Ducument File" loading="lazy">
-                </figure>
-
-                <h3 class="project-title">Genetique humaine (Exercice)</h3>
-
-                <p class="project-category">Genetique - bac science</p>
-
-              </a>
-            </li>
-            <li class="project-item  active" data-filter-item data-category="genetique humaine">
-              <a href="https://edu-well.github.io/bac/ed%20svt/genetique%20humaine/magazine%201.html">
-
-                <figure class="project-img">
-                  <div class="project-item-icon-box">
-                    <ion-icon name="eye-outline"></ion-icon>
-                  </div>
-
-                  <img src="https://drive.google.com/uc?export=view&id=1MjqxptO-J8NECfEjTkibdFV5Cu7IUpTf" alt="Ducument File" loading="lazy">
-                </figure>
-
-                <h3 class="project-title">Genetique humaine (Exercice)</h3>
-
-                <p class="project-category">Genetique - bac science</p>
-
-              </a>
-            </li>
-            
-            <li class="project-item  active" data-filter-item data-category="l'evolution biologique">
-              <a href="https://drive.google.com/file/d/12zjvGHY9jscCxHtBdIRzslZO4x6PeNIY/view?usp=drivesdk">
-
-                <figure class="project-img">
-                  <div class="project-item-icon-box">
-                    <ion-icon name="eye-outline"></ion-icon>
-                  </div>
-
-                  <img src="https://drive.google.com/uc?export=view&id=1ZSF6lj1cY7QFibhN7quofY6hHQisAPaw" alt="Ducument File" loading="lazy">
-                </figure>
-
-                <h3 class="project-title">l'evolution biologique</h3>
-
-                <p class="project-category">L'evolution - bac science</p>
-
-              </a>
-            </li>
-
-            <li class="project-item  active" data-filter-item data-category="l'evolution biologique">
-              <a href="https://edu-well.github.io/bac/ed%20svt/evolution/magazine%201.html">
-
-                <figure class="project-img">
-                  <div class="project-item-icon-box">
-                    <ion-icon name="eye-outline"></ion-icon>
-                  </div>
-
-                  <img src="https://drive.google.com/uc?export=view&id=1w6koZ-fgoUNBUcKDfnmdyg51fefugidZ" alt="Ducument File" loading="lazy">
-                </figure>
-
-                <h3 class="project-title">l'evolution biologique (Exercice)</h3>
-
-                <p class="project-category">L'evolution - bac science</p>
-
-              </a>
-            </li>
-            <li class="project-item  active" data-filter-item data-category="l'evolution biologique">
-              <a href="#">
-
-                <figure class="project-img">
-                  <div class="project-item-icon-box">
-                    <ion-icon name="eye-outline"></ion-icon>
-                  </div>
-
-                  <img src="https://drive.google.com/uc?export=view&id=1vFFkePV_dQ3SurSUYEsCLyMDuqpEtfGb" alt="Ducument File" loading="lazy">
-                </figure>
-
-                <h3 class="project-title">l'evolution biologique (Exercice)</h3>
-
-                <p class="project-category">L'evolution - bac science</p>
-
-              </a>
-            </li>
-            
---->
+         
+        
+         
 
           </ul>
 
+       
+         
+        -->
         </section>
 
       
@@ -796,33 +1093,6 @@
       </a>
     </li>
 
-    <li class="blog-post-item">
-      <a href="#">
-
-        <figure class="blog-banner-box">
-          <img src="img/04 (2).jpg" alt="Ducument File" loading="lazy">
-        </figure>
-
-        <div class="blog-content">
-
-          <div class="blog-meta">
-            <p class="blog-category">EduWell Plus</p>
-
-            <span class="dot"></span>
-
-            <time datetime="2022-02-23">DOC</time>
-          </div>
-
-          <h3 class="h3 blog-item-title">Chapitre 2:La Fonction Reproductrice Chez La Femme</h3>
-
-          <p class="blog-text">
-              EDUWELL - Cour PDF - Exercice File
-          </p>
-
-        </div>
-
-      </a>
-    </li>
 
 
 
@@ -996,6 +1266,182 @@
 <!--
     - ionicon link
   -->
+    
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Enhanced horizontal scrolling with momentum and snap
+        const itineraryItems = document.querySelector('.itinerary-items');
+        const nextTrips = document.querySelector('.next-trips');
+        
+        function enableHorizontalScroll(element) {
+            let isDown = false;
+            let startX;
+            let scrollLeft;
+            let velocity = 0;
+            let animationFrame;
+            let lastTime;
+            
+            // Mouse events
+            element.addEventListener('mousedown', (e) => {
+                isDown = true;
+                startX = e.pageX - element.offsetLeft;
+                scrollLeft = element.scrollLeft;
+                element.style.cursor = 'grabbing';
+                cancelAnimationFrame(animationFrame);
+            });
+            
+            element.addEventListener('mouseleave', () => {
+                isDown = false;
+                element.style.cursor = 'grab';
+            });
+            
+            element.addEventListener('mouseup', () => {
+                isDown = false;
+                element.style.cursor = 'grab';
+                applyMomentum();
+            });
+            
+            element.addEventListener('mousemove', (e) => {
+                if(!isDown) return;
+                e.preventDefault();
+                const x = e.pageX - element.offsetLeft;
+                const walk = (x - startX) * 2;
+                element.scrollLeft = scrollLeft - walk;
+                
+                // Calculate velocity for momentum
+                const now = Date.now();
+                if (lastTime) {
+                    const deltaTime = now - lastTime;
+                    const deltaX = element.scrollLeft - scrollLeft;
+                    velocity = deltaX / deltaTime;
+                }
+                lastTime = now;
+                scrollLeft = element.scrollLeft;
+            });
+            
+            // Touch events
+            element.addEventListener('touchstart', (e) => {
+                isDown = true;
+                startX = e.touches[0].pageX - element.offsetLeft;
+                scrollLeft = element.scrollLeft;
+                cancelAnimationFrame(animationFrame);
+            });
+            
+            element.addEventListener('touchend', () => {
+                isDown = false;
+                applyMomentum();
+            });
+            
+            element.addEventListener('touchmove', (e) => {
+                if(!isDown) return;
+                const x = e.touches[0].pageX - element.offsetLeft;
+                const walk = (x - startX) * 2;
+                element.scrollLeft = scrollLeft - walk;
+                
+                // Calculate velocity for momentum
+                const now = Date.now();
+                if (lastTime) {
+                    const deltaTime = now - lastTime;
+                    const deltaX = element.scrollLeft - scrollLeft;
+                    velocity = deltaX / deltaTime;
+                }
+                lastTime = now;
+                scrollLeft = element.scrollLeft;
+            });
+            
+            // Momentum animation
+            function applyMomentum() {
+                const startTime = Date.now();
+                const startScroll = element.scrollLeft;
+                const friction = 0.92;
+                
+                function animate() {
+                    const time = Date.now() - startTime;
+                    
+                    if (Math.abs(velocity) > 0.1) {
+                        velocity *= friction;
+                        element.scrollLeft = startScroll + velocity * time;
+                        animationFrame = requestAnimationFrame(animate);
+                    } else {
+                        // Snap to nearest item
+                        const children = element.children;
+                        let closestChild = children[0];
+                        let closestDistance = Math.abs(children[0].offsetLeft - element.scrollLeft);
+                        
+                        for (let i = 1; i < children.length; i++) {
+                            const distance = Math.abs(children[i].offsetLeft - element.scrollLeft);
+                            if (distance < closestDistance) {
+                                closestDistance = distance;
+                                closestChild = children[i];
+                            }
+                        }
+                        
+                        element.scrollTo({
+                            left: closestChild.offsetLeft - 20,
+                            behavior: 'smooth'
+                        });
+                    }
+                }
+                
+                animate();
+            }
+            
+            // Initial cursor style
+            element.style.cursor = 'grab';
+        }
+        
+        enableHorizontalScroll(itineraryItems);
+        enableHorizontalScroll(nextTrips);
+        
+        // Add subtle hover effects
+        const itemContainers = document.querySelectorAll('.item-container');
+        itemContainers.forEach(container => {
+            container.addEventListener('mouseenter', () => {
+                container.style.transform = 'translateY(-4px)';
+                container.style.boxShadow = '0 8px 24px rgba(0,0,0,0.05), 0 4px 12px rgba(0,0,0,0.05)';
+            });
+            
+            container.addEventListener('mouseleave', () => {
+                container.style.transform = '';
+                container.style.boxShadow = '';
+            });
+        });
+    });
+</script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const searchInput = document.getElementById('itinerarySearch');
+  const itineraryItems = document.querySelectorAll('.itinerary-item');
+
+  searchInput.addEventListener('input', function() {
+    const searchTerm = this.value.toLowerCase().trim();
+    
+    itineraryItems.forEach(item => {
+      const title = item.querySelector('.item-title').textContent.toLowerCase();
+      const description = item.querySelector('.item-description').textContent.toLowerCase();
+      
+      if (title.includes(searchTerm) || description.includes(searchTerm)) {
+        item.style.display = 'block';
+      } else {
+        item.style.display = 'none';
+      }
+    });
+
+    // Adjust scrolling container after filtering
+    const itemsContainer = document.querySelector('.itinerary-items');
+    itemsContainer.scrollLeft = 0;
+  });
+
+  // Clear search when clicking the 'x' in search field (for browsers that show it)
+  searchInput.addEventListener('search', function() {
+    if (this.value === '') {
+      itineraryItems.forEach(item => {
+        item.style.display = 'block';
+      });
+    }
+  });
+});
+</script>
   <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
   <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
 
