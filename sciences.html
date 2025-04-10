@@ -50,7 +50,23 @@
           --shadow-md: 0 4px 12px rgba(0,0,0,0.05), 0 2px 6px rgba(0,0,0,0.05);
           --shadow-lg: 0 8px 24px rgba(0,0,0,0.05), 0 4px 12px rgba(0,0,0,0.05);
       }
+/* Ensure smooth scrolling behavior */
+.itinerary-items {
+  -webkit-overflow-scrolling: touch; /* For iOS momentum scrolling */
+  overscroll-behavior-x: contain; /* Prevent page scroll when hitting boundaries */
+  scroll-snap-type: x mandatory;
+}
 
+.itinerary-item {
+  scroll-snap-align: start;
+  flex-shrink: 0; /* Prevent items from shrinking */
+  touch-action: pan-y; /* Allow vertical touch events */
+}
+
+/* Prevent any potential overflow */
+body {
+  overflow-x: hidden;
+}
       
       .container {
           max-width: 1200px;
@@ -627,7 +643,7 @@
     
       <div class="itinerary-carnd">
           <div class="card-header">
-              <h2 class="card-title">Berlin Itinerary</h2>
+              <h2 class="card-title">Bberlin Itinerary</h2>
               <p class="card-subtitle">Your personalized travel plan for 25 days in Berlin</p>
           </div>
           
@@ -1430,6 +1446,61 @@
     // Initialize scroll behavior
     enableHorizontalScroll(itemsContainer);
   });
+
+  // Improved touch handling for mobile scrolling
+function enableMobileTouchScrolling(element) {
+  let isDragging = false;
+  let startX, scrollLeft;
+
+  element.addEventListener('touchstart', (e) => {
+    isDragging = true;
+    startX = e.touches[0].pageX - element.offsetLeft;
+    scrollLeft = element.scrollLeft;
+    element.style.scrollBehavior = 'auto'; // Disable smooth scroll during drag
+  });
+
+  element.addEventListener('touchend', () => {
+    isDragging = false;
+    element.style.scrollBehavior = 'smooth'; // Re-enable smooth scroll
+    snapToNearestItem(element);
+  });
+
+  element.addEventListener('touchmove', (e) => {
+    if (!isDragging) return;
+    e.preventDefault();
+    const x = e.touches[0].pageX - element.offsetLeft;
+    const walk = (x - startX) * 2; // Adjust multiplier for sensitivity
+    element.scrollLeft = scrollLeft - walk;
+  });
+
+  // Snap to nearest item after scrolling ends
+  function snapToNearestItem(container) {
+    const items = container.children;
+    if (items.length === 0) return;
+    
+    let closestItem = items[0];
+    let closestDistance = Math.abs(items[0].offsetLeft - container.scrollLeft);
+    
+    for (let i = 1; i < items.length; i++) {
+      const distance = Math.abs(items[i].offsetLeft - container.scrollLeft);
+      if (distance < closestDistance) {
+        closestDistance = distance;
+        closestItem = items[i];
+      }
+    }
+    
+    container.scrollTo({
+      left: closestItem.offsetLeft - 20,
+      behavior: 'smooth'
+    });
+  }
+}
+
+// Initialize on your itinerary container
+const itineraryContainer = document.querySelector('.itinerary-items');
+if (itineraryContainer) {
+  enableMobileTouchScrolling(itineraryContainer);
+}
 </script>
 
   <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
