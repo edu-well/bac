@@ -202,3 +202,33 @@ if (elements.navigationLinks.length) {
 
 // Initialize Horizontal Scrolling
 utils.initHorizontalScroll(elements.scrollContainer);
+
+
+
+
+
+
+// Get DOM elements
+const viewAllBtn = document.getElementById('viewAllBtn');
+const popupL1 = document.getElementById('popup-l1');
+const overlay = document.getElementById('overlay');
+const closePopup = document.getElementById('closePopup');
+
+// Show popup when View All is clicked
+viewAllBtn.addEventListener('click', function(e) {
+    e.preventDefault();
+    popupL1.classList.add('active');
+    overlay.classList.add('active');
+});
+
+// Close popup when X is clicked
+closePopup.addEventListener('click', function() {
+    popupL1.classList.remove('active');
+    overlay.classList.remove('active');
+});
+
+// Close popup when clicking outside
+overlay.addEventListener('click', function() {
+    popupL1.classList.remove('active');
+    overlay.classList.remove('active');
+});
