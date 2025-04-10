@@ -1,159 +1,204 @@
 'use strict';
 
+// DOM Elements
+const elements = {
+  // Sidebar
+  sidebar: document.querySelector("[data-sidebar]"),
+  sidebarBtn: document.querySelector("[data-sidebar-btn]"),
+  
+  // Testimonials Modal
+  testimonialsItems: document.querySelectorAll("[data-testimonials-item]"),
+  modalContainer: document.querySelector("[data-modal-container]"),
+  modalCloseBtn: document.querySelector("[data-modal-close-btn]"),
+  overlay: document.querySelector("[data-overlay]"),
+  modalImg: document.querySelector("[data-modal-img]"),
+  modalTitle: document.querySelector("[data-modal-title]"),
+  modalText: document.querySelector("[data-modal-text]"),
+  
+  // Custom Select
+  select: document.querySelector("[data-select]"),
+  selectItems: document.querySelectorAll("[data-select-item]"),
+  selectValue: document.querySelector("[data-selecct-value]"),
+  filterBtns: document.querySelectorAll("[data-filter-btn]"),
+  filterItems: document.querySelectorAll("[data-filter-item]"),
+  
+  // Contact Form
+  form: document.querySelector("[data-form]"),
+  formInputs: document.querySelectorAll("[data-form-input]"),
+  formBtn: document.querySelector("[data-form-btn]"),
+  
+  // Page Navigation
+  navigationLinks: document.querySelectorAll("[data-nav-link]"),
+  pages: document.querySelectorAll("[data-page]"),
+  
+  // Horizontal Scrolling
+  scrollContainer: document.querySelector(".itinerary-items")
+};
 
+// Utility Functions
+const utils = {
+  toggleElement: (elem) => elem.classList.toggle("active"),
+  
+  // Horizontal scrolling with touch support
+  initHorizontalScroll: (container) => {
+    if (!container) return;
+    
+    let isDragging = false;
+    let startX, scrollLeft;
+    let animationFrame;
 
-// element toggle function
-const elementToggleFunc = function (elem) { elem.classList.toggle("active"); }
+    const handleStart = (e) => {
+      isDragging = true;
+      startX = (e.touches ? e.touches[0].pageX : e.pageX) - container.offsetLeft;
+      scrollLeft = container.scrollLeft;
+      container.style.scrollBehavior = 'auto';
+      container.style.cursor = 'grabbing';
+      cancelAnimationFrame(animationFrame);
+    };
 
+    const handleMove = (e) => {
+      if (!isDragging) return;
+      if (e.cancelable) e.preventDefault();
+      
+      const x = (e.touches ? e.touches[0].pageX : e.pageX) - container.offsetLeft;
+      container.scrollLeft = scrollLeft - (x - startX) * 2.5;
+    };
 
+    const handleEnd = () => {
+      isDragging = false;
+      container.style.scrollBehavior = 'smooth';
+      container.style.cursor = 'grab';
+      snapToNearestItem();
+    };
 
-// sidebar variables
-const sidebar = document.querySelector("[data-sidebar]");
-const sidebarBtn = document.querySelector("[data-sidebar-btn]");
+    const snapToNearestItem = () => {
+      const items = container.querySelectorAll('.itinerary-item');
+      if (!items.length) return;
+      
+      let closestItem = items[0];
+      let closestDistance = Math.abs(items[0].offsetLeft - container.scrollLeft);
+      
+      items.forEach(item => {
+        const distance = Math.abs(item.offsetLeft - container.scrollLeft);
+        if (distance < closestDistance) {
+          closestDistance = distance;
+          closestItem = item;
+        }
+      });
+      
+      animationFrame = requestAnimationFrame(() => {
+        container.scrollTo({
+          left: closestItem.offsetLeft - 20,
+          behavior: 'smooth'
+        });
+      });
+    };
 
-// sidebar toggle functionality for mobile
-sidebarBtn.addEventListener("click", function () { elementToggleFunc(sidebar); });
+    // Event listeners
+    const events = [
+      { el: container, type: 'touchstart', fn: handleStart, opts: { passive: false } },
+      { el: container, type: 'mousedown', fn: handleStart },
+      { el: document, type: 'touchmove', fn: handleMove, opts: { passive: false } },
+      { el: document, type: 'mousemove', fn: handleMove },
+      { el: document, type: 'touchend', fn: handleEnd },
+      { el: document, type: 'mouseup', fn: handleEnd }
+    ];
 
+    events.forEach(({ el, type, fn, opts }) => 
+      el.addEventListener(type, fn, opts));
 
-
-// testimonials variables
-const testimonialsItem = document.querySelectorAll("[data-testimonials-item]");
-const modalContainer = document.querySelector("[data-modal-container]");
-const modalCloseBtn = document.querySelector("[data-modal-close-btn]");
-const overlay = document.querySelector("[data-overlay]");
-
-// modal variable
-const modalImg = document.querySelector("[data-modal-img]");
-const modalTitle = document.querySelector("[data-modal-title]");
-const modalText = document.querySelector("[data-modal-text]");
-
-// modal toggle function
-const testimonialsModalFunc = function () {
-  modalContainer.classList.toggle("active");
-  overlay.classList.toggle("active");
-}
-
-// add click event to all modal items
-for (let i = 0; i < testimonialsItem.length; i++) {
-
-  testimonialsItem[i].addEventListener("click", function () {
-
-    modalImg.src = this.querySelector("[data-testimonials-avatar]").src;
-    modalImg.alt = this.querySelector("[data-testimonials-avatar]").alt;
-    modalTitle.innerHTML = this.querySelector("[data-testimonials-title]").innerHTML;
-    modalText.innerHTML = this.querySelector("[data-testimonials-text]").innerHTML;
-
-    testimonialsModalFunc();
-
-  });
-
-}
-
-// add click event to modal close button
-modalCloseBtn.addEventListener("click", testimonialsModalFunc);
-overlay.addEventListener("click", testimonialsModalFunc);
-
-
-
-// custom select variables
-const select = document.querySelector("[data-select]");
-const selectItems = document.querySelectorAll("[data-select-item]");
-const selectValue = document.querySelector("[data-selecct-value]");
-const filterBtn = document.querySelectorAll("[data-filter-btn]");
-
-select.addEventListener("click", function () { elementToggleFunc(this); });
-
-// add event in all select items
-for (let i = 0; i < selectItems.length; i++) {
-  selectItems[i].addEventListener("click", function () {
-
-    let selectedValue = this.innerText.toLowerCase();
-    selectValue.innerText = this.innerText;
-    elementToggleFunc(select);
-    filterFunc(selectedValue);
-
-  });
-}
-
-// filter variables
-const filterItems = document.querySelectorAll("[data-filter-item]");
-
-const filterFunc = function (selectedValue) {
-
-  for (let i = 0; i < filterItems.length; i++) {
-
-    if (selectedValue === "all") {
-      filterItems[i].classList.add("active");
-    } else if (selectedValue === filterItems[i].dataset.category) {
-      filterItems[i].classList.add("active");
-    } else {
-      filterItems[i].classList.remove("active");
-    }
-
+    container.style.cursor = 'grab';
   }
+};
 
+// Sidebar Toggle
+if (elements.sidebarBtn) {
+  elements.sidebarBtn.addEventListener("click", () => 
+    utils.toggleElement(elements.sidebar));
 }
 
-// add event in all filter button items for large screen
-let lastClickedBtn = filterBtn[0];
+// Testimonials Modal
+if (elements.testimonialsItems.length) {
+  const toggleModal = () => {
+    utils.toggleElement(elements.modalContainer);
+    utils.toggleElement(elements.overlay);
+  };
 
-for (let i = 0; i < filterBtn.length; i++) {
-
-  filterBtn[i].addEventListener("click", function () {
-
-    let selectedValue = this.innerText.toLowerCase();
-    selectValue.innerText = this.innerText;
-    filterFunc(selectedValue);
-
-    lastClickedBtn.classList.remove("active");
-    this.classList.add("active");
-    lastClickedBtn = this;
-
+  elements.testimonialsItems.forEach(item => {
+    item.addEventListener("click", () => {
+      elements.modalImg.src = item.querySelector("[data-testimonials-avatar]").src;
+      elements.modalImg.alt = item.querySelector("[data-testimonials-avatar]").alt;
+      elements.modalTitle.textContent = item.querySelector("[data-testimonials-title]").textContent;
+      elements.modalText.textContent = item.querySelector("[data-testimonials-text]").textContent;
+      toggleModal();
+    });
   });
 
+  elements.modalCloseBtn.addEventListener("click", toggleModal);
+  elements.overlay.addEventListener("click", toggleModal);
 }
 
+// Custom Select and Filtering
+if (elements.select) {
+  elements.select.addEventListener("click", () => 
+    utils.toggleElement(elements.select));
 
+  elements.selectItems.forEach(item => {
+    item.addEventListener("click", () => {
+      const selectedValue = item.textContent.toLowerCase();
+      elements.selectValue.textContent = item.textContent;
+      utils.toggleElement(elements.select);
+      filterItems(selectedValue);
+    });
+  });
 
-// contact form variables
-const form = document.querySelector("[data-form]");
-const formInputs = document.querySelectorAll("[data-form-input]");
-const formBtn = document.querySelector("[data-form-btn]");
+  const filterItems = (selectedValue) => {
+    elements.filterItems.forEach(item => {
+      item.classList.toggle(
+        "active", 
+        selectedValue === "all" || selectedValue === item.dataset.category
+      );
+    });
+  };
 
-// add event to all form input field
-for (let i = 0; i < formInputs.length; i++) {
-  formInputs[i].addEventListener("input", function () {
-
-    // check form validation
-    if (form.checkValidity()) {
-      formBtn.removeAttribute("disabled");
-    } else {
-      formBtn.setAttribute("disabled", "");
-    }
-
+  let lastClickedBtn = elements.filterBtns[0];
+  elements.filterBtns.forEach(btn => {
+    btn.addEventListener("click", () => {
+      const selectedValue = btn.textContent.toLowerCase();
+      elements.selectValue.textContent = btn.textContent;
+      filterItems(selectedValue);
+      lastClickedBtn.classList.remove("active");
+      btn.classList.add("active");
+      lastClickedBtn = btn;
+    });
   });
 }
 
-
-
-// page navigation variables
-const navigationLinks = document.querySelectorAll("[data-nav-link]");
-const pages = document.querySelectorAll("[data-page]");
-
-// add event to all nav link
-for (let i = 0; i < navigationLinks.length; i++) {
-  navigationLinks[i].addEventListener("click", function () {
-
-    for (let i = 0; i < pages.length; i++) {
-      if (this.innerHTML.toLowerCase() === pages[i].dataset.page) {
-        pages[i].classList.add("active");
-        navigationLinks[i].classList.add("active");
-        window.scrollTo(0, 0);
-      } else {
-        pages[i].classList.remove("active");
-        navigationLinks[i].classList.remove("active");
-      }
-    }
-
+// Form Validation
+if (elements.form) {
+  elements.formInputs.forEach(input => {
+    input.addEventListener("input", () => {
+      elements.formBtn.disabled = !elements.form.checkValidity();
+    });
   });
 }
+
+// Page Navigation
+if (elements.navigationLinks.length) {
+  elements.navigationLinks.forEach(link => {
+    link.addEventListener("click", () => {
+      const targetPage = link.textContent.toLowerCase();
+      
+      elements.pages.forEach(page => 
+        page.classList.toggle("active", page.dataset.page === targetPage));
+      
+      elements.navigationLinks.forEach(navLink => 
+        navLink.classList.toggle("active", navLink === link));
+      
+      window.scrollTo(0, 0);
+    });
+  });
+}
+
+// Initialize Horizontal Scrolling
+utils.initHorizontalScroll(elements.scrollContainer);
