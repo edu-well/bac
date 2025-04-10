@@ -68,6 +68,212 @@ body {
   overflow-x: hidden;
 }
       
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* ===== ITINERARY POPUP - MODERN STYLE ===== */
+.itinerary-popup {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.86);
+  backdrop-filter: blur(8px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.4s cubic-bezier(0.32, 0.72, 0, 1);
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.itinerary-popup.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.popup-content {
+  background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+  padding: 30px;
+  border-radius: 16px;
+  width: 100%;
+  max-width: 480px;
+  position: relative;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.25);
+  transform: translateY(20px);
+  transition: transform 0.4s cubic-bezier(0.32, 0.72, 0, 1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  overflow: hidden;
+}
+
+.itinerary-popup.active .popup-content {
+  transform: translateY(0);
+}
+
+.popup-content::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(
+    to bottom right,
+    rgba(255, 255, 255, 0.2) 0%,
+    rgba(255, 255, 255, 0) 50%
+  );
+  transform: rotate(30deg);
+}
+
+.popup-close {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  width: 40px;
+  height: 40px;
+  background: rgba(0, 0, 0, 0.08);
+  border: none;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 20px;
+  color: #2B2D42;
+}
+
+.popup-close:hover {
+  background: rgba(0, 0, 0, 0.12);
+  transform: rotate(90deg);
+}
+
+.popup-title {
+  color: #1a1a1a;
+  margin: 0 0 15px 0;
+  font-size: 1.8rem;
+  font-weight: 700;
+  line-height: 1.3;
+  position: relative;
+  padding-bottom: 12px;
+}
+
+.popup-title::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 50px;
+  height: 3px;
+  background: linear-gradient(to right, #4A6FA5, #E8C547);
+  border-radius: 3px;
+}
+
+.popup-description {
+  color: #4a4a4a;
+  margin: 0 0 20px 0;
+  line-height: 1.6;
+  font-size: 1.05rem;
+}
+
+.popup-location {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #4A6FA5;
+  font-weight: 600;
+  font-size: 0.95rem;
+  margin: 25px 0 0 0;
+}
+
+.popup-location svg {
+  width: 16px;
+  height: 16px;
+  fill: currentColor;
+}
+
+/* Animation when opening */
+@keyframes popupFadeIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.itinerary-popup.active .popup-content {
+  animation: popupFadeIn 0.4s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+/* Responsive adjustments */
+@media (max-width: 600px) {
+  .popup-content {
+    padding: 25px 20px;
+    border-radius: 12px;
+  }
+  
+  .popup-title {
+    font-size: 1.5rem;
+  }
+  
+  .popup-description {
+    font-size: 1rem;
+  }
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+  .popup-content {
+    background: linear-gradient(135deg, #2B2D42 0%, #1A1A2E 100%);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+  }
+  
+  .popup-title {
+    color: #ffffff;
+  }
+  
+  .popup-description {
+    color: #e0e0e0;
+  }
+  
+  .popup-close {
+    background: rgba(255, 255, 255, 0.1);
+    color: #ffffff;
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
       .container {
           max-width: 1200px;
           margin: 0 auto;
@@ -1298,6 +1504,152 @@ body {
     }
   });
 });
+
+
+
+
+
+
+
+'use strict';
+
+// ===== ITINERARY ITEM POPUPS =====
+const initItineraryPopups = () => {
+  const items = document.querySelectorAll('.itinerary-item');
+  if (!items.length) return;
+
+  // Create popup element
+  const popup = document.createElement('div');
+  popup.className = 'itinerary-popup';
+  popup.innerHTML = `
+    <div class="popup-content">
+      <button class="popup-close">&times;</button>
+      <h3 class="popup-title"></h3>
+      <p class="popup-description"></p>
+      <p class="popup-location"></p>
+    </div>
+  `;
+  document.body.appendChild(popup);
+
+  // Elements
+  const popupContent = popup.querySelector('.popup-content');
+  const popupTitle = popup.querySelector('.popup-title');
+  const popupDesc = popup.querySelector('.popup-description');
+  const popupLoc = popup.querySelector('.popup-location');
+  const popupClose = popup.querySelector('.popup-close');
+
+  // Click handler for items
+  items.forEach(item => {
+    item.addEventListener('click', () => {
+      const title = item.querySelector('.item-title').textContent;
+      const desc = item.querySelector('.item-description').textContent;
+      const loc = item.querySelector('.item-meta').textContent;
+      
+      popupTitle.textContent = title;
+      popupDesc.textContent = desc;
+      popupLoc.textContent = `Location: ${loc}`;
+      
+      popup.classList.add('active');
+    });
+  });
+
+  // Close handlers
+  popupClose.addEventListener('click', () => popup.classList.remove('active'));
+  popup.addEventListener('click', (e) => {
+    if (e.target === popup) popup.classList.remove('active');
+  });
+};
+
+// ===== SEARCH FUNCTIONALITY ===== 
+const initSearch = () => {
+  const searchInput = document.getElementById('itinerarySearch');
+  const itineraryItems = document.querySelectorAll('.itinerary-item');
+
+  if (!searchInput || !itineraryItems.length) return;
+
+  searchInput.addEventListener('input', (e) => {
+    const searchTerm = e.target.value.toLowerCase().trim();
+    
+    itineraryItems.forEach(item => {
+      const title = item.querySelector('.item-title').textContent.toLowerCase();
+      const description = item.querySelector('.item-description').textContent.toLowerCase();
+      
+      item.style.display = (title.includes(searchTerm) || description.includes(searchTerm)) 
+        ? 'block' 
+        : 'none';
+    });
+  });
+};
+
+// ===== MOBILE SCROLLING =====
+const initMobileScrolling = () => {
+  if (!/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) return;
+
+  const container = document.querySelector('.itinerary-items');
+  if (!container) return;
+
+  let isDragging = false, startX, scrollLeft, velocity = 0, lastTime = 0;
+
+  const handleStart = (e) => {
+    isDragging = true;
+    startX = (e.touches ? e.touches[0].pageX : e.pageX) - container.offsetLeft;
+    scrollLeft = container.scrollLeft;
+    container.style.scrollBehavior = 'auto';
+  };
+
+  const handleMove = (e) => {
+    if (!isDragging) return;
+    e.preventDefault();
+    const x = (e.touches ? e.touches[0].pageX : e.pageX) - container.offsetLeft;
+    container.scrollLeft = scrollLeft - (x - startX) * 1.8;
+  };
+
+  const handleEnd = () => {
+    isDragging = false;
+    container.style.scrollBehavior = 'smooth';
+    snapToNearestItem();
+  };
+
+  const snapToNearestItem = () => {
+    const items = container.querySelectorAll('.itinerary-item');
+    if (!items.length) return;
+    
+    let closestItem = items[0];
+    let closestDistance = Math.abs(items[0].offsetLeft - container.scrollLeft);
+    
+    items.forEach(item => {
+      const distance = Math.abs(item.offsetLeft - container.scrollLeft);
+      if (distance < closestDistance) {
+        closestDistance = distance;
+        closestItem = item;
+      }
+    });
+    
+    container.scrollTo({
+      left: closestItem.offsetLeft - 20,
+      behavior: 'smooth'
+    });
+  };
+
+  container.addEventListener('touchstart', handleStart, { passive: false });
+  container.addEventListener('mousedown', handleStart);
+  document.addEventListener('touchmove', handleMove, { passive: false });
+  document.addEventListener('mousemove', handleMove);
+  document.addEventListener('touchend', handleEnd);
+  document.addEventListener('mouseup', handleEnd);
+};
+
+// ===== INITIALIZE EVERYTHING =====
+document.addEventListener('DOMContentLoaded', () => {
+  initItineraryPopups(); // Clickable items with popups
+  initSearch();          // Search functionality
+  initMobileScrolling(); // Smooth mobile scrolling
+  
+  // Your existing JavaScript code here
+  // [Keep all your current code]
+});
+
+
     </script>
 
   <script src="assets/js/script.js"></script>
