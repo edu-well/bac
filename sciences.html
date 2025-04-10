@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>EduWell</title>
- 
+
   <!--
     - favicon
   -->
@@ -355,14 +355,27 @@
           }
           
           .itinerary-items {
-              padding: 16px 20px;
-          }
-          
-          .itinerary-item {
-              flex: 0 0 240px;
-          }
-      }
+  display: flex;
+  overflow-x: auto;
+  gap: 16px;
+  padding-bottom: 16px;
+  scrollbar-width: none;
+  flex-wrap: nowrap;
+  scroll-snap-type: x mandatory;
+  transition: all 0.3s ease;
+}
 
+.itinerary-items::-webkit-scrollbar {
+
+  display: none;
+}
+
+.itinerary-item {
+  flex: 0 0 280px;
+  scroll-snap-align: start;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+     
       @media (max-width: 480px) {
           .app-header {
               margin-bottom: 24px;
@@ -372,9 +385,11 @@
               margin-bottom: 24px;
           }
           
-          .itinerary-item {
-              flex: 0 0 200px;
-          }
+          @media (max-width: 768px) {
+  .itinerary-item {
+    flex: 0 0 240px;
+  }
+}
           
           .trip-card {
               min-width: 120px;
@@ -1266,182 +1281,175 @@
 <!--
     - ionicon link
   -->
-    
   <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        // Enhanced horizontal scrolling with momentum and snap
-        const itineraryItems = document.querySelector('.itinerary-items');
-        const nextTrips = document.querySelector('.next-trips');
+  document.addEventListener('DOMContentLoaded', function() {
+    const searchInput = document.getElementById('itinerarySearch');
+    const itemsContainer = document.querySelector('.itinerary-items');
+    const itineraryItems = Array.from(document.querySelectorAll('.itinerary-item'));
+    
+    // Store original items for reset
+    const originalItems = itineraryItems.map(item => ({
+      element: item,
+      html: item.outerHTML
+    }));
+  
+    // Debounce function for better performance
+    function debounce(func, wait) {
+      let timeout;
+      return function() {
+        const context = this, args = arguments;
+        clearTimeout(timeout);
+        timeout = setTimeout(() => func.apply(context, args), wait);
+      };
+    }
+  
+    const handleSearch = debounce(function() {
+      const searchTerm = this.value.toLowerCase().trim();
+      
+      if (searchTerm === '') {
+        // Reset to original state
+        itemsContainer.innerHTML = originalItems.map(item => item.html).join('');
+        return;
+      }
+  
+      // Filter items
+      const filteredItems = originalItems.filter(item => {
+        const title = item.element.querySelector('.item-title').textContent.toLowerCase();
+        const description = item.element.querySelector('.item-description').textContent.toLowerCase();
+        return title.includes(searchTerm) || description.includes(searchTerm);
+      });
+  
+      // Rebuild container with only matching items
+      itemsContainer.innerHTML = filteredItems.map(item => item.html).join('');
+      
+      // Reinitialize scroll behavior for new items
+      enableHorizontalScroll(itemsContainer);
+    }, 300);
+  
+    searchInput.addEventListener('input', handleSearch);
+  
+    // Horizontal scroll function (same as before but more robust)
+    function enableHorizontalScroll(element) {
+      let isDown = false;
+      let startX;
+      let scrollLeft;
+      let velocity = 0;
+      let animationFrame;
+      let lastTime;
+      
+      element.addEventListener('mousedown', (e) => {
+        isDown = true;
+        startX = e.pageX - element.offsetLeft;
+        scrollLeft = element.scrollLeft;
+        element.style.cursor = 'grabbing';
+        cancelAnimationFrame(animationFrame);
+      });
+      
+      element.addEventListener('mouseleave', () => {
+        isDown = false;
+        element.style.cursor = 'grab';
+      });
+      
+      element.addEventListener('mouseup', () => {
+        isDown = false;
+        element.style.cursor = 'grab';
+        applyMomentum();
+      });
+      
+      element.addEventListener('mousemove', (e) => {
+        if(!isDown) return;
+        e.preventDefault();
+        const x = e.pageX - element.offsetLeft;
+        const walk = (x - startX) * 2;
+        element.scrollLeft = scrollLeft - walk;
         
-        function enableHorizontalScroll(element) {
-            let isDown = false;
-            let startX;
-            let scrollLeft;
-            let velocity = 0;
-            let animationFrame;
-            let lastTime;
-            
-            // Mouse events
-            element.addEventListener('mousedown', (e) => {
-                isDown = true;
-                startX = e.pageX - element.offsetLeft;
-                scrollLeft = element.scrollLeft;
-                element.style.cursor = 'grabbing';
-                cancelAnimationFrame(animationFrame);
-            });
-            
-            element.addEventListener('mouseleave', () => {
-                isDown = false;
-                element.style.cursor = 'grab';
-            });
-            
-            element.addEventListener('mouseup', () => {
-                isDown = false;
-                element.style.cursor = 'grab';
-                applyMomentum();
-            });
-            
-            element.addEventListener('mousemove', (e) => {
-                if(!isDown) return;
-                e.preventDefault();
-                const x = e.pageX - element.offsetLeft;
-                const walk = (x - startX) * 2;
-                element.scrollLeft = scrollLeft - walk;
-                
-                // Calculate velocity for momentum
-                const now = Date.now();
-                if (lastTime) {
-                    const deltaTime = now - lastTime;
-                    const deltaX = element.scrollLeft - scrollLeft;
-                    velocity = deltaX / deltaTime;
+        // Calculate velocity for momentum
+        const now = Date.now();
+        if (lastTime) {
+          const deltaTime = now - lastTime;
+          const deltaX = element.scrollLeft - scrollLeft;
+          velocity = deltaX / deltaTime;
+        }
+        lastTime = now;
+        scrollLeft = element.scrollLeft;
+      });
+      
+      // Touch events
+      element.addEventListener('touchstart', (e) => {
+        isDown = true;
+        startX = e.touches[0].pageX - element.offsetLeft;
+        scrollLeft = element.scrollLeft;
+        cancelAnimationFrame(animationFrame);
+      });
+      
+      element.addEventListener('touchend', () => {
+        isDown = false;
+        applyMomentum();
+      });
+      
+      element.addEventListener('touchmove', (e) => {
+        if(!isDown) return;
+        const x = e.touches[0].pageX - element.offsetLeft;
+        const walk = (x - startX) * 2;
+        element.scrollLeft = scrollLeft - walk;
+        
+        // Calculate velocity for momentum
+        const now = Date.now();
+        if (lastTime) {
+          const deltaTime = now - lastTime;
+          const deltaX = element.scrollLeft - scrollLeft;
+          velocity = deltaX / deltaTime;
+        }
+        lastTime = now;
+        scrollLeft = element.scrollLeft;
+      });
+      
+      function applyMomentum() {
+        const startTime = Date.now();
+        const startScroll = element.scrollLeft;
+        const friction = 0.92;
+        
+        function animate() {
+          const time = Date.now() - startTime;
+          
+          if (Math.abs(velocity) > 0.1) {
+            velocity *= friction;
+            element.scrollLeft = startScroll + velocity * time;
+            animationFrame = requestAnimationFrame(animate);
+          } else {
+            // Snap to nearest item
+            const children = element.children;
+            if (children.length > 0) {
+              let closestChild = children[0];
+              let closestDistance = Math.abs(children[0].offsetLeft - element.scrollLeft);
+              
+              for (let i = 1; i < children.length; i++) {
+                const distance = Math.abs(children[i].offsetLeft - element.scrollLeft);
+                if (distance < closestDistance) {
+                  closestDistance = distance;
+                  closestChild = children[i];
                 }
-                lastTime = now;
-                scrollLeft = element.scrollLeft;
-            });
-            
-            // Touch events
-            element.addEventListener('touchstart', (e) => {
-                isDown = true;
-                startX = e.touches[0].pageX - element.offsetLeft;
-                scrollLeft = element.scrollLeft;
-                cancelAnimationFrame(animationFrame);
-            });
-            
-            element.addEventListener('touchend', () => {
-                isDown = false;
-                applyMomentum();
-            });
-            
-            element.addEventListener('touchmove', (e) => {
-                if(!isDown) return;
-                const x = e.touches[0].pageX - element.offsetLeft;
-                const walk = (x - startX) * 2;
-                element.scrollLeft = scrollLeft - walk;
-                
-                // Calculate velocity for momentum
-                const now = Date.now();
-                if (lastTime) {
-                    const deltaTime = now - lastTime;
-                    const deltaX = element.scrollLeft - scrollLeft;
-                    velocity = deltaX / deltaTime;
-                }
-                lastTime = now;
-                scrollLeft = element.scrollLeft;
-            });
-            
-            // Momentum animation
-            function applyMomentum() {
-                const startTime = Date.now();
-                const startScroll = element.scrollLeft;
-                const friction = 0.92;
-                
-                function animate() {
-                    const time = Date.now() - startTime;
-                    
-                    if (Math.abs(velocity) > 0.1) {
-                        velocity *= friction;
-                        element.scrollLeft = startScroll + velocity * time;
-                        animationFrame = requestAnimationFrame(animate);
-                    } else {
-                        // Snap to nearest item
-                        const children = element.children;
-                        let closestChild = children[0];
-                        let closestDistance = Math.abs(children[0].offsetLeft - element.scrollLeft);
-                        
-                        for (let i = 1; i < children.length; i++) {
-                            const distance = Math.abs(children[i].offsetLeft - element.scrollLeft);
-                            if (distance < closestDistance) {
-                                closestDistance = distance;
-                                closestChild = children[i];
-                            }
-                        }
-                        
-                        element.scrollTo({
-                            left: closestChild.offsetLeft - 20,
-                            behavior: 'smooth'
-                        });
-                    }
-                }
-                
-                animate();
+              }
+              
+              element.scrollTo({
+                left: closestChild.offsetLeft - 20,
+                behavior: 'smooth'
+              });
             }
-            
-            // Initial cursor style
-            element.style.cursor = 'grab';
+          }
         }
         
-        enableHorizontalScroll(itineraryItems);
-        enableHorizontalScroll(nextTrips);
-        
-        // Add subtle hover effects
-        const itemContainers = document.querySelectorAll('.item-container');
-        itemContainers.forEach(container => {
-            container.addEventListener('mouseenter', () => {
-                container.style.transform = 'translateY(-4px)';
-                container.style.boxShadow = '0 8px 24px rgba(0,0,0,0.05), 0 4px 12px rgba(0,0,0,0.05)';
-            });
-            
-            container.addEventListener('mouseleave', () => {
-                container.style.transform = '';
-                container.style.boxShadow = '';
-            });
-        });
-    });
-</script>
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-  const searchInput = document.getElementById('itinerarySearch');
-  const itineraryItems = document.querySelectorAll('.itinerary-item');
-
-  searchInput.addEventListener('input', function() {
-    const searchTerm = this.value.toLowerCase().trim();
-    
-    itineraryItems.forEach(item => {
-      const title = item.querySelector('.item-title').textContent.toLowerCase();
-      const description = item.querySelector('.item-description').textContent.toLowerCase();
-      
-      if (title.includes(searchTerm) || description.includes(searchTerm)) {
-        item.style.display = 'block';
-      } else {
-        item.style.display = 'none';
+        animate();
       }
-    });
-
-    // Adjust scrolling container after filtering
-    const itemsContainer = document.querySelector('.itinerary-items');
-    itemsContainer.scrollLeft = 0;
-  });
-
-  // Clear search when clicking the 'x' in search field (for browsers that show it)
-  searchInput.addEventListener('search', function() {
-    if (this.value === '') {
-      itineraryItems.forEach(item => {
-        item.style.display = 'block';
-      });
+      
+      element.style.cursor = 'grab';
     }
+  
+    // Initialize scroll behavior
+    enableHorizontalScroll(itemsContainer);
   });
-});
 </script>
+
   <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
   <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
 
