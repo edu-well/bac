@@ -33,9 +33,276 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Travel Itinerary | Buddy</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- try css code -->
   <style>
-    
+  
+  :root {
+            --card-color-1: #f0f7ff;
+            --card-color-2: #f5f0ff;
+            --card-color-3: #fff0f5;
+            --glass-opacity: 0.18;
+            --primary-blue: #007AFF;
+        }
+        
+      
+
+
+        /* Horizontal scrolling sections */
+        .horizontal-scroll {
+            display: flex;
+            overflow-x: auto;
+            gap: 15px;
+            padding-bottom: 15px;
+            scrollbar-width: none;
+        }
+
+        .horizontal-scroll::-webkit-scrollbar {
+            display: none;
+        }
+
+        /* Vertical layout sections */
+        .vertical-layout {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .card-5 {
+            min-width: 200px;
+            border-radius: 16px;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            transition: transform 0.2s ease;
+            
+        }
+
+        .vertical-layout .card-5 {
+            min-width: auto;
+        }
+
+        .card-5:hover {
+            transform: translateY(-3px);
+        }
+
+        .department-card-5 {
+            border-left: 5px solid;
+        }
+
+        .department-card-5:nth-child(1) {
+            border-color: #4a90e2;
+            background-color: var(--card-color-1);
+        }
+
+        .department-card-5:nth-child(2) {
+            border-color: #8e44ad;
+            background-color: var(--card-color-2);
+        }
+
+        .department-card-5:nth-child(3) {
+            border-color: #e74c3c;
+            background-color: var(--card-color-3);
+        }
+
+        .department-name {
+            font-weight: 600;
+            font-size: 17px;
+            margin-bottom: 8px;
+        }
+
+        .department-count {
+            color: #636366;
+            font-size: 15px;
+        }
+
+        .person-card-5 {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+           
+        }
+
+        .person-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 20px;
+            background-color: #e0e0e0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .person-info {
+            flex: 1;
+        }
+
+        .person-name {
+            font-weight: 600;
+            font-size: 16px;
+            margin-bottom: 3px;
+        }
+
+        .person-role {
+            color: #636366;
+            font-size: 14px;
+        }
+
+        .action-icons {
+            display: flex;
+            gap: 12px;
+        }
+
+        .action-icon {
+            width: 24px;
+            height: 24px;
+            border-radius: 12px;
+            background-color: rgba(0, 0, 0, 0.05);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+
+        .divider {
+            height: 1px;
+            background-color: rgba(0, 0, 0, 0.1);
+            margin: 30px 0;
+        }
+
+        /* Popup 3 - PDF Viewer Modal */
+        .popup-3 {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            backdrop-filter: blur(5px);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .popup-3-content {
+            width: 90%;
+            max-width: 800px;
+            height: 80vh;
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            display: flex;
+            flex-direction: column;
+            transform: scale(0.95);
+            transition: transform 0.3s ease;
+        }
+
+        .popup-3.active .popup-3-content {
+            transform: scale(1);
+        }
+
+        .popup-3-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+            background: #f8f8f8;
+            border-bottom: 1px solid #e5e5e5;
+        }
+
+        .popup-3-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: #1c1c1e;
+        }
+
+        .popup-3-close {
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: #636366;
+            padding: 5px;
+        }
+
+        .popup-3-body {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            background: #f8f8f8;
+        }
+
+        .popup-3-pdf {
+            width: 100%;
+            height: 100%;
+            border: none;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .popup-3-footer {
+            padding: 15px 20px;
+            background: #f8f8f8;
+            border-top: 1px solid #e5e5e5;
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+        }
+
+        .popup-3-btn {
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-weight: 500;
+            cursor: pointer;
+            border: none;
+            font-size: 14px;
+            transition: all 0.2s ease;
+        }
+
+        .popup-3-download {
+            background-color: var(--primary-blue);
+            color: white;
+        }
+
+        .popup-3-download:hover {
+            background-color: #0066CC;
+        }
+
+        .popup-3-close-btn {
+            background: #e5e5e5;
+            color: #1c1c1e;
+        }
+
+        .popup-3-close-btn:hover {
+            background: #d1d1d1;
+        }
+
+        @media (min-width: 768px) {
+            .vertical-layout {
+                display: grid;
+                grid-template-columns: repeat(2, 1fr);
+                gap: 15px;
+            }
+        }
+
+
+ 
   </style>
+     <!--- end of ter -->
 </head>
 
 <body>
@@ -189,82 +456,7 @@
           <h2 class="h2 article-title">Home</h2>
         </header>
 
-        <section class="projects">
-
-          <ul class="filter-list">
-
-            <li class="filter-item">
-              <button class="active" data-filter-btn>All</button>
-            </li>
-            <li class="filter-item">
-              <button data-filter-btn>Reproduction chez l'homme</button>
-            </li>
-
-            <li class="filter-item">
-              <button data-filter-btn>Reproduction chez la femme</button>
-            </li>
-
-            <!--
-            <li class="filter-item">
-              <button data-filter-btn>Procreation</button>
-            </li>
-            <li class="select-item">
-              <button data-select-item>Genetique de Diploides</button>
-            </li>
-            <li class="select-item">
-              <button data-select-item>Genetique humaine</button>
-            </li>
-            <li class="select-item">
-              <button data-select-item>l'evolution biologique</button>
-            </li>
---->
-
-
-          </ul>
-
-          <div class="filter-select-box">
-
-            <button class="filter-select" data-select>
-
-              <div class="select-value" data-selecct-value>Select category</div>
-
-              <div class="select-icon">
-                <ion-icon name="chevron-down"></ion-icon>
-              </div>
-
-            </button>
-
-            <ul class="select-list">
-
-              <li class="select-item">
-                <button data-select-item>All</button>
-              </li>
-
-              <li class="select-item">
-                <button data-select-item>Reproduction chez l'homme</button>
-              </li>
-
-              <li class="select-item">
-                <button data-select-item>Reproduction chez la femme</button>
-              </li>
-              <!--
-              <li class="select-item">
-                <button data-select-item>Procreation</button>
-              </li>
-              <li class="select-item">
-                <button data-select-item>Genetique de Diploides</button>
-              </li>
-              <li class="select-item">
-                <button data-select-item>Genetique humaine</button>
-              </li>
-              <li class="select-item">
-                <button data-select-item>l'evolution biologique</button>
-              </li>
- ---->
-            </ul>
-
-          </div>
-
+       
 
           <div class="container">
             <header class="app-header">
@@ -408,14 +600,92 @@
             </footer>
           </div>
 
+<!----- end of this section -->
+
+<!---start of name section --> 
+
+<div class="header">
+  <h1 class="greeting">Hello, <span>John</span></h1>
+</div>         
+
+<!--- sectione o selact section --->
+
+
+          <section class="projects">
+
+            <ul class="filter-list">
+  
+              
+              <li class="filter-item">
+                <button data-filter-btn>Reproduction chez l'homme</button>
+              </li>
+  
+              <li class="filter-item">
+                <button data-filter-btn>Reproduction chez la femme</button>
+              </li>
+  
+             
+              <li class="filter-item">
+                <button data-filter-btn>Procreation</button>
+              </li>
+              <li class="select-item">
+                <button data-select-item>Genetique de Diploides</button>
+              </li>
+              <li class="select-item">
+                <button data-select-item>Genetique humaine</button>
+              </li>
+              <li class="select-item">
+                <button data-select-item>l'evolution biologique</button>
+              </li>
+ 
+  
+  
+            </ul>
+  
+            <div class="filter-select-box">
+  
+              <button class="filter-select" data-select>
+  
+                <div class="select-value" data-selecct-value>Select category</div>
+  
+                <div class="select-icon">
+                  <ion-icon name="chevron-down"></ion-icon>
+                </div>
+  
+              </button>
+  
+              <ul class="select-list">
+  
+                
+  
+                <li class="select-item">
+                  <button data-select-item>Reproduction chez l'homme</button>
+                </li>
+  
+                <li class="select-item">
+                  <button data-select-item>Reproduction chez la femme</button>
+                </li>
+               
+                <li class="select-item">
+                  <button data-select-item>Procreation</button>
+                </li>
+                <li class="select-item">
+                  <button data-select-item>Genetique de Diploides</button>
+                </li>
+                <li class="select-item">
+                  <button data-select-item>Genetique humaine</button>
+                </li>
+                <li class="select-item">
+                  <button data-select-item>l'evolution biologique</button>
+                </li>
+   
+              </ul>
+  
+            </div>
+  
 
 
 
-
-
-          <div class="header">
-            <h1 class="greeting">Hello, <span>John</span></h1>
-          </div>
       
    <!-- section 1 cart star-->
          
@@ -483,131 +753,12 @@
     <!-- section 1 cart end -->
             </section>
 
+     <!--  star of chaptere section -->
 
-
-
-
-          <div class="dashboard">
-            
-
-           
-
-            <div class="schedule-card">
-              <div class="card-header">
-                <div class="card-title">Home Works</div>
-                <a id="viewAllBtn" href="#" class="view-all">View All</a>
-              </div>
-
-              <div class="class-item">
-                <div class="deadline">2 days left</div>
-                <div class="class-name">Physics</div>
-                <div class="class-details">Newton's laws of motion - Read pages 11 – 112</div>
-                <div class="class-time">10:00 - 10:45</div>
-              </div>
-
-         
-
-              <li class="project-item  active" data-filter-item data-category="reproduction chez l'homme">
-              <div class="class-item">
-                <div class="class-name">Chemistry</div>
-                <div class="class-teacher">Teacher: Anson Leo</div>
-                <div class="class-time">11:00 - 11:45</div>
-              </div>
-
-              <div class="class-item">
-                <div class="class-name">Biology</div>
-                <div class="class-teacher">Teacher: Benton John</div>
-                <div class="class-time">12:00 - 12:45</div>
-              </div>
-
-              <div class="class-item">
-                <div class="class-name">Physical Education</div>
-                <div class="class-teacher">Teacher: Mr. Guschian</div>
-                <div class="class-details">Intensive preparation for the junior world championship in New York</div>
-                <a href="#" class="join-button">Join Class</a>
-              </div>
-              </li>
-            </div>
-          </div>
-
-          <!-- Popup L1 -->
-          <div class="overlay" id="overlay"></div>
-          <div class="popup-l1" id="popup-l1">
-            <div class="popup-l1-header">
-              <div class="popup-l1-title">All Tasks</div>
-              <div class="popup-l1-close" id="closePopup">&times;</div>
-            </div>
-            <div class="popup-l1-content">
-              <div class="popup-l1-item">
-                <div class="popup-l1-task">Buy a pack of coffee</div>
-                <div class="popup-l1-time">10:30 - 11:00</div>
-              </div>
-              
-         
-
-   <li class="project-item  active" data-filter-item data-category="reproduction chez l'homme">
-              <div class="popup-l1-item">
-                <div class="popup-l1-task">Add new partners</div>
-                <div class="popup-l1-time">11:30 - 13:30</div>
-              </div>
-              <div class="popup-l1-item">
-                <div class="popup-l1-task">Add new partners</div>
-                <div class="popup-l1-time">11:30 - 12:30</div>
-              </div>
-              <div class="popup-l1-item">
-                <div class="popup-l1-task">Meeting on work</div>
-                <div class="popup-l1-time">14:00 - 19:30</div>
-              </div>
-              <div class="popup-l1-item">
-                <div class="popup-l1-task">Team Football</div>
-                <div class="popup-l1-time">9:00 - 19:00</div>
-              </div>
-              <div class="popup-l1-item">
-                <div class="popup-l1-task">New project</div>
-                <div class="popup-l1-time">21:00 - 22:00</div>
-              </div>
-              <div class="popup-l1-item">
-                <div class="popup-l1-task">Food</div>
-                <div class="popup-l1-amount">4ml (1/4 cups)</div>
-              </div>
-              <div class="popup-l1-item">
-                <div class="popup-l1-task">Work</div>
-                <div class="popup-l1-amount">15.00 T/h week</div>
-              </div>
-              <div class="popup-l1-item">
-                <div class="popup-l1-task">Sport</div>
-                <div class="popup-l1-amount">7ml (3% cups)</div>
-              </div>
-              <div class="popup-l1-item">
-                <div class="popup-l1-task">Music</div>
-                <div class="popup-l1-amount">2s on this week</div>
-              </div>
-   </li>
-            </div>
-          </div>
-
-
-
-
-
-
-          
-
-    
-
-      
-
-    
-        <section>
+       
           <section class="timeline">
 
-            <div class="title-wrapper">
-              <div class="icon-box">
-                <ion-icon name="book-outline"></ion-icon>
-              </div>
-  
-              <h3 class="h3">Education</h3>
-            </div>
+            
   
             <ol class="timeline-list">
   
@@ -650,7 +801,134 @@
   
           </section>
   
+    <!---end of chapter section -->
+
+    <!--- pdf section -->
+
+
+    <footer class="app-footer">
+              
+    </footer>
+
+
+    <h1>Departments</h1>
     
+    <div class="section">
+        <div class="horizontal-scroll">
+            <div class="card-5 department-card-5">
+                <div class="department-name">Development</div>
+                <div class="department-count">88 techies</div>
+            </div>
+            
+            <div class="card-5 department-card-5">
+                <div class="department-name">UI/UX design</div>
+                <div class="department-count">45 creatives</div>
+            </div>
+            
+            <div class="card-5 department-card-5">
+                <div class="department-name">QA test</div>
+                <div class="department-count">24 check</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <h2>You recently worked with</h2>
+    
+    <div class="section">
+        <div class="horizontal-scroll">
+            <div class="card-5 person-card-5">
+                <div class="person-avatar">SS</div>
+                <div class="person-info">
+                    <div class="person-name">Sam Smith</div>
+                    <div class="person-role">Frontend developer</div>
+                </div>
+                <div class="action-icons">
+                    <div class="action-icon">🔍</div>
+                    
+                </div>
+            </div>
+            
+            <div class="card-5 person-card-5">
+                <div class="person-avatar">JG</div>
+                <div class="person-info">
+                    <div class="person-name">Jacob Gavrilov</div>
+                    
+                </div>
+                <div class="action-icons">
+                    <div class="action-icon">🔍</div>
+                    
+                </div>
+            </div>
+            
+            <div class="card-5 person-card-5">
+                <div class="person-avatar">SF</div>
+                <div class="person-info">
+                    <div class="person-name">Stephie</div>
+                    <div class="person-role"> designer</div>
+                </div>
+                <div class="action-icons">
+                    <div class="action-icon">🔍</div>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <h2>Files</h2>
+    
+    <div class="section">
+        <div class="vertical-layout">
+            <div class="card-5 department-card-5 file-item" 
+                 data-file="project_docs.pdf" 
+                 data-title="Project Documentation">
+                <div class="department-name">Project Docs</div>
+                <div class="department-count">24 files</div>
+            </div>
+            
+            <div class="card-5 department-card-5 file-item" 
+                 data-file="design_assets.pdf" 
+                 data-title="Design Assets">
+                <div class="department-name">Design Assets</div>
+                <div class="department-count">18 files</div>
+            </div>
+            
+            <div class="card-5 department-card-5 file-item" 
+                 data-file="test_reports.pdf" 
+                 data-title="Test Reports">
+                <div class="department-name">Test Reports</div>
+                <div class="department-count">9 files</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Popup 3 - PDF Viewer -->
+    <div id="popup3" class="popup-3">
+        <div class="popup-3-content">
+            <div class="popup-3-header">
+                <h3 class="popup-3-title" id="popup3Title">PDF Viewer</h3>
+                <button class="popup-3-close">&times;</button>
+            </div>
+            <div class="popup-3-body">
+                <iframe id="popup3Pdf" class="popup-3-pdf" 
+                        title="PDF Viewer" 
+                        allowfullscreen></iframe>
+            </div>
+            <div class="popup-3-footer">
+                <button class="popup-3-btn popup-3-close-btn">Close</button>
+                <button class="popup-3-btn popup-3-download" id="popup3Download">
+                    Download PDF
+                </button>
+            </div>
+        </div>
+    </div>
+
+
+
+    <!---- end of pdf section -->
     
     </section>
     
@@ -1129,6 +1407,115 @@
     });
     
         </script>
+
+   <!----secripte for pdf section -->
+
+   
+   <script>
+    // Horizontal scrolling behavior
+    const horizontalContainers = document.querySelectorAll('.horizontal-scroll');
+    
+    horizontalContainers.forEach(container => {
+        let isDown = false;
+        let startX;
+        let scrollLeft;
+        
+        container.addEventListener('mousedown', (e) => {
+            isDown = true;
+            startX = e.pageX - container.offsetLeft;
+            scrollLeft = container.scrollLeft;
+        });
+        
+        container.addEventListener('mouseleave', () => {
+            isDown = false;
+        });
+        
+        container.addEventListener('mouseup', () => {
+            isDown = false;
+        });
+        
+        container.addEventListener('mousemove', (e) => {
+            if(!isDown) return;
+            e.preventDefault();
+            const x = e.pageX - container.offsetLeft;
+            const walk = (x - startX) * 2;
+            container.scrollLeft = scrollLeft - walk;
+        });
+    });
+
+    // Action icon handlers
+    document.querySelectorAll('.action-icon').forEach(icon => {
+        icon.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const personName = icon.closest('.person-card').querySelector('.person-name').textContent;
+            console.log(`Action clicked for ${personName}`);
+        });
+    });
+    
+    // Popup 3 functionality
+    const popup3 = document.getElementById('popup3');
+    const popup3Pdf = document.getElementById('popup3Pdf');
+    const popup3Title = document.getElementById('popup3Title');
+    const popup3Download = document.getElementById('popup3Download');
+    const popup3CloseBtns = document.querySelectorAll('.popup-3-close, .popup-3-close-btn');
+    const fileItems = document.querySelectorAll('.file-item');
+
+    function openPopup3(pdfUrl, title) {
+        popup3Title.textContent = title;
+        popup3Pdf.src = `pdfs/${pdfUrl}#toolbar=0&navpanes=0`;
+        
+        popup3Download.onclick = () => {
+            const link = document.createElement('a');
+            link.href = `pdfs/${pdfUrl}`;
+            link.download = pdfUrl;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        };
+        
+        popup3.style.display = 'flex';
+        document.body.style.overflow = 'hidden';
+        setTimeout(() => {
+            popup3.classList.add('active');
+        }, 10);
+    }
+
+    function closePopup3() {
+        popup3.classList.remove('active');
+        setTimeout(() => {
+            popup3.style.display = 'none';
+            document.body.style.overflow = 'auto';
+            popup3Pdf.src = '';
+        }, 300);
+    }
+
+    fileItems.forEach(item => {
+        item.addEventListener('click', (e) => {
+            if (e.target.tagName === 'BUTTON') return;
+            
+            const pdfFile = item.getAttribute('data-file');
+            const title = item.getAttribute('data-title');
+            openPopup3(pdfFile, title);
+        });
+    });
+
+    popup3CloseBtns.forEach(btn => {
+        btn.addEventListener('click', closePopup3);
+    });
+
+    popup3.addEventListener('click', (e) => {
+        if (e.target === popup3) {
+            closePopup3();
+        }
+    });
+
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && popup3.style.display === 'flex') {
+            closePopup3();
+        }
+    });
+</script>
+   <!-----end of secripte pdf section-->     
     
       <script src="assets/js/script.js"></script>
       <script src="img slide.js"></script>
