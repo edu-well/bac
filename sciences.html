@@ -11,6 +11,7 @@
     - favicon
   -->
   <link rel="shortcut icon" href="./assets/images/logoo.png" type="image/x-icon">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
   <!--
     - custom css link
@@ -34,285 +35,7 @@
   <title>Travel Itinerary | Buddy</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <!-- try css code -->
-     
-  <style>
-  
-  :root {
-            --card-color-1: #f0f7ff;
-            --card-color-2: #f5f0ff;
-            --card-color-3: #fff0f5;
-            --glass-opacity: 0.18;
-            --primary-blue: #007AFF;
-        }
-        
-      
-
-
-        /* Horizontal scrolling sections */
-        .horizontal-scroll {
-            display: flex;
-            overflow-x: auto;
-            gap: 15px;
-            padding-bottom: 15px;
-            scrollbar-width: none;
-        }
-
-        .horizontal-scroll::-webkit-scrollbar {
-            display: none;
-        }
-
-        /* Vertical layout sections */
-        .vertical-layout {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-        }
-
-        .card-5 {
-            min-width: 200px;
-            border-radius: 16px;
-            padding: 20px;
-            background: rgba(255, 255, 255, 0.7);
-            backdrop-filter: blur(10px);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-            transition: transform 0.2s ease;
-            
-        }
-
-        .vertical-layout .card-5 {
-            min-width: auto;
-        }
-
-        .card-5:hover {
-            transform: translateY(-3px);
-        }
-
-        .department-card-5 {
-            border-left: 5px solid;
-        }
-
-        .department-card-5:nth-child(1) {
-            border-color: #4a90e2;
-            background-color: var(--card-color-1);
-        }
-
-        .department-card-5:nth-child(2) {
-            border-color: #8e44ad;
-            background-color: var(--card-color-2);
-        }
-
-        .department-card-5:nth-child(3) {
-            border-color: #e74c3c;
-            background-color: var(--card-color-3);
-        }
-
-        .department-name {
-            font-weight: 600;
-            font-size: 17px;
-            margin-bottom: 8px;
-        }
-
-        .department-count {
-            color: #636366;
-            font-size: 15px;
-        }
-
-        .person-card-5 {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            background: rgba(255, 255, 255, 0.7);
-            backdrop-filter: blur(10px);
-           
-        }
-
-        .person-avatar {
-            width: 40px;
-            height: 40px;
-            border-radius: 20px;
-            background-color: #e0e0e0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 600;
-            color: #333;
-        }
-
-        .person-info {
-            flex: 1;
-        }
-
-        .person-name {
-            font-weight: 600;
-            font-size: 16px;
-            margin-bottom: 3px;
-        }
-
-        .person-role {
-            color: #636366;
-            font-size: 14px;
-        }
-
-        .action-icons {
-            display: flex;
-            gap: 12px;
-        }
-
-        .action-icon {
-            width: 24px;
-            height: 24px;
-            border-radius: 12px;
-            background-color: rgba(0, 0, 0, 0.05);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-        }
-
-        .divider {
-            height: 1px;
-            background-color: rgba(0, 0, 0, 0.1);
-            margin: 30px 0;
-        }
-
-        /* Popup 3 - PDF Viewer Modal */
-        .popup-3 {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0,0,0,0.5);
-            backdrop-filter: blur(5px);
-            z-index: 1000;
-            justify-content: center;
-            align-items: center;
-            animation: fadeIn 0.3s ease;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-
-        .popup-3-content {
-            width: 90%;
-            max-width: 800px;
-            height: 80vh;
-            background: white;
-            border-radius: 16px;
-            overflow: hidden;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-            display: flex;
-            flex-direction: column;
-            transform: scale(0.95);
-            transition: transform 0.3s ease;
-        }
-
-        .popup-3.active .popup-3-content {
-            transform: scale(1);
-        }
-
-        .popup-3-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 20px;
-            background: #f8f8f8;
-            border-bottom: 1px solid #e5e5e5;
-        }
-
-        .popup-3-title {
-            font-size: 20px;
-            font-weight: 600;
-            color: #1c1c1e;
-        }
-
-        .popup-3-close {
-            background: none;
-            border: none;
-            font-size: 24px;
-            cursor: pointer;
-            color: #636366;
-            padding: 5px;
-        }
-        
-        .popup-3-body {
-            flex: 1;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
-            background: #f8f8f8;
-            overflow: hidden;
-        }
-
-        .google-docs-container {
-            width: 100%;
-            height: 100%;
-            border: none;
-            border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-        }
-
-     
-        .popup-3-pdf {
-            width: 100%;
-            height: 100%;
-            border: none;
-            border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-        }
-
-        .popup-3-footer {
-            padding: 15px 20px;
-            background: #f8f8f8;
-            border-top: 1px solid #e5e5e5;
-            display: flex;
-            justify-content: flex-end;
-            gap: 10px;
-        }
-
-        .popup-3-btn {
-            padding: 8px 16px;
-            border-radius: 8px;
-            font-weight: 500;
-            cursor: pointer;
-            border: none;
-            font-size: 14px;
-            transition: all 0.2s ease;
-        }
-
-        .popup-3-download {
-            background-color: var(--primary-blue);
-            color: white;
-        }
-
-        .popup-3-download:hover {
-            background-color: #0066CC;
-        }
-
-        .popup-3-close-btn {
-            background: #e5e5e5;
-            color: #1c1c1e;
-        }
-
-        .popup-3-close-btn:hover {
-            background: #d1d1d1;
-        }
-
-        @media (min-width: 768px) {
-            .vertical-layout {
-                display: grid;
-                grid-template-columns: repeat(2, 1fr);
-                gap: 15px;
-            }
-        }
-
-
  
-  </style>
      <!--- end of ter -->
 </head>
 
@@ -423,7 +146,7 @@
 
 
           <li class="navbar-item">
-            <button class="navbar-link" data-nav-link>Cours</button>
+            <button class="navbar-link" data-nav-link>Espace Etudiant</button>
           </li>
 
 
@@ -434,11 +157,11 @@
 
 
           <li class="navbar-item">
-            <button class="navbar-link" data-nav-link>Documents</button>
+            <button class="navbar-link" data-nav-link>Examens & Revisions</button>
           </li>
 
           <li class="navbar-item">
-            <button class="navbar-link" data-nav-link>Student Portal</button>
+            <button class="navbar-link" data-nav-link>Cours en Bref</button>
           </li>
 
 
@@ -461,18 +184,19 @@
       -->
 
 
-      <article class="about  active" data-page="cours">
+      <article class="about  active" data-page="espace etudiant">
 
         <header>
-          <h2 class="h2 article-title">Home</h2>
+          <h2 class="h2 article-title">Espace Étudiant</h2>
         </header>
 
        
 
           <div class="container">
             <header class="app-header">
-              <div class="app-logo">buddy</div>
-              <div class="user-avatar">👤</div>
+              <div class="app-logo">Ressources et Résumés</div>
+              <div class="user-avatar"><i class="fa-solid fa-sitemap"></i></div>
+
             </header>
             <div class="search-container">
               <div class="search-bar">
@@ -484,14 +208,14 @@
                   <path d="M21 21L16.65 16.65" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                     stroke-linejoin="round" />
                 </svg>
-                <input type="text" id="itinerarySearch" placeholder="Search locations...">
+                <input type="text" id="itinerarySearch" placeholder="Search ...">
               </div>
             </div>
 
             <div class="itinerary-carnd">
               <div class="card-header">
-                <h2 class="card-title">Bberlin Itinerary</h2>
-                <p class="card-subtitle">Your personalized travel plan for 25 days in Berlin</p>
+                <h2 class="card-title">Explorer Plus</h2>
+                <p class="card-subtitle">Une large sélection de résumés <br>et de cours complets pour chaque matière </p>
               </div>
 
               <div class="itinerary-items">
@@ -703,24 +427,6 @@
 
    <li class="project-item active " data-filter-item data-category="reproduction chez l'homme">
 
-    <!--
-        <div class="cards-container">
-          
-          <div class="card card-1">
-            <div class="name">EduWell Cart</div>
-            <div class="title">Front-End Re   act.js<br>Engineer</div>
-    
-            <div class="stats">
-              <div class="stat-item">+3<br>Experience</div>
-              <div class="stat-item">$16<br>hour Rate</div>
-            </div>
-    
-            <div class="interview-tag">Interview</div>
-            <div class="footer-name">Leslie Alexander</div>
-          </div>
-    
-        </div>
-      -->
           <div class="cards-container">
     
           <!-- Card 2 - Diagonal Stripe -->
@@ -850,39 +556,30 @@
     <div class="section">
         <div class="horizontal-scroll">
             <div class="card-5 person-card-5">
-                <div class="person-avatar">SS</div>
+              <div class="user-avatar"><i class="fa-solid fa-school"></i></div>
                 <div class="person-info">
                     <div class="person-name">Sam Smith</div>
-                    <div class="person-role">Frontend developer</div>
-                </div>
-                <div class="action-icons">
-                    <div class="action-icon">🔍</div>
                     
                 </div>
+                
             </div>
             
             <div class="card-5 person-card-5">
-                <div class="person-avatar">JG</div>
+              <div class="user-avatar"><i class="fa-solid fa-school"></i></div>
                 <div class="person-info">
                     <div class="person-name">Jacob Gavrilov</div>
                     
                 </div>
-                <div class="action-icons">
-                    <div class="action-icon">🔍</div>
-                    
-                </div>
+                
             </div>
             
             <div class="card-5 person-card-5">
-                <div class="person-avatar">SF</div>
+              <div class="user-avatar"><i class="fa-solid fa-school"></i></div>
                 <div class="person-info">
                     <div class="person-name">Stephie</div>
-                    <div class="person-role"> designer</div>
-                </div>
-                <div class="action-icons">
-                    <div class="action-icon">🔍</div>
                     
                 </div>
+                
             </div>
         </div>
     </div>
@@ -1020,46 +717,26 @@
     
     
     
-    
-          <!--
-            - #RESUME
-          -->
-    
-          
-    
-    
-    
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-    
-        <!-- docements -->
-      
-       
-    
-    
     <!---- END COURS -->
     
     
     
-    <!---- START DOC EDU +-->
+    <!---- ex rev-->
     
     
     
-    <article class="documents" data-page="documents">
+    <article class="examens & Revisions" data-page="examens & revisions">
+
     
-    <header>
-      <h2 class="h2 article-title">Documents</h2>
-    </header>
+      <header>
+        <h2 class="h2 article-title">Eduwell</h2>
+      </header>
+
+    <footer class="app-footer">
+     
+              
+    </footer>
+
     
     <section class="blog-posts">
     
@@ -1140,11 +817,11 @@
     
     </article>
     
-    <article class="student portal" data-page="student portal">
+    <article class="cours en bref" data-page="cours en bref">
     
       
     <header>
-      <h2 class="h2 article-title">Student Portal</h2>
+      <h2 class="h2 article-title">Cours en Bref</h2>
     </header>
     
     <section class="blog-posts">
@@ -1236,17 +913,7 @@
     
           </a>
         </li>
-         
-    
-        
-    
-        
-    
-        
-       
-       
-    
-      </ul>
+   </ul>
     
     </section>
     
@@ -1255,298 +922,21 @@
     
     </div>
       </main>
+
+
+
       <script>
     
     
     
     
-        document.addEventListener('DOMContentLoaded', function() {
-      const searchInput = document.getElementById('itinerarySearch');
-      const itineraryItems = document.querySelectorAll('.itinerary-item');
-    
-      searchInput.addEventListener('input', function() {
-        const searchTerm = this.value.toLowerCase().trim();
-        
-        itineraryItems.forEach(item => {
-          const title = item.querySelector('.item-title').textContent.toLowerCase();
-          const description = item.querySelector('.item-description').textContent.toLowerCase();
-          
-          if (title.includes(searchTerm) || description.includes(searchTerm)) {
-            item.style.display = 'block';
-          } else {
-            item.style.display = 'none';
-          }
-        });
-    
-        // Adjust scrolling container after filtering
-        const itemsContainer = document.querySelector('.itinerary-items');
-        itemsContainer.scrollLeft = 0;
-      });
-    
-      // Clear search when clicking the 'x' in search field (for browsers that show it)
-      searchInput.addEventListener('search', function() {
-        if (this.value === '') {
-          itineraryItems.forEach(item => {
-            item.style.display = 'block';
-          });
-        }
-      });
-    });
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    'use strict';
-    
-    // ===== ENHANCED ITINERARY POPUPS WITH HIDDEN DATA =====
-    const initItineraryPopups = () => {
-      const items = document.querySelectorAll('.itinerary-item');
-      if (!items.length) return;
-    
-      // Create popup element with additional sections
-      const popup = document.createElement('div');
-      popup.className = 'itinerary-popup';
-      popup.innerHTML = `
-        <div class="popup-content">
-          <button class="popup-close">&times;</button>
-          <h3 class="popup-title"></h3>
-          <div class="popup-meta">
-            <span class="popup-date"></span>
-            <span class="popup-rating"></span>
-          </div>
-          <p class="popup-description"></p>
-          <div class="popup-additional">
-            <h4>Additional Information</h4>
-            <p class="popup-extra"></p>
-          </div>
-          <p class="popup-location"></p>
-        </div>
-      `;
-      document.body.appendChild(popup);
-    
-      // Database of additional information (can be fetched from API instead)
-      const itemDatabase = {
-        "East Side Gallery": {
-          date: "May 15, 2023",
-          rating: "★★★★☆",
-          extra: "The longest remaining section of the Berlin Wall, now an open-air gallery featuring 105 murals by artists from around the world.",
-          hiddenNote: "Best visited in the morning to avoid crowds."
-        },
-        "Da Giuseppe Pizzeria": {
-          date: "June 2, 2023",
-          rating: "★★★★★",
-          extra: "Authentic Neapolitan pizza cooked in a wood-fired oven imported from Italy. Try their signature 'Margherita Extra'.",
-          hiddenNote: "Ask for Luigi - he makes the best pizzas!"
-        },
-        "Rex de Diego": {
-          date: "June 10, 2023",
-          rating: "★★★☆☆",
-          extra: "Vibrant cocktail bar with flamenco shows every Friday night. Their sangria is made with a secret family recipe.",
-          hiddenNote: "Happy hour from 5-7pm with 50% off tapas."
-        }
-        // Add more items as needed
-      };
-    
-      // Click handler for items
-      items.forEach(item => {
-        item.addEventListener('click', () => {
-          const title = item.querySelector('.item-title').textContent;
-          const visibleDesc = item.querySelector('.item-description').textContent;
-          const loc = item.querySelector('.item-meta').textContent;
-          
-          // Get additional data from our database
-          const additionalData = itemDatabase[title] || {
-            date: "Not specified",
-            rating: "Not rated",
-            extra: "No additional information available",
-            hiddenNote: ""
-          };
-    
-          // Populate popup
-          popup.querySelector('.popup-title').textContent = title;
-          popup.querySelector('.popup-date').textContent = additionalData.date;
-          popup.querySelector('.popup-rating').textContent = additionalData.rating;
-          popup.querySelector('.popup-description').textContent = visibleDesc;
-          popup.querySelector('.popup-extra').textContent = additionalData.extra;
-          popup.querySelector('.popup-location').textContent = `📍 ${loc}`;
-          
-          // Add hidden note as data attribute (can be used for analytics)
-          popup.dataset.hiddenNote = additionalData.hiddenNote;
-          
-          popup.classList.add('active');
-        });
-      });
-    
-      // Close handlers
-      popup.querySelector('.popup-close').addEventListener('click', () => {
-        popup.classList.remove('active');
-      });
-      
-      popup.addEventListener('click', (e) => {
-        if (e.target === popup) popup.classList.remove('active');
-      });
-    };
-    
-    // Initialize when DOM is ready
-    document.addEventListener('DOMContentLoaded', () => {
-      initItineraryPopups();
-      
-      // Your other initialization code (search, scrolling etc.)
-      // initSearch();
-      // initMobileScrolling();
-    });
-    
         </script>
-
-   <!----secripte for pdf section -->
-
-   
-   <script>
-    // Horizontal scrolling behavior
-    const horizontalContainers = document.querySelectorAll('.horizontal-scroll');
-    
-    horizontalContainers.forEach(container => {
-        let isDown = false;
-        let startX;
-        let scrollLeft;
-        
-        container.addEventListener('mousedown', (e) => {
-            isDown = true;
-            startX = e.pageX - container.offsetLeft;
-            scrollLeft = container.scrollLeft;
-        });
-        
-        container.addEventListener('mouseleave', () => {
-            isDown = false;
-        });
-        
-        container.addEventListener('mouseup', () => {
-            isDown = false;
-        });
-        
-        container.addEventListener('mousemove', (e) => {
-            if(!isDown) return;
-            e.preventDefault();
-            const x = e.pageX - container.offsetLeft;
-            const walk = (x - startX) * 2;
-            container.scrollLeft = scrollLeft - walk;
-        });
-    });
-
-    // Action icon handlers
-    document.querySelectorAll('.action-icon').forEach(icon => {
-        icon.addEventListener('click', (e) => {
-            e.stopPropagation();
-            const personName = icon.closest('.person-card').querySelector('.person-name').textContent;
-            console.log(`Action clicked for ${personName}`);
-        });
-    });
-    
-    // Popup 3 functionality
-    const popup3 = document.getElementById('popup3');
-    const popup3Pdf = document.getElementById('popup3Pdf');
-    const popup3Title = document.getElementById('popup3Title');
-    const popup3Download = document.getElementById('popup3Download');
-    const popup3CloseBtns = document.querySelectorAll('.popup-3-close, .popup-3-close-btn');
-    const fileItems = document.querySelectorAll('.file-item');
-
-    fileItems.forEach(item => {
-            item.addEventListener('click', (e) => {
-                if (e.target.tagName === 'BUTTON') return;
-                
-                const docUrl = item.getAttribute('data-file'); // Should be Google Drive shareable link
-                const title = item.getAttribute('data-title');
-                openPopup3(docUrl, title);
-            });
-        });
-
-        function openPopup3(docUrl, title) {
-            popup3Title.textContent = title;
-            
-            // Convert Google Drive URL to embeddable format
-            let embedUrl = docUrl;
-            
-            // If it's a Google Drive link, convert it
-            if (docUrl.includes('drive.google.com')) {
-                const fileId = docUrl.match(/\/d\/([^\/]+)/)[1] || 
-                              docUrl.match(/id=([^&]+)/)[1] || 
-                              docUrl.split('/').slice(-1)[0];
-                embedUrl = `https://drive.google.com/file/d/${fileId}/preview`;
-            }
-            
-            document.getElementById('googleDocsViewer').src = embedUrl;
-            
-            popup3Download.onclick = () => {
-                window.open(docUrl, '_blank');
-            };
-            
-            popup3.style.display = 'flex';
-            document.body.style.overflow = 'hidden';
-            setTimeout(() => {
-                popup3.classList.add('active');
-            }, 10);
-        }
-
-
-    function closePopup3() {
-        popup3.classList.remove('active');
-        setTimeout(() => {
-            popup3.style.display = 'none';
-            document.body.style.overflow = 'auto';
-            popup3Pdf.src = '';
-        }, 300);
-    }
-
-    fileItems.forEach(item => {
-        item.addEventListener('click', (e) => {
-            if (e.target.tagName === 'BUTTON') return;
-            
-            const pdfFile = item.getAttribute('data-file');
-            const title = item.getAttribute('data-title');
-            openPopup3(pdfFile, title);
-        });
-    });
-
-    popup3CloseBtns.forEach(btn => {
-        btn.addEventListener('click', closePopup3);
-    });
-
-    popup3.addEventListener('click', (e) => {
-        if (e.target === popup3) {
-            closePopup3();
-        }
-    });
-
-    document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape' && popup3.style.display === 'flex') {
-            closePopup3();
-        }
-    });
-</script>
-   <!-----end of secripte pdf section-->     
     
       <script src="assets/js/script.js"></script>
+      
+      <script src="assets/js/serche fonction"></script>
+      <script src="assets/js/data hide serche"></script>
+      <script src="assets/js/pop3 pdf"></script>
       <script src="img slide.js"></script>
     
     
