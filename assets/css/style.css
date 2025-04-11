@@ -9,10 +9,290 @@
 
 
 
+/*-----------------------------------*\
+  #edition pop 3 and cart multi calorts star
+\*-----------------------------------*/
+
+  
+ :root {
+  --card-color-1: #f0f7ff;
+  --card-color-2: #f5f0ff;
+  --card-color-3: #fff0f5;
+  --glass-opacity: 0.18;
+  --primary-blue: #007AFF;
+}
+
+
+
+
+/* Horizontal scrolling sections */
+.horizontal-scroll {
+  display: flex;
+  overflow-x: auto;
+  gap: 15px;
+  padding-bottom: 15px;
+  scrollbar-width: none;
+}
+
+.horizontal-scroll::-webkit-scrollbar {
+  display: none;
+}
+
+/* Vertical layout sections */
+.vertical-layout {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.card-5 {
+  min-width: 200px;
+  border-radius: 16px;
+  padding: 20px;
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  transition: transform 0.2s ease;
+  
+}
+
+.vertical-layout .card-5 {
+  min-width: auto;
+}
+
+.card-5:hover {
+  transform: translateY(-3px);
+}
+
+.department-card-5 {
+  border-left: 5px solid;
+}
+
+.department-card-5:nth-child(1) {
+  border-color: #4a90e2;
+  background-color: var(--card-color-1);
+}
+
+.department-card-5:nth-child(2) {
+  border-color: #8e44ad;
+  background-color: var(--card-color-2);
+}
+
+.department-card-5:nth-child(3) {
+  border-color: #e74c3c;
+  background-color: var(--card-color-3);
+}
+
+.department-name {
+  font-weight: 600;
+  font-size: 17px;
+  margin-bottom: 8px;
+}
+
+.department-count {
+  color: #636366;
+  font-size: 15px;
+}
+
+.person-card-5 {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(10px);
+ 
+}
+
+.person-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 20px;
+  background-color: #e0e0e0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  color: #333;
+}
+
+.person-info {
+  flex: 1;
+}
+
+.person-name {
+  font-weight: 600;
+  font-size: 16px;
+  margin-bottom: 3px;
+}
+
+.person-role {
+  color: #636366;
+  font-size: 14px;
+}
+
+.action-icons {
+  display: flex;
+  gap: 12px;
+}
+
+.action-icon {
+  width: 24px;
+  height: 24px;
+  border-radius: 12px;
+  background-color: rgba(0, 0, 0, 0.05);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.divider {
+  height: 1px;
+  background-color: rgba(0, 0, 0, 0.1);
+  margin: 30px 0;
+}
+
+/* Popup 3 - PDF Viewer Modal */
+.popup-3 {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.5);
+  backdrop-filter: blur(5px);
+  z-index: 1000;
+  justify-content: center;
+  align-items: center;
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.popup-3-content {
+  width: 90%;
+  max-width: 800px;
+  height: 80vh;
+  background: white;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+  display: flex;
+  flex-direction: column;
+  transform: scale(0.95);
+  transition: transform 0.3s ease;
+}
+
+.popup-3.active .popup-3-content {
+  transform: scale(1);
+}
+
+.popup-3-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+  background: #f8f8f8;
+  border-bottom: 1px solid #e5e5e5;
+}
+
+.popup-3-title {
+  font-size: 20px;
+  font-weight: 600;
+  color: #1c1c1e;
+}
+
+.popup-3-close {
+  background: none;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  color: #636366;
+  padding: 5px;
+}
+
+.popup-3-body {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  background: #f8f8f8;
+  overflow: hidden;
+}
+
+.google-docs-container {
+  width: 100%;
+  height: 100%;
+  border: none;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+
+.popup-3-pdf {
+  width: 100%;
+  height: 100%;
+  border: none;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.popup-3-footer {
+  padding: 15px 20px;
+  background: #f8f8f8;
+  border-top: 1px solid #e5e5e5;
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.popup-3-btn {
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-weight: 500;
+  cursor: pointer;
+  border: none;
+  font-size: 14px;
+  transition: all 0.2s ease;
+}
+
+.popup-3-download {
+  background-color: var(--primary-blue);
+  color: white;
+}
+
+.popup-3-download:hover {
+  background-color: #0066CC;
+}
+
+.popup-3-close-btn {
+  background: #e5e5e5;
+  color: #1c1c1e;
+}
+
+.popup-3-close-btn:hover {
+  background: #d1d1d1;
+}
+
+@media (min-width: 768px) {
+  .vertical-layout {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 15px;
+  }
+}
+
+
+
 
 
 /*-----------------------------------*\
-  #CUSTOM PROPERTY
+  #edition pop 3 and cart multi calorts end
 \*-----------------------------------*/
 
 :root {
@@ -146,10 +426,6 @@ input, textarea {
 
 
 html { font-family: var(--ff-poppins); }
-
-body { background:linear-gradient(to bottom right ,,white 50% ,rgba(246,191,159,1) 150%); }
-
-
 
 
 
@@ -2707,7 +2983,7 @@ animation: rotate 20s linear infinite;
   padding: 0 12px;
   background: transparent;
   color: var(--label-primary);
-  background: 
+ 
 }
 
 .itinerary-items {
@@ -2974,4 +3250,4 @@ animation: rotate 20s linear infinite;
       min-width: 120px;
       padding: 12px;
     }
-  }
+    
