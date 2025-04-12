@@ -6,7 +6,7 @@
     <title>Espace Étudiant - Recherche</title>
     <style>
         :root {
-            --primary: #4361ee; 
+            --primary: #4361ee;
             --secondary: #3a0ca3;
             --light: #f8f9fa;
             --dark: #212529;
@@ -27,6 +27,9 @@
             color: var(--dark);
             line-height: 1.6;
             padding: 20px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
         }
         
         .container {
@@ -36,6 +39,9 @@
             padding: 2.5rem;
             border-radius: 16px;
             box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
         }
         
         header {
@@ -60,6 +66,7 @@
             position: relative;
             margin: 2rem auto;
             max-width: 700px;
+            width: 100%;
         }
         
         #searchInput {
@@ -98,16 +105,33 @@
         #resultsContainer {
             margin-top: 2rem;
             display: none;
+            flex-grow: 1;
         }
         
-        .results-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        .results-scroller {
+            display: flex;
+            overflow-x: auto;
             gap: 1.8rem;
             padding-bottom: 1rem;
+            scrollbar-width: thin;
+            scrollbar-color: var(--primary) transparent;
+        }
+        
+        .results-scroller::-webkit-scrollbar {
+            height: 6px;
+        }
+        
+        .results-scroller::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        
+        .results-scroller::-webkit-scrollbar-thumb {
+            background-color: var(--primary);
+            border-radius: 3px;
         }
         
         .result-card {
+            min-width: 300px;
             background: var(--card-bg);
             border-radius: 14px;
             overflow: hidden;
@@ -116,7 +140,7 @@
             border: 1px solid rgba(0,0,0,0.04);
             display: flex;
             flex-direction: column;
-            height: 100%;
+            flex-shrink: 0;
         }
         
         .result-card:hover {
@@ -188,8 +212,99 @@
             padding: 3rem;
             color: var(--gray);
             font-style: italic;
-            grid-column: 1 / -1;
+            width: 100%;
             font-size: 1.1rem;
+        }
+        
+        /* Book Animation */
+        .book-container {
+            display: flex;
+            justify-content: center;
+            margin: 2rem 0;
+            min-height: 200px;
+        }
+        
+        .book {
+            width: 150px;
+            height: 200px;
+            position: relative;
+            perspective: 1000px;
+        }
+        
+        .book-cover {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-color: #3a0ca3;
+            border-radius: 5px 15px 15px 5px;
+            box-shadow: 5px 5px 15px rgba(0,0,0,0.2);
+            transform-origin: left center;
+            transform-style: preserve-3d;
+            transition: transform 0.8s ease;
+            z-index: 10;
+            border: 1px solid #2a0a8a;
+        }
+        
+        .book-cover::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0) 20%);
+            border-radius: 5px 15px 15px 5px;
+        }
+        
+        .book-spine {
+            position: absolute;
+            left: 0;
+            top: 5px;
+            width: 10px;
+            height: 190px;
+            background-color: #2a0a8a;
+            transform: rotateY(90deg) translateX(-10px);
+        }
+        
+        .book-pages {
+            position: absolute;
+            width: 95%;
+            height: 95%;
+            top: 2.5%;
+            left: 2.5%;
+            background-color: #f8f4e9;
+            border-radius: 3px 13px 13px 3px;
+            box-shadow: inset 0 0 10px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        
+        .book-page {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-color: #fff;
+            transform-origin: left center;
+            transition: transform 0.5s ease;
+            border-radius: 3px 13px 13px 3px;
+            box-shadow: -2px 0 5px rgba(0,0,0,0.1);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 2rem;
+            color: rgba(0,0,0,0.2);
+            font-weight: bold;
+        }
+        
+        .book-title {
+            position: absolute;
+            bottom: 20px;
+            left: 15px;
+            color: white;
+            font-size: 0.8rem;
+            font-weight: bold;
+            transform: rotateZ(90deg);
+            transform-origin: left bottom;
+            white-space: nowrap;
         }
         
         /* PDF Preview Modal */
@@ -269,9 +384,8 @@
                 padding: 1.8rem 1.2rem;
             }
             
-            .results-grid {
-                grid-template-columns: 1fr;
-                gap: 1.2rem;
+            .result-card {
+                min-width: 260px;
             }
             
             #searchInput {
@@ -284,6 +398,11 @@
             
             .card-actions {
                 padding: 0 1.4rem 1.4rem;
+            }
+            
+            .book {
+                width: 120px;
+                height: 160px;
             }
         }
     </style>
@@ -301,8 +420,23 @@
         
         <p class="explainer">Trouvez rapidement les documents dont vous avez besoin grâce à notre moteur de recherche intelligent</p>
         
+        <!-- Book Animation -->
+        <div class="book-container">
+            <div class="book">
+                <div class="book-cover" id="bookCover">
+                    <div class="book-spine"></div>
+                    <div class="book-title">Espace Étudiant</div>
+                </div>
+                <div class="book-pages">
+                    <div class="book-page" id="bookPage1">A</div>
+                    <div class="book-page" id="bookPage2">B</div>
+                    <div class="book-page" id="bookPage3">C</div>
+                </div>
+            </div>
+        </div>
+        
         <div id="resultsContainer">
-            <div class="results-grid" id="resultsGrid">
+            <div class="results-scroller" id="resultsScroller">
                 <!-- Results will appear here as cards -->
             </div>
         </div>
@@ -363,38 +497,84 @@
                 description: "Principes fondamentaux de la chimie organique avec exemples et expériences pratiques.",
                 url: "https://example.com/pdfs/chimie_organique.pdf", 
                 keywords: ["chimie", "organique", "science"] 
-            },
-            { 
-                name: "Biologie Cellulaire", 
-                author: "Louis Pasteur",
-                description: "Étude approfondie des structures et fonctions des cellules avec illustrations détaillées.",
-                url: "https://example.com/pdfs/biologie_cellulaire.pdf", 
-                keywords: ["biologie", "cellule", "science"] 
-            },
-            { 
-                name: "Philosophie Contemporaine", 
-                author: "Simone de Beauvoir",
-                description: "Analyse des courants philosophiques modernes et leur impact sur la société actuelle.",
-                url: "https://example.com/pdfs/philosophie.pdf", 
-                keywords: ["philosophie", "contemporain", "société"] 
             }
         ];
 
         // DOM Elements
         const searchInput = document.getElementById('searchInput');
         const resultsContainer = document.getElementById('resultsContainer');
-        const resultsGrid = document.getElementById('resultsGrid');
+        const resultsScroller = document.getElementById('resultsScroller');
         const pdfModal = document.getElementById('pdfModal');
         const pdfPreview = document.getElementById('pdfPreview');
         const modalTitle = document.getElementById('modalTitle');
         const closeModal = document.getElementById('closeModal');
+        const bookCover = document.getElementById('bookCover');
+        const bookPage1 = document.getElementById('bookPage1');
+        const bookPage2 = document.getElementById('bookPage2');
+        const bookPage3 = document.getElementById('bookPage3');
 
+        // Book animation states
+        let bookOpen = false;
+        let currentPage = 0;
+        const totalPages = 3;
+        
+        // Animate book opening
+        function openBook() {
+            if (!bookOpen) {
+                bookCover.style.transform = 'rotateY(-160deg)';
+                bookOpen = true;
+                animatePageTurn();
+            }
+        }
+        
+        // Animate book closing
+        function closeBook() {
+            if (bookOpen) {
+                bookCover.style.transform = 'rotateY(0deg)';
+                resetPages();
+                bookOpen = false;
+            }
+        }
+        
+        // Reset all pages to closed position
+        function resetPages() {
+            bookPage1.style.transform = 'rotateY(0deg)';
+            bookPage2.style.transform = 'rotateY(0deg)';
+            bookPage3.style.transform = 'rotateY(0deg)';
+            currentPage = 0;
+        }
+        
+        // Animate page turning
+        function animatePageTurn() {
+            currentPage = (currentPage + 1) % totalPages;
+            
+            // Reset all pages first
+            resetPages();
+            
+            // Turn the current page
+            if (currentPage === 1) {
+                bookPage1.style.transform = 'rotateY(-150deg)';
+            } else if (currentPage === 2) {
+                bookPage2.style.transform = 'rotateY(-150deg)';
+            } else {
+                bookPage3.style.transform = 'rotateY(-150deg)';
+            }
+        }
+        
         // Search functionality
         searchInput.addEventListener('input', function() {
             const searchTerm = this.value.trim().toLowerCase();
             
+            // Book animation based on search
+            if (searchTerm === '') {
+                closeBook();
+            } else {
+                openBook();
+                animatePageTurn();
+            }
+            
             // Clear previous results
-            resultsGrid.innerHTML = '';
+            resultsScroller.innerHTML = '';
             
             if (searchTerm === '') {
                 resultsContainer.style.display = 'none';
@@ -426,7 +606,7 @@
                             <button class="open-btn" data-url="${item.url}" data-title="${item.name}">Ouvrir le document</button>
                         </div>
                     `;
-                    resultsGrid.appendChild(card);
+                    resultsScroller.appendChild(card);
                 });
                 
                 // Add event listeners to all open buttons
@@ -439,7 +619,7 @@
                 });
             } else {
                 resultsContainer.style.display = 'block';
-                resultsGrid.innerHTML = '<div class="no-results">Aucun document trouvé pour "' + searchTerm + '"</div>';
+                resultsScroller.innerHTML = '<div class="no-results">Aucun document trouvé pour "' + searchTerm + '"</div>';
             }
         });
         
