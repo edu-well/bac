@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Espace Étudiant</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+            color: #333;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        header {
+            background-color: #fff;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            padding: 15px 0;
+            margin-bottom: 20px;
+        }
+        h1 {
+            color: #2c3e50;
+            margin: 0;
+            padding: 0 20px;
+            font-size: 24px;
+        }
+        h2 {
+            color: #2c3e50;
+            margin: 20px 0 15px 0;
+            font-size: 20px;
+            padding: 0 20px;
+        }
+        .search-container {
+            padding: 0 20px;
+            margin-bottom: 20px;
+        }
+        .search-box {
+            display: flex;
+            align-items: center;
+            background-color: #fff;
+            border-radius: 24px;
+            padding: 8px 15px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            width: 100%;
+            max-width: 600px;
+        }
+        .search-box input {
+            border: none;
+            outline: none;
+            flex: 1;
+            padding: 8px 10px;
+            font-size: 16px;
+        }
+        .search-box::before {
+            content: "Q.";
+            margin-right: 10px;
+            color: #7f8c8d;
+            font-weight: bold;
+        }
+        .explore-more {
+            background-color: #fff;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 20px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .explore-more p {
+            margin: 0;
+            color: #7f8c8d;
+        }
+        .divider {
+            height: 1px;
+            background-color: #e0e0e0;
+            margin: 20px 0;
+        }
+        .results-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+            padding: 0 20px;
+        }
+        .result-card {
+            background-color: #fff;
+            border-radius: 8px;
+            padding: 15px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .result-card h3 {
+            margin-top: 0;
+            color: #2c3e50;
+            font-size: 18px;
+        }
+        .file-link {
+            display: inline-block;
+            margin-top: 10px;
+            padding: 8px 15px;
+            background-color: #4285f4;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        .file-link:hover {
+            background-color: #3367d6;
+        }
+        .folder-link {
+            display: inline-block;
+            margin-top: 10px;
+            padding: 8px 15px;
+            background-color: #34a853;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        .folder-link:hover {
+            background-color: #2d8e47;
+        }
+        .no-results {
+            padding: 20px;
+            text-align: center;
+            color: #7f8c8d;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>Espace Étudiant</h1>
+        </div>
+    </header>
+
+    <div class="container">
+        <h2>Ressources et Résumés</h2>
+
+        <div class="search-container">
+            <div class="search-box">
+                <input type="text" id="searchInput" placeholder="Search...">
+            </div>
+        </div>
+
+        <div class="explore-more">
+            <p>Explorer Plus<br>
+            Une large sélection de résumés et de cours complets pour chaque matière</p>
+        </div>
+
+        <div class="divider"></div>
+
+        <div id="searchResults" class="results-container">
+            <!-- Results will appear here when searching -->
+        </div>
+    </div>
+
+    <script>
+        // Your Google Drive Folder ID
+        const DRIVE_FOLDER_ID = "1s6AhSG4cr8vpzNr6JidMvVgujxp2QJI0";
+        
+        // Predefined list of files and folders in your Drive
+        // Format: { name: "Display Name", id: "file_or_folder_id", type: "file" or "folder" }
+        const driveContents = [
+            // Example entries - replace with your actual files/folders
+            { name: "Mathématiques", id: "FILE_OR_FOLDER_ID_1", type: "folder" },
+            { name: "Physique", id: "FILE_OR_FOLDER_ID_2", type: "folder" },
+            { name: "Cours de Chimie", id: "FILE_OR_FOLDER_ID_3", type: "file" },
+            { name: "Résumé Philosophie", id: "FILE_OR_FOLDER_ID_4", type: "file" }
+            // Add all your files and folders here
+        ];
+
+        const searchInput = document.getElementById('searchInput');
+        const searchResults = document.getElementById('searchResults');
+
+        // Search function
+        searchInput.addEventListener('input', function() {
+            const searchTerm = this.value.trim().toLowerCase();
+            searchResults.innerHTML = '';
+
+            if (!searchTerm) return; // Show nothing if search is empty
+
+            const results = driveContents.filter(item => 
+                item.name.toLowerCase().includes(searchTerm)
+            );
+
+            if (results.length === 0) {
+                searchResults.innerHTML = '<div class="no-results">Aucun résultat trouvé</div>';
+                return;
+            }
+
+            results.forEach(item => {
+                const card = document.createElement('div');
+                card.className = 'result-card';
+                
+                if (item.type === "folder") {
+                    card.innerHTML = `
+                        <h3>📁 ${item.name}</h3>
+                        <a href="https://drive.google.com/drive/folders/${item.id}" target="_blank" class="folder-link">Ouvrir le dossier</a>
+                    `;
+                } else {
+                    card.innerHTML = `
+                        <h3>📄 ${item.name}</h3>
+                        <a href="https://drive.google.com/file/d/${item.id}/view" target="_blank" class="file-link">Ouvrir le fichier</a>
+                    `;
+                }
+                
+                searchResults.appendChild(card);
+            });
+        });
+    </script>
+</body>
+</html>
