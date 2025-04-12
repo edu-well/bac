@@ -3,212 +3,486 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Espace Étudiant</title>
+    <title>Espace Étudiant - Recherche</title>
     <style>
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        :root {
+            --primary: #4361ee;
+            --secondary: #3a0ca3;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --gray: #6c757d;
+            --white: #ffffff;
+            --card-bg: #ffffff;
+        }
+        
+        * {
+            box-sizing: border-box;
             margin: 0;
             padding: 0;
-            background-color: #f5f5f5;
-            color: #333;
         }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background-color: #f0f2f5;
+            color: var(--dark);
+            line-height: 1.6;
+            padding: 20px;
+        }
+        
         .container {
             max-width: 1200px;
             margin: 0 auto;
-            padding: 20px;
+            background-color: var(--white);
+            padding: 2.5rem;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
         }
+        
         header {
-            background-color: #fff;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-            padding: 15px 0;
-            margin-bottom: 20px;
+            margin-bottom: 2rem;
+            text-align: center;
         }
+        
         h1 {
-            color: #2c3e50;
-            margin: 0;
-            padding: 0 20px;
-            font-size: 24px;
+            color: var(--primary);
+            font-size: 2.2rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
         }
+        
         h2 {
-            color: #2c3e50;
-            margin: 20px 0 15px 0;
-            font-size: 20px;
-            padding: 0 20px;
+            color: var(--gray);
+            font-size: 1.1rem;
+            font-weight: 400;
         }
+        
         .search-container {
-            padding: 0 20px;
-            margin-bottom: 20px;
+            position: relative;
+            margin: 2rem auto;
+            max-width: 700px;
         }
-        .search-box {
-            display: flex;
-            align-items: center;
-            background-color: #fff;
-            border-radius: 24px;
-            padding: 8px 15px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        
+        #searchInput {
             width: 100%;
+            padding: 1.1rem 1.8rem;
+            font-size: 1rem;
+            border: none;
+            border-radius: 12px;
+            outline: none;
+            transition: all 0.3s ease;
+            background-color: var(--light);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%2394a3b8' viewBox='0 0 16 16'%3E%3Cpath d='M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: 1.5rem center;
+            background-size: 1.2rem;
+            padding-left: 3.5rem;
+        }
+        
+        #searchInput:focus {
+            box-shadow: 0 5px 15px rgba(67, 97, 238, 0.15);
+        }
+        
+        #searchInput::placeholder {
+            color: #94a3b8;
+        }
+        
+        .explainer {
+            color: var(--gray);
+            font-size: 0.95rem;
+            margin: 1rem auto 2rem;
+            text-align: center;
             max-width: 600px;
         }
-        .search-box input {
-            border: none;
-            outline: none;
-            flex: 1;
-            padding: 8px 10px;
-            font-size: 16px;
+        
+        #resultsContainer {
+            margin-top: 2rem;
+            display: none;
         }
-        .search-box::before {
-            content: "Q.";
-            margin-right: 10px;
-            color: #7f8c8d;
-            font-weight: bold;
-        }
-        .explore-more {
-            background-color: #fff;
-            border-radius: 8px;
-            padding: 15px;
-            margin: 20px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-        }
-        .explore-more p {
-            margin: 0;
-            color: #7f8c8d;
-        }
-        .divider {
-            height: 1px;
-            background-color: #e0e0e0;
-            margin: 20px 0;
-        }
-        .results-container {
+        
+        .results-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 20px;
-            padding: 0 20px;
+            gap: 1.8rem;
+            padding-bottom: 1rem;
         }
+        
         .result-card {
-            background-color: #fff;
-            border-radius: 8px;
-            padding: 15px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            background: var(--card-bg);
+            border-radius: 14px;
+            overflow: hidden;
+            box-shadow: 0 6px 18px rgba(0,0,0,0.06);
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            border: 1px solid rgba(0,0,0,0.04);
+            display: flex;
+            flex-direction: column;
+            height: 100%;
         }
-        .result-card h3 {
-            margin-top: 0;
-            color: #2c3e50;
-            font-size: 18px;
+        
+        .result-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 24px rgba(0,0,0,0.1);
+            border-color: rgba(67, 97, 238, 0.2);
         }
-        .file-link {
+        
+        .card-content {
+            padding: 1.8rem;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .card-content h3 {
+            color: var(--dark);
+            font-size: 1.2rem;
+            margin-bottom: 0.6rem;
+            font-weight: 600;
+            line-height: 1.4;
+        }
+        
+        .card-content .author {
+            color: var(--gray);
+            font-size: 0.85rem;
+            margin-bottom: 1rem;
+            font-weight: 500;
+        }
+        
+        .card-content .description {
+            color: var(--dark);
+            font-size: 0.92rem;
+            margin-bottom: 1.5rem;
+            line-height: 1.5;
+            opacity: 0.9;
+            flex-grow: 1;
+        }
+        
+        .card-actions {
+            padding: 0 1.8rem 1.8rem;
+        }
+        
+        .open-btn {
             display: inline-block;
-            margin-top: 10px;
-            padding: 8px 15px;
-            background-color: #4285f4;
+            background-color: var(--primary);
             color: white;
+            padding: 0.7rem 1.4rem;
+            border-radius: 10px;
             text-decoration: none;
-            border-radius: 4px;
-            font-size: 14px;
-        }
-        .file-link:hover {
-            background-color: #3367d6;
-        }
-        .folder-link {
-            display: inline-block;
-            margin-top: 10px;
-            padding: 8px 15px;
-            background-color: #34a853;
-            color: white;
-            text-decoration: none;
-            border-radius: 4px;
-            font-size: 14px;
-        }
-        .folder-link:hover {
-            background-color: #2d8e47;
-        }
-        .no-results {
-            padding: 20px;
+            font-size: 0.95rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            width: 100%;
             text-align: center;
-            color: #7f8c8d;
+            box-shadow: 0 2px 8px rgba(67, 97, 238, 0.2);
+        }
+        
+        .open-btn:hover {
+            background-color: var(--secondary);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(67, 97, 238, 0.3);
+        }
+        
+        .no-results {
+            text-align: center;
+            padding: 3rem;
+            color: var(--gray);
+            font-style: italic;
+            grid-column: 1 / -1;
+            font-size: 1.1rem;
+        }
+        
+        /* PDF Preview Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.9);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .modal.show {
+            opacity: 1;
+        }
+        
+        .modal-content {
+            background-color: var(--white);
+            border-radius: 14px;
+            width: 90%;
+            max-width: 1000px;
+            max-height: 90vh;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            transform: scale(0.95);
+            transition: transform 0.3s cubic-bezier(0.18, 0.89, 0.32, 1.28);
+        }
+        
+        .modal.show .modal-content {
+            transform: scale(1);
+        }
+        
+        .modal-header {
+            padding: 1.2rem 1.8rem;
+            background-color: var(--primary);
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .modal-title {
+            font-weight: 600;
+            font-size: 1.3rem;
+        }
+        
+        .close-btn {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.8rem;
+            cursor: pointer;
+            padding: 0 0.5rem;
+            opacity: 0.8;
+            transition: opacity 0.2s ease;
+        }
+        
+        .close-btn:hover {
+            opacity: 1;
+        }
+        
+        .pdf-preview {
+            width: 100%;
+            height: calc(90vh - 68px);
+            border: none;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 1.8rem 1.2rem;
+            }
+            
+            .results-grid {
+                grid-template-columns: 1fr;
+                gap: 1.2rem;
+            }
+            
+            #searchInput {
+                padding: 1rem 1.5rem 1rem 3rem;
+            }
+            
+            .card-content {
+                padding: 1.4rem;
+            }
+            
+            .card-actions {
+                padding: 0 1.4rem 1.4rem;
+            }
         }
     </style>
 </head>
 <body>
-    <header>
-        <div class="container">
-            <h1>Espace Étudiant</h1>
-        </div>
-    </header>
-
     <div class="container">
-        <h2>Ressources et Résumés</h2>
-
+        <header>
+            <h1>Espace Étudiant</h1>
+            <h2>Ressources et Résumés</h2>
+        </header>
+        
         <div class="search-container">
-            <div class="search-box">
-                <input type="text" id="searchInput" placeholder="Search...">
+            <input type="text" id="searchInput" placeholder="Rechercher par nom de fichier ou description...">
+        </div>
+        
+        <p class="explainer">Trouvez rapidement les documents dont vous avez besoin grâce à notre moteur de recherche intelligent</p>
+        
+        <div id="resultsContainer">
+            <div class="results-grid" id="resultsGrid">
+                <!-- Results will appear here as cards -->
             </div>
         </div>
+    </div>
 
-        <div class="explore-more">
-            <p>Explorer Plus<br>
-            Une large sélection de résumés et de cours complets pour chaque matière</p>
-        </div>
-
-        <div class="divider"></div>
-
-        <div id="searchResults" class="results-container">
-            <!-- Results will appear here when searching -->
+    <!-- PDF Preview Modal -->
+    <div class="modal" id="pdfModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <span class="modal-title" id="modalTitle">Document PDF</span>
+                <button class="close-btn" id="closeModal">&times;</button>
+            </div>
+            <iframe class="pdf-preview" id="pdfPreview" frameborder="0"></iframe>
         </div>
     </div>
 
     <script>
-        // Your Google Drive Folder ID
-        const DRIVE_FOLDER_ID = "1s6AhSG4cr8vpzNr6JidMvVgujxp2QJI0";
-        
-        // Predefined list of files and folders in your Drive
-        // Format: { name: "Display Name", id: "file_or_folder_id", type: "file" or "folder" }
-        const driveContents = [
-            // Example entries - replace with your actual files/folders
-            { name: "Mathématiques", id: "FILE_OR_FOLDER_ID_1", type: "folder" },
-            { name: "Physique", id: "FILE_OR_FOLDER_ID_2", type: "folder" },
-            { name: "Cours de Chimie", id: "FILE_OR_FOLDER_ID_3", type: "file" },
-            { name: "Résumé Philosophie", id: "FILE_OR_FOLDER_ID_4", type: "file" }
-            // Add all your files and folders here
+        // Sample database of PDF files
+        const pdfDatabase = [
+            { 
+                name: "Mathématiques Avancées", 
+                author: "Ahmed Benali",
+                description: "Cours complet avec exercices corrigés sur les concepts avancés en mathématiques pour les étudiants de niveau universitaire.",
+                url: "https://example.com/pdfs/ahmed_math.pdf", 
+                keywords: ["ahmed", "math", "algèbre"] 
+            },
+            { 
+                name: "Physique Quantique", 
+                author: "Ahmed Benali",
+                description: "Introduction approfondie à la mécanique quantique avec exemples pratiques et problèmes résolus.",
+                url: "https://example.com/pdfs/ahmed_physique.pdf", 
+                keywords: ["ahmed", "physique", "quantique"] 
+            },
+            { 
+                name: "Algèbre Linéaire", 
+                author: "Sophie Martin",
+                description: "Matrices, espaces vectoriels et applications linéaires avec une collection complète de problèmes résolus.",
+                url: "https://example.com/pdfs/algebre_lineaire.pdf", 
+                keywords: ["math", "algèbre", "linéaire"] 
+            },
+            { 
+                name: "Calcul Différentiel", 
+                author: "Jean Dupont",
+                description: "Dérivées, différentielles et optimisation pour étudiants en sciences avec applications pratiques.",
+                url: "https://example.com/pdfs/calcul_diff.pdf", 
+                keywords: ["math", "calcul", "différentiel"] 
+            },
+            { 
+                name: "Histoire Moderne", 
+                author: "Marc Bloch",
+                description: "Analyse complète de la période moderne de la Renaissance à aujourd'hui avec focus sur l'Europe.",
+                url: "https://example.com/pdfs/histoire_moderne.pdf", 
+                keywords: ["histoire", "moderne", "renaissance"] 
+            },
+            { 
+                name: "Chimie Organique", 
+                author: "Marie Curie",
+                description: "Principes fondamentaux de la chimie organique avec exemples et expériences pratiques.",
+                url: "https://example.com/pdfs/chimie_organique.pdf", 
+                keywords: ["chimie", "organique", "science"] 
+            },
+            { 
+                name: "Biologie Cellulaire", 
+                author: "Louis Pasteur",
+                description: "Étude approfondie des structures et fonctions des cellules avec illustrations détaillées.",
+                url: "https://example.com/pdfs/biologie_cellulaire.pdf", 
+                keywords: ["biologie", "cellule", "science"] 
+            },
+            { 
+                name: "Philosophie Contemporaine", 
+                author: "Simone de Beauvoir",
+                description: "Analyse des courants philosophiques modernes et leur impact sur la société actuelle.",
+                url: "https://example.com/pdfs/philosophie.pdf", 
+                keywords: ["philosophie", "contemporain", "société"] 
+            }
         ];
 
+        // DOM Elements
         const searchInput = document.getElementById('searchInput');
-        const searchResults = document.getElementById('searchResults');
+        const resultsContainer = document.getElementById('resultsContainer');
+        const resultsGrid = document.getElementById('resultsGrid');
+        const pdfModal = document.getElementById('pdfModal');
+        const pdfPreview = document.getElementById('pdfPreview');
+        const modalTitle = document.getElementById('modalTitle');
+        const closeModal = document.getElementById('closeModal');
 
-        // Search function
+        // Search functionality
         searchInput.addEventListener('input', function() {
             const searchTerm = this.value.trim().toLowerCase();
-            searchResults.innerHTML = '';
-
-            if (!searchTerm) return; // Show nothing if search is empty
-
-            const results = driveContents.filter(item => 
-                item.name.toLowerCase().includes(searchTerm)
-            );
-
-            if (results.length === 0) {
-                searchResults.innerHTML = '<div class="no-results">Aucun résultat trouvé</div>';
+            
+            // Clear previous results
+            resultsGrid.innerHTML = '';
+            
+            if (searchTerm === '') {
+                resultsContainer.style.display = 'none';
                 return;
             }
-
-            results.forEach(item => {
-                const card = document.createElement('div');
-                card.className = 'result-card';
+            
+            // Filter matching results
+            const matchingResults = pdfDatabase.filter(item => {
+                // Check if search term matches in name or description
+                const nameMatch = item.name.toLowerCase().includes(searchTerm);
+                const descMatch = item.description.toLowerCase().includes(searchTerm);
                 
-                if (item.type === "folder") {
-                    card.innerHTML = `
-                        <h3>📁 ${item.name}</h3>
-                        <a href="https://drive.google.com/drive/folders/${item.id}" target="_blank" class="folder-link">Ouvrir le dossier</a>
-                    `;
-                } else {
-                    card.innerHTML = `
-                        <h3>📄 ${item.name}</h3>
-                        <a href="https://drive.google.com/file/d/${item.id}/view" target="_blank" class="file-link">Ouvrir le fichier</a>
-                    `;
-                }
-                
-                searchResults.appendChild(card);
+                return nameMatch || descMatch;
             });
+            
+            // Display results
+            if (matchingResults.length > 0) {
+                resultsContainer.style.display = 'block';
+                matchingResults.forEach(item => {
+                    const card = document.createElement('div');
+                    card.className = 'result-card';
+                    card.innerHTML = `
+                        <div class="card-content">
+                            <h3>${item.name}</h3>
+                            <p class="author">${item.author}</p>
+                            <p class="description">${item.description}</p>
+                        </div>
+                        <div class="card-actions">
+                            <button class="open-btn" data-url="${item.url}" data-title="${item.name}">Ouvrir le document</button>
+                        </div>
+                    `;
+                    resultsGrid.appendChild(card);
+                });
+                
+                // Add event listeners to all open buttons
+                document.querySelectorAll('.open-btn').forEach(btn => {
+                    btn.addEventListener('click', function() {
+                        const pdfUrl = this.getAttribute('data-url');
+                        const pdfTitle = this.getAttribute('data-title');
+                        openPdfModal(pdfUrl, pdfTitle);
+                    });
+                });
+            } else {
+                resultsContainer.style.display = 'block';
+                resultsGrid.innerHTML = '<div class="no-results">Aucun document trouvé pour "' + searchTerm + '"</div>';
+            }
         });
+        
+        // PDF Modal functions
+        function openPdfModal(url, title) {
+            modalTitle.textContent = title;
+            pdfPreview.src = url;
+            
+            // Show modal with animation
+            pdfModal.style.display = 'flex';
+            setTimeout(() => {
+                pdfModal.classList.add('show');
+            }, 10);
+            
+            document.body.style.overflow = 'hidden';
+        }
+        
+        function closePdfModal() {
+            pdfModal.classList.remove('show');
+            setTimeout(() => {
+                pdfModal.style.display = 'none';
+                pdfPreview.src = '';
+            }, 300);
+            document.body.style.overflow = 'auto';
+        }
+        
+        // Close modal when clicking X or outside
+        closeModal.addEventListener('click', closePdfModal);
+        pdfModal.addEventListener('click', function(e) {
+            if (e.target === pdfModal) {
+                closePdfModal();
+            }
+        });
+        
+        // Close modal with ESC key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closePdfModal();
+            }
+        });
+        
+        // Focus search input on page load
+        searchInput.focus();
     </script>
 </body>
 </html>
