@@ -52,14 +52,14 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.8);
+            background: rgba(0, 0, 0, 0.9);
             display: flex;
             justify-content: center;
             align-items: center;
             flex-direction: column;
             z-index: 1000;
             opacity: 1;
-            transition: opacity 0.5s ease;
+            transition: opacity 0.8s cubic-bezier(0.645, 0.045, 0.355, 1);
         }
         
         .loader.hidden {
@@ -68,54 +68,104 @@
         }
         
         .loader-logo {
-            width: 80px;
-            height: 80px;
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            background: rgba(255, 255, 255, 0.3);
-            border-radius: 20px;
+            width: 100px;
+            height: 100px;
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 24px;
             display: flex;
             justify-content: center;
             align-items: center;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.18);
-            margin-bottom: 20px;
-            animation: pulse 2s infinite ease-in-out;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            margin-bottom: 24px;
+            animation: pulse 2s infinite ease-in-out, float 6s infinite ease-in-out;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .loader-logo::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: conic-gradient(
+                #ff9a9e,
+                #fad0c4,
+                #fbc2eb,
+                #a6c1ee,
+                #84fab0,
+                #8fd3f4,
+                #ff9a9e
+            );
+            animation: rotate 4s linear infinite;
+            z-index: -1;
         }
         
         .loader-logo-inner {
-            width: 70px;
-            height: 70px;
-            backdrop-filter: blur(5px);
-            -webkit-backdrop-filter: blur(5px);
-            background: rgba(255, 255, 255, 0.4);
-            border-radius: 15px;
+            width: 90px;
+            height: 90px;
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            background: rgba(0, 0, 0, 0.6);
+            border-radius: 18px;
             display: flex;
             justify-content: center;
             align-items: center;
-            font-size: 20px;
+            font-size: 28px;
             font-weight: 600;
             color: white;
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.15);
         }
         
         @keyframes pulse {
             0% { transform: scale(1); }
-            50% { transform: scale(1.1); }
+            50% { transform: scale(1.05); }
             100% { transform: scale(1); }
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
+        }
+        
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
         }
         
         .loader-text {
             color: white;
             font-size: 18px;
-            margin-top: 20px;
+            margin-top: 24px;
             opacity: 0.8;
-            animation: fadeInOut 2s infinite ease-in-out;
+            animation: fadeInOut 2.5s infinite ease-in-out;
+            letter-spacing: 0.5px;
         }
         
         @keyframes fadeInOut {
             0%, 100% { opacity: 0.6; }
             50% { opacity: 1; }
+        }
+        
+        .progress-bar {
+            width: 200px;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 2px;
+            margin-top: 20px;
+            overflow: hidden;
+        }
+        
+        .progress {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, #ff9a9e, #fad0c4, #a6c1ee);
+            border-radius: 2px;
+            transition: width 0.3s ease;
         }
         
         /* Main Content */
@@ -131,14 +181,14 @@
         
         .glass-panel {
             position: absolute;
-            backdrop-filter: blur(60px);
-            -webkit-backdrop-filter: blur(60px);
-            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(80px);
+            -webkit-backdrop-filter: blur(80px);
+            background: rgba(255, 255, 255, 0.15);
             border-radius: 50px;
             border: 1px solid rgba(255, 255, 255, 0.18);
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
             opacity: 0;
-            transition: opacity 1s ease;
+            transition: opacity 1.2s cubic-bezier(0.215, 0.61, 0.355, 1);
         }
         
         .content {
@@ -149,7 +199,7 @@
             flex-direction: column;
             opacity: 0;
             transform: translateY(20px);
-            transition: all 0.8s ease;
+            transition: all 1s cubic-bezier(0.215, 0.61, 0.355, 1);
         }
         
         .content.visible {
@@ -158,26 +208,26 @@
         }
         
         .panel-1 {
-            width: 200px;
-            height: 200px;
-            top: -50px;
-            left: -50px;
+            width: 220px;
+            height: 220px;
+            top: -60px;
+            left: -60px;
             transform: rotate(30deg);
         }
         
         .panel-2 {
-            width: 300px;
-            height: 300px;
-            bottom: -100px;
-            right: -100px;
+            width: 320px;
+            height: 320px;
+            bottom: -120px;
+            right: -120px;
             transform: rotate(-15deg);
         }
         
         .panel-3 {
-            width: 150px;
-            height: 150px;
+            width: 180px;
+            height: 180px;
             top: 40%;
-            right: -30px;
+            right: -40px;
             transform: rotate(10deg);
         }
         
@@ -187,20 +237,24 @@
         }
         
         .header h1 {
-            font-size: 32px;
+            font-size: 36px;
             font-weight: 600;
-            margin-bottom: 10px;
+            margin-bottom: 12px;
             color: white;
-            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            text-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            letter-spacing: -0.5px;
         }
         
         .header .luma-star {
-            font-size: 24px;
+            font-size: 26px;
             position: absolute;
             top: 0;
             right: 0;
             color: white;
-            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            opacity: 0;
+            transform: translateY(10px);
+            animation: textAppear 0.8s cubic-bezier(0.215, 0.61, 0.355, 1) forwards 1.4s;
         }
         
         .main-content {
@@ -213,66 +267,91 @@
         }
         
         .logo {
-            width: 120px;
-            height: 120px;
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            background: rgba(255, 255, 255, 0.3);
-            border-radius: 24px;
-            margin-bottom: 30px;
+            width: 140px;
+            height: 140px;
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 28px;
+            margin-bottom: 36px;
             display: flex;
             justify-content: center;
             align-items: center;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.2);
             border: 1px solid rgba(255, 255, 255, 0.18);
             transform: scale(0.8);
             opacity: 0;
-            animation: logoAppear 0.8s ease forwards 0.5s;
+            animation: logoAppear 1s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards 0.8s;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .logo::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: conic-gradient(
+                #ff9a9e,
+                #fad0c4,
+                #fbc2eb,
+                #a6c1ee,
+                #84fab0,
+                #8fd3f4,
+                #ff9a9e
+            );
+            animation: rotate 8s linear infinite;
+            z-index: -1;
         }
         
         @keyframes logoAppear {
             to {
-                transform: scale(1);
+                transform: scale(1) rotate(5deg);
                 opacity: 1;
             }
         }
         
         .logo-inner {
-            width: 100px;
-            height: 100px;
-            backdrop-filter: blur(5px);
-            -webkit-backdrop-filter: blur(5px);
-            background: rgba(255, 255, 255, 0.4);
-            border-radius: 18px;
+            width: 120px;
+            height: 120px;
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            background: rgba(0, 0, 0, 0.5);
+            border-radius: 22px;
             display: flex;
             justify-content: center;
             align-items: center;
-            font-size: 24px;
+            font-size: 32px;
             font-weight: 600;
             color: white;
             border: 1px solid rgba(255, 255, 255, 0.2);
+            animation: float 6s infinite ease-in-out;
         }
         
         h2 {
-            font-size: 28px;
+            font-size: 32px;
             font-weight: 600;
-            margin-bottom: 15px;
+            margin-bottom: 16px;
             color: white;
-            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            text-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
             opacity: 0;
             transform: translateY(20px);
-            animation: textAppear 0.8s ease forwards 0.8s;
+            animation: textAppear 1s cubic-bezier(0.215, 0.61, 0.355, 1) forwards 1s;
+            letter-spacing: -0.5px;
         }
         
         .subtitle {
-            font-size: 16px;
+            font-size: 17px;
             color: rgba(255, 255, 255, 0.9);
-            margin-bottom: 40px;
+            margin-bottom: 48px;
             max-width: 300px;
-            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
             opacity: 0;
             transform: translateY(20px);
-            animation: textAppear 0.8s ease forwards 1s;
+            animation: textAppear 1s cubic-bezier(0.215, 0.61, 0.355, 1) forwards 1.2s;
+            line-height: 1.5;
         }
         
         @keyframes textAppear {
@@ -283,32 +362,41 @@
         }
         
         .start-button {
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            background: rgba(255, 255, 255, 0.3);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            background: rgba(255, 255, 255, 0.25);
             color: white;
             border: 1px solid rgba(255, 255, 255, 0.3);
             border-radius: 30px;
-            padding: 15px 30px;
-            font-size: 17px;
+            padding: 18px 36px;
+            font-size: 18px;
             font-weight: 500;
             cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+            transition: all 0.4s cubic-bezier(0.215, 0.61, 0.355, 1);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
             opacity: 0;
-            transform: translateY(20px);
-            animation: textAppear 0.8s ease forwards 1.2s;
+            transform: translateY(20px) scale(0.95);
+            animation: buttonAppear 1s cubic-bezier(0.215, 0.61, 0.355, 1) forwards 1.4s;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        @keyframes buttonAppear {
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
         }
         
         .start-button:hover {
-            background: rgba(255, 255, 255, 0.4);
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+            background: rgba(255, 255, 255, 0.35);
+            transform: translateY(-4px) scale(1.02);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.25);
         }
         
         .start-button:active {
-            transform: translateY(0);
-            background: rgba(255, 255, 255, 0.25);
+            transform: translateY(0) scale(0.98);
+            background: rgba(255, 255, 255, 0.2);
         }
         
         /* Ripple effect */
@@ -335,7 +423,10 @@
         <div class="loader-logo">
             <div class="loader-logo-inner">DE</div>
         </div>
-        <div class="loader-text">Loading Delightful Events</div>
+        <div class="loader-text">Préparation du Modèle EduWell 1 — Veuillez patienter..."</div>
+        <div class="progress-bar">
+            <div class="progress" id="progress"></div>
+        </div>
     </div>
     
     <!-- Main Content -->
@@ -347,26 +438,38 @@
     
     <div class="content" id="content">
         <div class="header">
-            <h1>Delightful Events</h1>
-            <div class="luma-star">luma*</div>
+            
+            <div class="luma-star"></div>
         </div>
         
         <div class="main-content">
             <div class="logo">
-                <div class="logo-inner">DE</div>
+                <div class="logo-inner">ED</div>
             </div>
             
             <h2>Start Here</h2>
-            <p class="subtitle">Create and manage your events with ease and delight</p>
+            <p class="subtitle">"Un espace complet et structuré dédié aux soins infirmiers : cours de qualité, ressources fiables et accompagnement vers l’excellence."</p>
             
-            <button class="start-button" id="startButton">Get Started</button>
+            <button class="start-button" id="startButton">Lancez-vous</button>
         </div>
     </div>
 
     <script>
+        // Simulate loading progress
+        const progress = document.getElementById('progress');
+        let width = 0;
+        const progressInterval = setInterval(() => {
+            width += Math.random() * 10;
+            if (width >= 100) {
+                width = 100;
+                clearInterval(progressInterval);
+            }
+            progress.style.width = `${width}%`;
+        }, 200);
+        
         // Wait for everything to load
         window.addEventListener('load', function() {
-            // Show loading animation for 3 seconds
+            // Show loading animation for 3-4 seconds
             setTimeout(function() {
                 document.getElementById('loader').classList.add('hidden');
                 
@@ -378,26 +481,26 @@
                 panels.forEach((panel, index) => {
                     setTimeout(() => {
                         panel.style.opacity = '1';
-                    }, index * 200);
+                    }, index * 300);
                 });
                 
                 // Add floating animation to glass panels
                 panels.forEach((panel, index) => {
                     // Random initial position offsets
-                    const xOffset = (Math.random() - 0.5) * 20;
-                    const yOffset = (Math.random() - 0.5) * 20;
+                    const xOffset = (Math.random() - 0.5) * 30;
+                    const yOffset = (Math.random() - 0.5) * 30;
                     
                     // Animate
-                    let angle = 0;
+                    let angle = Math.random() * 360;
                     setInterval(() => {
-                        angle += 0.5;
-                        const moveX = Math.sin(angle * Math.PI / 180) * 5 + xOffset;
-                        const moveY = Math.cos(angle * Math.PI / 180) * 5 + yOffset;
+                        angle += 0.3;
+                        const moveX = Math.sin(angle * Math.PI / 180) * 8 + xOffset;
+                        const moveY = Math.cos(angle * Math.PI / 180) * 8 + yOffset;
                         
                         panel.style.transform = `rotate(${index % 2 ? angle : -angle}deg) translate(${moveX}px, ${moveY}px)`;
                     }, 50);
                 });
-            }, 3000);
+            }, 3000 + Math.random() * 1000);
         });
         
         // Button interaction
