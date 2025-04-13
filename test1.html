@@ -7,12 +7,16 @@
     <style>
         :root {
             --primary: #4361ee;
+            --primary-light: #5e7cff;
             --secondary: #3a0ca3;
             --light: #f8f9fa;
             --dark: #212529;
             --gray: #6c757d;
             --white: #ffffff;
             --card-bg: #ffffff;
+            --shadow-sm: 0 2px 8px rgba(0,0,0,0.05);
+            --shadow-md: 0 4px 12px rgba(0,0,0,0.08);
+            --shadow-lg: 0 8px 24px rgba(0,0,0,0.12);
         }
         
         * {
@@ -21,65 +25,92 @@
             padding: 0;
         }
         
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @keyframes slideIn {
+            from { transform: translateX(20px); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.02); }
+            100% { transform: scale(1); }
+        }
+        
         body {
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            background-color: #f0f2f5;
+            background-color: #f5f7ff;
             color: var(--dark);
-            line-height: 1.4;
-            padding: 12px;
+            line-height: 1.5;
+            padding: 16px;
+            min-height: 100vh;
         }
         
         .container {
             max-width: 1200px;
             margin: 0 auto;
             background-color: var(--white);
-            padding: 1.2rem;
-            border-radius: 10px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+            padding: 1.5rem;
+            border-radius: 16px;
+            box-shadow: var(--shadow-sm);
+            animation: fadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            transition: all 0.3s ease;
         }
         
         header {
-            margin-bottom: 1.2rem;
+            margin-bottom: 1.5rem;
             text-align: center;
+            animation: fadeIn 0.6s ease-out;
         }
         
         h1 {
             color: var(--primary);
-            font-size: 1.5rem;
+            font-size: 1.8rem;
             font-weight: 700;
-            margin-bottom: 0.2rem;
+            margin-bottom: 0.3rem;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            display: inline-block;
         }
         
         h2 {
             color: var(--gray);
-            font-size: 0.9rem;
+            font-size: 0.95rem;
             font-weight: 400;
+            letter-spacing: 0.5px;
         }
         
         .search-container {
             position: relative;
-            margin: 1.2rem auto;
-            max-width: 550px;
+            margin: 1.5rem auto;
+            max-width: 600px;
+            animation: slideIn 0.5s ease-out 0.1s both;
         }
         
         #searchInput {
             width: 100%;
-            padding: 0.8rem 1.2rem 0.8rem 2.6rem;
-            font-size: 0.9rem;
+            padding: 0.9rem 1.5rem 0.9rem 3rem;
+            font-size: 0.95rem;
             border: none;
-            border-radius: 8px;
+            border-radius: 12px;
             outline: none;
-            transition: all 0.2s ease;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             background-color: var(--light);
-            box-shadow: 0 1px 4px rgba(0,0,0,0.02);
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' fill='%2394a3b8' viewBox='0 0 16 16'%3E%3Cpath d='M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z'/%3E%3C/svg%3E");
+            box-shadow: var(--shadow-sm);
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%234361ee' viewBox='0 0 16 16'%3E%3Cpath d='M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z'/%3E%3C/svg%3E");
             background-repeat: no-repeat;
-            background-position: 1rem center;
-            background-size: 0.9rem;
+            background-position: 1.2rem center;
+            background-size: 1rem;
         }
         
         #searchInput:focus {
-            box-shadow: 0 2px 8px rgba(67, 97, 238, 0.08);
+            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.2), var(--shadow-md);
+            transform: translateY(-2px);
         }
         
         #searchInput::placeholder {
@@ -88,61 +119,71 @@
         
         .explainer {
             color: var(--gray);
-            font-size: 0.85rem;
-            margin: 0.6rem auto 1.2rem;
+            font-size: 0.9rem;
+            margin: 0.8rem auto 1.5rem;
             text-align: center;
-            max-width: 480px;
+            max-width: 500px;
+            animation: fadeIn 0.6s ease-out 0.2s both;
         }
         
         #resultsContainer {
-            margin-top: 1.2rem;
+            margin-top: 1.5rem;
             display: none;
+            animation: fadeIn 0.4s ease-out;
         }
         
         .results-scroller {
             display: flex;
             overflow-x: auto;
-            gap: 1rem;
-            padding-bottom: 0.6rem;
+            gap: 1.2rem;
+            padding: 0.8rem 0.5rem 1.2rem;
             scrollbar-width: thin;
             scrollbar-color: var(--primary) transparent;
         }
         
         .results-scroller::-webkit-scrollbar {
-            height: 4px;
+            height: 6px;
         }
         
         .results-scroller::-webkit-scrollbar-track {
             background: transparent;
+            margin: 0 1rem;
         }
         
         .results-scroller::-webkit-scrollbar-thumb {
             background-color: var(--primary);
-            border-radius: 2px;
+            border-radius: 3px;
+            transition: background-color 0.3s ease;
+        }
+        
+        .results-scroller::-webkit-scrollbar-thumb:hover {
+            background-color: var(--secondary);
         }
         
         .result-card {
-            min-width: 200px;
-            width: 200px;
+            min-width: 220px;
+            width: 220px;
             background: var(--card-bg);
-            border-radius: 8px;
+            border-radius: 12px;
             overflow: hidden;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.03);
-            transition: all 0.2s ease;
-            border: 1px solid rgba(0,0,0,0.04);
+            box-shadow: var(--shadow-sm);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 1px solid rgba(0,0,0,0.05);
             display: flex;
             flex-direction: column;
             flex-shrink: 0;
+            animation: slideIn 0.4s ease-out both;
+            will-change: transform;
         }
         
         .result-card:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 10px rgba(0,0,0,0.06);
-            border-color: rgba(67, 97, 238, 0.1);
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: var(--shadow-lg);
+            border-color: rgba(67, 97, 238, 0.2);
         }
         
         .card-content {
-            padding: 1rem;
+            padding: 1.2rem;
             flex-grow: 1;
             display: flex;
             flex-direction: column;
@@ -150,24 +191,24 @@
         
         .card-content h3 {
             color: var(--dark);
-            font-size: 0.9rem;
-            margin-bottom: 0.4rem;
+            font-size: 1rem;
+            margin-bottom: 0.5rem;
             font-weight: 600;
-            line-height: 1.3;
+            line-height: 1.4;
         }
         
         .card-content .author {
             color: var(--gray);
-            font-size: 0.75rem;
-            margin-bottom: 0.6rem;
+            font-size: 0.8rem;
+            margin-bottom: 0.8rem;
             font-weight: 500;
         }
         
         .card-content .description {
             color: var(--dark);
-            font-size: 0.8rem;
-            margin-bottom: 0.8rem;
-            line-height: 1.3;
+            font-size: 0.85rem;
+            margin-bottom: 1rem;
+            line-height: 1.4;
             opacity: 0.9;
             flex-grow: 1;
             display: -webkit-box;
@@ -177,39 +218,62 @@
         }
         
         .card-actions {
-            padding: 0 1rem 1rem;
+            padding: 0 1.2rem 1.2rem;
         }
         
         .open-btn {
-            display: inline-block;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
             background-color: var(--primary);
             color: white;
-            padding: 0.5rem 0.8rem;
-            border-radius: 6px;
-            text-decoration: none;
-            font-size: 0.8rem;
+            padding: 0.6rem 1rem;
+            border-radius: 8px;
+            font-size: 0.85rem;
             font-weight: 500;
-            transition: all 0.2s ease;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             border: none;
             cursor: pointer;
             width: 100%;
-            text-align: center;
-            box-shadow: 0 1px 4px rgba(67, 97, 238, 0.1);
+            box-shadow: var(--shadow-sm);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .open-btn::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, rgba(255,255,255,0.1), rgba(255,255,255,0.3));
+            transform: translateX(-100%);
+            transition: transform 0.6s ease;
         }
         
         .open-btn:hover {
             background-color: var(--secondary);
-            transform: translateY(-1px);
-            box-shadow: 0 2px 6px rgba(67, 97, 238, 0.2);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+        
+        .open-btn:hover::after {
+            transform: translateX(100%);
+        }
+        
+        .open-btn:active {
+            transform: translateY(0);
         }
         
         .no-results {
             text-align: center;
-            padding: 1.5rem;
+            padding: 2rem;
             color: var(--gray);
             font-style: italic;
             width: 100%;
-            font-size: 0.9rem;
+            font-size: 0.95rem;
+            animation: fadeIn 0.4s ease-out;
         }
         
         /* PDF Preview Modal */
@@ -225,7 +289,8 @@
             justify-content: center;
             align-items: center;
             opacity: 0;
-            transition: opacity 0.15s ease;
+            transition: opacity 0.3s ease;
+            backdrop-filter: blur(4px);
         }
         
         .modal.show {
@@ -234,15 +299,16 @@
         
         .modal-content {
             background-color: var(--white);
-            border-radius: 10px;
+            border-radius: 16px;
             width: 90%;
-            max-width: 800px;
+            max-width: 900px;
             max-height: 90vh;
             overflow: hidden;
             display: flex;
             flex-direction: column;
-            transform: scale(0.96);
-            transition: transform 0.15s ease;
+            transform: scale(0.95);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
         }
         
         .modal.show .modal-content {
@@ -250,7 +316,7 @@
         }
         
         .modal-header {
-            padding: 0.8rem 1.2rem;
+            padding: 1rem 1.5rem;
             background-color: var(--primary);
             color: white;
             display: flex;
@@ -260,64 +326,105 @@
         
         .modal-title {
             font-weight: 600;
-            font-size: 1rem;
+            font-size: 1.1rem;
         }
         
         .close-btn {
             background: none;
             border: none;
             color: white;
-            font-size: 1.3rem;
+            font-size: 1.5rem;
             cursor: pointer;
-            padding: 0 0.2rem;
+            padding: 0 0.5rem;
             opacity: 0.8;
-            transition: opacity 0.1s ease;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
         }
         
         .close-btn:hover {
             opacity: 1;
+            background-color: rgba(255,255,255,0.1);
+            transform: rotate(90deg);
         }
         
         .pdf-preview {
             width: 100%;
-            height: calc(90vh - 48px);
+            height: calc(90vh - 56px);
             border: none;
+        }
+        
+        /* Loading animation */
+        .loader {
+            display: none;
+            width: 100%;
+            text-align: center;
+            padding: 1rem 0;
+        }
+        
+        .loader-dots {
+            display: inline-flex;
+            gap: 6px;
+        }
+        
+        .loader-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background-color: var(--primary);
+            animation: pulse 1.2s infinite ease-in-out;
+        }
+        
+        .loader-dot:nth-child(1) {
+            animation-delay: 0s;
+        }
+        
+        .loader-dot:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+        
+        .loader-dot:nth-child(3) {
+            animation-delay: 0.4s;
         }
         
         @media (max-width: 768px) {
             .container {
-                padding: 1rem;
+                padding: 1.2rem;
             }
             
             h1 {
-                font-size: 1.3rem;
+                font-size: 1.5rem;
             }
             
             .result-card {
-                min-width: 160px;
-                width: 160px;
+                min-width: 180px;
+                width: 180px;
             }
             
             .card-content {
-                padding: 0.8rem;
+                padding: 1rem;
             }
             
             .card-content h3 {
-                font-size: 0.85rem;
+                font-size: 0.95rem;
             }
             
             .card-content .description {
-                font-size: 0.75rem;
+                font-size: 0.8rem;
                 -webkit-line-clamp: 2;
             }
             
             .card-actions {
-                padding: 0 0.8rem 0.8rem;
+                padding: 0 1rem 1rem;
             }
             
             .open-btn {
-                padding: 0.4rem 0.6rem;
-                font-size: 0.75rem;
+                padding: 0.5rem;
+                font-size: 0.8rem;
             }
         }
     </style>
@@ -338,6 +445,14 @@
         <div id="resultsContainer">
             <div class="results-scroller" id="resultsScroller">
                 <!-- Results will appear here as cards -->
+            </div>
+        </div>
+        
+        <div class="loader" id="loader">
+            <div class="loader-dots">
+                <div class="loader-dot"></div>
+                <div class="loader-dot"></div>
+                <div class="loader-dot"></div>
             </div>
         </div>
     </div>
@@ -408,6 +523,7 @@
         const pdfPreview = document.getElementById('pdfPreview');
         const modalTitle = document.getElementById('modalTitle');
         const closeModal = document.getElementById('closeModal');
+        const loader = document.getElementById('loader');
 
         // Search functionality
         searchInput.addEventListener('input', function() {
@@ -418,49 +534,61 @@
             
             if (searchTerm === '') {
                 resultsContainer.style.display = 'none';
+                loader.style.display = 'none';
                 return;
             }
             
-            // Filter matching results
-            const matchingResults = pdfDatabase.filter(item => {
-                // Check if search term matches in name or description
-                const nameMatch = item.name.toLowerCase().includes(searchTerm);
-                const descMatch = item.description.toLowerCase().includes(searchTerm);
-                
-                return nameMatch || descMatch;
-            });
+            // Show loading animation
+            loader.style.display = 'block';
+            resultsContainer.style.display = 'none';
             
-            // Display results
-            if (matchingResults.length > 0) {
-                resultsContainer.style.display = 'block';
-                matchingResults.forEach(item => {
-                    const card = document.createElement('div');
-                    card.className = 'result-card';
-                    card.innerHTML = `
-                        <div class="card-content">
-                            <h3>${item.name}</h3>
-                            <p class="author">${item.author}</p>
-                            <p class="description">${item.description}</p>
-                        </div>
-                        <div class="card-actions">
-                            <button class="open-btn" data-url="${item.url}" data-title="${item.name}">Ouvrir</button>
-                        </div>
-                    `;
-                    resultsScroller.appendChild(card);
+            // Simulate loading delay (remove in production)
+            setTimeout(() => {
+                // Filter matching results
+                const matchingResults = pdfDatabase.filter(item => {
+                    const nameMatch = item.name.toLowerCase().includes(searchTerm);
+                    const descMatch = item.description.toLowerCase().includes(searchTerm);
+                    return nameMatch || descMatch;
                 });
                 
-                // Add event listeners to all open buttons
-                document.querySelectorAll('.open-btn').forEach(btn => {
-                    btn.addEventListener('click', function() {
-                        const pdfUrl = this.getAttribute('data-url');
-                        const pdfTitle = this.getAttribute('data-title');
-                        openPdfModal(pdfUrl, pdfTitle);
+                // Display results
+                if (matchingResults.length > 0) {
+                    resultsContainer.style.display = 'block';
+                    loader.style.display = 'none';
+                    
+                    matchingResults.forEach((item, index) => {
+                        const card = document.createElement('div');
+                        card.className = 'result-card';
+                        card.style.animationDelay = `${index * 0.1}s`;
+                        card.innerHTML = `
+                            <div class="card-content">
+                                <h3>${item.name}</h3>
+                                <p class="author">${item.author}</p>
+                                <p class="description">${item.description}</p>
+                            </div>
+                            <div class="card-actions">
+                                <button class="open-btn" data-url="${item.url}" data-title="${item.name}">
+                                    <span>Ouvrir</span>
+                                </button>
+                            </div>
+                        `;
+                        resultsScroller.appendChild(card);
                     });
-                });
-            } else {
-                resultsContainer.style.display = 'block';
-                resultsScroller.innerHTML = '<div class="no-results">Aucun document trouvé pour "' + searchTerm + '"</div>';
-            }
+                    
+                    // Add event listeners to all open buttons
+                    document.querySelectorAll('.open-btn').forEach(btn => {
+                        btn.addEventListener('click', function() {
+                            const pdfUrl = this.getAttribute('data-url');
+                            const pdfTitle = this.getAttribute('data-title');
+                            openPdfModal(pdfUrl, pdfTitle);
+                        });
+                    });
+                } else {
+                    resultsContainer.style.display = 'block';
+                    loader.style.display = 'none';
+                    resultsScroller.innerHTML = '<div class="no-results">Aucun document trouvé pour "' + searchTerm + '"</div>';
+                }
+            }, 600); // Simulated loading delay
         });
         
         // PDF Modal functions
@@ -482,7 +610,7 @@
             setTimeout(() => {
                 pdfModal.style.display = 'none';
                 pdfPreview.src = '';
-            }, 150);
+            }, 200);
             document.body.style.overflow = 'auto';
         }
         
@@ -502,7 +630,9 @@
         });
         
         // Focus search input on page load
-        searchInput.focus();
+        setTimeout(() => {
+            searchInput.focus();
+        }, 300);
     </script>
 </body>
 </html>
