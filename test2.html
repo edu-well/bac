@@ -529,6 +529,34 @@
                 alert('Welcome to Delightful Events!');
             }, 300);
         });
+
+
+document.getElementById('startButton').addEventListener('click', function(e) {
+    // Add ripple effect
+    const ripple = document.createElement('span');
+    ripple.classList.add('ripple');
+    this.appendChild(ripple);
+    
+    // Get click position
+    const rect = this.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    
+    // Position ripple
+    ripple.style.left = `${x}px`;
+    ripple.style.top = `${y}px`;
+    
+    // Remove ripple after animation
+    setTimeout(() => {
+        ripple.remove();
+    }, 600);
+    
+    // Open link in new tab after animation completes
+    setTimeout(() => {
+        window.open("https://edu-well.github.io/bac/test1.html", "_blank");
+    }, 300);
+});
+
     </script>
 </body>
 </html>
