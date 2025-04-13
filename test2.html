@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Delightful Events</title>
+    <style>
+        /* Apple-style San Francisco font */
+        @font-face {
+            font-family: 'SF Pro Display';
+            src: url('https://sf.abarba.me/SF-Pro-Display-Regular.otf') format('opentype');
+            font-weight: 400;
+            font-style: normal;
+        }
+        
+        @font-face {
+            font-family: 'SF Pro Display';
+            src: url('https://sf.abarba.me/SF-Pro-Display-Semibold.otf') format('opentype');
+            font-weight: 600;
+            font-style: normal;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+            background-size: 400% 400%;
+            animation: gradient 15s ease infinite;
+            color: #1d1d1f;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+            overflow: hidden;
+        }
+        
+        @keyframes gradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        
+        /* Loading Animation */
+        .loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            z-index: 1000;
+            opacity: 1;
+            transition: opacity 0.5s ease;
+        }
+        
+        .loader.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+        
+        .loader-logo {
+            width: 80px;
+            height: 80px;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            margin-bottom: 20px;
+            animation: pulse 2s infinite ease-in-out;
+        }
+        
+        .loader-logo-inner {
+            width: 70px;
+            height: 70px;
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+            background: rgba(255, 255, 255, 0.4);
+            border-radius: 15px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 20px;
+            font-weight: 600;
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+        
+        .loader-text {
+            color: white;
+            font-size: 18px;
+            margin-top: 20px;
+            opacity: 0.8;
+            animation: fadeInOut 2s infinite ease-in-out;
+        }
+        
+        @keyframes fadeInOut {
+            0%, 100% { opacity: 0.6; }
+            50% { opacity: 1; }
+        }
+        
+        /* Main Content */
+        .glass-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: 0;
+        }
+        
+        .glass-panel {
+            position: absolute;
+            backdrop-filter: blur(60px);
+            -webkit-backdrop-filter: blur(60px);
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50px;
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            opacity: 0;
+            transition: opacity 1s ease;
+        }
+        
+        .content {
+            position: relative;
+            z-index: 1;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.8s ease;
+        }
+        
+        .content.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .panel-1 {
+            width: 200px;
+            height: 200px;
+            top: -50px;
+            left: -50px;
+            transform: rotate(30deg);
+        }
+        
+        .panel-2 {
+            width: 300px;
+            height: 300px;
+            bottom: -100px;
+            right: -100px;
+            transform: rotate(-15deg);
+        }
+        
+        .panel-3 {
+            width: 150px;
+            height: 150px;
+            top: 40%;
+            right: -30px;
+            transform: rotate(10deg);
+        }
+        
+        .header {
+            margin-bottom: 40px;
+            position: relative;
+        }
+        
+        .header h1 {
+            font-size: 32px;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: white;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        
+        .header .luma-star {
+            font-size: 24px;
+            position: absolute;
+            top: 0;
+            right: 0;
+            color: white;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        
+        .main-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+        
+        .logo {
+            width: 120px;
+            height: 120px;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 24px;
+            margin-bottom: 30px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            transform: scale(0.8);
+            opacity: 0;
+            animation: logoAppear 0.8s ease forwards 0.5s;
+        }
+        
+        @keyframes logoAppear {
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+        
+        .logo-inner {
+            width: 100px;
+            height: 100px;
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+            background: rgba(255, 255, 255, 0.4);
+            border-radius: 18px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 24px;
+            font-weight: 600;
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        h2 {
+            font-size: 28px;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: white;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            opacity: 0;
+            transform: translateY(20px);
+            animation: textAppear 0.8s ease forwards 0.8s;
+        }
+        
+        .subtitle {
+            font-size: 16px;
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 40px;
+            max-width: 300px;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+            opacity: 0;
+            transform: translateY(20px);
+            animation: textAppear 0.8s ease forwards 1s;
+        }
+        
+        @keyframes textAppear {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .start-button {
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            background: rgba(255, 255, 255, 0.3);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 30px;
+            padding: 15px 30px;
+            font-size: 17px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+            opacity: 0;
+            transform: translateY(20px);
+            animation: textAppear 0.8s ease forwards 1.2s;
+        }
+        
+        .start-button:hover {
+            background: rgba(255, 255, 255, 0.4);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+        }
+        
+        .start-button:active {
+            transform: translateY(0);
+            background: rgba(255, 255, 255, 0.25);
+        }
+        
+        /* Ripple effect */
+        .ripple {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.4);
+            transform: scale(0);
+            animation: ripple 0.6s linear;
+            pointer-events: none;
+        }
+        
+        @keyframes ripple {
+            to {
+                transform: scale(4);
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Loading Animation -->
+    <div class="loader" id="loader">
+        <div class="loader-logo">
+            <div class="loader-logo-inner">DE</div>
+        </div>
+        <div class="loader-text">Loading Delightful Events</div>
+    </div>
+    
+    <!-- Main Content -->
+    <div class="glass-container">
+        <div class="glass-panel panel-1"></div>
+        <div class="glass-panel panel-2"></div>
+        <div class="glass-panel panel-3"></div>
+    </div>
+    
+    <div class="content" id="content">
+        <div class="header">
+            <h1>Delightful Events</h1>
+            <div class="luma-star">luma*</div>
+        </div>
+        
+        <div class="main-content">
+            <div class="logo">
+                <div class="logo-inner">DE</div>
+            </div>
+            
+            <h2>Start Here</h2>
+            <p class="subtitle">Create and manage your events with ease and delight</p>
+            
+            <button class="start-button" id="startButton">Get Started</button>
+        </div>
+    </div>
+
+    <script>
+        // Wait for everything to load
+        window.addEventListener('load', function() {
+            // Show loading animation for 3 seconds
+            setTimeout(function() {
+                document.getElementById('loader').classList.add('hidden');
+                
+                // Show main content
+                document.getElementById('content').classList.add('visible');
+                
+                // Show glass panels
+                const panels = document.querySelectorAll('.glass-panel');
+                panels.forEach((panel, index) => {
+                    setTimeout(() => {
+                        panel.style.opacity = '1';
+                    }, index * 200);
+                });
+                
+                // Add floating animation to glass panels
+                panels.forEach((panel, index) => {
+                    // Random initial position offsets
+                    const xOffset = (Math.random() - 0.5) * 20;
+                    const yOffset = (Math.random() - 0.5) * 20;
+                    
+                    // Animate
+                    let angle = 0;
+                    setInterval(() => {
+                        angle += 0.5;
+                        const moveX = Math.sin(angle * Math.PI / 180) * 5 + xOffset;
+                        const moveY = Math.cos(angle * Math.PI / 180) * 5 + yOffset;
+                        
+                        panel.style.transform = `rotate(${index % 2 ? angle : -angle}deg) translate(${moveX}px, ${moveY}px)`;
+                    }, 50);
+                });
+            }, 3000);
+        });
+        
+        // Button interaction
+        document.getElementById('startButton').addEventListener('click', function(e) {
+            // Add ripple effect
+            const ripple = document.createElement('span');
+            ripple.classList.add('ripple');
+            this.appendChild(ripple);
+            
+            // Get click position
+            const rect = this.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            
+            // Position ripple
+            ripple.style.left = `${x}px`;
+            ripple.style.top = `${y}px`;
+            
+            // Remove ripple after animation
+            setTimeout(() => {
+                ripple.remove();
+            }, 600);
+            
+            // In a real app, you would navigate to the next screen here
+            setTimeout(() => {
+                alert('Welcome to Delightful Events!');
+            }, 300);
+        });
+    </script>
+</body>
+</html>
