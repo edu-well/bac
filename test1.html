@@ -4,109 +4,95 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Espace Étudiant - Recherche</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style> 
+    <style>
         :root {
-            --primary: #0071e3;
-            --primary-hover: #0077ed;
-            --secondary: #2997ff;
-            --light: #f5f5f7;
-            --dark: #1d1d1f;
-            --gray: #86868b;
+            --primary: #4361ee;
+            --secondary: #3a0ca3;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --gray: #6c757d;
             --white: #ffffff;
             --card-bg: #ffffff;
-            --background: #fbfbfd; 
-            --border: #d2d2d7;
-            --shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
         }
         
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            -webkit-font-smoothing: antialiased;
         }
         
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'SF Pro Display', sans-serif;
-            background-color: var(--background);
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background-color: #f0f2f5;
             color: var(--dark);
-            line-height: 1.5;
-            padding: 0;
+            line-height: 1.6;
+            padding: 20px;
         }
         
         .container {
             max-width: 1200px;
             margin: 0 auto;
-            padding: 2rem 2.5rem;
+            background-color: var(--white);
+            padding: 2.5rem;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
         }
         
         header {
-            margin-bottom: 2.5rem;
+            margin-bottom: 2rem;
             text-align: center;
-            padding-top: 1rem;
         }
         
         h1 {
-            color: var(--dark);
-            font-size: 2.8rem;
-            font-weight: 600;
+            color: var(--primary);
+            font-size: 2.2rem;
+            font-weight: 700;
             margin-bottom: 0.5rem;
-            letter-spacing: -0.5px;
         }
         
         h2 {
             color: var(--gray);
-            font-size: 1.4rem;
+            font-size: 1.1rem;
             font-weight: 400;
         }
         
         .search-container {
             position: relative;
-            margin: 2.5rem auto;
-            max-width: 800px;
+            margin: 2rem auto;
+            max-width: 700px;
         }
         
         #searchInput {
             width: 100%;
-            padding: 1.2rem 2rem 1.2rem 4rem;
-            font-size: 1.1rem;
-            border: 1px solid var(--border);
+            padding: 1.1rem 1.8rem;
+            font-size: 1rem;
+            border: none;
             border-radius: 12px;
             outline: none;
             transition: all 0.3s ease;
-            background-color: var(--white);
-            box-shadow: var(--shadow);
-            font-family: -apple-system, BlinkMacSystemFont, sans-serif;
-            color: var(--dark);
+            background-color: var(--light);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%2394a3b8' viewBox='0 0 16 16'%3E%3Cpath d='M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: 1.5rem center;
+            background-size: 1.2rem;
+            padding-left: 3.5rem;
         }
         
         #searchInput:focus {
-            border-color: var(--primary);
-            box-shadow: 0 0 0 4px rgba(0, 125, 227, 0.1);
+            box-shadow: 0 5px 15px rgba(67, 97, 238, 0.15);
         }
         
         #searchInput::placeholder {
-            color: var(--gray);
-            opacity: 0.8;
-        }
-        
-        .search-icon {
-            position: absolute;
-            left: 1.5rem;
-            top: 50%;
-            transform: translateY(-50%);
-            color: var(--gray);
-            font-size: 1.2rem;
+            color: #94a3b8;
         }
         
         .explainer {
             color: var(--gray);
-            font-size: 1.1rem;
-            margin: 1.5rem auto 3rem;
+            font-size: 0.95rem;
+            margin: 1rem auto 2rem;
             text-align: center;
-            max-width: 700px;
-            line-height: 1.6;
+            max-width: 600px;
         }
         
         #resultsContainer {
@@ -114,40 +100,20 @@
             display: none;
         }
         
-        .results-section {
-            display: flex;
-            gap: 2rem;
-            margin-bottom: 3rem;
-        }
-        
-        .results-column {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
+        .results-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
             gap: 1.8rem;
-        }
-        
-        .section-title {
-            font-size: 1.4rem;
-            font-weight: 600;
-            color: var(--dark);
-            margin-bottom: 1.2rem;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-        
-        .section-title i {
-            color: var(--primary);
+            padding-bottom: 1rem;
         }
         
         .result-card {
             background: var(--card-bg);
             border-radius: 14px;
             overflow: hidden;
-            box-shadow: var(--shadow);
+            box-shadow: 0 6px 18px rgba(0,0,0,0.06);
             transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-            border: 1px solid var(--border);
+            border: 1px solid rgba(0,0,0,0.04);
             display: flex;
             flex-direction: column;
             height: 100%;
@@ -155,8 +121,8 @@
         
         .result-card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
-            border-color: rgba(0, 113, 227, 0.3);
+            box-shadow: 0 12px 24px rgba(0,0,0,0.1);
+            border-color: rgba(67, 97, 238, 0.2);
         }
         
         .card-content {
@@ -168,55 +134,34 @@
         
         .card-content h3 {
             color: var(--dark);
-            font-size: 1.3rem;
-            margin-bottom: 0.8rem;
+            font-size: 1.2rem;
+            margin-bottom: 0.6rem;
             font-weight: 600;
             line-height: 1.4;
         }
         
         .card-content .author {
             color: var(--gray);
-            font-size: 0.95rem;
-            margin-bottom: 1.2rem;
+            font-size: 0.85rem;
+            margin-bottom: 1rem;
             font-weight: 500;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-        
-        .card-content .author i {
-            font-size: 0.9rem;
         }
         
         .card-content .description {
             color: var(--dark);
-            font-size: 1rem;
+            font-size: 0.92rem;
             margin-bottom: 1.5rem;
-            line-height: 1.6;
+            line-height: 1.5;
             opacity: 0.9;
             flex-grow: 1;
         }
         
-        .card-footer {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+        .card-actions {
             padding: 0 1.8rem 1.8rem;
         }
         
-        .file-info {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            color: var(--gray);
-            font-size: 0.85rem;
-        }
-        
         .open-btn {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0.5rem;
+            display: inline-block;
             background-color: var(--primary);
             color: white;
             padding: 0.7rem 1.4rem;
@@ -227,12 +172,15 @@
             transition: all 0.3s ease;
             border: none;
             cursor: pointer;
+            width: 100%;
             text-align: center;
+            box-shadow: 0 2px 8px rgba(67, 97, 238, 0.2);
         }
         
         .open-btn:hover {
-            background-color: var(--primary-hover);
+            background-color: var(--secondary);
             transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(67, 97, 238, 0.3);
         }
         
         .no-results {
@@ -240,174 +188,102 @@
             padding: 3rem;
             color: var(--gray);
             font-style: italic;
+            grid-column: 1 / -1;
             font-size: 1.1rem;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 1rem;
         }
         
-        .no-results i {
-            font-size: 2rem;
-            color: var(--gray);
-            opacity: 0.7;
-        }
-        
-        /* Popup9 - Apple Style Modal */
-        .popup9 {
+        /* PDF Preview Modal */
+        .modal {
             display: none;
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(0, 0, 0, 0.5);
-            backdrop-filter: blur(10px);
+            background-color: rgba(0,0,0,0.9);
             z-index: 1000;
             justify-content: center;
             align-items: center;
             opacity: 0;
-            transition: opacity 0.3s ease, backdrop-filter 0.3s ease;
+            transition: opacity 0.3s ease;
         }
         
-        .popup9.show {
+        .modal.show {
             opacity: 1;
         }
         
-        .popup9-content {
+        .modal-content {
             background-color: var(--white);
-            border-radius: 18px;
-            width: 85%;
-            max-width: 900px;
-            max-height: 85vh;
+            border-radius: 14px;
+            width: 90%;
+            max-width: 1000px;
+            max-height: 90vh;
             overflow: hidden;
             display: flex;
             flex-direction: column;
             transform: scale(0.95);
-            transition: transform 0.4s cubic-bezier(0.18, 0.89, 0.32, 1.28);
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: transform 0.3s cubic-bezier(0.18, 0.89, 0.32, 1.28);
         }
         
-        .popup9.show .popup9-content {
+        .modal.show .modal-content {
             transform: scale(1);
         }
         
-        .popup9-header {
-            padding: 1.4rem 1.8rem;
-            background-color: var(--white);
-            color: var(--dark);
+        .modal-header {
+            padding: 1.2rem 1.8rem;
+            background-color: var(--primary);
+            color: white;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            border-bottom: 1px solid var(--border);
         }
         
-        .popup9-title {
+        .modal-title {
             font-weight: 600;
-            font-size: 1.4rem;
-            display: flex;
-            align-items: center;
-            gap: 0.8rem;
-        }
-        
-        .popup9-title i {
-            color: var(--primary);
+            font-size: 1.3rem;
         }
         
         .close-btn {
             background: none;
             border: none;
-            color: var(--gray);
-            font-size: 1.5rem;
+            color: white;
+            font-size: 1.8rem;
             cursor: pointer;
-            padding: 0.5rem;
-            border-radius: 50%;
-            width: 36px;
-            height: 36px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.2s ease;
+            padding: 0 0.5rem;
+            opacity: 0.8;
+            transition: opacity 0.2s ease;
         }
         
         .close-btn:hover {
-            background-color: rgba(0, 0, 0, 0.05);
-            color: var(--dark);
+            opacity: 1;
         }
         
         .pdf-preview {
             width: 100%;
-            height: calc(85vh - 70px);
+            height: calc(90vh - 68px);
             border: none;
-        }
-        
-        .popup9-footer {
-            padding: 1rem 1.8rem;
-            background-color: var(--light);
-            display: flex;
-            justify-content: flex-end;
-            border-top: 1px solid var(--border);
-        }
-        
-        .popup9-btn {
-            padding: 0.6rem 1.2rem;
-            border-radius: 8px;
-            font-weight: 500;
-            font-size: 0.95rem;
-            cursor: pointer;
-            transition: all 0.2s ease;
-        }
-        
-        .popup9-btn-primary {
-            background-color: var(--primary);
-            color: white;
-            border: none;
-        }
-        
-        .popup9-btn-primary:hover {
-            background-color: var(--primary-hover);
         }
         
         @media (max-width: 768px) {
             .container {
-                padding: 1.5rem;
+                padding: 1.8rem 1.2rem;
             }
             
-            h1 {
-                font-size: 2.2rem;
-            }
-            
-            h2 {
-                font-size: 1.1rem;
-            }
-            
-            .results-section {
-                flex-direction: column;
-                gap: 1.5rem;
+            .results-grid {
+                grid-template-columns: 1fr;
+                gap: 1.2rem;
             }
             
             #searchInput {
-                padding: 1rem 1.5rem 1rem 3.5rem;
-                font-size: 1rem;
+                padding: 1rem 1.5rem 1rem 3rem;
             }
             
-            .search-icon {
-                left: 1.2rem;
+            .card-content {
+                padding: 1.4rem;
             }
             
-            .explainer {
-                font-size: 1rem;
-                margin: 1rem auto 2rem;
-            }
-            
-            .popup9-content {
-                width: 95%;
-                max-height: 90vh;
-            }
-            
-            .pdf-preview {
-                height: calc(90vh - 70px);
+            .card-actions {
+                padding: 0 1.4rem 1.4rem;
             }
         }
     </style>
@@ -420,162 +296,105 @@
         </header>
         
         <div class="search-container">
-            <i class="fas fa-search search-icon"></i>
-            <input type="text" id="searchInput" placeholder="Rechercher des documents, cours ou auteurs...">
+            <input type="text" id="searchInput" placeholder="Rechercher par nom de fichier ou description...">
         </div>
         
-        <p class="explainer">Trouvez rapidement les documents dont vous avez besoin parmi notre collection de ressources académiques organisées.</p>
+        <p class="explainer">Trouvez rapidement les documents dont vous avez besoin grâce à notre moteur de recherche intelligent</p>
         
         <div id="resultsContainer">
-            <div class="results-section">
-                <div class="results-column">
-                    <h3 class="section-title"><i class="fas fa-book-open"></i> Cours Complets</h3>
-                    <div id="courseResults">
-                        <!-- Course results will appear here -->
-                    </div>
-                </div>
-                <div class="results-column">
-                    <h3 class="section-title"><i class="fas fa-file-alt"></i> Résumés & Notes</h3>
-                    <div id="summaryResults">
-                        <!-- Summary results will appear here -->
-                    </div>
-                </div>
+            <div class="results-grid" id="resultsGrid">
+                <!-- Results will appear here as cards -->
             </div>
         </div>
     </div>
 
-    <!-- Popup9 - Apple Style Modal -->
-    <div class="popup9" id="popup9">
-        <div class="popup9-content">
-            <div class="popup9-header">
-                <span class="popup9-title"><i class="fas fa-file-pdf"></i> <span id="popup9Title">Document PDF</span></span>
-                <button class="close-btn" id="closePopup9">&times;</button>
+    <!-- PDF Preview Modal -->
+    <div class="modal" id="pdfModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <span class="modal-title" id="modalTitle">Document PDF</span>
+                <button class="close-btn" id="closeModal">&times;</button>
             </div>
             <iframe class="pdf-preview" id="pdfPreview" frameborder="0"></iframe>
-            <div class="popup9-footer">
-                <button class="popup9-btn popup9-btn-primary" id="downloadBtn">
-                    <i class="fas fa-download"></i> Télécharger
-                </button>
-            </div>
         </div>
     </div>
 
     <script>
-        // Enhanced database of PDF files with categories
+        // Sample database of PDF files
         const pdfDatabase = [
             { 
                 name: "Mathématiques Avancées", 
                 author: "Ahmed Benali",
                 description: "Cours complet avec exercices corrigés sur les concepts avancés en mathématiques pour les étudiants de niveau universitaire.",
                 url: "https://example.com/pdfs/ahmed_math.pdf", 
-                keywords: ["ahmed", "math", "algèbre"],
-                category: "course",
-                date: "15/03/2023",
-                size: "4.2 MB"
+                keywords: ["ahmed", "math", "algèbre"] 
             },
             { 
                 name: "Physique Quantique", 
                 author: "Ahmed Benali",
                 description: "Introduction approfondie à la mécanique quantique avec exemples pratiques et problèmes résolus.",
                 url: "https://example.com/pdfs/ahmed_physique.pdf", 
-                keywords: ["ahmed", "physique", "quantique"],
-                category: "course",
-                date: "22/04/2023",
-                size: "3.8 MB"
+                keywords: ["ahmed", "physique", "quantique"] 
             },
             { 
-                name: "Résumé Algèbre Linéaire", 
+                name: "Algèbre Linéaire", 
                 author: "Sophie Martin",
-                description: "Notes condensées sur les matrices, espaces vectoriels et applications linéaires pour révisions rapides.",
-                url: "https://example.com/pdfs/algebre_lineaire_summary.pdf", 
-                keywords: ["math", "algèbre", "linéaire", "résumé"],
-                category: "summary",
-                date: "10/02/2023",
-                size: "1.2 MB"
+                description: "Matrices, espaces vectoriels et applications linéaires avec une collection complète de problèmes résolus.",
+                url: "https://example.com/pdfs/algebre_lineaire.pdf", 
+                keywords: ["math", "algèbre", "linéaire"] 
             },
             { 
                 name: "Calcul Différentiel", 
                 author: "Jean Dupont",
                 description: "Dérivées, différentielles et optimisation pour étudiants en sciences avec applications pratiques.",
                 url: "https://example.com/pdfs/calcul_diff.pdf", 
-                keywords: ["math", "calcul", "différentiel"],
-                category: "course",
-                date: "05/01/2023",
-                size: "2.9 MB"
+                keywords: ["math", "calcul", "différentiel"] 
             },
             { 
-                name: "Fiches Histoire Moderne", 
+                name: "Histoire Moderne", 
                 author: "Marc Bloch",
-                description: "Fiches de révision synthétiques couvrant la période moderne de la Renaissance à aujourd'hui.",
-                url: "https://example.com/pdfs/histoire_moderne_fiches.pdf", 
-                keywords: ["histoire", "moderne", "renaissance", "fiches"],
-                category: "summary",
-                date: "18/03/2023",
-                size: "0.9 MB"
+                description: "Analyse complète de la période moderne de la Renaissance à aujourd'hui avec focus sur l'Europe.",
+                url: "https://example.com/pdfs/histoire_moderne.pdf", 
+                keywords: ["histoire", "moderne", "renaissance"] 
             },
             { 
                 name: "Chimie Organique", 
                 author: "Marie Curie",
                 description: "Principes fondamentaux de la chimie organique avec exemples et expériences pratiques.",
                 url: "https://example.com/pdfs/chimie_organique.pdf", 
-                keywords: ["chimie", "organique", "science"],
-                category: "course",
-                date: "30/11/2022",
-                size: "5.1 MB"
+                keywords: ["chimie", "organique", "science"] 
             },
             { 
-                name: "Notes Biologie Cellulaire", 
+                name: "Biologie Cellulaire", 
                 author: "Louis Pasteur",
-                description: "Notes personnelles annotées sur les structures et fonctions des cellules avec schémas.",
-                url: "https://example.com/pdfs/biologie_cellulaire_notes.pdf", 
-                keywords: ["biologie", "cellule", "science", "notes"],
-                category: "summary",
-                date: "12/05/2023",
-                size: "1.5 MB"
+                description: "Étude approfondie des structures et fonctions des cellules avec illustrations détaillées.",
+                url: "https://example.com/pdfs/biologie_cellulaire.pdf", 
+                keywords: ["biologie", "cellule", "science"] 
             },
             { 
                 name: "Philosophie Contemporaine", 
                 author: "Simone de Beauvoir",
                 description: "Analyse des courants philosophiques modernes et leur impact sur la société actuelle.",
                 url: "https://example.com/pdfs/philosophie.pdf", 
-                keywords: ["philosophie", "contemporain", "société"],
-                category: "course",
-                date: "08/02/2023",
-                size: "3.5 MB"
-            },
-            { 
-                name: "Résumé Théorèmes Math", 
-                author: "Sophie Martin",
-                description: "Collection des principaux théorèmes mathématiques avec preuves concises et exemples.",
-                url: "https://example.com/pdfs/theoremes_math_summary.pdf", 
-                keywords: ["math", "théorèmes", "résumé"],
-                category: "summary",
-                date: "25/04/2023",
-                size: "0.8 MB"
+                keywords: ["philosophie", "contemporain", "société"] 
             }
         ];
 
         // DOM Elements
         const searchInput = document.getElementById('searchInput');
         const resultsContainer = document.getElementById('resultsContainer');
-        const courseResults = document.getElementById('courseResults');
-        const summaryResults = document.getElementById('summaryResults');
-        const popup9 = document.getElementById('popup9');
+        const resultsGrid = document.getElementById('resultsGrid');
+        const pdfModal = document.getElementById('pdfModal');
         const pdfPreview = document.getElementById('pdfPreview');
-        const popup9Title = document.getElementById('popup9Title');
-        const closePopup9 = document.getElementById('closePopup9');
-        const downloadBtn = document.getElementById('downloadBtn');
+        const modalTitle = document.getElementById('modalTitle');
+        const closeModal = document.getElementById('closeModal');
 
-        // Current PDF for download
-        let currentPdfUrl = '';
-        
         // Search functionality
         searchInput.addEventListener('input', function() {
             const searchTerm = this.value.trim().toLowerCase();
             
             // Clear previous results
-            courseResults.innerHTML = '';
-            summaryResults.innerHTML = '';
+            resultsGrid.innerHTML = '';
             
             if (searchTerm === '') {
                 resultsContainer.style.display = 'none';
@@ -584,27 +403,86 @@
             
             // Filter matching results
             const matchingResults = pdfDatabase.filter(item => {
-                // Check if search term matches in name, description or author
+                // Check if search term matches in name or description
                 const nameMatch = item.name.toLowerCase().includes(searchTerm);
                 const descMatch = item.description.toLowerCase().includes(searchTerm);
-                const authorMatch = item.author.toLowerCase().includes(searchTerm);
                 
-                return nameMatch || descMatch || authorMatch;
+                return nameMatch || descMatch;
             });
             
             // Display results
             if (matchingResults.length > 0) {
                 resultsContainer.style.display = 'block';
+                matchingResults.forEach(item => {
+                    const card = document.createElement('div');
+                    card.className = 'result-card';
+                    card.innerHTML = `
+                        <div class="card-content">
+                            <h3>${item.name}</h3>
+                            <p class="author">${item.author}</p>
+                            <p class="description">${item.description}</p>
+                        </div>
+                        <div class="card-actions">
+                            <button class="open-btn" data-url="${item.url}" data-title="${item.name}">Ouvrir le document</button>
+                        </div>
+                    `;
+                    resultsGrid.appendChild(card);
+                });
                 
-                // Separate results by category
-                const courses = matchingResults.filter(item => item.category === 'course');
-                const summaries = matchingResults.filter(item => item.category === 'summary');
-                
-                // Display courses
-                if (courses.length > 0) {
-                    courses.forEach(item => {
-                        courseResults.appendChild(createCard(item));
+                // Add event listeners to all open buttons
+                document.querySelectorAll('.open-btn').forEach(btn => {
+                    btn.addEventListener('click', function() {
+                        const pdfUrl = this.getAttribute('data-url');
+                        const pdfTitle = this.getAttribute('data-title');
+                        openPdfModal(pdfUrl, pdfTitle);
                     });
-                } else {
-                    courseResults.innerHTML = '<div class="no-results"><i class="fas fa-book-open"></i><p>Aucun cours trouvé</p></div>';
-              
+                });
+            } else {
+                resultsContainer.style.display = 'block';
+                resultsGrid.innerHTML = '<div class="no-results">Aucun document trouvé pour "' + searchTerm + '"</div>';
+            }
+        });
+        
+        // PDF Modal functions
+        function openPdfModal(url, title) {
+            modalTitle.textContent = title;
+            pdfPreview.src = url;
+            
+            // Show modal with animation
+            pdfModal.style.display = 'flex';
+            setTimeout(() => {
+                pdfModal.classList.add('show');
+            }, 10);
+            
+            document.body.style.overflow = 'hidden';
+        }
+        
+        function closePdfModal() {
+            pdfModal.classList.remove('show');
+            setTimeout(() => {
+                pdfModal.style.display = 'none';
+                pdfPreview.src = '';
+            }, 300);
+            document.body.style.overflow = 'auto';
+        }
+        
+        // Close modal when clicking X or outside
+        closeModal.addEventListener('click', closePdfModal);
+        pdfModal.addEventListener('click', function(e) {
+            if (e.target === pdfModal) {
+                closePdfModal();
+            }
+        });
+        
+        // Close modal with ESC key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closePdfModal();
+            }
+        });
+        
+        // Focus search input on page load
+        searchInput.focus();
+    </script>
+</body>
+</html>
