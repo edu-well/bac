@@ -100,14 +100,30 @@
             display: none;
         }
         
-        .results-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        .results-scroller {
+            display: flex;
+            overflow-x: auto;
             gap: 1.8rem;
             padding-bottom: 1rem;
+            scrollbar-width: thin;
+            scrollbar-color: var(--primary) transparent;
+        }
+        
+        .results-scroller::-webkit-scrollbar {
+            height: 6px;
+        }
+        
+        .results-scroller::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        
+        .results-scroller::-webkit-scrollbar-thumb {
+            background-color: var(--primary);
+            border-radius: 3px;
         }
         
         .result-card {
+            min-width: 300px;
             background: var(--card-bg);
             border-radius: 14px;
             overflow: hidden;
@@ -116,7 +132,7 @@
             border: 1px solid rgba(0,0,0,0.04);
             display: flex;
             flex-direction: column;
-            height: 100%;
+            flex-shrink: 0;
         }
         
         .result-card:hover {
@@ -188,7 +204,7 @@
             padding: 3rem;
             color: var(--gray);
             font-style: italic;
-            grid-column: 1 / -1;
+            width: 100%;
             font-size: 1.1rem;
         }
         
@@ -269,9 +285,8 @@
                 padding: 1.8rem 1.2rem;
             }
             
-            .results-grid {
-                grid-template-columns: 1fr;
-                gap: 1.2rem;
+            .result-card {
+                min-width: 260px;
             }
             
             #searchInput {
@@ -302,7 +317,7 @@
         <p class="explainer">Trouvez rapidement les documents dont vous avez besoin grâce à notre moteur de recherche intelligent</p>
         
         <div id="resultsContainer">
-            <div class="results-grid" id="resultsGrid">
+            <div class="results-scroller" id="resultsScroller">
                 <!-- Results will appear here as cards -->
             </div>
         </div>
@@ -363,27 +378,13 @@
                 description: "Principes fondamentaux de la chimie organique avec exemples et expériences pratiques.",
                 url: "https://example.com/pdfs/chimie_organique.pdf", 
                 keywords: ["chimie", "organique", "science"] 
-            },
-            { 
-                name: "Biologie Cellulaire", 
-                author: "Louis Pasteur",
-                description: "Étude approfondie des structures et fonctions des cellules avec illustrations détaillées.",
-                url: "https://example.com/pdfs/biologie_cellulaire.pdf", 
-                keywords: ["biologie", "cellule", "science"] 
-            },
-            { 
-                name: "Philosophie Contemporaine", 
-                author: "Simone de Beauvoir",
-                description: "Analyse des courants philosophiques modernes et leur impact sur la société actuelle.",
-                url: "https://example.com/pdfs/philosophie.pdf", 
-                keywords: ["philosophie", "contemporain", "société"] 
             }
         ];
 
         // DOM Elements
         const searchInput = document.getElementById('searchInput');
         const resultsContainer = document.getElementById('resultsContainer');
-        const resultsGrid = document.getElementById('resultsGrid');
+        const resultsScroller = document.getElementById('resultsScroller');
         const pdfModal = document.getElementById('pdfModal');
         const pdfPreview = document.getElementById('pdfPreview');
         const modalTitle = document.getElementById('modalTitle');
@@ -394,7 +395,7 @@
             const searchTerm = this.value.trim().toLowerCase();
             
             // Clear previous results
-            resultsGrid.innerHTML = '';
+            resultsScroller.innerHTML = '';
             
             if (searchTerm === '') {
                 resultsContainer.style.display = 'none';
@@ -426,7 +427,7 @@
                             <button class="open-btn" data-url="${item.url}" data-title="${item.name}">Ouvrir le document</button>
                         </div>
                     `;
-                    resultsGrid.appendChild(card);
+                    resultsScroller.appendChild(card);
                 });
                 
                 // Add event listeners to all open buttons
@@ -439,7 +440,7 @@
                 });
             } else {
                 resultsContainer.style.display = 'block';
-                resultsGrid.innerHTML = '<div class="no-results">Aucun document trouvé pour "' + searchTerm + '"</div>';
+                resultsScroller.innerHTML = '<div class="no-results">Aucun document trouvé pour "' + searchTerm + '"</div>';
             }
         });
         
