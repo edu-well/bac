@@ -3,13 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Eduwell M-1</title>
+    <title>Delightful Events</title>
     <style>
-        /* Apple-style San Francisco font */
+        /* Apple San Francisco fonts */
         @font-face {
             font-family: 'SF Pro Display';
             src: url('https://sf.abarba.me/SF-Pro-Display-Regular.otf') format('opentype');
             font-weight: 400;
+            font-style: normal;
+        }
+        
+        @font-face {
+            font-family: 'SF Pro Display';
+            src: url('https://sf.abarba.me/SF-Pro-Display-Medium.otf') format('opentype');
+            font-weight: 500;
             font-style: normal;
         }
         
@@ -28,21 +35,10 @@
         }
         
         body {
-            background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
-            background-size: 400% 400%;
-            animation: gradient 15s ease infinite;
+            background-color: #f5f5f7;
             color: #1d1d1f;
             height: 100vh;
-            display: flex;
-            flex-direction: column;
-            padding: 20px;
             overflow: hidden;
-        }
-        
-        @keyframes gradient {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
         }
         
         /* Loading Animation */
@@ -52,14 +48,14 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.9);
+            background: #f5f5f7;
             display: flex;
             justify-content: center;
             align-items: center;
             flex-direction: column;
             z-index: 1000;
             opacity: 1;
-            transition: opacity 0.8s cubic-bezier(0.645, 0.045, 0.355, 1);
+            transition: opacity 0.6s cubic-bezier(0.645, 0.045, 0.355, 1);
         }
         
         .loader.hidden {
@@ -68,167 +64,76 @@
         }
         
         .loader-logo {
-            width: 100px;
-            height: 100px;
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            background: rgba(255, 255, 255, 0.15);
-            border-radius: 24px;
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #0071e3, #2997ff);
+            border-radius: 22px;
             display: flex;
             justify-content: center;
             align-items: center;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
-            border: 1px solid rgba(255, 255, 255, 0.15);
             margin-bottom: 24px;
-            animation: pulse 2s infinite ease-in-out, float 6s infinite ease-in-out;
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .loader-logo::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: conic-gradient(
-                #ff9a9e,
-                #fad0c4,
-                #fbc2eb,
-                #a6c1ee,
-                #84fab0,
-                #8fd3f4,
-                #ff9a9e
-            );
-            animation: rotate 4s linear infinite;
-            z-index: -1;
+            animation: pulse 2s infinite ease-in-out;
+            box-shadow: 0 4px 20px rgba(0, 113, 227, 0.2);
         }
         
         .loader-logo-inner {
-            width: 90px;
-            height: 90px;
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            background: rgba(0, 0, 0, 0.6);
-            border-radius: 18px;
+            width: 70px;
+            height: 70px;
+            background-color: white;
+            border-radius: 16px;
             display: flex;
             justify-content: center;
             align-items: center;
-            font-size: 28px;
+            font-size: 24px;
             font-weight: 600;
-            color: white;
-            border: 1px solid rgba(255, 255, 255, 0.15);
+            color: #0071e3;
         }
         
         @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-            100% { transform: scale(1); }
-        }
-        
-        @keyframes float {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-15px); }
-        }
-        
-        @keyframes rotate {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
+            0% { transform: scale(1); opacity: 0.8; }
+            50% { transform: scale(1.05); opacity: 1; }
+            100% { transform: scale(1); opacity: 0.8; }
         }
         
         .loader-text {
-            color: white;
-            font-size: 18px;
-            margin-top: 24px;
-            opacity: 0.8;
-            animation: fadeInOut 2.5s infinite ease-in-out;
-            letter-spacing: 0.5px;
+            color: #86868b;
+            font-size: 17px;
+            margin-top: 20px;
+            font-weight: 500;
+            letter-spacing: -0.3px;
         }
         
-        @keyframes fadeInOut {
-            0%, 100% { opacity: 0.6; }
-            50% { opacity: 1; }
-        }
-        
-        .progress-bar {
+        .progress-container {
             width: 200px;
             height: 4px;
-            background: rgba(255, 255, 255, 0.2);
+            background: rgba(0, 113, 227, 0.1);
             border-radius: 2px;
-            margin-top: 20px;
+            margin-top: 24px;
             overflow: hidden;
         }
         
-        .progress {
+        .progress-bar {
             height: 100%;
             width: 0%;
-            background: linear-gradient(90deg, #ff9a9e, #fad0c4, #a6c1ee);
+            background: #0071e3;
             border-radius: 2px;
             transition: width 0.3s ease;
         }
         
         /* Main Content */
-        .glass-container {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            overflow: hidden;
-            z-index: 0;
-        }
-        
-        .glass-panel {
-            position: absolute;
-            backdrop-filter: blur(80px);
-            -webkit-backdrop-filter: blur(80px);
-            background: rgba(255, 255, 255, 0.15);
-            border-radius: 50px;
-            border: 1px solid rgba(255, 255, 255, 0.18);
-            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
-            opacity: 0;
-            transition: opacity 1.2s cubic-bezier(0.215, 0.61, 0.355, 1);
-        }
-        
-        .content {
-            position: relative;
-            z-index: 1;
+        .container {
             height: 100%;
             display: flex;
             flex-direction: column;
+            padding: 20px;
             opacity: 0;
             transform: translateY(20px);
-            transition: all 1s cubic-bezier(0.215, 0.61, 0.355, 1);
+            transition: all 0.8s cubic-bezier(0.215, 0.61, 0.355, 1);
         }
         
-        .content.visible {
+        .container.visible {
             opacity: 1;
             transform: translateY(0);
-        }
-        
-        .panel-1 {
-            width: 220px;
-            height: 220px;
-            top: -60px;
-            left: -60px;
-            transform: rotate(30deg);
-        }
-        
-        .panel-2 {
-            width: 320px;
-            height: 320px;
-            bottom: -120px;
-            right: -120px;
-            transform: rotate(-15deg);
-        }
-        
-        .panel-3 {
-            width: 180px;
-            height: 180px;
-            top: 40%;
-            right: -40px;
-            transform: rotate(10deg);
         }
         
         .header {
@@ -237,24 +142,19 @@
         }
         
         .header h1 {
-            font-size: 36px;
+            font-size: 32px;
             font-weight: 600;
-            margin-bottom: 12px;
-            color: white;
-            text-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            color: #1d1d1f;
             letter-spacing: -0.5px;
         }
         
         .header .luma-star {
-            font-size: 26px;
             position: absolute;
             top: 0;
             right: 0;
-            color: white;
-            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-            opacity: 0;
-            transform: translateY(10px);
-            animation: textAppear 0.8s cubic-bezier(0.215, 0.61, 0.355, 1) forwards 1.4s;
+            font-size: 17px;
+            color: #86868b;
+            font-weight: 500;
         }
         
         .main-content {
@@ -267,153 +167,69 @@
         }
         
         .logo {
-            width: 140px;
-            height: 140px;
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            background: rgba(255, 255, 255, 0.15);
+            width: 120px;
+            height: 120px;
+            background: linear-gradient(135deg, #0071e3, #34aadc);
             border-radius: 28px;
-            margin-bottom: 36px;
+            margin-bottom: 40px;
             display: flex;
             justify-content: center;
             align-items: center;
-            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.2);
-            border: 1px solid rgba(255, 255, 255, 0.18);
-            transform: scale(0.8);
-            opacity: 0;
-            animation: logoAppear 1s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards 0.8s;
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .logo::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: conic-gradient(
-                #ff9a9e,
-                #fad0c4,
-                #fbc2eb,
-                #a6c1ee,
-                #84fab0,
-                #8fd3f4,
-                #ff9a9e
-            );
-            animation: rotate 8s linear infinite;
-            z-index: -1;
-        }
-        
-        @keyframes logoAppear {
-            to {
-                transform: scale(1) rotate(5deg);
-                opacity: 1;
-            }
+            box-shadow: 0 8px 24px rgba(0, 113, 227, 0.2);
         }
         
         .logo-inner {
-            width: 120px;
-            height: 120px;
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            background: rgba(0, 0, 0, 0.5);
-            border-radius: 22px;
+            width: 100px;
+            height: 100px;
+            background-color: white;
+            border-radius: 20px;
             display: flex;
             justify-content: center;
             align-items: center;
             font-size: 32px;
             font-weight: 600;
-            color: white;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            animation: float 6s infinite ease-in-out;
+            color: #0071e3;
+            box-shadow: 0 2px 10px rgba(0, 113, 227, 0.1);
         }
         
         h2 {
-            font-size: 32px;
+            font-size: 28px;
             font-weight: 600;
             margin-bottom: 16px;
-            color: white;
-            text-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            opacity: 0;
-            transform: translateY(20px);
-            animation: textAppear 1s cubic-bezier(0.215, 0.61, 0.355, 1) forwards 1s;
-            letter-spacing: -0.5px;
+            color: #1d1d1f;
         }
         
         .subtitle {
             font-size: 17px;
-            color: rgba(255, 255, 255, 0.9);
-            margin-bottom: 48px;
+            color: #86868b;
+            margin-bottom: 40px;
             max-width: 300px;
-            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            opacity: 0;
-            transform: translateY(20px);
-            animation: textAppear 1s cubic-bezier(0.215, 0.61, 0.355, 1) forwards 1.2s;
             line-height: 1.5;
-        }
-        
-        @keyframes textAppear {
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+            font-weight: 400;
         }
         
         .start-button {
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            background: rgba(255, 255, 255, 0.25);
+            background-color: #0071e3;
             color: white;
-            border: 1px solid rgba(255, 255, 255, 0.3);
+            border: none;
             border-radius: 30px;
-            padding: 18px 36px;
-            font-size: 18px;
+            padding: 16px 32px;
+            font-size: 17px;
             font-weight: 500;
             cursor: pointer;
-            transition: all 0.4s cubic-bezier(0.215, 0.61, 0.355, 1);
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
-            opacity: 0;
-            transform: translateY(20px) scale(0.95);
-            animation: buttonAppear 1s cubic-bezier(0.215, 0.61, 0.355, 1) forwards 1.4s;
-            position: relative;
-            overflow: hidden;
-        }
-        
-        @keyframes buttonAppear {
-            to {
-                opacity: 1;
-                transform: translateY(0) scale(1);
-            }
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            box-shadow: 0 4px 20px rgba(0, 113, 227, 0.2);
         }
         
         .start-button:hover {
-            background: rgba(255, 255, 255, 0.35);
-            transform: translateY(-4px) scale(1.02);
-            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.25);
+            background-color: #0077ed;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 24px rgba(0, 113, 227, 0.3);
         }
         
         .start-button:active {
-            transform: translateY(0) scale(0.98);
-            background: rgba(255, 255, 255, 0.2);
-        }
-        
-        /* Ripple effect */
-        .ripple {
-            position: absolute;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.4);
-            transform: scale(0);
-            animation: ripple 0.6s linear;
-            pointer-events: none;
-        }
-        
-        @keyframes ripple {
-            to {
-                transform: scale(4);
-                opacity: 0;
-            }
+            transform: translateY(0);
+            background-color: #0065c9;
         }
     </style>
 </head>
@@ -421,116 +237,74 @@
     <!-- Loading Animation -->
     <div class="loader" id="loader">
         <div class="loader-logo">
-            <div class="loader-logo-inner">Eduwell</div>
+            <div class="loader-logo-inner">DE</div>
         </div>
-        <div class="loader-text"> Modèle-1</div>
-        <div class="progress-bar">
-            <div class="progress" id="progress"></div>
+        <div class="loader-text">Loading Delightful Events</div>
+        <div class="progress-container">
+            <div class="progress-bar" id="progressBar"></div>
         </div>
     </div>
     
     <!-- Main Content -->
-    <div class="glass-container">
-        <div class="glass-panel panel-1"></div>
-        <div class="glass-panel panel-2"></div>
-        <div class="glass-panel panel-3"></div>
-    </div>
-    
-    <div class="content" id="content">
+    <div class="container" id="mainContainer">
         <div class="header">
-            
-            <div class="luma-star"></div>
+            <h1>Delightful Events</h1>
+            <div class="luma-star">luma*</div>
         </div>
         
         <div class="main-content">
             <div class="logo">
-                <div class="logo-inner">Eduwell</div>
+                <div class="logo-inner">DE</div>
             </div>
             
-            <h2>Espace Étudiant</h2>
-            <p class="subtitle">Cours de qualité, ressources fiables et accompagnement vers l’excellence</p>
+            <h2>Start Here</h2>
+            <p class="subtitle">Create and manage your events with Apple-grade precision and elegance</p>
             
-            <a href="https://edu-well.github.io/bac/test1.html" class="start-button" id="startButton">Lancez-vous</a>
+            <a href="https://your-link-here.com" class="start-button" id="startButton">Get Started</a>
         </div>
     </div>
 
     <script>
         // Simulate loading progress
-        const progress = document.getElementById('progress');
-        let width = 0;
+        const progressBar = document.getElementById('progressBar');
+        let progress = 0;
         const progressInterval = setInterval(() => {
-            width += Math.random() * 10;
-            if (width >= 100) {
-                width = 100;
+            progress += Math.random() * 10;
+            if (progress >= 100) {
+                progress = 100;
                 clearInterval(progressInterval);
+                
+                // Hide loader and show main content
+                setTimeout(() => {
+                    document.getElementById('loader').classList.add('hidden');
+                    document.getElementById('mainContainer').classList.add('visible');
+                }, 300);
             }
-            progress.style.width = `${width}%`;
+            progressBar.style.width = `${progress}%`;
         }, 200);
         
-        // Wait for everything to load
-        window.addEventListener('load', function() {
-            // Show loading animation for 3-4 seconds
-            setTimeout(function() {
-                document.getElementById('loader').classList.add('hidden');
-                
-                // Show main content
-                document.getElementById('content').classList.add('visible');
-                
-                // Show glass panels
-                const panels = document.querySelectorAll('.glass-panel');
-                panels.forEach((panel, index) => {
-                    setTimeout(() => {
-                        panel.style.opacity = '1';
-                    }, index * 300);
-                });
-                
-                // Add floating animation to glass panels
-                panels.forEach((panel, index) => {
-                    // Random initial position offsets
-                    const xOffset = (Math.random() - 0.5) * 30;
-                    const yOffset = (Math.random() - 0.5) * 30;
-                    
-                    // Animate
-                    let angle = Math.random() * 360;
-                    setInterval(() => {
-                        angle += 0.3;
-                        const moveX = Math.sin(angle * Math.PI / 180) * 8 + xOffset;
-                        const moveY = Math.cos(angle * Math.PI / 180) * 8 + yOffset;
-                        
-                        panel.style.transform = `rotate(${index % 2 ? angle : -angle}deg) translate(${moveX}px, ${moveY}px)`;
-                    }, 50);
-                });
-            }, 3000 + Math.random() * 1000);
+        // Button hover effects
+        const startButton = document.getElementById('startButton');
+        
+        startButton.addEventListener('mouseenter', () => {
+            startButton.style.transform = 'translateY(-2px)';
+            startButton.style.boxShadow = '0 6px 24px rgba(0, 113, 227, 0.3)';
         });
         
-        // Button interaction
-        document.getElementById('startButton').addEventListener('click', function(e) {
-            // Add ripple effect
-            const ripple = document.createElement('span');
-            ripple.classList.add('ripple');
-            this.appendChild(ripple);
-            
-            // Get click position
-            const rect = this.getBoundingClientRect();
-            const x = e.clientX - rect.left;
-            const y = e.clientY - rect.top;
-            
-            // Position ripple
-            ripple.style.left = `${x}px`;
-            ripple.style.top = `${y}px`;
-            
-            // Remove ripple after animation
-            setTimeout(() => {
-                ripple.remove();
-            }, 600);
-            
-            // In a real app, you would navigate to the next screen here
-            setTimeout(() => {
-                alert('Welcome to Delightful Events!');
-            }, 300);
+        startButton.addEventListener('mouseleave', () => {
+            startButton.style.transform = 'translateY(0)';
+            startButton.style.boxShadow = '0 4px 20px rgba(0, 113, 227, 0.2)';
         });
-
-
+        
+        startButton.addEventListener('mousedown', () => {
+            startButton.style.transform = 'translateY(0)';
+            startButton.style.backgroundColor = '#0065c9';
+        });
+        
+        startButton.addEventListener('mouseup', () => {
+            startButton.style.transform = 'translateY(-2px)';
+            startButton.style.backgroundColor = '#0077ed';
+        });
     </script>
 </body>
 </html>
