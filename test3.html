@@ -1,0 +1,640 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Espace Étudiant - Recherche</title>
+    <style>
+        :root {
+            --primary: #4361ee;
+            --primary-light: #5e7cff;
+            --secondary: #3a0ca3;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --gray: #6c757d;
+            --white: #ffffff;
+            --card-bg: #ffffff;
+            --shadow-sm: 0 2px 8px rgba(0,0,0,0.05);
+            --shadow-md: 0 4px 12px rgba(0,0,0,0.08);
+            --shadow-lg: 0 8px 24px rgba(0,0,0,0.12);
+        }
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @keyframes slideIn {
+            from { transform: translateX(20px); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.02); }
+            100% { transform: scale(1); }
+        }
+        
+        @keyframes typing {
+            from { width: 0 }
+            to { width: 100% }
+        }
+        
+        @keyframes blink-caret {
+            from, to { border-color: transparent }
+            50% { border-color: var(--primary) }
+        }
+        
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-5px); }
+            100% { transform: translateY(0px); }
+        }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background-color: #f5f7ff;
+            color: var(--dark);
+            line-height: 1.5;
+            padding: 16px;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background-color: var(--white);
+            padding: 1.5rem;
+            border-radius: 16px;
+            box-shadow: var(--shadow-sm);
+            animation: fadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            transition: all 0.3s ease;
+        }
+        
+        header {
+            margin-bottom: 1.5rem;
+            text-align: center;
+            animation: fadeIn 0.6s ease-out;
+        }
+        
+        h1 {
+            color: var(--primary);
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 0.3rem;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            display: inline-block;
+        }
+        
+        h2 {
+            color: var(--gray);
+            font-size: 0.95rem;
+            font-weight: 400;
+            letter-spacing: 0.5px;
+        }
+        
+        .search-container {
+            position: relative;
+            margin: 1.5rem auto;
+            max-width: 600px;
+            animation: slideIn 0.5s ease-out 0.1s both;
+        }
+        
+        #searchInput {
+            width: 100%;
+            padding: 0.9rem 1.5rem 0.9rem 3rem;
+            font-size: 0.95rem;
+            border: none;
+            border-radius: 12px;
+            outline: none;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            background-color: var(--light);
+            box-shadow: var(--shadow-sm);
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%234361ee' viewBox='0 0 16 16'%3E%3Cpath d='M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: 1.2rem center;
+            background-size: 1rem;
+        }
+        
+        #searchInput:focus {
+            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.2), var(--shadow-md);
+            transform: translateY(-2px);
+        }
+        
+        #searchInput::placeholder {
+            color: #94a3b8;
+        }
+        
+        .explainer {
+            color: var(--gray);
+            font-size: 0.9rem;
+            margin: 0.8rem auto 1.5rem;
+            text-align: center;
+            max-width: 500px;
+            overflow: hidden;
+            white-space: nowrap;
+            border-right: 2px solid var(--primary);
+            animation: 
+                typing 2.5s steps(40, end),
+                blink-caret .75s step-end infinite;
+        }
+        
+        #resultsContainer {
+            margin-top: 1.5rem;
+            display: none;
+            animation: fadeIn 0.4s ease-out;
+        }
+        
+        .results-scroller {
+            display: flex;
+            overflow-x: auto;
+            gap: 1.2rem;
+            padding: 0.8rem 0.5rem 1.2rem;
+            scrollbar-width: thin;
+            scrollbar-color: var(--primary) transparent;
+        }
+        
+        .results-scroller::-webkit-scrollbar {
+            height: 6px;
+        }
+        
+        .results-scroller::-webkit-scrollbar-track {
+            background: transparent;
+            margin: 0 1rem;
+        }
+        
+        .results-scroller::-webkit-scrollbar-thumb {
+            background-color: var(--primary);
+            border-radius: 3px;
+            transition: background-color 0.3s ease;
+        }
+        
+        .results-scroller::-webkit-scrollbar-thumb:hover {
+            background-color: var(--secondary);
+        }
+        
+        .result-card {
+            min-width: 220px;
+            width: 220px;
+            background: var(--card-bg);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 1px solid rgba(0,0,0,0.05);
+            display: flex;
+            flex-direction: column;
+            flex-shrink: 0;
+            animation: slideIn 0.4s ease-out both;
+            will-change: transform;
+        }
+        
+        .result-card:hover {
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: var(--shadow-lg);
+            border-color: rgba(67, 97, 238, 0.2);
+        }
+        
+        .card-content {
+            padding: 1.2rem;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .card-content h3 {
+            color: var(--dark);
+            font-size: 1rem;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            line-height: 1.4;
+        }
+        
+        .card-content .author {
+            color: var(--gray);
+            font-size: 0.8rem;
+            margin-bottom: 0.8rem;
+            font-weight: 500;
+        }
+        
+        .card-content .description {
+            color: var(--dark);
+            font-size: 0.85rem;
+            margin-bottom: 1rem;
+            line-height: 1.4;
+            opacity: 0.9;
+            flex-grow: 1;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        
+        .card-actions {
+            padding: 0 1.2rem 1.2rem;
+        }
+        
+        .open-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background-color: var(--primary);
+            color: white;
+            padding: 0.6rem 1rem;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            border: none;
+            cursor: pointer;
+            width: 100%;
+            box-shadow: var(--shadow-sm);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .open-btn::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, rgba(255,255,255,0.1), rgba(255,255,255,0.3));
+            transform: translateX(-100%);
+            transition: transform 0.6s ease;
+        }
+        
+        .open-btn:hover {
+            background-color: var(--secondary);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+        
+        .open-btn:hover::after {
+            transform: translateX(100%);
+        }
+        
+        .open-btn:active {
+            transform: translateY(0);
+        }
+        
+        .no-results {
+            text-align: center;
+            padding: 2rem;
+            color: var(--gray);
+            font-style: italic;
+            width: 100%;
+            font-size: 0.95rem;
+            animation: fadeIn 0.4s ease-out;
+        }
+        
+        /* Enhanced PDF Preview Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.85);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transition: opacity 0.3s ease, backdrop-filter 0.3s ease;
+            backdrop-filter: blur(8px);
+        }
+        
+        .modal.show {
+            opacity: 1;
+        }
+        
+        .modal-content {
+            background-color: var(--white);
+            border-radius: 16px;
+            width: 90%;
+            max-width: 900px;
+            max-height: 90vh;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            transform: scale(0.95) translateY(20px);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 25px 50px rgba(0,0,0,0.3);
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .modal.show .modal-content {
+            transform: scale(1) translateY(0);
+        }
+        
+        .modal-header {
+            padding: 1.2rem 1.8rem;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .modal-title {
+            font-weight: 600;
+            font-size: 1.2rem;
+            letter-spacing: 0.5px;
+        }
+        
+        .close-btn {
+            background: rgba(255,255,255,0.1);
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .close-btn:hover {
+            background: rgba(255,255,255,0.2);
+            transform: rotate(90deg) scale(1.1);
+        }
+        
+        .pdf-preview-container {
+            position: relative;
+            flex-grow: 1;
+            display: flex;
+            background: #f1f3f9;
+        }
+        
+        .pdf-preview {
+            width: 100%;
+            height: calc(90vh - 68px);
+            border: none;
+            background: white;
+        }
+        
+        .modal-footer {
+            padding: 0.8rem 1.5rem;
+            background-color: #f8f9fa;
+            display: flex;
+            justify-content: flex-end;
+            border-top: 1px solid rgba(0,0,0,0.05);
+        }
+        
+        .modal-btn {
+            padding: 0.6rem 1.2rem;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            margin-left: 0.8rem;
+            display: flex;
+            align-items: center;
+        }
+        
+        .modal-btn-primary {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            box-shadow: 0 2px 5px rgba(67, 97, 238, 0.2);
+        }
+        
+        .modal-btn-primary:hover {
+            background-color: var(--secondary);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 8px rgba(67, 97, 238, 0.3);
+        }
+        
+        .modal-btn-secondary {
+            background-color: transparent;
+            color: var(--gray);
+            border: 1px solid var(--gray);
+        }
+        
+        .modal-btn-secondary:hover {
+            background-color: rgba(108, 117, 125, 0.1);
+        }
+        
+        /* Loading animation */
+        .loader {
+            display: none;
+            width: 100%;
+            text-align: center;
+            padding: 1rem 0;
+        }
+        
+        .loader-dots {
+            display: inline-flex;
+            gap: 6px;
+        }
+        
+        .loader-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background-color: var(--primary);
+            animation: pulse 1.2s infinite ease-in-out;
+        }
+        
+        .loader-dot:nth-child(1) {
+            animation-delay: 0s;
+        }
+        
+        .loader-dot:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+        
+        .loader-dot:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+        
+        /* Floating animation for cards */
+        .floating {
+            animation: float 4s ease-in-out infinite;
+        }
+        
+        .floating-delay-1 {
+            animation-delay: 0.2s;
+        }
+        
+        .floating-delay-2 {
+            animation-delay: 0.4s;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 1.2rem;
+            }
+            
+            h1 {
+                font-size: 1.5rem;
+            }
+            
+            .result-card {
+                min-width: 180px;
+                width: 180px;
+            }
+            
+            .card-content {
+                padding: 1rem;
+            }
+            
+            .card-content h3 {
+                font-size: 0.95rem;
+            }
+            
+            .card-content .description {
+                font-size: 0.8rem;
+                -webkit-line-clamp: 2;
+            }
+            
+            .card-actions {
+                padding: 0 1rem 1rem;
+            }
+            
+            .open-btn {
+                padding: 0.5rem;
+                font-size: 0.8rem;
+            }
+            
+            .modal-content {
+                width: 95%;
+                max-height: 85vh;
+            }
+            
+            .modal-header {
+                padding: 1rem;
+            }
+            
+            .modal-title {
+                font-size: 1rem;
+            }
+            
+            .close-btn {
+                width: 36px;
+                height: 36px;
+                font-size: 1.3rem;
+            }
+            
+            .pdf-preview {
+                height: calc(85vh - 64px);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Espace Étudiant</h1>
+            <h2>Ressources et Résumés</h2>
+        </header>
+        
+        <div class="search-container">
+            <input type="text" id="searchInput" placeholder="Rechercher par nom ou description...">
+        </div>
+        
+        <p class="explainer">Trouvez rapidement les documents dont vous avez besoin</p>
+        
+        <div id="resultsContainer">
+            <div class="results-scroller" id="resultsScroller">
+                <!-- Results will appear here as cards -->
+            </div>
+        </div>
+        
+        <div class="loader" id="loader">
+            <div class="loader-dots">
+                <div class="loader-dot"></div>
+                <div class="loader-dot"></div>
+                <div class="loader-dot"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Enhanced PDF Preview Modal -->
+    <div class="modal" id="pdfModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <span class="modal-title" id="modalTitle">Document PDF</span>
+                <button class="close-btn" id="closeModal">&times;</button>
+            </div>
+            <div class="pdf-preview-container">
+                <iframe class="pdf-preview" id="pdfPreview" frameborder="0"></iframe>
+            </div>
+            <div class="modal-footer">
+                <button class="modal-btn modal-btn-secondary" id="downloadBtn">
+                    <svg width="16" height="16" fill="currentColor" viewBox="0 0 16 16" style="margin-right: 6px;">
+                        <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"/>
+                        <path d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z"/>
+                    </svg>
+                    Télécharger
+                </button>
+                <button class="modal-btn modal-btn-primary" id="printBtn">
+                    <svg width="16" height="16" fill="currentColor" viewBox="0 0 16 16" style="margin-right: 6px;">
+                        <path d="M5 1a2 2 0 0 0-2 2v1h10V3a2 2 0 0 0-2-2H5zm6 8H5a1 1 0 0 0-1 1v3a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1v-3a1 1 0 0 0-1-1z"/>
+                        <path d="M0 7a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2h-1v-2a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v2H2a2 2 0 0 1-2-2V7zm2.5 1a.5.5 0 1 0 0-1 .5.5 0 0 0 0 1z"/>
+                    </svg>
+                    Imprimer
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Sample database of PDF files
+        const pdfDatabase = [
+            { 
+                name: "Maths Avancées", 
+                author: "Ahmed Benali",
+                description: "Cours complet avec exercices corrigés pour niveau universitaire.",
+                url: "https://example.com/pdfs/ahmed_math.pdf", 
+                keywords: ["ahmed", "math", "algèbre"] 
+            },
+            { 
+                name: "Physique Quantique", 
+                author: "Ahmed Benali",
+                description: "Introduction à la mécanique quantique avec exemples pratiques.",
+                url: "https://example.com/pdfs/ahmed_physique.pdf", 
+                keywords: ["ahmed", "physique", "quantique"] 
+            },
+            { 
+                name: "Algèbre Linéaire", 
+                author: "Sophie Martin",
+                description: "Matrices et espaces vectoriels avec problèmes résolus.",
+                url: "https://example.com/pdfs/algebre_lineaire.pdf", 
+                keywords: ["math", "algèbre"] 
+            },
+            { 
+                name: "Calcul Différentiel", 
+                author: "Jean Dupont",
+                description: "Dérivées et optimisation pour étudiants en sciences.",
+                url: "https://example.com/pdfs/calcul_diff.pdf", 
+                keywords: ["math", "calcul"] 
+            },
+            { 
+                name: "Histoire Moderne", 
+                author: "Marc Bloch",
+                description: "Analyse de la période moderne en Europe.",
+                url: "https://example.com/pdfs/histoire_moderne.pdf", 
+                keywords: ["histoire", "moderne"] 
+            },
+            { 
+                name: "Chimie Organique", 
+                author: "Marie Curie",
+                description: "Principes fondamentaux avec expériences pratiques.",
+                url: "https://example
