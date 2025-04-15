@@ -13,6 +13,18 @@
             font-style: normal;
         }
         
+
+
+#bg-canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    background: transparent;
+    pointer-events: none;
+}
         @font-face {
             font-family: 'SF Pro Display';
             src: url('https://sf.abarba.me/SF-Pro-Display-Medium.otf') format('opentype');
@@ -349,6 +361,7 @@
 </head>
 <body>
     <!-- Glass overlay -->
+<canvas id="bg-canvas"></canvas>
     <div class="glass-overlay"></div>
     
     <!-- Loading Animation -->
@@ -459,5 +472,84 @@
             startButton.style.transform = 'translateY(-3px) scale(1.02)';
         });
     </script>
+
+<!-- Add this to the <script> -->
+<script>
+    const canvas = document.getElementById('bg-canvas');
+    const ctx = canvas.getContext('2d');
+    let shapes = [];
+
+    function resizeCanvas() {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+    }
+
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
+
+    class Shape {
+        constructor() {
+            this.reset();
+        }
+
+        reset() {
+            this.x = Math.random() * canvas.width;
+            this.y = Math.random() * canvas.height;
+            this.size = 10 + Math.random() * 30;
+            this.speedX = -1 + Math.random() * 2;
+            this.speedY = -1 + Math.random() * 2;
+            this.alpha = 0.3 + Math.random() * 0.5;
+            this.type = Math.floor(Math.random() * 3); // 0 = circle, 1 = square, 2 = triangle
+        }
+
+        draw() {
+            ctx.save();
+            ctx.globalAlpha = this.alpha;
+            ctx.translate(this.x, this.y);
+
+            ctx.beginPath();
+            if (this.type === 0) {
+                ctx.arc(0, 0, this.size / 2, 0, 2 * Math.PI);
+            } else if (this.type === 1) {
+                ctx.rect(-this.size / 2, -this.size / 2, this.size, this.size);
+            } else {
+                ctx.moveTo(0, -this.size / 2);
+                ctx.lineTo(-this.size / 2, this.size / 2);
+                ctx.lineTo(this.size / 2, this.size / 2);
+                ctx.closePath();
+            }
+            ctx.fillStyle = 'rgba(255, 255, 255, 0.2)';
+            ctx.fill();
+            ctx.restore();
+        }
+
+        update() {
+            this.x += this.speedX;
+            this.y += this.speedY;
+
+            if (
+                this.x < -50 || this.x > canvas.width + 50 ||
+                this.y < -50 || this.y > canvas.height + 50
+            ) {
+                this.reset();
+            }
+        }
+    }
+
+    for (let i = 0; i < 40; i++) {
+        shapes.push(new Shape());
+    }
+
+    function animate() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        shapes.forEach(shape => {
+            shape.update();
+            shape.draw();
+        });
+        requestAnimationFrame(animate);
+    }
+
+    animate();
+</script>
 </body>
 </html>
