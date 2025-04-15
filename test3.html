@@ -14,7 +14,7 @@
             --system-gray-light: #F2F2F7;
             --system-label: #000000;
             --system-background: #FFFFFF;
-            --suggestion-bg: rgba(255,255,255,0.8);
+            --suggestion-bg: rgba(255,255,255,0.9);
         }
 
         * {
@@ -40,10 +40,10 @@
 
         .aurora {
             position: absolute;
-            top: 0;
+            top: -150px; /* Higher up position */
             left: 0;
             width: 100%;
-            height: 50vh;
+            height: 400px;
             overflow: hidden;
             z-index: 0;
             opacity: 0.8;
@@ -52,48 +52,50 @@
         .aurora__layer {
             position: absolute;
             width: 200%;
-            height: 150%;
-            animation: aurora 10s infinite linear;
+            height: 200%;
+            animation: aurora 20s infinite ease-in-out;
             filter: blur(80px);
             will-change: transform;
+            border-radius: 50% 50% 0 0;
         }
 
         .aurora__layer:nth-child(1) {
             background: linear-gradient(45deg, #ff9a9e 0%, #fad0c4 100%);
-            animation-delay: -2s;
-            top: -20%;
+            animation-delay: -5s;
+            top: -30%;
             left: -50%;
         }
 
         .aurora__layer:nth-child(2) {
             background: linear-gradient(45deg, #a1c4fd 0%, #c2e9fb 100%);
             animation-delay: -10s;
-            top: 0%;
+            top: -20%;
             left: -30%;
         }
 
         .aurora__layer:nth-child(3) {
             background: linear-gradient(45deg, #fbc2eb 0%, #a6c1ee 100%);
             animation-delay: -15s;
-            top: -30%;
+            top: -25%;
             left: -70%;
         }
 
         @keyframes aurora {
-            0% {
-                transform: rotate(0deg) translateX(0) translateY(0);
+            0%, 100% {
+                transform: translateY(0) scale(1) rotate(0deg);
+                border-radius: 50% 50% 0 0;
             }
             25% {
-                transform: rotate(1deg) translateX(5%) translateY(5%);
+                transform: translateY(20px) scale(1.05) rotate(1deg);
+                border-radius: 45% 55% 0 0;
             }
             50% {
-                transform: rotate(0deg) translateX(8%) translateY(3%);
+                transform: translateY(10px) scale(1.03) rotate(-1deg);
+                border-radius: 55% 45% 0 0;
             }
             75% {
-                transform: rotate(-1deg) translateX(5%) translateY(5%);
-            }
-            100% {
-                transform: rotate(0deg) translateX(0) translateY(0);
+                transform: translateY(15px) scale(1.02) rotate(0.5deg);
+                border-radius: 48% 52% 0 0;
             }
         }
 
@@ -137,6 +139,7 @@
         .search-input-container {
             position: relative;
             width: 100%;
+            margin-bottom: 16px;
         }
 
         .search-input {
@@ -221,19 +224,33 @@
             background-color: rgba(0, 0, 0, 0.05);
         }
 
-        .suggestion-item::before {
-            content: "";
-            position: absolute;
-            left: 16px;
-            width: 16px;
-            height: 16px;
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%238E8E93'%3E%3Cpath d='M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z'/%3E%3C/svg%3E");
-            background-size: contain;
-            opacity: 0.6;
+        .quick-suggestions {
+            display: flex;
+            gap: 8px;
+            width: 100%;
+            max-width: 400px;
+            margin-top: 8px;
+            opacity: 1;
+            transition: opacity 0.3s ease;
         }
 
-        .suggestion-item:hover::before {
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23007AFF'%3E%3Cpath d='M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z'/%3E%3C/svg%3E");
+        .quick-suggestion {
+            background-color: var(--system-gray-light);
+            border-radius: 8px;
+            padding: 8px 12px;
+            font-size: 14px;
+            color: var(--system-label);
+            cursor: pointer;
+            transition: all 0.2s ease;
+            flex: 1;
+            text-align: center;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+        }
+
+        .quick-suggestion:hover {
+            background-color: rgba(0, 122, 255, 0.1);
+            color: var(--system-blue);
         }
 
         .loading-indicator {
@@ -273,6 +290,11 @@
         }
 
         @media (max-width: 480px) {
+            .aurora {
+                top: -120px;
+                height: 350px;
+            }
+            
             .search-input {
                 font-size: 16px;
                 padding: 12px 16px;
@@ -287,6 +309,11 @@
                 padding: 10px 16px;
                 padding-left: 40px;
                 font-size: 14px;
+            }
+            
+            .quick-suggestions {
+                flex-direction: column;
+                gap: 6px;
             }
         }
     </style>
@@ -314,12 +341,14 @@
                 </svg>
                 
                 <div class="search-suggestions" id="searchSuggestions">
-                    <div class="suggestion-item">Meeting with team</div>
-                    <div class="suggestion-item">Buy groceries</div>
-                    <div class="suggestion-item">Finish project</div>
-                    <div class="suggestion-item">Call mom</div>
-                    <div class="suggestion-item">Schedule dentist</div>
+                    <!-- Dynamic suggestions will appear here -->
                 </div>
+            </div>
+            
+            <div class="quick-suggestions" id="quickSuggestions">
+                <div class="quick-suggestion">Meeting</div>
+                <div class="quick-suggestion">Shopping</div>
+                <div class="quick-suggestion">Workout</div>
             </div>
         </div>
     </div>
@@ -327,31 +356,81 @@
     <script>
         const searchInput = document.getElementById('searchInput');
         const searchSuggestions = document.getElementById('searchSuggestions');
+        const quickSuggestions = document.getElementById('quickSuggestions');
+        
+        // Sample data for suggestions
+        const sampleTasks = [
+            "Control project timeline",
+            "Control budget",
+            "Control quality standards",
+            "Meeting with team",
+            "Buy groceries",
+            "Finish project",
+            "Call mom",
+            "Schedule dentist",
+            "Review documents",
+            "Plan vacation"
+        ];
         
         // Show suggestions when focused
         searchInput.addEventListener('focus', function() {
             this.setAttribute('placeholder', 'Search or create task');
+            updateSuggestions('');
         });
         
         searchInput.addEventListener('blur', function() {
             this.setAttribute('placeholder', 'Search');
         });
         
-        // Hide suggestions when typing
+        // Update suggestions based on input
         searchInput.addEventListener('input', function() {
-            if (this.value.length > 0) {
-                searchSuggestions.style.display = 'none';
+            const inputValue = this.value.toLowerCase();
+            updateSuggestions(inputValue);
+            
+            // Hide quick suggestions when typing
+            if (inputValue.length > 0) {
+                quickSuggestions.style.opacity = '0';
+                quickSuggestions.style.pointerEvents = 'none';
             } else {
-                searchSuggestions.style.display = 'block';
+                quickSuggestions.style.opacity = '1';
+                quickSuggestions.style.pointerEvents = 'auto';
             }
         });
         
         // Handle suggestion selection
-        document.querySelectorAll('.suggestion-item').forEach(item => {
+        function updateSuggestions(input) {
+            searchSuggestions.innerHTML = '';
+            
+            if (input.length === 0) return;
+            
+            // Filter tasks that include the input text
+            const filteredTasks = sampleTasks.filter(task => 
+                task.toLowerCase().includes(input)
+            );
+            
+            // Only show up to 3 matching suggestions
+            const suggestionsToShow = filteredTasks.slice(0, 3);
+            
+            if (suggestionsToShow.length > 0) {
+                suggestionsToShow.forEach(task => {
+                    const item = document.createElement('div');
+                    item.className = 'suggestion-item';
+                    item.textContent = task;
+                    item.addEventListener('click', function() {
+                        searchInput.value = task;
+                        searchInput.focus();
+                    });
+                    searchSuggestions.appendChild(item);
+                });
+            }
+        }
+        
+        // Handle quick suggestion clicks
+        document.querySelectorAll('.quick-suggestion').forEach(item => {
             item.addEventListener('click', function() {
                 searchInput.value = this.textContent;
-                searchSuggestions.style.display = 'none';
                 searchInput.focus();
+                updateSuggestions(this.textContent.toLowerCase());
             });
         });
         
@@ -361,7 +440,8 @@
                 // Add task functionality here
                 console.log('Creating task:', this.value);
                 this.value = '';
-                searchSuggestions.style.display = 'block';
+                quickSuggestions.style.opacity = '1';
+                quickSuggestions.style.pointerEvents = 'auto';
             }
         });
     </script>
