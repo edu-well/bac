@@ -3,47 +3,46 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dona - Focused Productivity</title>
+    <title>Dona</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=SF+Pro+Display:wght@400;500;600&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary: #4361ee;
-            --primary-dark: #3a56d4;
-            --text-dark: #1e293b;
-            --text-light: #64748b;
-            --white: #ffffff;
-            --search-shadow: 0 12px 24px -6px rgba(67, 97, 238, 0.15);
+            --system-blue: #007AFF;
+            --system-gray: #8E8E93;
+            --system-gray-light: #F2F2F7;
+            --system-label: #000000;
+            --system-background: #FFFFFF;
         }
 
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
         }
 
         body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            font-family: -apple-system, 'SF Pro Display', BlinkMacSystemFont, sans-serif;
             min-height: 100vh;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            background-color: #f8fafc;
-            color: var(--text-dark);
+            background-color: var(--system-background);
+            color: var(--system-label);
             position: relative;
             overflow: hidden;
-            text-align: center;
             padding: 0 24px;
         }
 
         .aurora {
             position: absolute;
-            top: -10vh; /* Elevated position */
+            top: -100px; /* Perfectly positioned for mobile */
             left: 0;
             width: 100%;
-            height: 40vh; /* Reduced height */
+            height: 300px;
             overflow: hidden;
             z-index: 0;
             opacity: 0.8;
@@ -52,29 +51,30 @@
         .aurora__layer {
             position: absolute;
             width: 200%;
-            height: 120%;
-            animation: aurora 18s infinite linear;
-            filter: blur(60px);
+            height: 150%;
+            animation: aurora 20s infinite linear;
+            filter: blur(80px);
+            will-change: transform;
         }
 
         .aurora__layer:nth-child(1) {
-            background: linear-gradient(45deg, #ff9a9e 0%, #fad0c4 100%);
+            background: linear-gradient(45deg, #FF375F 0%, #FF9F2D 100%);
             animation-delay: -5s;
-            top: -10%;
+            top: -20%;
             left: -50%;
         }
 
         .aurora__layer:nth-child(2) {
-            background: linear-gradient(45deg, #a1c4fd 0%, #c2e9fb 100%);
+            background: linear-gradient(45deg, #32D74B 0%, #64D2FF 100%);
             animation-delay: -10s;
             top: 0%;
             left: -30%;
         }
 
         .aurora__layer:nth-child(3) {
-            background: linear-gradient(45deg, #fbc2eb 0%, #a6c1ee 100%);
+            background: linear-gradient(45deg, #BF5AF2 0%, #FF2D55 100%);
             animation-delay: -15s;
-            top: -5%;
+            top: -10%;
             left: -70%;
         }
 
@@ -83,13 +83,13 @@
                 transform: rotate(0deg) translateX(0) translateY(0);
             }
             25% {
-                transform: rotate(1.5deg) translateX(5%) translateY(5%);
+                transform: rotate(1deg) translateX(5%) translateY(5%);
             }
             50% {
                 transform: rotate(0deg) translateX(8%) translateY(3%);
             }
             75% {
-                transform: rotate(-1.5deg) translateX(5%) translateY(5%);
+                transform: rotate(-1deg) translateX(5%) translateY(5%);
             }
             100% {
                 transform: rotate(0deg) translateX(0) translateY(0);
@@ -97,12 +97,33 @@
         }
 
         .content {
-            max-width: 520px;
+            max-width: 500px;
             width: 100%;
+            z-index: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 32px;
+            font-weight: 600;
+            color: var(--system-label);
+            margin-bottom: 24px;
+            letter-spacing: -0.5px;
             opacity: 0;
             transform: translateY(20px);
-            animation: fadeIn 0.8s cubic-bezier(0.22, 1, 0.36, 1) 0.3s forwards;
-            z-index: 1;
+            animation: fadeIn 0.6s cubic-bezier(0.22, 1, 0.36, 1) 0.8s forwards;
+        }
+
+        .search-container {
+            position: relative;
+            width: 100%;
+            max-width: 400px;
+            margin: 0 auto;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeIn 0.6s cubic-bezier(0.22, 1, 0.36, 1) 1.4s forwards;
         }
 
         @keyframes fadeIn {
@@ -112,102 +133,104 @@
             }
         }
 
-        .logo {
-            font-size: 32px;
-            font-weight: 600;
-            color: var(--primary);
-            margin-bottom: 12px;
-            letter-spacing: -0.5px;
-        }
-
-        h1 {
-            font-size: 28px;
-            font-weight: 600;
-            margin-bottom: 24px;
-            line-height: 1.3;
-            letter-spacing: -0.2px;
-        }
-
-        .subtitle {
-            font-size: 16px;
-            color: var(--text-light);
-            line-height: 1.6;
-            margin-bottom: 40px;
-            max-width: 400px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        .search-container {
-            position: relative;
-            width: 100%;
-            max-width: 480px;
-            margin: 0 auto;
-        }
-
         .search-input {
             width: 100%;
-            padding: 18px 24px;
-            padding-left: 52px;
-            font-size: 16px;
+            padding: 14px 20px;
+            padding-left: 44px;
+            font-size: 17px;
             border: none;
-            border-radius: 14px;
-            background: var(--white);
-            box-shadow: var(--search-shadow);
-            transition: all 0.3s cubic-bezier(0.22, 1, 0.36, 1);
-            color: var(--text-dark);
+            border-radius: 10px;
+            background-color: var(--system-gray-light);
+            color: var(--system-label);
             outline: none;
+            font-weight: 400;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
         }
 
         .search-input:focus {
-            box-shadow: 0 16px 32px -8px rgba(67, 97, 238, 0.2);
-            transform: translateY(-2px);
+            background-color: var(--system-background);
+            box-shadow: 0 2px 6px rgba(0, 122, 255, 0.2);
         }
 
         .search-input::placeholder {
-            color: #94a3b8;
+            color: var(--system-gray);
             font-weight: 400;
         }
 
         .search-icon {
             position: absolute;
-            left: 20px;
+            left: 16px;
             top: 50%;
             transform: translateY(-50%);
-            color: #94a3b8;
+            color: var(--system-gray);
             pointer-events: none;
+            transition: color 0.2s ease;
         }
 
-        .search-hint {
-            font-size: 13px;
-            color: var(--text-light);
-            margin-top: 16px;
-            opacity: 0.8;
+        .search-input:focus + .search-icon {
+            color: var(--system-blue);
+        }
+
+        .loading-indicator {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--system-background);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 100;
+            animation: fadeOut 0.4s ease 2.6s forwards;
+        }
+
+        @keyframes fadeOut {
+            to {
+                opacity: 0;
+                visibility: hidden;
+            }
+        }
+
+        .loading-spinner {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            border: 3px solid rgba(0, 122, 255, 0.2);
+            border-top-color: var(--system-blue);
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
         }
 
         @media (max-width: 480px) {
-            h1 {
-                font-size: 24px;
-            }
-            
-            .subtitle {
-                font-size: 15px;
-                margin-bottom: 32px;
+            .aurora {
+                top: -80px;
+                height: 250px;
             }
             
             .search-input {
-                padding: 16px 20px;
-                padding-left: 48px;
-                font-size: 15px;
+                font-size: 16px;
+                padding: 12px 16px;
+                padding-left: 40px;
             }
             
             .search-icon {
-                left: 18px;
+                left: 14px;
             }
         }
     </style>
 </head>
 <body>
+    <div class="loading-indicator">
+        <div class="loading-spinner"></div>
+    </div>
+
     <div class="aurora">
         <div class="aurora__layer"></div>
         <div class="aurora__layer"></div>
@@ -216,53 +239,32 @@
     
     <div class="content">
         <div class="logo">Dona</div>
-        <h1>Welcome to Dona</h1>
-        <p class="subtitle">Dona is a back to basic to-do list focused on fast and delightful user experience.</p>
         
         <div class="search-container">
+            <input type="text" class="search-input" placeholder="Search" id="searchInput">
             <svg class="search-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M11 19C15.4183 19 19 15.4183 19 11C19 6.58172 15.4183 3 11 3C6.58172 3 3 6.58172 3 11C3 15.4183 6.58172 19 11 19Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                 <path d="M21 21L16.65 16.65" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
             </svg>
-            <input type="text" class="search-input" placeholder="Search or add a new task..." id="searchInput">
-            <p class="search-hint">Press Enter to add, Tab to navigate</p>
         </div>
     </div>
 
     <script>
-        const searchInput = document.getElementById('searchInput');
-        
-        // Focus animation
-        searchInput.addEventListener('focus', function() {
-            this.parentElement.querySelector('.search-icon').style.color = var(--primary);
+        document.getElementById('searchInput').addEventListener('focus', function() {
+            this.setAttribute('placeholder', 'Search or create task');
         });
         
-        searchInput.addEventListener('blur', function() {
-            this.parentElement.querySelector('.search-icon').style.color = '#94a3b8';
+        document.getElementById('searchInput').addEventListener('blur', function() {
+            this.setAttribute('placeholder', 'Search');
         });
         
-        // Handle search/adding tasks
-        searchInput.addEventListener('keydown', function(e) {
+        // Handle task creation
+        document.getElementById('searchInput').addEventListener('keydown', function(e) {
             if (e.key === 'Enter' && this.value.trim()) {
-                // Add your task creation logic here
-                console.log('Adding task:', this.value);
-                
-                // Visual feedback
-                this.style.transform = 'translateY(-2px) scale(0.98)';
-                setTimeout(() => {
-                    this.style.transform = '';
-                    this.value = '';
-                }, 200);
+                // Add task functionality here
+                console.log('Creating task:', this.value);
+                this.value = '';
             }
-        });
-        
-        // Micro-interaction for input
-        searchInput.addEventListener('mousedown', function() {
-            this.style.transform = 'translateY(1px)';
-        });
-        
-        searchInput.addEventListener('mouseup', function() {
-            this.style.transform = '';
         });
     </script>
 </body>
