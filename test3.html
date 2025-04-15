@@ -3,11 +3,212 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dona</title>
+    <title>Dona - Focused Todo Experience</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=SF+Pro+Display:wght@400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
     <style>
+        :root {
+            --primary: #4361ee;
+            --primary-dark: #3a56d4;
+            --text-dark: #1e293b;
+            --text-light: #64748b;
+            --white: #ffffff;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background-color: #f8fafc;
+            color: var(--text-dark);
+            position: relative;
+            overflow: hidden;
+            text-align: center;
+            padding: 0 24px;
+        }
+
+        .aurora {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 50vh;
+            overflow: hidden;
+            z-index: -1;
+        }
+
+        .aurora__layer {
+            position: absolute;
+            width: 200%;
+            height: 40%;
+            animation: aurora 20s infinite linear;
+            opacity: 0.7;
+        }
+
+        .aurora__layer:nth-child(1) {
+            background: linear-gradient(45deg, #ff9a9e 0%, #fad0c4 100%);
+            animation-delay: -5s;
+            top: -20%;
+            left: -50%;
+        }
+
+        .aurora__layer:nth-child(2) {
+            background: linear-gradient(45deg, #a1c4fd 0%, #c2e9fb 100%);
+            animation-delay: -10s;
+            top: -10%;
+            left: -30%;
+        }
+
+        .aurora__layer:nth-child(3) {
+            background: linear-gradient(45deg, #fbc2eb 0%, #a6c1ee 100%);
+            animation-delay: -15s;
+            top: -15%;
+            left: -70%;
+        }
+
+        @keyframes aurora {
+            0% {
+                transform: rotate(0deg) translateX(0) translateY(0);
+            }
+            25% {
+                transform: rotate(2deg) translateX(5%) translateY(10%);
+            }
+            50% {
+                transform: rotate(0deg) translateX(10%) translateY(5%);
+            }
+            75% {
+                transform: rotate(-2deg) translateX(5%) translateY(10%);
+            }
+            100% {
+                transform: rotate(0deg) translateX(0) translateY(0);
+            }
+        }
+
+        .content {
+            max-width: 480px;
+            width: 100%;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeIn 0.8s cubic-bezier(0.22, 1, 0.36, 1) 0.3s forwards;
+        }
+
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .logo {
+            font-size: 42px;
+            font-weight: 600;
+            color: white;
+            margin-bottom: 8px;
+        }
+
+        h1 {
+            font-size: 28px;
+            font-weight: 600;
+            margin-bottom: 16px;
+            line-height: 1.3;
+        }
+
+        .subtitle {
+            font-size: 16px;
+            color: var(--text-light);
+            line-height: 1.6;
+            margin-bottom: 32px;
+        }
+
+        .btn {
+            background: var(--primary);
+            color: var(--white);
+            border: none;
+            border-radius: 12px;
+            padding: 16px 32px;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+            width: 100%;
+            max-width: 240px;
+            box-shadow: 0 4px 20px rgba(67, 97, 238, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn:hover {
+            background: var(--primary-dark);
+            box-shadow: 0 6px 24px rgba(67, 97, 238, 0.4);
+            transform: translateY(-2px);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        .btn::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, 
+                            rgba(255,255,255,0) 0%, 
+                            rgba(255,255,255,0.2) 50%, 
+                            rgba(255,255,255,0) 100%);
+            transform: translateX(-100%);
+            transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        .btn:hover::after {
+            transform: translateX(100%);
+        }
+
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 24px;
+            }
+            
+            .subtitle {
+                font-size: 15px;
+            }
+            
+            .btn {
+                padding: 14px 28px;
+            }
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         :root {
             --system-blue: #007AFF;
             --system-gray: #8E8E93;
@@ -24,17 +225,7 @@
             -webkit-tap-highlight-color: transparent;
         }
 
-        body {
-            font-family: -apple-system, 'SF Pro Display', BlinkMacSystemFont, sans-serif;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            background-color: var(--system-background);
-            color: var(--system-label);
-            position: relative;
-            overflow-x: hidden;
-        }
-
+       
         /* Logo and Search Container */
         .search-header {
             width: 100%;
@@ -42,30 +233,16 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            background-color: rgba(255, 255, 255, 0.8);
-            backdrop-filter: blur(20px);
+          
+            backdrop-filter: blur(10px);
             -webkit-backdrop-filter: blur(20px);
-            position: sticky;
+            position:absolute;
             top: 0;
             z-index: 10;
             border-bottom: 1px solid rgba(0, 0, 0, 0.05);
         }
 
-        .logo {
-            width: 60px;
-            height: 60px;
-            margin-bottom: 24px;
-            background-color: var(--system-blue);
-            border-radius: 18px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            color: white;
-            font-weight: 600;
-            font-size: 24px;
-            box-shadow: 0 4px 12px rgba(0, 122, 255, 0.2);
-        }
-
+      
         .search-container {
             width: 100%;
             max-width: 600px;
@@ -177,6 +354,7 @@
         @media (max-width: 768px) {
             .results-container {
                 grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+                
             }
             
             .search-header {
@@ -210,9 +388,21 @@
     </style>
 </head>
 <body>
-    <!-- Header with Logo and Search -->
-    <div class="search-header">
-        <div class="logo">D</div>
+    <div class="aurora">
+        <div class="aurora__layer"></div>
+        <div class="aurora__layer"></div>
+        <div class="aurora__layer"></div>
+    </div>
+    
+    <div class="content">
+       
+      
+    </div>
+
+
+      <!-- Header with Logo and Search -->
+      <div class="search-header">
+        <div class="logo">Dona</div>
         <div class="search-container">
             <input type="text" class="search-input" placeholder="Search documents..." id="searchInput">
             <svg class="search-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -229,6 +419,54 @@
         </div>
     </div>
 
+
+
+
+
+
+    <script>
+        document.getElementById('continueBtn').addEventListener('click', function() {
+            // Add ripple effect
+            const ripple = document.createElement('span');
+            ripple.style.position = 'absolute';
+            ripple.style.borderRadius = '50%';
+            ripple.style.backgroundColor = 'rgba(255, 255, 255, 0.4)';
+            ripple.style.transform = 'scale(0)';
+            ripple.style.animation = 'ripple 0.6s linear';
+            ripple.style.pointerEvents = 'none';
+            
+            // Set position
+            const rect = this.getBoundingClientRect();
+            const size = Math.max(rect.width, rect.height);
+            ripple.style.width = ripple.style.height = `${size}px`;
+            ripple.style.left = `${event.clientX - rect.left - size/2}px`;
+            ripple.style.top = `${event.clientY - rect.top - size/2}px`;
+            
+            this.appendChild(ripple);
+            
+            // Remove ripple after animation
+            setTimeout(() => {
+                ripple.remove();
+            }, 600);
+            
+            // Continue with navigation
+            setTimeout(() => {
+                window.location.href = 'app.html'; // Change to your actual app page
+            }, 800);
+        });
+
+        // Add ripple animation to styles
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes ripple {
+                to {
+                    transform: scale(2.5);
+                    opacity: 0;
+                }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
     <script>
         // Sample document database
         const documents = [
