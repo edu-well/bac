@@ -3,479 +3,250 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SearchEdu | Premium Academic Search</title>
+    <title>Dona - Focused Todo Experience</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
     <style>
-        /* Apple San Francisco fonts */
-        @font-face {
-            font-family: 'SF Pro Display';
-            src: url('https://sf.abarba.me/SF-Pro-Display-Regular.otf') format('opentype');
-            font-weight: 400;
-            font-style: normal;
+        :root {
+            --primary: #4361ee;
+            --primary-dark: #3a56d4;
+            --text-dark: #1e293b;
+            --text-light: #64748b;
+            --white: #ffffff;
         }
-        
-        @font-face {
-            font-family: 'SF Pro Display';
-            src: url('https://sf.abarba.me/SF-Pro-Display-Medium.otf') format('opentype');
-            font-weight: 500;
-            font-style: normal;
-        }
-        
-        @font-face {
-            font-family: 'SF Pro Display';
-            src: url('https://sf.abarba.me/SF-Pro-Display-Semibold.otf') format('opentype');
-            font-weight: 600;
-            font-style: normal;
-        }
-        
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, sans-serif;
         }
-        
+
         body {
-            background-color: #f5f5f7;
-            color: #1d1d1f;
-            height: 100vh;
-            overflow: hidden;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background-color: #f8fafc;
+            color: var(--text-dark);
             position: relative;
+            overflow: hidden;
+            text-align: center;
+            padding: 0 24px;
         }
-        
-        /* Premium Geometric Background */
-        .geometric-bg {
+
+        .aurora {
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
-            height: 100%;
+            height: 50vh;
             overflow: hidden;
-            z-index: 0;
+            z-index: -1;
         }
-        
-        .shape {
+
+        .aurora__layer {
             position: absolute;
-            opacity: 0.08;
-            background: linear-gradient(135deg, #0071e3, #34aadc);
-            filter: blur(60px);
-            animation: float 25s infinite ease-in-out;
-            border-radius: 50% 50% 20% 80% / 25% 80% 20% 75%;
+            width: 200%;
+            height: 100%;
+            animation: aurora 20s infinite linear;
+            opacity: 0.7;
         }
-        
-        .shape:nth-child(1) {
-            width: 400px;
-            height: 400px;
-            top: -100px;
-            left: -100px;
-            animation-delay: 0s;
-            animation-duration: 30s;
+
+        .aurora__layer:nth-child(1) {
+            background: linear-gradient(45deg, #ff9a9e 0%, #fad0c4 100%);
+            animation-delay: -5s;
+            top: -20%;
+            left: -50%;
         }
-        
-        .shape:nth-child(2) {
-            width: 500px;
-            height: 500px;
-            bottom: -150px;
-            right: -150px;
-            animation-delay: 5s;
-            animation-duration: 35s;
-            border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
+
+        .aurora__layer:nth-child(2) {
+            background: linear-gradient(45deg, #a1c4fd 0%, #c2e9fb 100%);
+            animation-delay: -10s;
+            top: -10%;
+            left: -30%;
         }
-        
-        @keyframes float {
-            0%, 100% {
-                transform: translate(0, 0) rotate(0deg);
+
+        .aurora__layer:nth-child(3) {
+            background: linear-gradient(45deg, #fbc2eb 0%, #a6c1ee 100%);
+            animation-delay: -15s;
+            top: -15%;
+            left: -70%;
+        }
+
+        @keyframes aurora {
+            0% {
+                transform: rotate(0deg) translateX(0) translateY(0);
             }
             25% {
-                transform: translate(40px, 50px) rotate(5deg);
+                transform: rotate(2deg) translateX(5%) translateY(10%);
             }
             50% {
-                transform: translate(-30px, 40px) rotate(-5deg);
+                transform: rotate(0deg) translateX(10%) translateY(5%);
             }
             75% {
-                transform: translate(20px, -25px) rotate(3deg);
+                transform: rotate(-2deg) translateX(5%) translateY(10%);
+            }
+            100% {
+                transform: rotate(0deg) translateX(0) translateY(0);
             }
         }
-        
-        /* Premium Glass Overlay */
-        .glass-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
+
+        .content {
+            max-width: 480px;
             width: 100%;
-            height: 100%;
-            backdrop-filter: blur(50px);
-            -webkit-backdrop-filter: blur(50px);
-            z-index: 1;
-            background: rgba(245, 245, 247, 0.92);
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeIn 0.8s cubic-bezier(0.22, 1, 0.36, 1) 0.3s forwards;
         }
-        
-        /* Main Content Container */
-        .container {
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-            padding: 24px;
-            position: relative;
-            z-index: 2;
+
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
-        
-        .header {
-            margin-bottom: 40px;
-            position: relative;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            flex-direction: column;
-        }
-        
-        .logo-container {
-            width: 120px;
-            height: 120px;
-            margin-bottom: 24px;
-            position: relative;
-        }
-        
+
         .logo {
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(135deg, rgba(0, 113, 227, 0.95), rgba(52, 170, 220, 0.98));
-            border-radius: 28px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            box-shadow: 0 12px 40px rgba(0, 113, 227, 0.25);
-            animation: logoPulse 4s ease-in-out infinite;
-        }
-        
-        .logo-inner {
-            width: 100px;
-            height: 100px;
-            background: rgba(255, 255, 255, 0.98);
-            border-radius: 22px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
             font-size: 32px;
             font-weight: 600;
-            color: #0071e3;
-            box-shadow: 0 4px 15px rgba(0, 113, 227, 0.1);
-        }
-        
-        @keyframes logoPulse {
-            0%, 100% { transform: scale(1); box-shadow: 0 12px 40px rgba(0, 113, 227, 0.25); }
-            50% { transform: scale(1.02); box-shadow: 0 16px 50px rgba(0, 113, 227, 0.35); }
-        }
-        
-        /* Search Section */
-        .search-section {
-            width: 100%;
-            max-width: 600px;
-            margin: 0 auto 40px;
-            position: relative;
-        }
-        
-        .search-container {
-            position: relative;
-            width: 100%;
-        }
-        
-        .search-input {
-            width: 100%;
-            padding: 18px 24px;
-            font-size: 18px;
-            border: none;
-            border-radius: 30px;
-            background: rgba(255, 255, 255, 0.95);
-            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
-            color: #1d1d1f;
-            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-            padding-right: 60px;
-        }
-        
-        .search-input:focus {
-            outline: none;
-            box-shadow: 0 12px 40px rgba(0, 113, 227, 0.2);
-        }
-        
-        .search-icon {
-            position: absolute;
-            right: 24px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: #86868b;
-            font-size: 20px;
-        }
-        
-        /* Results Container */
-        .results-container {
-            width: 100%;
-            max-width: 800px;
-            margin: 0 auto;
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 20px;
-            padding: 20px 0;
-        }
-        
-        .result-card {
-            background: rgba(255, 255, 255, 0.95);
-            border-radius: 20px;
-            padding: 20px;
-            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
-            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-            border: 1px solid rgba(0, 0, 0, 0.05);
-        }
-        
-        .result-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 12px 40px rgba(0, 113, 227, 0.15);
-        }
-        
-        .pdf-icon {
-            width: 40px;
-            height: 40px;
-            background-color: #e74c3c;
-            border-radius: 8px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            color: white;
-            margin-bottom: 15px;
-        }
-        
-        .result-title {
-            font-size: 18px;
-            font-weight: 600;
-            color: #1d1d1f;
+            color: var(--primary);
             margin-bottom: 8px;
+        }
+
+        h1 {
+            font-size: 28px;
+            font-weight: 600;
+            margin-bottom: 16px;
             line-height: 1.3;
         }
-        
-        .result-meta {
-            display: flex;
-            justify-content: space-between;
-            color: #86868b;
-            font-size: 14px;
-            margin-bottom: 12px;
+
+        .subtitle {
+            font-size: 16px;
+            color: var(--text-light);
+            line-height: 1.6;
+            margin-bottom: 32px;
         }
-        
-        .result-description {
-            color: #1d1d1f;
-            font-size: 15px;
-            line-height: 1.5;
-            opacity: 0.8;
-            margin-bottom: 15px;
-        }
-        
-        .download-btn {
-            background: #0071e3;
-            color: white;
+
+        .btn {
+            background: var(--primary);
+            color: var(--white);
             border: none;
-            border-radius: 8px;
-            padding: 8px 16px;
-            font-size: 14px;
+            border-radius: 12px;
+            padding: 16px 32px;
+            font-size: 16px;
             font-weight: 500;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: all 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+            width: 100%;
+            max-width: 240px;
+            box-shadow: 0 4px 20px rgba(67, 97, 238, 0.3);
+            position: relative;
+            overflow: hidden;
         }
-        
-        .download-btn:hover {
-            background: #0065c9;
+
+        .btn:hover {
+            background: var(--primary-dark);
+            box-shadow: 0 6px 24px rgba(67, 97, 238, 0.4);
+            transform: translateY(-2px);
         }
-        
-        /* Loading Animation */
-        .loader {
-            position: fixed;
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        .btn::after {
+            content: '';
+            position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.9);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            flex-direction: column;
-            z-index: 1000;
-            opacity: 1;
-            transition: opacity 0.8s cubic-bezier(0.645, 0.045, 0.355, 1);
+            background: linear-gradient(90deg, 
+                            rgba(255,255,255,0) 0%, 
+                            rgba(255,255,255,0.2) 50%, 
+                            rgba(255,255,255,0) 100%);
+            transform: translateX(-100%);
+            transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
         }
-        
-        .loader.hidden {
-            opacity: 0;
-            pointer-events: none;
+
+        .btn:hover::after {
+            transform: translateX(100%);
         }
-        
-        /* Transition Overlay */
-        .transition-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: #0071e3;
-            z-index: 2000;
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.8s cubic-bezier(0.645, 0.045, 0.355, 1);
-        }
-        
-        .transition-overlay.active {
-            opacity: 1;
-            pointer-events: all;
+
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 24px;
+            }
+            
+            .subtitle {
+                font-size: 15px;
+            }
+            
+            .btn {
+                padding: 14px 28px;
+            }
         }
     </style>
 </head>
 <body>
-    <!-- Premium Geometric Background -->
-    <div class="geometric-bg">
-        <div class="shape"></div>
-        <div class="shape"></div>
+    <div class="aurora">
+        <div class="aurora__layer"></div>
+        <div class="aurora__layer"></div>
+        <div class="aurora__layer"></div>
     </div>
     
-    <!-- Ultra-Premium Glass Overlay -->
-    <div class="glass-overlay"></div>
-    
-    <!-- Loading Animation -->
-    <div class="loader" id="loader">
-        <div class="logo-container">
-            <div class="logo">
-                <div class="logo-inner">SE</div>
-            </div>
-        </div>
-    </div>
-    
-    <!-- Main Content -->
-    <div class="container">
-        <div class="header">
-            <div class="logo-container">
-                <div class="logo">
-                    <div class="logo-inner">SE</div>
-                </div>
-            </div>
-            <h1>SearchEdu</h1>
-            <p class="subtitle">Premium academic search engine</p>
-        </div>
-        
-        <div class="search-section">
-            <div class="search-container">
-                <input type="text" class="search-input" placeholder="Search for academic papers, books, and resources...">
-                <div class="search-icon">🔍</div>
-            </div>
-        </div>
-        
-        <div class="results-container">
-            <!-- PDF Result 1 -->
-            <div class="result-card">
-                <div class="pdf-icon">PDF</div>
-                <h3 class="result-title">Advanced Machine Learning Techniques</h3>
-                <div class="result-meta">
-                    <span>Dr. Sarah Johnson</span>
-                    <span>12 pages</span>
-                </div>
-                <p class="result-description">Comprehensive guide to modern machine learning algorithms with practical implementation examples.</p>
-                <button class="download-btn">Download PDF</button>
-            </div>
-            
-            <!-- PDF Result 2 -->
-            <div class="result-card">
-                <div class="pdf-icon">PDF</div>
-                <h3 class="result-title">The Future of Quantum Computing</h3>
-                <div class="result-meta">
-                    <span>Prof. Michael Chen</span>
-                    <span>18 pages</span>
-                </div>
-                <p class="result-description">Analysis of quantum computing breakthroughs and their potential impact on various industries.</p>
-                <button class="download-btn">Download PDF</button>
-            </div>
-            
-            <!-- PDF Result 3 -->
-            <div class="result-card">
-                <div class="pdf-icon">PDF</div>
-                <h3 class="result-title">Sustainable Architecture Principles</h3>
-                <div class="result-meta">
-                    <span>Dr. Emma Wilson</span>
-                    <span>24 pages</span>
-                </div>
-                <p class="result-description">Exploring eco-friendly building materials and energy-efficient design strategies.</p>
-                <button class="download-btn">Download PDF</button>
-            </div>
-            
-            <!-- PDF Result 4 -->
-            <div class="result-card">
-                <div class="pdf-icon">PDF</div>
-                <h3 class="result-title">Neuroscience and Artificial Intelligence</h3>
-                <div class="result-meta">
-                    <span>Dr. Robert Zhang</span>
-                    <span>15 pages</span>
-                </div>
-                <p class="result-description">Bridging the gap between biological neural networks and artificial neural networks.</p>
-                <button class="download-btn">Download PDF</button>
-            </div>
-            
-            <!-- PDF Result 5 -->
-            <div class="result-card">
-                <div class="pdf-icon">PDF</div>
-                <h3 class="result-title">Modern Web Development Frameworks</h3>
-                <div class="result-meta">
-                    <span>Prof. Lisa Rodriguez</span>
-                    <span>22 pages</span>
-                </div>
-                <p class="result-description">Comparative analysis of React, Vue, and Angular for enterprise applications.</p>
-                <button class="download-btn">Download PDF</button>
-            </div>
-            
-            <!-- PDF Result 6 -->
-            <div class="result-card">
-                <div class="pdf-icon">PDF</div>
-                <h3 class="result-title">Blockchain Technology in Finance</h3>
-                <div class="result-meta">
-                    <span>Dr. James Peterson</span>
-                    <span>16 pages</span>
-                </div>
-                <p class="result-description">Examining decentralized finance applications and their regulatory challenges.</p>
-                <button class="download-btn">Download PDF</button>
-            </div>
-        </div>
+    <div class="content">
+        <div class="logo">Dona</div>
+        <h1>Welcome to Dona</h1>
+        <p class="subtitle">Dona is a back to basic to-do list focused on fast and delightful user experience.</p>
+        <button class="btn" id="continueBtn">Continue</button>
     </div>
 
     <script>
-        // Simulate loading
-        setTimeout(() => {
-            document.getElementById('loader').classList.add('hidden');
-        }, 1500);
-        
-        // Animate geometric shapes
-        const shapes = document.querySelectorAll('.shape');
-        shapes.forEach((shape, index) => {
-            const xOffset = (Math.random() - 0.5) * 150;
-            const yOffset = (Math.random() - 0.5) * 150;
+        document.getElementById('continueBtn').addEventListener('click', function() {
+            // Add ripple effect
+            const ripple = document.createElement('span');
+            ripple.style.position = 'absolute';
+            ripple.style.borderRadius = '50%';
+            ripple.style.backgroundColor = 'rgba(255, 255, 255, 0.4)';
+            ripple.style.transform = 'scale(0)';
+            ripple.style.animation = 'ripple 0.6s linear';
+            ripple.style.pointerEvents = 'none';
             
-            let angle = 0;
-            setInterval(() => {
-                angle += 0.15;
-                const moveX = Math.sin(angle * Math.PI / 180) * 50 + xOffset;
-                const moveY = Math.cos(angle * Math.PI / 180) * 50 + yOffset;
-                
-                shape.style.transform = `translate(${moveX}px, ${moveY}px) rotate(${angle}deg)`;
-            }, 50);
+            // Set position
+            const rect = this.getBoundingClientRect();
+            const size = Math.max(rect.width, rect.height);
+            ripple.style.width = ripple.style.height = `${size}px`;
+            ripple.style.left = `${event.clientX - rect.left - size/2}px`;
+            ripple.style.top = `${event.clientY - rect.top - size/2}px`;
+            
+            this.appendChild(ripple);
+            
+            // Remove ripple after animation
+            setTimeout(() => {
+                ripple.remove();
+            }, 600);
+            
+            // Continue with navigation
+            setTimeout(() => {
+                window.location.href = 'app.html'; // Change to your actual app page
+            }, 800);
         });
-        
-        // Search functionality would be implemented here
-        const searchInput = document.querySelector('.search-input');
-        searchInput.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') {
-                // In a real app, this would trigger a search
-                console.log('Searching for:', searchInput.value);
+
+        // Add ripple animation to styles
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes ripple {
+                to {
+                    transform: scale(2.5);
+                    opacity: 0;
+                }
             }
-        });
-        
-        // Download button functionality
-        document.querySelectorAll('.download-btn').forEach(btn => {
-            btn.addEventListener('click', function() {
-                // In a real app, this would download the PDF
-                console.log('Downloading PDF');
-            });
-        });
+        `;
+        document.head.appendChild(style);
     </script>
 </body>
 </html>
