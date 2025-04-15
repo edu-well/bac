@@ -13,18 +13,6 @@
             font-style: normal;
         }
         
-
-
-#bg-canvas {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: -1;
-    background: transparent;
-    pointer-events: none;
-}
         @font-face {
             font-family: 'SF Pro Display';
             src: url('https://sf.abarba.me/SF-Pro-Display-Medium.otf') format('opentype');
@@ -47,22 +35,87 @@
         }
         
         body {
-            background: linear-gradient(-45deg, #0071e3, #34aadc, #2997ff, #5ac8fa);
-            background-size: 400% 400%;
-            animation: gradient 12s ease infinite;
-            color: #ffffff;
+            background-color: #f5f5f7;
+            color: #1d1d1f;
             height: 100vh;
             overflow: hidden;
             position: relative;
         }
         
-        @keyframes gradient {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
+        /* Animated geometric background */
+        .geometric-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: 0;
         }
         
-        /* Glass morphism overlay */
+        .shape {
+            position: absolute;
+            opacity: 0.1;
+            background: linear-gradient(45deg, #0071e3, #34aadc);
+            border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
+            filter: blur(20px);
+            animation: float 15s infinite ease-in-out;
+        }
+        
+        .shape:nth-child(1) {
+            width: 300px;
+            height: 300px;
+            top: -50px;
+            left: -50px;
+            animation-delay: 0s;
+        }
+        
+        .shape:nth-child(2) {
+            width: 400px;
+            height: 400px;
+            bottom: -100px;
+            right: -100px;
+            animation-delay: 2s;
+            animation-duration: 18s;
+            border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
+        }
+        
+        .shape:nth-child(3) {
+            width: 200px;
+            height: 200px;
+            top: 30%;
+            right: 20%;
+            animation-delay: 4s;
+            animation-duration: 12s;
+            border-radius: 50% 50% 20% 80% / 25% 80% 20% 75%;
+        }
+        
+        .shape:nth-child(4) {
+            width: 250px;
+            height: 250px;
+            bottom: 20%;
+            left: 15%;
+            animation-delay: 6s;
+            animation-duration: 16s;
+            border-radius: 38% 62% 65% 35% / 75% 55% 45% 25%;
+        }
+        
+        @keyframes float {
+            0%, 100% {
+                transform: translate(0, 0) rotate(0deg);
+            }
+            25% {
+                transform: translate(20px, 30px) rotate(5deg);
+            }
+            50% {
+                transform: translate(-15px, 20px) rotate(-5deg);
+            }
+            75% {
+                transform: translate(10px, -15px) rotate(3deg);
+            }
+        }
+        
+        /* Glass overlay */
         .glass-overlay {
             position: absolute;
             top: 0;
@@ -71,8 +124,9 @@
             height: 100%;
             backdrop-filter: blur(40px);
             -webkit-backdrop-filter: blur(40px);
-            z-index: 0;
-            opacity: 0.6;
+            z-index: 1;
+            opacity: 0.8;
+            background: rgba(245, 245, 247, 0.85);
         }
         
         /* Loading Animation */
@@ -170,7 +224,7 @@
             transform: translateY(20px);
             transition: all 0.8s cubic-bezier(0.215, 0.61, 0.355, 1);
             position: relative;
-            z-index: 1;
+            z-index: 2;
         }
         
         .container.visible {
@@ -186,9 +240,8 @@
         .header h1 {
             font-size: 32px;
             font-weight: 600;
-            color: #ffffff;
+            color: #1d1d1f;
             letter-spacing: -0.5px;
-            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
         }
         
         .header .luma-star {
@@ -196,7 +249,7 @@
             top: 0;
             right: 0;
             font-size: 17px;
-            color: rgba(255, 255, 255, 0.7);
+            color: #86868b;
             font-weight: 500;
         }
         
@@ -220,12 +273,12 @@
             position: absolute;
             width: 100%;
             height: 100%;
-            background: linear-gradient(135deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.1));
+            background: rgba(255, 255, 255, 0.6);
             border-radius: 30px;
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
             animation: float 6s ease-in-out infinite;
         }
         
@@ -235,12 +288,12 @@
             height: 120px;
             top: 10px;
             left: 10px;
-            background: linear-gradient(135deg, rgba(0, 113, 227, 0.8), rgba(52, 170, 220, 0.9));
+            background: linear-gradient(135deg, rgba(0, 113, 227, 0.9), rgba(52, 170, 220, 0.95));
             border-radius: 24px;
             display: flex;
             justify-content: center;
             align-items: center;
-            box-shadow: 0 8px 30px rgba(0, 113, 227, 0.4);
+            box-shadow: 0 8px 30px rgba(0, 113, 227, 0.3);
             animation: logoPulse 3s ease-in-out infinite;
         }
         
@@ -255,25 +308,19 @@
             font-size: 32px;
             font-weight: 600;
             color: #0071e3;
-            box-shadow: 0 2px 10px rgba(0, 113, 227, 0.2);
-        }
-        
-        @keyframes float {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
+            box-shadow: 0 2px 10px rgba(0, 113, 227, 0.1);
         }
         
         @keyframes logoPulse {
-            0%, 100% { transform: scale(1); box-shadow: 0 8px 30px rgba(0, 113, 227, 0.4); }
-            50% { transform: scale(1.03); box-shadow: 0 12px 40px rgba(0, 113, 227, 0.5); }
+            0%, 100% { transform: scale(1); box-shadow: 0 8px 30px rgba(0, 113, 227, 0.3); }
+            50% { transform: scale(1.03); box-shadow: 0 12px 40px rgba(0, 113, 227, 0.4); }
         }
         
         h2 {
             font-size: 28px;
             font-weight: 600;
             margin-bottom: 16px;
-            color: #ffffff;
-            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            color: #1d1d1f;
             opacity: 0;
             transform: translateY(10px);
             animation: fadeInUp 0.8s cubic-bezier(0.215, 0.61, 0.355, 1) forwards 0.3s;
@@ -281,7 +328,7 @@
         
         .subtitle {
             font-size: 17px;
-            color: rgba(255, 255, 255, 0.8);
+            color: #86868b;
             margin-bottom: 40px;
             max-width: 300px;
             line-height: 1.5;
@@ -296,8 +343,8 @@
         }
         
         .start-button {
-            background-color: rgba(255, 255, 255, 0.95);
-            color: #0071e3;
+            background-color: #0071e3;
+            color: white;
             border: none;
             border-radius: 30px;
             padding: 16px 32px;
@@ -305,7 +352,7 @@
             font-weight: 500;
             cursor: pointer;
             transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
-            box-shadow: 0 8px 30px rgba(0, 113, 227, 0.4);
+            box-shadow: 0 8px 30px rgba(0, 113, 227, 0.3);
             position: relative;
             overflow: hidden;
             opacity: 0;
@@ -314,19 +361,21 @@
         }
         
         .start-button:hover {
+            background-color: #0077ed;
             transform: translateY(-3px) scale(1.02);
-            box-shadow: 0 12px 40px rgba(0, 113, 227, 0.5);
+            box-shadow: 0 12px 40px rgba(0, 113, 227, 0.4);
         }
         
         .start-button:active {
             transform: translateY(0) scale(0.98);
+            background-color: #0065c9;
         }
         
         /* Ripple effect */
         .ripple {
             position: absolute;
             border-radius: 50%;
-            background: rgba(0, 113, 227, 0.4);
+            background: rgba(255, 255, 255, 0.4);
             transform: scale(0);
             animation: ripple 0.6s linear;
             pointer-events: none;
@@ -360,8 +409,15 @@
     </style>
 </head>
 <body>
+    <!-- Animated geometric background -->
+    <div class="geometric-bg">
+        <div class="shape"></div>
+        <div class="shape"></div>
+        <div class="shape"></div>
+        <div class="shape"></div>
+    </div>
+    
     <!-- Glass overlay -->
-<canvas id="bg-canvas"></canvas>
     <div class="glass-overlay"></div>
     
     <!-- Loading Animation -->
@@ -456,12 +512,12 @@
         // Button hover effects
         startButton.addEventListener('mouseenter', () => {
             startButton.style.transform = 'translateY(-3px) scale(1.02)';
-            startButton.style.boxShadow = '0 12px 40px rgba(0, 113, 227, 0.5)';
+            startButton.style.boxShadow = '0 12px 40px rgba(0, 113, 227, 0.4)';
         });
         
         startButton.addEventListener('mouseleave', () => {
             startButton.style.transform = 'translateY(0) scale(1)';
-            startButton.style.boxShadow = '0 8px 30px rgba(0, 113, 227, 0.4)';
+            startButton.style.boxShadow = '0 8px 30px rgba(0, 113, 227, 0.3)';
         });
         
         startButton.addEventListener('mousedown', () => {
@@ -471,85 +527,24 @@
         startButton.addEventListener('mouseup', () => {
             startButton.style.transform = 'translateY(-3px) scale(1.02)';
         });
-    </script>
-
-<!-- Add this to the <script> -->
-<script>
-    const canvas = document.getElementById('bg-canvas');
-    const ctx = canvas.getContext('2d');
-    let shapes = [];
-
-    function resizeCanvas() {
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
-    }
-
-    window.addEventListener('resize', resizeCanvas);
-    resizeCanvas();
-
-    class Shape {
-        constructor() {
-            this.reset();
-        }
-
-        reset() {
-            this.x = Math.random() * canvas.width;
-            this.y = Math.random() * canvas.height;
-            this.size = 10 + Math.random() * 30;
-            this.speedX = -1 + Math.random() * 2;
-            this.speedY = -1 + Math.random() * 2;
-            this.alpha = 0.3 + Math.random() * 0.5;
-            this.type = Math.floor(Math.random() * 3); // 0 = circle, 1 = square, 2 = triangle
-        }
-
-        draw() {
-            ctx.save();
-            ctx.globalAlpha = this.alpha;
-            ctx.translate(this.x, this.y);
-
-            ctx.beginPath();
-            if (this.type === 0) {
-                ctx.arc(0, 0, this.size / 2, 0, 2 * Math.PI);
-            } else if (this.type === 1) {
-                ctx.rect(-this.size / 2, -this.size / 2, this.size, this.size);
-            } else {
-                ctx.moveTo(0, -this.size / 2);
-                ctx.lineTo(-this.size / 2, this.size / 2);
-                ctx.lineTo(this.size / 2, this.size / 2);
-                ctx.closePath();
-            }
-            ctx.fillStyle = 'rgba(255, 255, 255, 0.2)';
-            ctx.fill();
-            ctx.restore();
-        }
-
-        update() {
-            this.x += this.speedX;
-            this.y += this.speedY;
-
-            if (
-                this.x < -50 || this.x > canvas.width + 50 ||
-                this.y < -50 || this.y > canvas.height + 50
-            ) {
-                this.reset();
-            }
-        }
-    }
-
-    for (let i = 0; i < 40; i++) {
-        shapes.push(new Shape());
-    }
-
-    function animate() {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        shapes.forEach(shape => {
-            shape.update();
-            shape.draw();
+        
+        // Animate geometric shapes more dynamically
+        const shapes = document.querySelectorAll('.shape');
+        shapes.forEach((shape, index) => {
+            // Random initial position offsets
+            const xOffset = (Math.random() - 0.5) * 100;
+            const yOffset = (Math.random() - 0.5) * 100;
+            
+            // Animate
+            let angle = 0;
+            setInterval(() => {
+                angle += 0.2;
+                const moveX = Math.sin(angle * Math.PI / 180) * 30 + xOffset;
+                const moveY = Math.cos(angle * Math.PI / 180) * 30 + yOffset;
+                
+                shape.style.transform = `translate(${moveX}px, ${moveY}px) rotate(${angle}deg)`;
+            }, 50);
         });
-        requestAnimationFrame(animate);
-    }
-
-    animate();
-</script>
+    </script>
 </body>
 </html>
