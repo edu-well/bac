@@ -15,6 +15,7 @@
             --system-label: #000000;
             --system-background: #FFFFFF;
             --suggestion-bg: rgba(255,255,255,0.9);
+            --result-card-bg: rgba(255,255,255,0.95);
         }
 
         * {
@@ -34,13 +35,13 @@
             background-color: var(--system-background);
             color: var(--system-label);
             position: relative;
-            overflow: hidden;
+            overflow-x: hidden;
             padding: 0 24px;
         }
 
         .aurora {
             position: absolute;
-            top: -150px; /* Higher up position */
+            top: -150px;
             left: 0;
             width: 100%;
             height: 400px;
@@ -130,7 +131,7 @@
             position: relative;
             width: 100%;
             max-width: 400px;
-            margin: 0 auto;
+            margin: 0 auto 24px;
             opacity: 0;
             transform: translateY(20px);
             animation: fadeIn 0.6s cubic-bezier(0.22, 1, 0.36, 1) 1.4s forwards;
@@ -231,7 +232,7 @@
             max-width: 400px;
             margin-top: 8px;
             opacity: 1;
-            transition: opacity 0.3s ease;
+            transition: all 0.3s ease;
         }
 
         .quick-suggestion {
@@ -251,6 +252,64 @@
         .quick-suggestion:hover {
             background-color: rgba(0, 122, 255, 0.1);
             color: var(--system-blue);
+        }
+
+        .results-container {
+            width: 100%;
+            max-width: 500px;
+            display: none;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 12px;
+            margin-top: 24px;
+            animation: fadeInUp 0.4s ease-out;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .result-card {
+            background-color: var(--result-card-bg);
+            border-radius: 12px;
+            padding: 16px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            cursor: pointer;
+            overflow: hidden;
+        }
+
+        .result-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+        }
+
+        .result-title {
+            font-weight: 600;
+            margin-bottom: 4px;
+            color: var(--system-label);
+        }
+
+        .result-description {
+            font-size: 13px;
+            color: var(--system-gray);
+            line-height: 1.4;
+        }
+
+        .no-results {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 24px;
+            color: var(--system-gray);
+            display: none;
         }
 
         .loading-indicator {
@@ -283,9 +342,23 @@
             animation: spin 1s linear infinite;
         }
 
+        .search-spinner {
+            position: absolute;
+            right: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            border: 2px solid rgba(0, 122, 255, 0.2);
+            border-top-color: var(--system-blue);
+            animation: spin 0.8s linear infinite;
+            display: none;
+        }
+
         @keyframes spin {
             to {
-                transform: rotate(360deg);
+                transform: translateY(-50%) rotate(360deg);
             }
         }
 
@@ -315,6 +388,10 @@
                 flex-direction: column;
                 gap: 6px;
             }
+            
+            .results-container {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
@@ -335,14 +412,13 @@
         <div class="search-container">
             <div class="search-input-container">
                 <input type="text" class="search-input" placeholder="Search" id="searchInput">
+                <div class="search-spinner" id="searchSpinner"></div>
                 <svg class="search-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M11 19C15.4183 19 19 15.4183 19 11C19 6.58172 15.4183 3 11 3C6.58172 3 3 6.58172 3 11C3 15.4183 6.58172 19 11 19Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                     <path d="M21 21L16.65 16.65" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                 </svg>
                 
-                <div class="search-suggestions" id="searchSuggestions">
-                    <!-- Dynamic suggestions will appear here -->
-                </div>
+                <div class="search-suggestions" id="searchSuggestions"></div>
             </div>
             
             <div class="quick-suggestions" id="quickSuggestions">
@@ -351,30 +427,84 @@
                 <div class="quick-suggestion">Workout</div>
             </div>
         </div>
+        
+        <div class="results-container" id="resultsContainer">
+            <div class="no-results" id="noResults">No tasks found. Try a different search term.</div>
+            <!-- Results will be inserted here by JavaScript -->
+        </div>
     </div>
 
     <script>
+        // Database simulation
+        const taskDatabase = [
+            {
+                id: 1,
+                title: "Weekly Shopping",
+                description: "Buy groceries for the week including fruits, vegetables, and snacks",
+                category: "shopping"
+            },
+            {
+                id: 2,
+                title: "Team Meeting",
+                description: "Discuss project progress with the development team",
+                category: "meeting"
+            },
+            {
+                id: 3,
+                title: "Morning Workout",
+                description: "30 minutes cardio and strength training",
+                category: "workout"
+            },
+            {
+                id: 4,
+                title: "Control Budget",
+                description: "Review and adjust monthly expenses",
+                category: "finance"
+            },
+            {
+                id: 5,
+                title: "Gift Shopping",
+                description: "Buy birthday present for Sarah",
+                category: "shopping"
+            },
+            {
+                id: 6,
+                title: "Project Control",
+                description: "Monitor project timeline and deliverables",
+                category: "work"
+            },
+            {
+                id: 7,
+                title: "Client Meeting",
+                description: "Presentation for new client acquisition",
+                category: "meeting"
+            },
+            {
+                id: 8,
+                title: "Grocery Shopping",
+                description: "Milk, eggs, bread, and coffee",
+                category: "shopping"
+            }
+        ];
+
+        // DOM Elements
         const searchInput = document.getElementById('searchInput');
         const searchSuggestions = document.getElementById('searchSuggestions');
         const quickSuggestions = document.getElementById('quickSuggestions');
+        const resultsContainer = document.getElementById('resultsContainer');
+        const noResults = document.getElementById('noResults');
+        const searchSpinner = document.getElementById('searchSpinner');
         
-        // Sample data for suggestions
-        const sampleTasks = [
-            "Control project timeline",
-            "Control budget",
-            "Control quality standards",
-            "Meeting with team",
-            "Buy groceries",
-            "Finish project",
-            "Call mom",
-            "Schedule dentist",
-            "Review documents",
-            "Plan vacation"
-        ];
+        // Debounce function to limit how often search executes
+        let searchTimeout;
+        function debounceSearch(func, delay) {
+            clearTimeout(searchTimeout);
+            searchTimeout = setTimeout(func, delay);
+        }
         
         // Show suggestions when focused
         searchInput.addEventListener('focus', function() {
-            this.setAttribute('placeholder', 'Search or create task');
+            this.setAttribute('placeholder', 'Search tasks...');
             updateSuggestions('');
         });
         
@@ -382,10 +512,12 @@
             this.setAttribute('placeholder', 'Search');
         });
         
-        // Update suggestions based on input
+        // Update search results and suggestions
         searchInput.addEventListener('input', function() {
-            const inputValue = this.value.toLowerCase();
-            updateSuggestions(inputValue);
+            const inputValue = this.value.toLowerCase().trim();
+            
+            // Show loading spinner
+            searchSpinner.style.display = 'block';
             
             // Hide quick suggestions when typing
             if (inputValue.length > 0) {
@@ -394,30 +526,40 @@
             } else {
                 quickSuggestions.style.opacity = '1';
                 quickSuggestions.style.pointerEvents = 'auto';
+                resultsContainer.style.display = 'none';
             }
+            
+            // Debounce the search to avoid too many rapid updates
+            debounceSearch(() => {
+                updateSuggestions(inputValue);
+                updateSearchResults(inputValue);
+                searchSpinner.style.display = 'none';
+            }, 300);
         });
         
-        // Handle suggestion selection
+        // Update search suggestions
         function updateSuggestions(input) {
             searchSuggestions.innerHTML = '';
             
             if (input.length === 0) return;
             
-            // Filter tasks that include the input text
-            const filteredTasks = sampleTasks.filter(task => 
-                task.toLowerCase().includes(input)
+            // Find tasks that match the input in title or description
+            const matchedTasks = taskDatabase.filter(task => 
+                task.title.toLowerCase().includes(input) || 
+                task.description.toLowerCase().includes(input)
             );
             
             // Only show up to 3 matching suggestions
-            const suggestionsToShow = filteredTasks.slice(0, 3);
+            const suggestionsToShow = matchedTasks.slice(0, 3);
             
             if (suggestionsToShow.length > 0) {
                 suggestionsToShow.forEach(task => {
                     const item = document.createElement('div');
                     item.className = 'suggestion-item';
-                    item.textContent = task;
+                    item.textContent = task.title;
                     item.addEventListener('click', function() {
-                        searchInput.value = task;
+                        searchInput.value = task.title;
+                        updateSearchResults(task.title.toLowerCase());
                         searchInput.focus();
                     });
                     searchSuggestions.appendChild(item);
@@ -425,23 +567,65 @@
             }
         }
         
+        // Update search results
+        function updateSearchResults(input) {
+            resultsContainer.innerHTML = '';
+            noResults.style.display = 'none';
+            
+            if (input.length === 0) {
+                resultsContainer.style.display = 'none';
+                return;
+            }
+            
+            // Find tasks that match the input in title or description
+            const matchedTasks = taskDatabase.filter(task => 
+                task.title.toLowerCase().includes(input) || 
+                task.description.toLowerCase().includes(input)
+            );
+            
+            if (matchedTasks.length > 0) {
+                matchedTasks.forEach(task => {
+                    const card = document.createElement('div');
+                    card.className = 'result-card';
+                    card.innerHTML = `
+                        <div class="result-title">${task.title}</div>
+                        <div class="result-description">${task.description}</div>
+                    `;
+                    card.addEventListener('click', function() {
+                        console.log('Selected task:', task.title);
+                        // Add your task selection logic here
+                    });
+                    resultsContainer.appendChild(card);
+                });
+                
+                resultsContainer.style.display = 'grid';
+            } else {
+                noResults.style.display = 'block';
+                resultsContainer.style.display = 'grid';
+            }
+        }
+        
         // Handle quick suggestion clicks
         document.querySelectorAll('.quick-suggestion').forEach(item => {
             item.addEventListener('click', function() {
+                const suggestion = this.textContent.toLowerCase();
                 searchInput.value = this.textContent;
+                updateSearchResults(suggestion);
                 searchInput.focus();
-                updateSuggestions(this.textContent.toLowerCase());
             });
         });
         
         // Handle task creation
         searchInput.addEventListener('keydown', function(e) {
             if (e.key === 'Enter' && this.value.trim()) {
-                // Add task functionality here
+                // In a real app, you would add the task to your database here
                 console.log('Creating task:', this.value);
+                
+                // For demo purposes, just clear the input
                 this.value = '';
                 quickSuggestions.style.opacity = '1';
                 quickSuggestions.style.pointerEvents = 'auto';
+                resultsContainer.style.display = 'none';
             }
         });
     </script>
