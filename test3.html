@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Delightful Events | Professional Event Management</title>
+    <title>Eduwell | Professional Education Management</title>
     <style>
         /* Apple San Francisco fonts */
         @font-face {
@@ -297,7 +297,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            font-size: 36px;
+            font-size: 28px; /* Reduced for "Eduwell" */
             font-weight: 600;
             color: #0071e3;
             box-shadow: 0 4px 15px rgba(0, 113, 227, 0.1);
@@ -348,8 +348,13 @@
             position: relative;
             overflow: hidden;
             opacity: 0;
-            transform: translateY(10px) scale(0.96);
-            animation: fadeInUp 1s cubic-bezier(0.215, 0.61, 0.355, 1) forwards 0.7s;
+            transform: translateY(20px) scale(0.96);
+            animation: buttonEntrance 0.8s cubic-bezier(0.215, 0.61, 0.355, 1) forwards 3s;
+        }
+        
+        @keyframes buttonEntrance {
+            0% { opacity: 0; transform: translateY(20px) scale(0.96); }
+            100% { opacity: 1; transform: translateY(0) scale(1); }
         }
         
         .start-button:hover {
@@ -378,6 +383,23 @@
                 transform: scale(4);
                 opacity: 0;
             }
+        }
+        
+        /* Additional Content Animation */
+        .content-animation {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: 3;
+            pointer-events: none;
+            opacity: 0;
+            animation: contentReveal 1.5s cubic-bezier(0.215, 0.61, 0.355, 1) forwards 1.5s;
+        }
+        
+        @keyframes contentReveal {
+            to { opacity: 1; }
         }
         
         /* Professional Transition Overlay */
@@ -414,13 +436,16 @@
     <!-- Professional Loading Animation -->
     <div class="loader" id="loader">
         <div class="loader-logo">
-            <div class="loader-logo-inner">DE</div>
+            <div class="loader-logo-inner">EW</div>
         </div>
-        <div class="loader-text">Initializing Delightful Events</div>
+        <div class="loader-text">Initializing Eduwell Platform</div>
         <div class="progress-container">
             <div class="progress-bar" id="progressBar"></div>
         </div>
     </div>
+    
+    <!-- Additional Content Animation -->
+    <div class="content-animation" id="contentAnimation"></div>
     
     <!-- Professional Transition Overlay -->
     <div class="transition-overlay" id="transitionOverlay"></div>
@@ -428,20 +453,20 @@
     <!-- Main Content -->
     <div class="container" id="mainContainer">
         <div class="header">
-            <h1>Delightful Events</h1>
-            <div class="luma-star">luma*</div>
+            <h1>Eduwell</h1>
+            <div class="luma-star">premium*</div>
         </div>
         
         <div class="main-content">
             <div class="logo-container">
                 <div class="logo-background"></div>
                 <div class="logo">
-                    <div class="logo-inner">DE</div>
+                    <div class="logo-inner">EW</div>
                 </div>
             </div>
             
-            <h2>Professional Event Management</h2>
-            <p class="subtitle">Create, manage, and analyze events with enterprise-grade precision and Apple-inspired elegance</p>
+            <h2>Education Excellence Platform</h2>
+            <p class="subtitle">Transform your educational institution with our premium management system</p>
             
             <button class="start-button" id="startButton">Get Started</button>
         </div>
@@ -467,10 +492,44 @@
                     setTimeout(() => {
                         document.getElementById('loader').classList.add('hidden');
                         document.getElementById('mainContainer').classList.add('visible');
+                        document.getElementById('contentAnimation').style.opacity = '1';
+                        
+                        // Additional animations after content loads
+                        setTimeout(() => {
+                            animateContentElements();
+                        }, 500);
                     }, 600);
                 }
             }
-        }, 500);
+        }, 400);
+        
+        function animateContentElements() {
+            // Animate geometric shapes more dynamically
+            const shapes = document.querySelectorAll('.shape');
+            shapes.forEach((shape, index) => {
+                // Random initial position offsets
+                const xOffset = (Math.random() - 0.5) * 150;
+                const yOffset = (Math.random() - 0.5) * 150;
+                
+                // Animate with professional easing
+                let angle = 0;
+                setInterval(() => {
+                    angle += 0.15;
+                    const moveX = Math.sin(angle * Math.PI / 180) * 50 + xOffset;
+                    const moveY = Math.cos(angle * Math.PI / 180) * 50 + yOffset;
+                    
+                    shape.style.transform = `translate(${moveX}px, ${moveY}px) rotate(${angle}deg)`;
+                }, 50);
+            });
+            
+            // Logo animation
+            const logo = document.querySelector('.logo');
+            logo.style.animation = 'logoPulse 4s ease-in-out infinite';
+            
+            // Background animation
+            const logoBg = document.querySelector('.logo-background');
+            logoBg.style.animation = 'float 8s ease-in-out infinite';
+        }
         
         // Professional Button Interaction
         const startButton = document.getElementById('startButton');
@@ -523,24 +582,6 @@
         
         startButton.addEventListener('mouseup', () => {
             startButton.style.transform = 'translateY(-4px) scale(1.02)';
-        });
-        
-        // Professional Geometric Animation
-        const shapes = document.querySelectorAll('.shape');
-        shapes.forEach((shape, index) => {
-            // Random initial position offsets
-            const xOffset = (Math.random() - 0.5) * 150;
-            const yOffset = (Math.random() - 0.5) * 150;
-            
-            // Animate with professional easing
-            let angle = 0;
-            setInterval(() => {
-                angle += 0.15;
-                const moveX = Math.sin(angle * Math.PI / 180) * 50 + xOffset;
-                const moveY = Math.cos(angle * Math.PI / 180) * 50 + yOffset;
-                
-                shape.style.transform = `translate(${moveX}px, ${moveY}px) rotate(${angle}deg)`;
-            }, 50);
         });
     </script>
 </body>
