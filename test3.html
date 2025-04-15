@@ -32,6 +32,70 @@
             background-color: var(--system-background);
             color: var(--system-label);
             padding: 20px;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* Geometric background shapes */
+        .geometric-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 40vh;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .shape {
+            position: absolute;
+            opacity: 0.1;
+            animation: float 15s infinite linear;
+        }
+
+        .shape-1 {
+            width: 150px;
+            height: 150px;
+            background-color: #FF9A9E;
+            border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
+            top: 10%;
+            left: 10%;
+            animation-delay: 0s;
+        }
+
+        .shape-2 {
+            width: 200px;
+            height: 200px;
+            background-color: #A1C4FD;
+            border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
+            top: 20%;
+            right: 10%;
+            animation-delay: -5s;
+        }
+
+        .shape-3 {
+            width: 120px;
+            height: 120px;
+            background-color: #FBC2EB;
+            border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+            bottom: 10%;
+            left: 30%;
+            animation-delay: -10s;
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translate(0, 0) rotate(0deg);
+            }
+            25% {
+                transform: translate(10px, 15px) rotate(5deg);
+            }
+            50% {
+                transform: translate(-5px, 20px) rotate(-5deg);
+            }
+            75% {
+                transform: translate(15px, 5px) rotate(3deg);
+            }
         }
 
         .content {
@@ -147,22 +211,58 @@
             display: none;
         }
 
-        .search-spinner {
-            position: absolute;
-            right: 16px;
-            top: 50%;
-            transform: translateY(-50%);
-            width: 18px;
-            height: 18px;
-            border-radius: 50%;
-            border: 2px solid rgba(0, 122, 255, 0.2);
-            border-top-color: var(--system-blue);
-            animation: spin 0.8s linear infinite;
+        /* PDF Viewer Modal */
+        .pdf-modal {
             display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 100;
+            justify-content: center;
+            align-items: center;
+            animation: fadeIn 0.3s ease-out;
         }
 
-        @keyframes spin {
-            to { transform: translateY(-50%) rotate(360deg); }
+        .pdf-container {
+            background-color: white;
+            border-radius: 12px;
+            width: 90%;
+            max-width: 800px;
+            height: 80vh;
+            padding: 20px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .pdf-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .pdf-title {
+            font-weight: 600;
+            font-size: 18px;
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: var(--system-gray);
+        }
+
+        .pdf-iframe {
+            flex: 1;
+            border: 1px solid #E5E5EA;
+            border-radius: 8px;
+            background: #f8f8f8;
         }
 
         @media (max-width: 600px) {
@@ -179,16 +279,28 @@
             .search-icon {
                 left: 14px;
             }
+            
+            .pdf-container {
+                width: 95%;
+                height: 70vh;
+                padding: 15px;
+            }
         }
     </style>
 </head>
 <body>
+    <!-- Geometric Background Shapes -->
+    <div class="geometric-bg">
+        <div class="shape shape-1"></div>
+        <div class="shape shape-2"></div>
+        <div class="shape shape-3"></div>
+    </div>
+
     <div class="content">
         <div class="logo">Dona</div>
         
         <div class="search-container">
             <input type="text" class="search-input" placeholder="Search tasks..." id="searchInput">
-            <div class="search-spinner" id="searchSpinner"></div>
             <svg class="search-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M11 19C15.4183 19 19 15.4183 19 11C19 6.58172 15.4183 3 11 3C6.58172 3 3 6.58172 3 11C3 15.4183 6.58172 19 11 19Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                 <path d="M21 21L16.65 16.65" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
@@ -200,43 +312,80 @@
         </div>
     </div>
 
+    <!-- PDF Viewer Modal -->
+    <div class="pdf-modal" id="pdfModal">
+        <div class="pdf-container">
+            <div class="pdf-header">
+                <div class="pdf-title" id="pdfTitle">Document.pdf</div>
+                <button class="close-btn" id="closePdf">&times;</button>
+            </div>
+            <iframe class="pdf-iframe" id="pdfViewer" frameborder="0"></iframe>
+        </div>
+    </div>
+
     <script>
-        // Lightweight database
+        // Sample database with PDF links
         const tasks = [
-            { id: 1, title: "Weekly Shopping", description: "Groceries for the week" },
-            { id: 2, title: "Team Meeting", description: "Discuss project progress" },
-            { id: 3, title: "Morning Workout", description: "30 minutes exercise" },
-            { id: 4, title: "Control Budget", description: "Review expenses" },
-            { id: 5, title: "Gift Shopping", description: "Birthday present" },
-            { id: 6, title: "Project Review", description: "Check milestones" }
+            { 
+                id: 1, 
+                title: "Project Report", 
+                description: "Quarterly project status report",
+                pdf: "https://example.com/sample1.pdf" 
+            },
+            { 
+                id: 2, 
+                title: "Meeting Notes", 
+                description: "March team meeting minutes",
+                pdf: "https://example.com/sample2.pdf" 
+            },
+            { 
+                id: 3, 
+                title: "Budget Plan", 
+                description: "2023 financial budget",
+                pdf: "https://example.com/sample3.pdf" 
+            },
+            { 
+                id: 4, 
+                title: "Product Spec", 
+                description: "New product specifications",
+                pdf: "https://example.com/sample4.pdf" 
+            },
+            { 
+                id: 5, 
+                title: "User Guide", 
+                description: "Software user manual",
+                pdf: "https://example.com/sample5.pdf" 
+            },
+            { 
+                id: 6, 
+                title: "Research Paper", 
+                description: "Market research findings",
+                pdf: "https://example.com/sample6.pdf" 
+            }
         ];
 
         // DOM elements
         const searchInput = document.getElementById('searchInput');
         const resultsContainer = document.getElementById('resultsContainer');
         const noResults = document.getElementById('noResults');
-        const searchSpinner = document.getElementById('searchSpinner');
+        const pdfModal = document.getElementById('pdfModal');
+        const pdfViewer = document.getElementById('pdfViewer');
+        const pdfTitle = document.getElementById('pdfTitle');
+        const closePdf = document.getElementById('closePdf');
 
-        // Search function (optimized)
+        // Search function
         function performSearch(query) {
-            // Hide previous results
             resultsContainer.style.display = 'none';
             noResults.style.display = 'none';
             
             if (!query.trim()) return;
             
-            searchSpinner.style.display = 'block';
+            const results = tasks.filter(task => 
+                task.title.toLowerCase().includes(query) || 
+                task.description.toLowerCase().includes(query)
+            );
             
-            // Simulate network delay
-            setTimeout(() => {
-                const results = tasks.filter(task => 
-                    task.title.toLowerCase().includes(query) || 
-                    task.description.toLowerCase().includes(query)
-                );
-                
-                displayResults(results);
-                searchSpinner.style.display = 'none';
-            }, 200);
+            displayResults(results);
         }
 
         // Display results
@@ -251,9 +400,7 @@
                         <div class="result-title">${task.title}</div>
                         <div class="result-description">${task.description}</div>
                     `;
-                    card.addEventListener('click', () => {
-                        console.log('Selected:', task.title);
-                    });
+                    card.addEventListener('click', () => openPdf(task));
                     resultsContainer.appendChild(card);
                 });
                 
@@ -263,6 +410,30 @@
                 resultsContainer.style.display = 'grid';
             }
         }
+
+        // Open PDF viewer
+        function openPdf(task) {
+            pdfTitle.textContent = task.title + '.pdf';
+            pdfViewer.src = task.pdf;
+            pdfModal.style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+        }
+
+        // Close PDF viewer
+        closePdf.addEventListener('click', () => {
+            pdfModal.style.display = 'none';
+            pdfViewer.src = '';
+            document.body.style.overflow = 'auto';
+        });
+
+        // Close modal when clicking outside
+        pdfModal.addEventListener('click', (e) => {
+            if (e.target === pdfModal) {
+                pdfModal.style.display = 'none';
+                pdfViewer.src = '';
+                document.body.style.overflow = 'auto';
+            }
+        });
 
         // Event listeners
         let searchTimeout;
