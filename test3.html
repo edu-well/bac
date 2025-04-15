@@ -6,7 +6,7 @@
     <title>Dona</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=SF+Pro+Display:wght@400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
     <style>
         :root {
             --system-blue: #007AFF;
@@ -14,6 +14,7 @@
             --system-gray-light: #F2F2F7;
             --system-label: #000000;
             --system-background: #FFFFFF;
+            --suggestion-bg: rgba(255,255,255,0.8);
         }
 
         * {
@@ -24,7 +25,7 @@
         }
 
         body {
-            font-family: -apple-system, 'SF Pro Display', BlinkMacSystemFont, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, 'Inter', sans-serif;
             min-height: 100vh;
             display: flex;
             flex-direction: column;
@@ -39,10 +40,10 @@
 
         .aurora {
             position: absolute;
-            top: -100px; /* Perfectly positioned for mobile */
+            top: 0;
             left: 0;
             width: 100%;
-            height: 300px;
+            height: 50vh;
             overflow: hidden;
             z-index: 0;
             opacity: 0.8;
@@ -58,21 +59,21 @@
         }
 
         .aurora__layer:nth-child(1) {
-            background: linear-gradient(45deg, #FF375F 0%, #FF9F2D 100%);
+            background: linear-gradient(45deg, #ff9a9e 0%, #fad0c4 100%);
             animation-delay: -5s;
             top: -20%;
             left: -50%;
         }
 
         .aurora__layer:nth-child(2) {
-            background: linear-gradient(45deg, #32D74B 0%, #64D2FF 100%);
+            background: linear-gradient(45deg, #a1c4fd 0%, #c2e9fb 100%);
             animation-delay: -10s;
             top: 0%;
             left: -30%;
         }
 
         .aurora__layer:nth-child(3) {
-            background: linear-gradient(45deg, #BF5AF2 0%, #FF2D55 100%);
+            background: linear-gradient(45deg, #fbc2eb 0%, #a6c1ee 100%);
             animation-delay: -15s;
             top: -10%;
             left: -70%;
@@ -116,6 +117,13 @@
             animation: fadeIn 0.6s cubic-bezier(0.22, 1, 0.36, 1) 0.8s forwards;
         }
 
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
         .search-container {
             position: relative;
             width: 100%;
@@ -126,11 +134,9 @@
             animation: fadeIn 0.6s cubic-bezier(0.22, 1, 0.36, 1) 1.4s forwards;
         }
 
-        @keyframes fadeIn {
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+        .search-input-container {
+            position: relative;
+            width: 100%;
         }
 
         .search-input {
@@ -146,10 +152,12 @@
             font-weight: 400;
             box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
             transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
         }
 
         .search-input:focus {
-            background-color: var(--system-background);
+            background-color: var(--suggestion-bg);
             box-shadow: 0 2px 6px rgba(0, 122, 255, 0.2);
         }
 
@@ -166,10 +174,66 @@
             color: var(--system-gray);
             pointer-events: none;
             transition: color 0.2s ease;
+            z-index: 2;
         }
 
         .search-input:focus + .search-icon {
             color: var(--system-blue);
+        }
+
+        .search-suggestions {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            width: 100%;
+            background-color: var(--suggestion-bg);
+            border-radius: 0 0 10px 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            max-height: 200px;
+            overflow-y: auto;
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            transform-origin: top;
+            transform: scaleY(0);
+            opacity: 0;
+            transition: all 0.25s cubic-bezier(0.32, 0.72, 0, 1);
+            z-index: 10;
+        }
+
+        .search-input:focus ~ .search-suggestions {
+            transform: scaleY(1);
+            opacity: 1;
+        }
+
+        .suggestion-item {
+            padding: 12px 20px;
+            font-size: 15px;
+            color: var(--system-label);
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+            display: flex;
+            align-items: center;
+            padding-left: 44px;
+            position: relative;
+        }
+
+        .suggestion-item:hover {
+            background-color: rgba(0, 0, 0, 0.05);
+        }
+
+        .suggestion-item::before {
+            content: "";
+            position: absolute;
+            left: 16px;
+            width: 16px;
+            height: 16px;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%238E8E93'%3E%3Cpath d='M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z'/%3E%3C/svg%3E");
+            background-size: contain;
+            opacity: 0.6;
+        }
+
+        .suggestion-item:hover::before {
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23007AFF'%3E%3Cpath d='M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z'/%3E%3C/svg%3E");
         }
 
         .loading-indicator {
@@ -209,11 +273,6 @@
         }
 
         @media (max-width: 480px) {
-            .aurora {
-                top: -80px;
-                height: 250px;
-            }
-            
             .search-input {
                 font-size: 16px;
                 padding: 12px 16px;
@@ -222,6 +281,12 @@
             
             .search-icon {
                 left: 14px;
+            }
+            
+            .suggestion-item {
+                padding: 10px 16px;
+                padding-left: 40px;
+                font-size: 14px;
             }
         }
     </style>
@@ -241,29 +306,62 @@
         <div class="logo">Dona</div>
         
         <div class="search-container">
-            <input type="text" class="search-input" placeholder="Search" id="searchInput">
-            <svg class="search-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M11 19C15.4183 19 19 15.4183 19 11C19 6.58172 15.4183 3 11 3C6.58172 3 3 6.58172 3 11C3 15.4183 6.58172 19 11 19Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                <path d="M21 21L16.65 16.65" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
+            <div class="search-input-container">
+                <input type="text" class="search-input" placeholder="Search" id="searchInput">
+                <svg class="search-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M11 19C15.4183 19 19 15.4183 19 11C19 6.58172 15.4183 3 11 3C6.58172 3 3 6.58172 3 11C3 15.4183 6.58172 19 11 19Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M21 21L16.65 16.65" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                
+                <div class="search-suggestions" id="searchSuggestions">
+                    <div class="suggestion-item">Meeting with team</div>
+                    <div class="suggestion-item">Buy groceries</div>
+                    <div class="suggestion-item">Finish project</div>
+                    <div class="suggestion-item">Call mom</div>
+                    <div class="suggestion-item">Schedule dentist</div>
+                </div>
+            </div>
         </div>
     </div>
 
     <script>
-        document.getElementById('searchInput').addEventListener('focus', function() {
+        const searchInput = document.getElementById('searchInput');
+        const searchSuggestions = document.getElementById('searchSuggestions');
+        
+        // Show suggestions when focused
+        searchInput.addEventListener('focus', function() {
             this.setAttribute('placeholder', 'Search or create task');
         });
         
-        document.getElementById('searchInput').addEventListener('blur', function() {
+        searchInput.addEventListener('blur', function() {
             this.setAttribute('placeholder', 'Search');
         });
         
+        // Hide suggestions when typing
+        searchInput.addEventListener('input', function() {
+            if (this.value.length > 0) {
+                searchSuggestions.style.display = 'none';
+            } else {
+                searchSuggestions.style.display = 'block';
+            }
+        });
+        
+        // Handle suggestion selection
+        document.querySelectorAll('.suggestion-item').forEach(item => {
+            item.addEventListener('click', function() {
+                searchInput.value = this.textContent;
+                searchSuggestions.style.display = 'none';
+                searchInput.focus();
+            });
+        });
+        
         // Handle task creation
-        document.getElementById('searchInput').addEventListener('keydown', function(e) {
+        searchInput.addEventListener('keydown', function(e) {
             if (e.key === 'Enter' && this.value.trim()) {
                 // Add task functionality here
                 console.log('Creating task:', this.value);
                 this.value = '';
+                searchSuggestions.style.display = 'block';
             }
         });
     </script>
