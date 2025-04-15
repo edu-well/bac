@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dona - Focused Todo Experience</title>
+    <title>Dona - Focused Productivity</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
@@ -14,6 +14,7 @@
             --text-dark: #1e293b;
             --text-light: #64748b;
             --white: #ffffff;
+            --search-shadow: 0 12px 24px -6px rgba(67, 97, 238, 0.15);
         }
 
         * {
@@ -39,40 +40,41 @@
 
         .aurora {
             position: absolute;
-            top: 0;
+            top: -10vh; /* Elevated position */
             left: 0;
             width: 100%;
-            height: 50vh;
+            height: 40vh; /* Reduced height */
             overflow: hidden;
-            z-index: -1;
+            z-index: 0;
+            opacity: 0.8;
         }
 
         .aurora__layer {
             position: absolute;
             width: 200%;
-            height: 100%;
-            animation: aurora 20s infinite linear;
-            opacity: 0.7;
+            height: 120%;
+            animation: aurora 18s infinite linear;
+            filter: blur(60px);
         }
 
         .aurora__layer:nth-child(1) {
             background: linear-gradient(45deg, #ff9a9e 0%, #fad0c4 100%);
             animation-delay: -5s;
-            top: -20%;
+            top: -10%;
             left: -50%;
         }
 
         .aurora__layer:nth-child(2) {
             background: linear-gradient(45deg, #a1c4fd 0%, #c2e9fb 100%);
             animation-delay: -10s;
-            top: -10%;
+            top: 0%;
             left: -30%;
         }
 
         .aurora__layer:nth-child(3) {
             background: linear-gradient(45deg, #fbc2eb 0%, #a6c1ee 100%);
             animation-delay: -15s;
-            top: -15%;
+            top: -5%;
             left: -70%;
         }
 
@@ -81,13 +83,13 @@
                 transform: rotate(0deg) translateX(0) translateY(0);
             }
             25% {
-                transform: rotate(2deg) translateX(5%) translateY(10%);
+                transform: rotate(1.5deg) translateX(5%) translateY(5%);
             }
             50% {
-                transform: rotate(0deg) translateX(10%) translateY(5%);
+                transform: rotate(0deg) translateX(8%) translateY(3%);
             }
             75% {
-                transform: rotate(-2deg) translateX(5%) translateY(10%);
+                transform: rotate(-1.5deg) translateX(5%) translateY(5%);
             }
             100% {
                 transform: rotate(0deg) translateX(0) translateY(0);
@@ -95,11 +97,12 @@
         }
 
         .content {
-            max-width: 480px;
+            max-width: 520px;
             width: 100%;
             opacity: 0;
             transform: translateY(20px);
             animation: fadeIn 0.8s cubic-bezier(0.22, 1, 0.36, 1) 0.3s forwards;
+            z-index: 1;
         }
 
         @keyframes fadeIn {
@@ -113,67 +116,73 @@
             font-size: 32px;
             font-weight: 600;
             color: var(--primary);
-            margin-bottom: 8px;
+            margin-bottom: 12px;
+            letter-spacing: -0.5px;
         }
 
         h1 {
             font-size: 28px;
             font-weight: 600;
-            margin-bottom: 16px;
+            margin-bottom: 24px;
             line-height: 1.3;
+            letter-spacing: -0.2px;
         }
 
         .subtitle {
             font-size: 16px;
             color: var(--text-light);
             line-height: 1.6;
-            margin-bottom: 32px;
+            margin-bottom: 40px;
+            max-width: 400px;
+            margin-left: auto;
+            margin-right: auto;
         }
 
-        .btn {
-            background: var(--primary);
-            color: var(--white);
-            border: none;
-            border-radius: 12px;
-            padding: 16px 32px;
-            font-size: 16px;
-            font-weight: 500;
-            cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.22, 1, 0.36, 1);
-            width: 100%;
-            max-width: 240px;
-            box-shadow: 0 4px 20px rgba(67, 97, 238, 0.3);
+        .search-container {
             position: relative;
-            overflow: hidden;
+            width: 100%;
+            max-width: 480px;
+            margin: 0 auto;
         }
 
-        .btn:hover {
-            background: var(--primary-dark);
-            box-shadow: 0 6px 24px rgba(67, 97, 238, 0.4);
+        .search-input {
+            width: 100%;
+            padding: 18px 24px;
+            padding-left: 52px;
+            font-size: 16px;
+            border: none;
+            border-radius: 14px;
+            background: var(--white);
+            box-shadow: var(--search-shadow);
+            transition: all 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+            color: var(--text-dark);
+            outline: none;
+        }
+
+        .search-input:focus {
+            box-shadow: 0 16px 32px -8px rgba(67, 97, 238, 0.2);
             transform: translateY(-2px);
         }
 
-        .btn:active {
-            transform: translateY(0);
+        .search-input::placeholder {
+            color: #94a3b8;
+            font-weight: 400;
         }
 
-        .btn::after {
-            content: '';
+        .search-icon {
             position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, 
-                            rgba(255,255,255,0) 0%, 
-                            rgba(255,255,255,0.2) 50%, 
-                            rgba(255,255,255,0) 100%);
-            transform: translateX(-100%);
-            transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #94a3b8;
+            pointer-events: none;
         }
 
-        .btn:hover::after {
-            transform: translateX(100%);
+        .search-hint {
+            font-size: 13px;
+            color: var(--text-light);
+            margin-top: 16px;
+            opacity: 0.8;
         }
 
         @media (max-width: 480px) {
@@ -183,10 +192,17 @@
             
             .subtitle {
                 font-size: 15px;
+                margin-bottom: 32px;
             }
             
-            .btn {
-                padding: 14px 28px;
+            .search-input {
+                padding: 16px 20px;
+                padding-left: 48px;
+                font-size: 15px;
+            }
+            
+            .search-icon {
+                left: 18px;
             }
         }
     </style>
@@ -202,51 +218,52 @@
         <div class="logo">Dona</div>
         <h1>Welcome to Dona</h1>
         <p class="subtitle">Dona is a back to basic to-do list focused on fast and delightful user experience.</p>
-        <button class="btn" id="continueBtn">Continue</button>
+        
+        <div class="search-container">
+            <svg class="search-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M11 19C15.4183 19 19 15.4183 19 11C19 6.58172 15.4183 3 11 3C6.58172 3 3 6.58172 3 11C3 15.4183 6.58172 19 11 19Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M21 21L16.65 16.65" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <input type="text" class="search-input" placeholder="Search or add a new task..." id="searchInput">
+            <p class="search-hint">Press Enter to add, Tab to navigate</p>
+        </div>
     </div>
 
     <script>
-        document.getElementById('continueBtn').addEventListener('click', function() {
-            // Add ripple effect
-            const ripple = document.createElement('span');
-            ripple.style.position = 'absolute';
-            ripple.style.borderRadius = '50%';
-            ripple.style.backgroundColor = 'rgba(255, 255, 255, 0.4)';
-            ripple.style.transform = 'scale(0)';
-            ripple.style.animation = 'ripple 0.6s linear';
-            ripple.style.pointerEvents = 'none';
-            
-            // Set position
-            const rect = this.getBoundingClientRect();
-            const size = Math.max(rect.width, rect.height);
-            ripple.style.width = ripple.style.height = `${size}px`;
-            ripple.style.left = `${event.clientX - rect.left - size/2}px`;
-            ripple.style.top = `${event.clientY - rect.top - size/2}px`;
-            
-            this.appendChild(ripple);
-            
-            // Remove ripple after animation
-            setTimeout(() => {
-                ripple.remove();
-            }, 600);
-            
-            // Continue with navigation
-            setTimeout(() => {
-                window.location.href = 'app.html'; // Change to your actual app page
-            }, 800);
+        const searchInput = document.getElementById('searchInput');
+        
+        // Focus animation
+        searchInput.addEventListener('focus', function() {
+            this.parentElement.querySelector('.search-icon').style.color = var(--primary);
         });
-
-        // Add ripple animation to styles
-        const style = document.createElement('style');
-        style.textContent = `
-            @keyframes ripple {
-                to {
-                    transform: scale(2.5);
-                    opacity: 0;
-                }
+        
+        searchInput.addEventListener('blur', function() {
+            this.parentElement.querySelector('.search-icon').style.color = '#94a3b8';
+        });
+        
+        // Handle search/adding tasks
+        searchInput.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter' && this.value.trim()) {
+                // Add your task creation logic here
+                console.log('Adding task:', this.value);
+                
+                // Visual feedback
+                this.style.transform = 'translateY(-2px) scale(0.98)';
+                setTimeout(() => {
+                    this.style.transform = '';
+                    this.value = '';
+                }, 200);
             }
-        `;
-        document.head.appendChild(style);
+        });
+        
+        // Micro-interaction for input
+        searchInput.addEventListener('mousedown', function() {
+            this.style.transform = 'translateY(1px)';
+        });
+        
+        searchInput.addEventListener('mouseup', function() {
+            this.style.transform = '';
+        });
     </script>
 </body>
 </html>
