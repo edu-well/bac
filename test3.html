@@ -3,349 +3,430 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Habit Kickstarter</title>
-    <link rel="stylesheet" href="styles.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=SF+Pro+Display:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <title>Habit Kickstarter | Select Your Focus</title>
+    <style>
+        :root {
+            --primary: #0071FF;
+            --primary-light: rgba(0, 113, 255, 0.1);
+            --text: #1D1D1F;
+            --text-light: #86868B;
+            --bg: #F5F5F7;
+            --card-bg: #FFFFFF;
+            --radius: 20px;
+            --shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+            --transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 24px;
+            line-height: 1.5;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 460px;
+        }
+
+        .card {
+            background-color: var(--card-bg);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            padding: 40px;
+            overflow: hidden;
+            position: relative;
+            transform: translateY(20px);
+            opacity: 0;
+            animation: fadeIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        @keyframes fadeIn {
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .header {
+            margin-bottom: 32px;
+            text-align: center;
+        }
+
+        .step-indicator {
+            font-size: 15px;
+            font-weight: 500;
+            color: var(--text-light);
+            margin-bottom: 12px;
+            letter-spacing: 0.3px;
+            text-transform: uppercase;
+        }
+
+        h1 {
+            font-size: 26px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            line-height: 1.3;
+        }
+
+        .emoji {
+            font-size: 24px;
+        }
+
+        .habits-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+            margin-bottom: 32px;
+        }
+
+        .habit-card {
+            background-color: var(--card-bg);
+            border-radius: var(--radius);
+            padding: 24px 16px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(0, 0, 0, 0.03);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
+            opacity: 0;
+            transform: scale(0.95);
+        }
+
+        .habit-card:nth-child(1) { animation: cardEntrance 0.5s 0.1s forwards; }
+        .habit-card:nth-child(2) { animation: cardEntrance 0.5s 0.2s forwards; }
+        .habit-card:nth-child(3) { animation: cardEntrance 0.5s 0.3s forwards; }
+        .habit-card:nth-child(4) { animation: cardEntrance 0.5s 0.4s forwards; }
+        .habit-card:nth-child(5) { animation: cardEntrance 0.5s 0.5s forwards; }
+        .habit-card:nth-child(6) { animation: cardEntrance 0.5s 0.6s forwards; }
+        .habit-card:nth-child(7) { animation: cardEntrance 0.5s 0.7s forwards; }
+
+        @keyframes cardEntrance {
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .habit-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, var(--primary), #00A2FF);
+            opacity: 0;
+            transition: var(--transition);
+            z-index: 0;
+        }
+
+        .habit-card:hover {
+            transform: translateY(-4px) scale(1.02);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+        }
+
+        .habit-card.selected {
+            border-color: var(--primary);
+            box-shadow: 0 8px 20px rgba(0, 113, 255, 0.15);
+        }
+
+        .habit-card.selected::before {
+            opacity: 1;
+        }
+
+        .habit-icon {
+            font-size: 32px;
+            margin-bottom: 16px;
+            transition: var(--transition);
+            position: relative;
+            z-index: 1;
+        }
+
+        .habit-card.selected .habit-icon {
+            transform: scale(1.1);
+            color: white;
+        }
+
+        .habit-name {
+            font-weight: 500;
+            font-size: 16px;
+            text-align: center;
+            transition: var(--transition);
+            position: relative;
+            z-index: 1;
+        }
+
+        .habit-card.selected .habit-name {
+            color: white;
+            font-weight: 600;
+        }
+
+        .checkmark {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background-color: var(--primary);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            font-weight: bold;
+            opacity: 0;
+            transform: scale(0.5);
+            transition: var(--transition);
+            z-index: 1;
+        }
+
+        .habit-card.selected .checkmark {
+            opacity: 1;
+            transform: scale(1);
+            background-color: white;
+            color: var(--primary);
+        }
+
+        .continue-btn {
+            width: 100%;
+            padding: 18px;
+            border: none;
+            border-radius: var(--radius);
+            background-color: var(--primary);
+            color: white;
+            font-size: 17px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .continue-btn::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.2) 50%, rgba(255,255,255,0) 100%);
+            transform: translateX(-100%);
+            transition: transform 0.6s ease;
+        }
+
+        .continue-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(0, 113, 255, 0.2);
+        }
+
+        .continue-btn:hover::after {
+            transform: translateX(100%);
+        }
+
+        .continue-btn:active {
+            transform: translateY(0);
+        }
+
+        .continue-btn:disabled {
+            background-color: #E0E0E0;
+            color: #A0A0A0;
+            cursor: not-allowed;
+            transform: none !important;
+            box-shadow: none !important;
+        }
+
+        .continue-btn:disabled::after {
+            display: none;
+        }
+
+        .ripple {
+            position: absolute;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.7);
+            transform: scale(0);
+            animation: ripple 0.6s linear;
+            pointer-events: none;
+        }
+
+        @keyframes ripple {
+            to {
+                transform: scale(4);
+                opacity: 0;
+            }
+        }
+    </style>
 </head>
-<style>
-
-:root {
-    --primary-color: #0071e3;
-    --secondary-color: #f5f5f7;
-    --text-color: #1d1d1f;
-    --light-text: #86868b;
-    --card-bg: #ffffff;
-    --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-    --border-radius: 18px;
-    --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-}
-
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-body {
-    font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, sans-serif;
-    background-color: var(--secondary-color);
-    color: var(--text-color);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    padding: 20px;
-    line-height: 1.5;
-}
-
-.container {
-    width: 100%;
-    max-width: 500px;
-}
-
-.card {
-    background-color: var(--card-bg);
-    border-radius: var(--border-radius);
-    box-shadow: var(--card-shadow);
-    padding: 30px;
-    overflow: hidden;
-}
-
-.header {
-    margin-bottom: 30px;
-    text-align: center;
-}
-
-.step-indicator {
-    font-size: 14px;
-    font-weight: 500;
-    color: var(--light-text);
-    margin-bottom: 8px;
-    letter-spacing: 0.5px;
-}
-
-h1 {
-    font-size: 24px;
-    font-weight: 600;
-    margin-bottom: 5px;
-    line-height: 1.3;
-}
-
-.emoji {
-    font-size: 22px;
-}
-
-.habits-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 15px;
-    margin-bottom: 30px;
-}
-
-.habit-card {
-    background-color: var(--secondary-color);
-    border-radius: var(--border-radius);
-    padding: 20px 15px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    transition: var(--transition);
-    position: relative;
-    overflow: hidden;
-    border: 1px solid rgba(0, 0, 0, 0.05);
-}
-
-.habit-card:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-}
-
-.habit-card.selected {
-    background-color: var(--primary-color);
-    color: white;
-}
-
-.habit-icon {
-    font-size: 28px;
-    margin-bottom: 10px;
-    transition: var(--transition);
-}
-
-.habit-card.selected .habit-icon {
-    transform: scale(1.1);
-}
-
-.habit-name {
-    font-weight: 500;
-    font-size: 16px;
-    text-align: center;
-    transition: var(--transition);
-}
-
-.checkmark {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    width: 20px;
-    height: 20px;
-    border-radius: 50%;
-    background-color: var(--primary-color);
-    color: white;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 12px;
-    font-weight: bold;
-    opacity: 0;
-    transform: scale(0.5);
-    transition: var(--transition);
-}
-
-.habit-card.selected .checkmark {
-    opacity: 1;
-    transform: scale(1);
-}
-
-.continue-btn {
-    width: 100%;
-    padding: 15px;
-    border: none;
-    border-radius: var(--border-radius);
-    background-color: var(--primary-color);
-    color: white;
-    font-size: 17px;
-    font-weight: 500;
-    cursor: pointer;
-    transition: var(--transition);
-    font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, sans-serif;
-}
-
-.continue-btn:hover {
-    background-color: #0062c4;
-    transform: translateY(-2px);
-    box-shadow: 0 5px 15px rgba(0, 113, 227, 0.3);
-}
-
-.continue-btn:active {
-    transform: translateY(0);
-}
-
-/* Animation for card entrance */
-@keyframes fadeInUp {
-    from {
-        opacity: 0;
-        transform: translateY(20px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-.card {
-    animation: fadeInUp 0.6s ease-out forwards;
-}
-
-.habit-card {
-    opacity: 0;
-    animation: fadeInUp 0.5s ease-out forwards;
-}
-
-.habit-card:nth-child(1) { animation-delay: 0.1s; }
-.habit-card:nth-child(2) { animation-delay: 0.2s; }
-.habit-card:nth-child(3) { animation-delay: 0.3s; }
-.habit-card:nth-child(4) { animation-delay: 0.4s; }
-.habit-card:nth-child(5) { animation-delay: 0.5s; }
-.habit-card:nth-child(6) { animation-delay: 0.6s; }
-.habit-card:nth-child(7) { animation-delay: 0.7s; }
-
-</style>
 <body>
     <div class="container">
         <div class="card">
             <div class="header">
                 <div class="step-indicator">Step 5</div>
-                <h1>Pick a few <span class="emoji">💺</span> habits to kickstart your <span class="emoji">💺</span> daily routine</h1>
+                <h1>Pick a habit <span class="emoji">💺</span> to kickstart your <span class="emoji">💺</span> daily routine</h1>
             </div>
             
             <div class="habits-grid">
-                <div class="habit-card" data-habit="exercise">
+                <div class="habit-card" data-habit="exercise" data-link="https://example.com/exercise-guide">
                     <div class="habit-icon">🏋️</div>
                     <div class="habit-name">Exercise</div>
                     <div class="checkmark">✓</div>
                 </div>
                 
-                <div class="habit-card" data-habit="meditate">
+                <div class="habit-card" data-habit="meditate" data-link="https://example.com/meditation-app">
                     <div class="habit-icon">🧘</div>
                     <div class="habit-name">Meditate</div>
                     <div class="checkmark">✓</div>
                 </div>
                 
-                <div class="habit-card" data-habit="read">
+                <div class="habit-card" data-habit="read" data-link="https://example.com/reading-list">
                     <div class="habit-icon">📚</div>
                     <div class="habit-name">Read books</div>
                     <div class="checkmark">✓</div>
                 </div>
                 
-                <div class="habit-card" data-habit="plan">
+                <div class="habit-card" data-habit="plan" data-link="https://example.com/day-planner">
                     <div class="habit-icon">📅</div>
                     <div class="habit-name">Plan a day</div>
                     <div class="checkmark">✓</div>
                 </div>
                 
-                <div class="habit-card" data-habit="yoga">
+                <div class="habit-card" data-habit="yoga" data-link="https://example.com/yoga-routines">
                     <div class="habit-icon">🧘‍♀️</div>
                     <div class="habit-name">Do yoga</div>
                     <div class="checkmark">✓</div>
                 </div>
                 
-                <div class="habit-card" data-habit="journal">
+                <div class="habit-card" data-habit="journal" data-link="https://example.com/journaling-tips">
                     <div class="habit-icon">✍️</div>
                     <div class="habit-name">Write in journal</div>
                     <div class="checkmark">✓</div>
                 </div>
                 
-                <div class="habit-card" data-habit="breakfast">
+                <div class="habit-card" data-habit="breakfast" data-link="https://example.com/healthy-breakfasts">
                     <div class="habit-icon">🍏</div>
                     <div class="habit-name">Healthy breakfast</div>
                     <div class="checkmark">✓</div>
                 </div>
             </div>
             
-            <button class="continue-btn" id="continueBtn">Continue</button>
+            <button class="continue-btn" id="continueBtn" disabled>Continue</button>
         </div>
     </div>
 
     <script>
-
-
-document.addEventListener('DOMContentLoaded', function() {
-    const habitCards = document.querySelectorAll('.habit-card');
-    const continueBtn = document.getElementById('continueBtn');
-    let selectedHabits = [];
-    
-    // Define destinations for each habit
-    const habitDestinations = {
-        exercise: 'https://example.com/exercise',
-        meditate: 'https://example.com/meditate',
-        read: 'https://example.com/reading',
-        plan: 'https://example.com/planning',
-        yoga: 'https://example.com/yoga',
-        journal: 'https://example.com/journaling',
-        breakfast: 'https://example.com/nutrition'
-    };
-    
-    // Add click event to each habit card
-    habitCards.forEach(card => {
-        card.addEventListener('click', function() {
-            const habit = this.getAttribute('data-habit');
+        document.addEventListener('DOMContentLoaded', function() {
+            const habitCards = document.querySelectorAll('.habit-card');
+            const continueBtn = document.getElementById('continueBtn');
+            let selectedHabit = null;
             
-            // Toggle selection
-            this.classList.toggle('selected');
+            // Add click event to each habit card
+            habitCards.forEach(card => {
+                card.addEventListener('click', function() {
+                    // Deselect all cards first
+                    habitCards.forEach(c => c.classList.remove('selected'));
+                    
+                    // Select the clicked card
+                    this.classList.add('selected');
+                    selectedHabit = this;
+                    
+                    // Update button state
+                    updateContinueButton();
+                    
+                    // Add ripple effect
+                    createRipple(this);
+                });
+            });
             
-            // Update selected habits array
-            if (this.classList.contains('selected')) {
-                selectedHabits.push(habit);
-            } else {
-                selectedHabits = selectedHabits.filter(h => h !== habit);
+            // Update continue button based on selection
+            function updateContinueButton() {
+                if (selectedHabit) {
+                    continueBtn.disabled = false;
+                    continueBtn.textContent = `Continue with ${selectedHabit.querySelector('.habit-name').textContent}`;
+                } else {
+                    continueBtn.disabled = true;
+                    continueBtn.textContent = 'Continue';
+                }
             }
             
-            // Update button state
-            updateContinueButton();
-        });
-    });
-    
-    // Update continue button based on selections
-    function updateContinueButton() {
-        if (selectedHabits.length > 0) {
-            continueBtn.disabled = false;
-            continueBtn.textContent = `Continue with ${selectedHabits.length} habit${selectedHabits.length > 1 ? 's' : ''}`;
-        } else {
-            continueBtn.disabled = true;
-            continueBtn.textContent = 'Continue';
-        }
-    }
-    
-    // Continue button click handler
-    continueBtn.addEventListener('click', function() {
-        if (selectedHabits.length === 0) return;
-        
-        // For demo purposes, we'll just go to the first selected habit's URL
-        // In a real app, you might want to handle multiple selections differently
-        const primaryHabit = selectedHabits[0];
-        window.location.href = habitDestinations[primaryHabit];
-        
-        // Add a nice transition effect
-        document.querySelector('.card').style.animation = 'fadeInUp 0.5s ease-out reverse forwards';
-    });
-    
-    // Initialize button state
-    updateContinueButton();
-    
-    // Add subtle hover effect to habit cards
-    habitCards.forEach(card => {
-        card.addEventListener('mouseenter', function() {
-            if (!this.classList.contains('selected')) {
-                this.style.transform = 'translateY(-3px)';
-                this.style.boxShadow = '0 5px 15px rgba(0, 0, 0, 0.1)';
+            // Continue button click handler
+            continueBtn.addEventListener('click', function() {
+                if (!selectedHabit) return;
+                
+                // Get the link from data attribute
+                const link = selectedHabit.getAttribute('data-link');
+                
+                // Add button press animation
+                this.style.transform = 'scale(0.98)';
+                setTimeout(() => {
+                    this.style.transform = '';
+                }, 100);
+                
+                // Navigate to the selected habit's link
+                setTimeout(() => {
+                    window.location.href = link;
+                }, 300);
+            });
+            
+            // Create ripple effect
+            function createRipple(element) {
+                const ripple = document.createElement('span');
+                ripple.classList.add('ripple');
+                
+                // Get click position relative to the card
+                const rect = element.getBoundingClientRect();
+                const x = event.clientX - rect.left;
+                const y = event.clientY - rect.top;
+                
+                // Position the ripple
+                ripple.style.left = `${x}px`;
+                ripple.style.top = `${y}px`;
+                
+                element.appendChild(ripple);
+                
+                // Remove ripple after animation completes
+                setTimeout(() => {
+                    ripple.remove();
+                }, 600);
             }
+            
+            // Add hover effect to habit cards
+            habitCards.forEach(card => {
+                card.addEventListener('mouseenter', function() {
+                    if (!this.classList.contains('selected')) {
+                        this.style.transform = 'translateY(-4px) scale(1.02)';
+                        this.style.boxShadow = '0 8px 20px rgba(0, 0, 0, 0.08)';
+                    }
+                });
+                
+                card.addEventListener('mouseleave', function() {
+                    if (!this.classList.contains('selected')) {
+                        this.style.transform = '';
+                        this.style.boxShadow = '';
+                    }
+                });
+            });
         });
-        
-        card.addEventListener('mouseleave', function() {
-            if (!this.classList.contains('selected')) {
-                this.style.transform = '';
-                this.style.boxShadow = '';
-            }
-        });
-    });
-});
-
-
-
-</script>
+    </script>
 </body>
 </html>
