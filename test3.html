@@ -3,18 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Habit Kickstarter | Select Your Focus</title>
+    <title>Focus Habit Selector</title>
     <style>
         :root {
-            --primary: #0071FF;
-            --primary-light: rgba(0, 113, 255, 0.1);
-            --text: #1D1D1F;
-            --text-light: #86868B;
-            --bg: #F5F5F7;
+            --primary: #2563EB;
+            --primary-light: rgba(37, 99, 235, 0.1);
+            --text: #1F2937;
+            --text-light: #6B7280;
+            --bg: #F9FAFB;
             --card-bg: #FFFFFF;
-            --radius: 20px;
-            --shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+            --radius: 24px;
+            --shadow: 0 12px 40px rgba(0, 0, 0, 0.08);
             --transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            --surface: linear-gradient(145deg, #FFFFFF 0%, #F8FAFC 100%);
         }
 
         * {
@@ -22,10 +23,11 @@
             padding: 0;
             box-sizing: border-box;
             -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
             background-color: var(--bg);
             color: var(--text);
             display: flex;
@@ -36,66 +38,92 @@
             line-height: 1.5;
         }
 
+        @font-face {
+            font-family: 'Inter';
+            font-style: normal;
+            font-weight: 400 600;
+            font-display: swap;
+            src: url(https://fonts.gstatic.com/s/inter/v12/UcCO3FwrK3iLTeHuS_fvQtMwCp50KnMw2boKoduKmMEVuLyfAZ9hiA.woff2) format('woff2');
+        }
+
         .container {
             width: 100%;
-            max-width: 460px;
+            max-width: 480px;
+            perspective: 1200px;
         }
 
         .card {
-            background-color: var(--card-bg);
+            background: var(--surface);
             border-radius: var(--radius);
             box-shadow: var(--shadow);
-            padding: 40px;
+            padding: 48px 40px;
             overflow: hidden;
             position: relative;
-            transform: translateY(20px);
+            transform: translateY(20px) rotateX(2deg);
             opacity: 0;
-            animation: fadeIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            animation: cardEntrance 0.8s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+            border: 1px solid rgba(0, 0, 0, 0.03);
         }
 
-        @keyframes fadeIn {
+        @keyframes cardEntrance {
             to {
-                transform: translateY(0);
+                transform: translateY(0) rotateX(0);
                 opacity: 1;
             }
         }
 
         .header {
-            margin-bottom: 32px;
+            margin-bottom: 36px;
             text-align: center;
         }
 
         .step-indicator {
-            font-size: 15px;
-            font-weight: 500;
-            color: var(--text-light);
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--primary);
             margin-bottom: 12px;
-            letter-spacing: 0.3px;
+            letter-spacing: 0.5px;
             text-transform: uppercase;
+            opacity: 0;
+            transform: translateY(10px);
+            animation: fadeIn 0.6s 0.2s ease-out forwards;
         }
 
         h1 {
-            font-size: 26px;
-            font-weight: 600;
+            font-size: 28px;
+            font-weight: 700;
             margin-bottom: 8px;
             line-height: 1.3;
+            letter-spacing: -0.5px;
+            opacity: 0;
+            transform: translateY(10px);
+            animation: fadeIn 0.6s 0.3s ease-out forwards;
+        }
+
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         .emoji {
-            font-size: 24px;
+            font-size: 28px;
+            display: inline-block;
+            transform: translateY(5px);
         }
 
         .habits-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
             gap: 16px;
-            margin-bottom: 32px;
+            margin-bottom: 8px;
         }
 
         .habit-card {
-            background-color: var(--card-bg);
+            background: var(--surface);
             border-radius: var(--radius);
-            padding: 24px 16px;
+            padding: 28px 16px;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -104,24 +132,24 @@
             transition: var(--transition);
             position: relative;
             overflow: hidden;
-            border: 1px solid rgba(0, 0, 0, 0.03);
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
             opacity: 0;
-            transform: scale(0.95);
+            transform: scale(0.95) translateY(10px);
         }
 
-        .habit-card:nth-child(1) { animation: cardEntrance 0.5s 0.1s forwards; }
-        .habit-card:nth-child(2) { animation: cardEntrance 0.5s 0.2s forwards; }
-        .habit-card:nth-child(3) { animation: cardEntrance 0.5s 0.3s forwards; }
-        .habit-card:nth-child(4) { animation: cardEntrance 0.5s 0.4s forwards; }
-        .habit-card:nth-child(5) { animation: cardEntrance 0.5s 0.5s forwards; }
-        .habit-card:nth-child(6) { animation: cardEntrance 0.5s 0.6s forwards; }
-        .habit-card:nth-child(7) { animation: cardEntrance 0.5s 0.7s forwards; }
+        .habit-card:nth-child(1) { animation: cardAppear 0.5s 0.4s forwards; }
+        .habit-card:nth-child(2) { animation: cardAppear 0.5s 0.5s forwards; }
+        .habit-card:nth-child(3) { animation: cardAppear 0.5s 0.6s forwards; }
+        .habit-card:nth-child(4) { animation: cardAppear 0.5s 0.7s forwards; }
+        .habit-card:nth-child(5) { animation: cardAppear 0.5s 0.8s forwards; }
+        .habit-card:nth-child(6) { animation: cardAppear 0.5s 0.9s forwards; }
+        .habit-card:nth-child(7) { animation: cardAppear 0.5s 1.0s forwards; }
 
-        @keyframes cardEntrance {
+        @keyframes cardAppear {
             to {
                 opacity: 1;
-                transform: scale(1);
+                transform: scale(1) translateY(0);
             }
         }
 
@@ -132,20 +160,20 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: linear-gradient(135deg, var(--primary), #00A2FF);
+            background: linear-gradient(135deg, var(--primary), #3B82F6);
             opacity: 0;
             transition: var(--transition);
             z-index: 0;
         }
 
         .habit-card:hover {
-            transform: translateY(-4px) scale(1.02);
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+            transform: translateY(-6px) scale(1.02);
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.08);
         }
 
         .habit-card.selected {
             border-color: var(--primary);
-            box-shadow: 0 8px 20px rgba(0, 113, 255, 0.15);
+            box-shadow: 0 12px 24px rgba(37, 99, 235, 0.15);
         }
 
         .habit-card.selected::before {
@@ -153,20 +181,22 @@
         }
 
         .habit-icon {
-            font-size: 32px;
+            font-size: 36px;
             margin-bottom: 16px;
             transition: var(--transition);
             position: relative;
             z-index: 1;
+            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
         }
 
         .habit-card.selected .habit-icon {
-            transform: scale(1.1);
+            transform: scale(1.15);
             color: white;
+            filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.15));
         }
 
         .habit-name {
-            font-weight: 500;
+            font-weight: 600;
             font-size: 16px;
             text-align: center;
             transition: var(--transition);
@@ -176,18 +206,18 @@
 
         .habit-card.selected .habit-name {
             color: white;
-            font-weight: 600;
+            font-weight: 700;
         }
 
         .checkmark {
             position: absolute;
-            top: 12px;
-            right: 12px;
+            top: 16px;
+            right: 16px;
             width: 24px;
             height: 24px;
             border-radius: 50%;
-            background-color: var(--primary);
-            color: white;
+            background-color: white;
+            color: var(--primary);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -197,24 +227,29 @@
             transform: scale(0.5);
             transition: var(--transition);
             z-index: 1;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
         }
 
         .habit-card.selected .checkmark {
             opacity: 1;
             transform: scale(1);
-            background-color: white;
-            color: var(--primary);
+        }
+
+        .continue-btn-container {
+            height: 0;
+            overflow: hidden;
+            transition: height 0.4s cubic-bezier(0.33, 1, 0.68, 1);
         }
 
         .continue-btn {
             width: 100%;
-            padding: 18px;
+            padding: 20px;
             border: none;
             border-radius: var(--radius);
-            background-color: var(--primary);
+            background: linear-gradient(135deg, var(--primary), #3B82F6);
             color: white;
             font-size: 17px;
-            font-weight: 500;
+            font-weight: 600;
             cursor: pointer;
             transition: var(--transition);
             display: flex;
@@ -222,51 +257,44 @@
             justify-content: center;
             position: relative;
             overflow: hidden;
+            box-shadow: 0 8px 24px rgba(37, 99, 235, 0.3);
+            margin-top: 8px;
         }
 
         .continue-btn::after {
             content: '';
             position: absolute;
             top: 0;
-            left: 0;
-            width: 100%;
+            left: -100%;
+            width: 200%;
             height: 100%;
-            background: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.2) 50%, rgba(255,255,255,0) 100%);
-            transform: translateX(-100%);
-            transition: transform 0.6s ease;
+            background: linear-gradient(90deg, 
+                rgba(255,255,255,0) 0%, 
+                rgba(255,255,255,0.3) 50%, 
+                rgba(255,255,255,0) 100%);
+            transform: translateX(-50%);
+            transition: transform 0.8s ease;
         }
 
         .continue-btn:hover {
             transform: translateY(-2px);
-            box-shadow: 0 10px 20px rgba(0, 113, 255, 0.2);
+            box-shadow: 0 12px 28px rgba(37, 99, 235, 0.4);
         }
 
         .continue-btn:hover::after {
-            transform: translateX(100%);
+            transform: translateX(50%);
         }
 
         .continue-btn:active {
             transform: translateY(0);
         }
 
-        .continue-btn:disabled {
-            background-color: #E0E0E0;
-            color: #A0A0A0;
-            cursor: not-allowed;
-            transform: none !important;
-            box-shadow: none !important;
-        }
-
-        .continue-btn:disabled::after {
-            display: none;
-        }
-
         .ripple {
             position: absolute;
             border-radius: 50%;
-            background-color: rgba(255, 255, 255, 0.7);
+            background-color: rgba(255, 255, 255, 0.6);
             transform: scale(0);
-            animation: ripple 0.6s linear;
+            animation: ripple 0.7s linear;
             pointer-events: none;
         }
 
@@ -276,6 +304,28 @@
                 opacity: 0;
             }
         }
+
+        .focus-ring {
+            position: absolute;
+            top: -4px;
+            left: -4px;
+            right: -4px;
+            bottom: -4px;
+            border: 2px solid var(--primary);
+            border-radius: calc(var(--radius) + 4px);
+            opacity: 0;
+            animation: focusPulse 2s infinite;
+            pointer-events: none;
+        }
+
+        @keyframes focusPulse {
+            0%, 100% { opacity: 0.4; transform: scale(1); }
+            50% { opacity: 0.2; transform: scale(1.02); }
+        }
+
+        .habit-card.selected .focus-ring {
+            display: block;
+        }
     </style>
 </head>
 <body>
@@ -283,91 +333,104 @@
         <div class="card">
             <div class="header">
                 <div class="step-indicator">Step 5</div>
-                <h1>Pick a habit <span class="emoji">💺</span> to kickstart your <span class="emoji">💺</span> daily routine</h1>
+                <h1>Choose your focus <span class="emoji">✨</span> for today</h1>
             </div>
             
             <div class="habits-grid">
                 <div class="habit-card" data-habit="exercise" data-link="https://example.com/exercise-guide">
+                    <div class="focus-ring"></div>
                     <div class="habit-icon">🏋️</div>
                     <div class="habit-name">Exercise</div>
                     <div class="checkmark">✓</div>
                 </div>
                 
                 <div class="habit-card" data-habit="meditate" data-link="https://example.com/meditation-app">
+                    <div class="focus-ring"></div>
                     <div class="habit-icon">🧘</div>
                     <div class="habit-name">Meditate</div>
                     <div class="checkmark">✓</div>
                 </div>
                 
                 <div class="habit-card" data-habit="read" data-link="https://example.com/reading-list">
+                    <div class="focus-ring"></div>
                     <div class="habit-icon">📚</div>
                     <div class="habit-name">Read books</div>
                     <div class="checkmark">✓</div>
                 </div>
                 
                 <div class="habit-card" data-habit="plan" data-link="https://example.com/day-planner">
+                    <div class="focus-ring"></div>
                     <div class="habit-icon">📅</div>
                     <div class="habit-name">Plan a day</div>
                     <div class="checkmark">✓</div>
                 </div>
                 
                 <div class="habit-card" data-habit="yoga" data-link="https://example.com/yoga-routines">
+                    <div class="focus-ring"></div>
                     <div class="habit-icon">🧘‍♀️</div>
                     <div class="habit-name">Do yoga</div>
                     <div class="checkmark">✓</div>
                 </div>
                 
                 <div class="habit-card" data-habit="journal" data-link="https://example.com/journaling-tips">
+                    <div class="focus-ring"></div>
                     <div class="habit-icon">✍️</div>
                     <div class="habit-name">Write in journal</div>
                     <div class="checkmark">✓</div>
                 </div>
                 
                 <div class="habit-card" data-habit="breakfast" data-link="https://example.com/healthy-breakfasts">
+                    <div class="focus-ring"></div>
                     <div class="habit-icon">🍏</div>
                     <div class="habit-name">Healthy breakfast</div>
                     <div class="checkmark">✓</div>
                 </div>
             </div>
             
-            <button class="continue-btn" id="continueBtn" disabled>Continue</button>
+            <div class="continue-btn-container" id="continueBtnContainer">
+                <button class="continue-btn" id="continueBtn">
+                    Continue with <span id="selectedHabitName"></span>
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="margin-left: 8px;">
+                        <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </button>
+            </div>
         </div>
     </div>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const habitCards = document.querySelectorAll('.habit-card');
+            const continueBtnContainer = document.getElementById('continueBtnContainer');
             const continueBtn = document.getElementById('continueBtn');
+            const selectedHabitName = document.getElementById('selectedHabitName');
             let selectedHabit = null;
             
             // Add click event to each habit card
             habitCards.forEach(card => {
                 card.addEventListener('click', function() {
-                    // Deselect all cards first
-                    habitCards.forEach(c => c.classList.remove('selected'));
+                    // If this card is already selected, do nothing
+                    if (this === selectedHabit) return;
+                    
+                    // Deselect previous card if exists
+                    if (selectedHabit) {
+                        selectedHabit.classList.remove('selected');
+                    }
                     
                     // Select the clicked card
                     this.classList.add('selected');
                     selectedHabit = this;
                     
-                    // Update button state
-                    updateContinueButton();
+                    // Update button text
+                    selectedHabitName.textContent = this.querySelector('.habit-name').textContent;
+                    
+                    // Show the continue button
+                    continueBtnContainer.style.height = continueBtn.offsetHeight + 'px';
                     
                     // Add ripple effect
                     createRipple(this);
                 });
             });
-            
-            // Update continue button based on selection
-            function updateContinueButton() {
-                if (selectedHabit) {
-                    continueBtn.disabled = false;
-                    continueBtn.textContent = `Continue with ${selectedHabit.querySelector('.habit-name').textContent}`;
-                } else {
-                    continueBtn.disabled = true;
-                    continueBtn.textContent = 'Continue';
-                }
-            }
             
             // Continue button click handler
             continueBtn.addEventListener('click', function() {
@@ -407,15 +470,15 @@
                 // Remove ripple after animation completes
                 setTimeout(() => {
                     ripple.remove();
-                }, 600);
+                }, 700);
             }
             
             // Add hover effect to habit cards
             habitCards.forEach(card => {
                 card.addEventListener('mouseenter', function() {
                     if (!this.classList.contains('selected')) {
-                        this.style.transform = 'translateY(-4px) scale(1.02)';
-                        this.style.boxShadow = '0 8px 20px rgba(0, 0, 0, 0.08)';
+                        this.style.transform = 'translateY(-6px) scale(1.02)';
+                        this.style.boxShadow = '0 12px 24px rgba(0, 0, 0, 0.08)';
                     }
                 });
                 
