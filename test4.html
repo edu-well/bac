@@ -68,7 +68,7 @@
             letter-spacing: -0.24px;
         }
 
-        .quiz-card {
+        .quiz-container {
             width: 100%;
             max-width: 800px;
             background-color: var(--card-bg);
@@ -125,6 +125,16 @@
             box-shadow: 0 4px 12px rgba(0, 113, 227, 0.1);
         }
 
+        .option.correct {
+            border-color: var(--correct-color);
+            background-color: rgba(52, 199, 89, 0.05);
+        }
+
+        .option.incorrect {
+            border-color: var(--incorrect-color);
+            background-color: rgba(255, 59, 48, 0.05);
+        }
+
         .option-radio {
             width: 22px;
             height: 22px;
@@ -151,6 +161,36 @@
             transform: translate(-50%, -50%);
         }
 
+        .option.correct .option-radio {
+            border-color: var(--correct-color);
+        }
+
+        .option.correct .option-radio::after {
+            content: '';
+            position: absolute;
+            width: 12px;
+            height: 12px;
+            background-color: var(--correct-color);
+            border-radius: 50%;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .option.incorrect .option-radio {
+            border-color: var(--incorrect-color);
+        }
+
+        .option.incorrect .option-radio::after {
+            content: '✕';
+            position: absolute;
+            color: var(--incorrect-color);
+            font-size: 12px;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
         .option-text {
             font-size: 17px;
             font-weight: 500;
@@ -161,6 +201,14 @@
         .option.selected .option-text {
             color: var(--primary-color);
             font-weight: 600;
+        }
+
+        .option.correct .option-text {
+            color: var(--correct-color);
+        }
+
+        .option.incorrect .option-text {
+            color: var(--incorrect-color);
         }
 
         .action-button {
@@ -190,6 +238,20 @@
             cursor: not-allowed;
             transform: none;
             box-shadow: none;
+        }
+
+        .explanation {
+            font-size: 16px;
+            color: var(--text-color);
+            margin-top: 24px;
+            padding-top: 24px;
+            border-top: 1px solid rgba(210, 210, 215, 0.5);
+            display: none;
+        }
+
+        .explanation.show {
+            display: block;
+            animation: fadeIn 0.4s ease-out;
         }
 
         .navigation-buttons {
@@ -228,6 +290,78 @@
             transform: none;
         }
 
+        .result-container {
+            width: 100%;
+            max-width: 800px;
+            background-color: var(--card-bg);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            padding: 40px;
+            text-align: center;
+            display: none;
+        }
+
+        .result-title {
+            font-size: 28px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            letter-spacing: -0.38px;
+        }
+
+        .result-score {
+            font-size: 72px;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 20px;
+            letter-spacing: -1.5px;
+        }
+
+        .result-message {
+            font-size: 20px;
+            margin-bottom: 30px;
+            letter-spacing: -0.24px;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 6px;
+            background-color: #e0e0e0;
+            border-radius: 3px;
+            margin-bottom: 30px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background-color: var(--primary-color);
+            border-radius: 3px;
+            transition: width 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        .restart-button {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            padding: 14px 28px;
+            font-size: 17px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition);
+            letter-spacing: -0.24px;
+        }
+
+        .restart-button:hover {
+            background-color: var(--primary-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0, 113, 227, 0.2);
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
         @media (max-width: 600px) {
             .question-text {
                 font-size: 20px;
@@ -249,7 +383,7 @@
         <div class="score">Score: <span id="score">0</span></div>
     </div>
 
-    <div class="quiz-card">
+    <div class="quiz-container" id="quiz-container">
         <div class="question-number">Question <span id="q-number">1</span></div>
         <div class="question-text" id="question-text">What is the capital of France?</div>
         
@@ -257,12 +391,26 @@
             <!-- Options will be inserted here by JavaScript -->
         </div>
         
-        <button class="action-button" id="action-button" disabled>Submit Answer</button>
+        <button class="action-button" id="action-button" disabled>Fix</button>
+        
+        <div class="explanation" id="explanation">
+            <!-- Explanation will be inserted here by JavaScript -->
+        </div>
     </div>
 
     <div class="navigation-buttons">
         <button class="nav-button" id="prev-button" disabled>Previous</button>
         <button class="nav-button" id="next-button" disabled>Next</button>
+    </div>
+
+    <div class="result-container" id="result-container">
+        <div class="result-title">Quiz Completed</div>
+        <div class="result-score" id="final-score">0/5</div>
+        <div class="result-message" id="result-message">Good effort!</div>
+        <div class="progress-bar">
+            <div class="progress-fill" id="progress-fill" style="width: 0%"></div>
+        </div>
+        <button class="restart-button" id="restart-button">Start Again</button>
     </div>
 
     <script>
@@ -272,49 +420,57 @@
                 question: "What is the capital of France?",
                 options: ["London", "Berlin", "Paris"],
                 correctAnswer: 2,
-                explanation: "Paris is the capital and most populous city of France."
+                explanation: "Paris is the capital and most populous city of France. It has been one of Europe's major centers of finance, diplomacy, commerce, fashion, science, and arts."
             },
             {
                 question: "Which planet is known as the Red Planet?",
                 options: ["Venus", "Mars", "Jupiter"],
                 correctAnswer: 1,
-                explanation: "Mars appears reddish due to iron oxide on its surface."
+                explanation: "Mars is often called the 'Red Planet' because of its reddish appearance, which is caused by iron oxide (rust) on its surface."
             },
             {
                 question: "What is the largest mammal in the world?",
                 options: ["Elephant", "Blue Whale", "Giraffe"],
                 correctAnswer: 1,
-                explanation: "Blue whales can grow up to 100 feet long."
+                explanation: "The blue whale is the largest animal known to have ever existed, reaching lengths of up to 100 feet (30 meters) and weights of up to 200 tons."
             },
             {
                 question: "Which language is primarily used for web development?",
                 options: ["Java", "Python", "JavaScript"],
                 correctAnswer: 2,
-                explanation: "JavaScript runs in web browsers to make pages interactive."
+                explanation: "JavaScript is the programming language of the Web. Along with HTML and CSS, it's one of the three core technologies of web development."
             },
             {
                 question: "What year was the first iPhone released?",
                 options: ["2005", "2007", "2010"],
                 correctAnswer: 1,
-                explanation: "The first iPhone revolutionized smartphones in 2007."
+                explanation: "The first iPhone was announced by Steve Jobs on January 9, 2007, and was released on June 29, 2007. It revolutionized the smartphone industry."
             }
         ];
 
         // DOM elements
+        const quizContainer = document.getElementById('quiz-container');
         const questionText = document.getElementById('question-text');
         const optionsContainer = document.getElementById('options-container');
         const actionButton = document.getElementById('action-button');
+        const explanation = document.getElementById('explanation');
         const currentQuestionDisplay = document.getElementById('current-question');
         const totalQuestionsDisplay = document.getElementById('total-questions');
         const scoreDisplay = document.getElementById('score');
         const qNumber = document.getElementById('q-number');
         const prevButton = document.getElementById('prev-button');
         const nextButton = document.getElementById('next-button');
+        const resultContainer = document.getElementById('result-container');
+        const finalScoreDisplay = document.getElementById('final-score');
+        const resultMessage = document.getElementById('result-message');
+        const progressFill = document.getElementById('progress-fill');
+        const restartButton = document.getElementById('restart-button');
 
         // Quiz state
         let currentQuestionIndex = 0;
         let score = 0;
         let userAnswers = Array(quizData.length).fill(null);
+        let quizCompleted = false;
 
         // Initialize quiz
         function initQuiz() {
@@ -324,12 +480,21 @@
 
         // Load question
         function loadQuestion(index) {
+            if (index < 0 || index >= quizData.length) return;
+
+            currentQuestionIndex = index;
             const question = quizData[index];
             
-            // Update UI
+            // Reset UI state
+            explanation.classList.remove('show');
+            actionButton.textContent = 'Fix';
+            actionButton.disabled = true;
+            
+            // Update question info
             questionText.textContent = question.question;
             qNumber.textContent = index + 1;
             currentQuestionDisplay.textContent = index + 1;
+            explanation.textContent = question.explanation;
             
             // Clear options
             optionsContainer.innerHTML = '';
@@ -339,8 +504,16 @@
                 const optionElement = document.createElement('div');
                 optionElement.classList.add('option');
                 
-                if (userAnswers[index] === i) {
-                    optionElement.classList.add('selected');
+                // If already answered, show correct/incorrect states
+                if (userAnswers[index] !== null) {
+                    if (i === userAnswers[index]) {
+                        optionElement.classList.add(userAnswers[index] === question.correctAnswer ? 'correct' : 'incorrect');
+                    } else if (i === question.correctAnswer) {
+                        optionElement.classList.add('correct');
+                    }
+                    optionElement.style.cursor = 'default';
+                } else {
+                    optionElement.addEventListener('click', () => selectOption(i));
                 }
                 
                 optionElement.innerHTML = `
@@ -348,28 +521,36 @@
                     <span class="option-text">${option}</span>
                 `;
                 
-                optionElement.addEventListener('click', () => {
-                    // Remove selected class from all options
-                    document.querySelectorAll('.option').forEach(opt => {
-                        opt.classList.remove('selected');
-                    });
-                    
-                    // Add selected class to clicked option
-                    optionElement.classList.add('selected');
-                    
-                    // Store user's answer
-                    userAnswers[index] = i;
-                    actionButton.disabled = false;
-                });
-                
                 optionsContainer.appendChild(optionElement);
             });
             
             // Update action button
-            actionButton.disabled = userAnswers[index] === null;
+            if (userAnswers[index] !== null) {
+                actionButton.textContent = 'Next Question';
+                actionButton.disabled = false;
+                explanation.classList.add('show');
+            }
             
             // Update navigation buttons
             updateNavigationButtons();
+        }
+
+        // Select option
+        function selectOption(optionIndex) {
+            // Remove selected class from all options
+            document.querySelectorAll('.option').forEach(opt => {
+                opt.classList.remove('selected');
+            });
+            
+            // Add selected class to clicked option
+            const options = document.querySelectorAll('.option');
+            options[optionIndex].classList.add('selected');
+            
+            // Store user's answer
+            userAnswers[currentQuestionIndex] = optionIndex;
+            
+            // Enable Fix button
+            actionButton.disabled = false;
         }
 
         // Submit answer
@@ -378,14 +559,34 @@
             
             const question = quizData[currentQuestionIndex];
             const selectedOption = userAnswers[currentQuestionIndex];
+            const isCorrect = selectedOption === question.correctAnswer;
             
-            // Check if answer is correct
-            if (selectedOption === question.correctAnswer) {
+            // Update score if correct
+            if (isCorrect) {
                 score++;
                 scoreDisplay.textContent = score;
             }
             
-            // Move to next question or show results
+            // Show correct/incorrect states
+            const options = document.querySelectorAll('.option');
+            options.forEach((option, i) => {
+                if (i === selectedOption) {
+                    option.classList.add(isCorrect ? 'correct' : 'incorrect');
+                } else if (i === question.correctAnswer) {
+                    option.classList.add('correct');
+                }
+                option.style.cursor = 'default';
+            });
+            
+            // Show explanation
+            explanation.classList.add('show');
+            
+            // Change button to Next Question
+            actionButton.textContent = 'Next Question';
+        }
+
+        // Continue to next question or show results
+        function continueToNext() {
             if (currentQuestionIndex < quizData.length - 1) {
                 currentQuestionIndex++;
                 loadQuestion(currentQuestionIndex);
@@ -396,45 +597,6 @@
 
         // Show results
         function showResults() {
-            alert(`Quiz completed!\nYour score: ${score}/${quizData.length}`);
+            quizCompleted = true;
             
-            // Reset quiz
-            currentQuestionIndex = 0;
-            score = 0;
-            userAnswers = Array(quizData.length).fill(null);
-            scoreDisplay.textContent = '0';
-            loadQuestion(0);
-        }
-
-        // Update navigation buttons
-        function updateNavigationButtons() {
-            prevButton.disabled = currentQuestionIndex === 0;
-            nextButton.disabled = currentQuestionIndex === quizData.length - 1 || userAnswers[currentQuestionIndex] === null;
-        }
-
-        // Go to previous question
-        function prevQuestion() {
-            if (currentQuestionIndex > 0) {
-                currentQuestionIndex--;
-                loadQuestion(currentQuestionIndex);
-            }
-        }
-
-        // Go to next question
-        function nextQuestion() {
-            if (currentQuestionIndex < quizData.length - 1) {
-                currentQuestionIndex++;
-                loadQuestion(currentQuestionIndex);
-            }
-        }
-
-        // Event listeners
-        actionButton.addEventListener('click', submitAnswer);
-        prevButton.addEventListener('click', prevQuestion);
-        nextButton.addEventListener('click', nextQuestion);
-
-        // Initialize the quiz
-        initQuiz();
-    </script>
-</body>
-</html>
+            finalScoreDisplay.textContent = `${score}/$
