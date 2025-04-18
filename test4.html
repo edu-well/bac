@@ -134,6 +134,15 @@
             background-color: rgba(0, 113, 227, 0.05);
         }
 
+        .option.answered {
+            cursor: default;
+        }
+
+        .option.answered:hover {
+            transform: none;
+            background-color: transparent;
+        }
+
         .option input {
             position: absolute;
             opacity: 0;
@@ -428,6 +437,47 @@
             border-color: #d2d2d7;
             transform: none;
         }
+
+        /* Review Styles */
+        .review-option {
+            padding: 18px 20px;
+            border-radius: 12px;
+            margin-bottom: 12px;
+            text-align: left;
+        }
+
+        .review-correct {
+            background-color: rgba(52, 199, 89, 0.05);
+            border: 1px solid var(--correct-color);
+        }
+
+        .review-incorrect {
+            background-color: rgba(255, 59, 48, 0.05);
+            border: 1px solid var(--incorrect-color);
+        }
+
+        .review-question {
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .review-answer {
+            font-size: 15px;
+            color: var(--light-text);
+        }
+
+        .review-section {
+            width: 100%;
+            max-width: 800px;
+            margin-top: 20px;
+        }
+
+        .review-title {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 16px;
+            text-align: left;
+        }
     </style>
 </head>
 <body>
@@ -496,6 +546,14 @@
             <div class="progress-bar">
                 <div class="progress-fill" id="progress-fill" style="width: 0%"></div>
             </div>
+
+            <div class="review-section">
+                <div class="review-title">Your Answers</div>
+                <div id="review-answers-container">
+                    <!-- Review answers will be inserted here -->
+                </div>
+            </div>
+            
             <button class="restart-button" id="restart-button">Start Again</button>
         </div>
     </div>
@@ -565,210 +623,4 @@
         const resultMessage = document.getElementById('result-message');
         const progressFill = document.getElementById('progress-fill');
         const restartButton = document.getElementById('restart-button');
-
-        // Quiz state
-        let currentQuestionIndex = 0;
-        let score = 0;
-        let userAnswers = Array(quizData.length).fill(null);
-        let quizCompleted = false;
-
-        // Initialize quiz
-        function initQuiz() {
-            totalQuestionsDisplay.textContent = quizData.length;
-            loadQuestion(currentQuestionIndex);
-        }
-
-        // Load question
-        function loadQuestion(index) {
-            if (index < 0 || index >= quizData.length) return;
-
-            currentQuestionIndex = index;
-            const question = quizData[index];
-            
-            // Update UI
-            questionText.textContent = question.question;
-            qNumber.textContent = index + 1;
-            currentQuestionDisplay.textContent = index + 1;
-            
-            // Clear options
-            optionsContainer.innerHTML = '';
-            
-            // Add options
-            question.options.forEach((option, i) => {
-                const optionElement = document.createElement('div');
-                optionElement.classList.add('option');
-                
-                if (userAnswers[index] === i) {
-                    optionElement.classList.add('selected');
-                }
-                
-                optionElement.innerHTML = `
-                    <input type="radio" id="option-${i}" name="option" value="${i}">
-                    <label class="option-label" for="option-${i}">
-                        <span class="option-radio"></span>
-                        <span class="option-text">${option}</span>
-                    </label>
-                `;
-                
-                optionElement.addEventListener('click', () => selectOption(i));
-                optionsContainer.appendChild(optionElement);
-            });
-            
-            // Update action button
-            actionButton.textContent = 'Submit Answer';
-            actionButton.disabled = userAnswers[index] === null;
-            
-            // Update navigation buttons
-            updateNavigationButtons();
-        }
-
-        // Select option
-        function selectOption(optionIndex) {
-            const options = document.querySelectorAll('.option');
-            options.forEach(option => option.classList.remove('selected'));
-            
-            options[optionIndex].classList.add('selected');
-            userAnswers[currentQuestionIndex] = optionIndex;
-            actionButton.disabled = false;
-        }
-
-        // Show answer page
-        function showAnswerPage() {
-            const question = quizData[currentQuestionIndex];
-            const selectedOptionIndex = userAnswers[currentQuestionIndex];
-            const isCorrect = selectedOptionIndex === question.correctAnswer;
-            
-            // Update answer page UI
-            answerQuestionNumber.textContent = currentQuestionIndex + 1;
-            answerScore.textContent = score;
-            answerTitle.textContent = isCorrect ? "Correct!" : "Incorrect";
-            
-            if (isCorrect) {
-                correctIncorrectText.textContent = "You got it right!";
-                correctIncorrectText.className = "answer-correct";
-            } else {
-                correctIncorrectText.textContent = "That's not quite right";
-                correctIncorrectText.className = "answer-incorrect";
-            }
-            
-            userAnswerValue.textContent = question.options[selectedOptionIndex];
-            correctAnswerValue.textContent = question.options[question.correctAnswer];
-            answerExplanation.textContent = question.explanation;
-            
-            // Hide question page and show answer page with animation
-            questionPage.classList.add('hidden');
-            answerPage.classList.remove('hidden');
-            answerContainer.style.display = 'block';
-            
-            // Add animations
-            answerContainer.classList.add('scale-in');
-            setTimeout(() => {
-                answerContainer.classList.remove('scale-in');
-            }, 600);
-        }
-
-        // Continue to next question
-        function continueToNextQuestion() {
-            if (currentQuestionIndex < quizData.length - 1) {
-                currentQuestionIndex++;
-                loadQuestion(currentQuestionIndex);
-                
-                // Hide answer page and show question page with animation
-                answerPage.classList.add('hidden');
-                questionPage.classList.remove('hidden');
-            } else {
-                showResults();
-            }
-        }
-
-        // Show results
-        function showResults() {
-            quizCompleted = true;
-            
-            finalScoreDisplay.textContent = `${score}/${quizData.length}`;
-            progressFill.style.width = `${(score / quizData.length) * 100}%`;
-            
-            // Set result message based on score
-            const percentage = (score / quizData.length) * 100;
-            if (percentage >= 80) {
-                resultMessage.textContent = "Excellent work! You've mastered this topic.";
-            } else if (percentage >= 50) {
-                resultMessage.textContent = "Good job! You have a solid understanding.";
-            } else {
-                resultMessage.textContent = "Keep practicing! You'll improve with more study.";
-            }
-            
-            // Hide answer page and show result page with animation
-            answerPage.classList.add('hidden');
-            resultPage.classList.remove('hidden');
-            resultContainer.style.display = 'block';
-            
-            // Add animations
-            resultContainer.classList.add('animate-in');
-            setTimeout(() => {
-                resultContainer.classList.remove('animate-in');
-            }, 600);
-        }
-
-        // Restart quiz
-        function restartQuiz() {
-            currentQuestionIndex = 0;
-            score = 0;
-            userAnswers = Array(quizData.length).fill(null);
-            quizCompleted = false;
-            
-            scoreDisplay.textContent = '0';
-            resultPage.classList.add('hidden');
-            questionPage.classList.remove('hidden');
-            
-            loadQuestion(0);
-        }
-
-        // Go to previous question
-        function prevQuestion() {
-            if (currentQuestionIndex > 0) {
-                currentQuestionIndex--;
-                loadQuestion(currentQuestionIndex);
-            }
-        }
-
-        // Go to next question
-        function nextQuestion() {
-            if (currentQuestionIndex < quizData.length - 1) {
-                currentQuestionIndex++;
-                loadQuestion(currentQuestionIndex);
-            }
-        }
-
-        // Update navigation buttons
-        function updateNavigationButtons() {
-            prevButton.disabled = currentQuestionIndex === 0;
-            nextButton.disabled = currentQuestionIndex === quizData.length - 1 || userAnswers[currentQuestionIndex] === null;
-        }
-
-        // Event listeners
-        actionButton.addEventListener('click', () => {
-            if (userAnswers[currentQuestionIndex] === null) return;
-            
-            const question = quizData[currentQuestionIndex];
-            const selectedOption = userAnswers[currentQuestionIndex];
-            
-            // Update score if this is the first time answering
-            if (selectedOption === question.correctAnswer) {
-                score++;
-                scoreDisplay.textContent = score;
-            }
-            
-            showAnswerPage();
-        });
-
-        continueButton.addEventListener('click', continueToNextQuestion);
-        prevButton.addEventListener('click', prevQuestion);
-        nextButton.addEventListener('click', nextQuestion);
-        restartButton.addEventListener('click', restartQuiz);
-
-        // Initialize the quiz
-        initQuiz();
-    </script>
-</body>
-</html>
+        const reviewAnswersContainer = docum
