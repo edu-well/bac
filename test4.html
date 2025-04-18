@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Knowledge Check</title>
+    <style>
+        :root {
+            --primary-color: #0071e3;
+            --correct-color: #34c759;
+            --incorrect-color: #ff3b30;
+            --text-color: #1d1d1f;
+            --light-text: #86868b;
+            --bg-color: #f5f5f7;
+            --card-bg: #ffffff;
+            --shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            --transition: all 0.3s cubic-bezier(0.25, 0.1, 0.25, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.5;
+            padding: 20px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .header {
+            width: 100%;
+            max-width: 800px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 20px;
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+            margin-bottom: 20px;
+            position: sticky;
+            top: 20px;
+            z-index: 100;
+        }
+
+        .progress {
+            font-size: 15px;
+            font-weight: 500;
+            color: var(--light-text);
+        }
+
+        .score {
+            font-size: 15px;
+            font-weight: 600;
+            color: var(--primary-color);
+        }
+
+        .quiz-container {
+            width: 100%;
+            max-width: 800px;
+            background-color: var(--card-bg);
+            border-radius: 18px;
+            box-shadow: var(--shadow);
+            padding: 30px;
+            margin-bottom: 20px;
+            transition: var(--transition);
+        }
+
+        .question-number {
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--light-text);
+            margin-bottom: 8px;
+        }
+
+        .question-text {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 30px;
+            line-height: 1.3;
+        }
+
+        .options-container {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 30px;
+        }
+
+        .option {
+            padding: 18px 20px;
+            border: 1px solid #d2d2d7;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .option:hover {
+            background-color: rgba(0, 0, 0, 0.02);
+        }
+
+        .option.selected {
+            border-color: var(--primary-color);
+            background-color: rgba(0, 113, 227, 0.05);
+        }
+
+        .option.correct {
+            border-color: var(--correct-color);
+            background-color: rgba(52, 199, 89, 0.05);
+        }
+
+        .option.incorrect {
+            border-color: var(--incorrect-color);
+            background-color: rgba(255, 59, 48, 0.05);
+        }
+
+        .option input {
+            position: absolute;
+            opacity: 0;
+            cursor: pointer;
+        }
+
+        .option-label {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            pointer-events: none;
+        }
+
+        .option-radio {
+            width: 20px;
+            height: 20px;
+            border: 2px solid #d2d2d7;
+            border-radius: 50%;
+            flex-shrink: 0;
+            transition: var(--transition);
+            position: relative;
+        }
+
+        .option.selected .option-radio {
+            border-color: var(--primary-color);
+        }
+
+        .option.selected .option-radio::after {
+            content: '';
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background-color: var(--primary-color);
+            border-radius: 50%;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .option.correct .option-radio {
+            border-color: var(--correct-color);
+        }
+
+        .option.correct .option-radio::after {
+            content: '';
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background-color: var(--correct-color);
+            border-radius: 50%;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .option.incorrect .option-radio {
+            border-color: var(--incorrect-color);
+        }
+
+        .option.incorrect .option-radio::after {
+            content: '✕';
+            position: absolute;
+            color: var(--incorrect-color);
+            font-size: 12px;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .option-text {
+            font-size: 17px;
+            font-weight: 500;
+        }
+
+        .explanation {
+            font-size: 16px;
+            color: var(--text-color);
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #f0f0f0;
+            display: none;
+        }
+
+        .explanation.show {
+            display: block;
+            animation: fadeIn 0.3s ease-out;
+        }
+
+        .action-button {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            padding: 12px 24px;
+            font-size: 17px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition);
+            display: inline-block;
+        }
+
+        .action-button:hover {
+            background-color: #0062c4;
+            transform: translateY(-1px);
+        }
+
+        .action-button:active {
+            transform: translateY(0);
+        }
+
+        .action-button:disabled {
+            background-color: #d2d2d7;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .result-container {
+            width: 100%;
+            max-width: 800px;
+            background-color: var(--card-bg);
+            border-radius: 18px;
+            box-shadow: var(--shadow);
+            padding: 40px;
+            text-align: center;
+            display: none;
+        }
+
+        .result-title {
+            font-size: 28px;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+
+        .result-score {
+            font-size: 72px;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 20px;
+        }
+
+        .result-message {
+            font-size: 20px;
+            margin-bottom: 30px;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 6px;
+            background-color: #e0e0e0;
+            border-radius: 3px;
+            margin-bottom: 30px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background-color: var(--primary-color);
+            border-radius: 3px;
+            transition: width 0.6s ease;
+        }
+
+        .restart-button {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            padding: 12px 24px;
+            font-size: 17px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .restart-button:hover {
+            background-color: #0062c4;
+            transform: translateY(-1px);
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .navigation-buttons {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            max-width: 800px;
+            gap: 15px;
+        }
+
+        .nav-button {
+            flex: 1;
+            background-color: var(--card-bg);
+            color: var(--primary-color);
+            border: 1px solid #d2d2d7;
+            border-radius: 12px;
+            padding: 12px;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .nav-button:hover {
+            background-color: rgba(0, 113, 227, 0.05);
+            border-color: var(--primary-color);
+        }
+
+        .nav-button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            background-color: var(--card-bg);
+            border-color: #d2d2d7;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="progress">Question <span id="current-question">1</span> of <span id="total-questions">5</span></div>
+        <div class="score">Score: <span id="score">0</span></div>
+    </div>
+
+    <div class="quiz-container" id="quiz-container">
+        <div class="question-number">Question <span id="q-number">1</span></div>
+        <div class="question-text" id="question-text">What is the capital of France?</div>
+        
+        <div class="options-container" id="options-container">
+            <!-- Options will be inserted here by JavaScript -->
+        </div>
+        
+        <div class="explanation" id="explanation">
+            Paris is the capital and most populous city of France. It has been one of Europe's major centers of finance, diplomacy, commerce, fashion, science, and arts.
+        </div>
+        
+        <button class="action-button" id="action-button" disabled>Fix</button>
+    </div>
+
+    <div class="navigation-buttons">
+        <button class="nav-button" id="prev-button" disabled>Previous</button>
+        <button class="nav-button" id="next-button" disabled>Next</button>
+    </div>
+
+    <div class="result-container" id="result-container">
+        <div class="result-title">Quiz Completed</div>
+        <div class="result-score" id="final-score">0/5</div>
+        <div class="result-message" id="result-message">Good effort!</div>
+        <div class="progress-bar">
+            <div class="progress-fill" id="progress-fill" style="width: 0%"></div>
+        </div>
+        <button class="restart-button" id="restart-button">Start Again</button>
+    </div>
+
+    <script>
+        // Quiz data
+        const quizData = [
+            {
+                question: "What is the capital of France?",
+                options: ["London", "Berlin", "Paris"],
+                correctAnswer: 2,
+                explanation: "Paris is the capital and most populous city of France. It has been one of Europe's major centers of finance, diplomacy, commerce, fashion, science, and arts."
+            },
+            {
+                question: "Which planet is known as the Red Planet?",
+                options: ["Venus", "Mars", "Jupiter"],
+                correctAnswer: 1,
+                explanation: "Mars is often called the 'Red Planet' because of its reddish appearance, which is caused by iron oxide (rust) on its surface."
+            },
+            {
+                question: "What is the largest mammal in the world?",
+                options: ["Elephant", "Blue Whale", "Giraffe"],
+                correctAnswer: 1,
+                explanation: "The blue whale is the largest animal known to have ever existed, reaching lengths of up to 100 feet (30 meters) and weights of up to 200 tons."
+            },
+            {
+                question: "Which language is primarily used for web development?",
+                options: ["Java", "Python", "JavaScript"],
+                correctAnswer: 2,
+                explanation: "JavaScript is the programming language of the Web. Along with HTML and CSS, it's one of the three core technologies of web development."
+            },
+            {
+                question: "What year was the first iPhone released?",
+                options: ["2005", "2007", "2010"],
+                correctAnswer: 1,
+                explanation: "The first iPhone was announced by Steve Jobs on January 9, 2007, and was released on June 29, 2007. It revolutionized the smartphone industry."
+            }
+        ];
+
+        // DOM elements
+        const quizContainer = document.getElementById('quiz-container');
+        const questionText = document.getElementById('question-text');
+        const optionsContainer = document.getElementById('options-container');
+        const explanation = document.getElementById('explanation');
+        const actionButton = document.getElementById('action-button');
+        const currentQuestionDisplay = document.getElementById('current-question');
+        const totalQuestionsDisplay = document.getElementById('total-questions');
+        const scoreDisplay = document.getElementById('score');
+        const resultContainer = document.getElementById('result-container');
+        const finalScoreDisplay = document.getElementById('final-score');
+        const resultMessage = document.getElementById('result-message');
+        const progressFill = document.getElementById('progress-fill');
+        const restartButton = document.getElementById('restart-button');
+        const prevButton = document.getElementById('prev-button');
+        const nextButton = document.getElementById('next-button');
+        const qNumber = document.getElementById('q-number');
+
+        // Quiz state
+        let currentQuestion = 0;
+        let score = 0;
+        let userAnswers = Array(quizData.length).fill(null);
+        let quizCompleted = false;
+
+        // Initialize quiz
+        function initQuiz() {
+            totalQuestionsDisplay.textContent = quizData.length;
+            loadQuestion(currentQuestion);
+        }
+
+        // Load question
+        function loadQuestion(index) {
+            if (index < 0 || index >= quizData.length) return;
+
+            currentQuestion = index;
+            const question = quizData[index];
+            
+            // Update UI
+            questionText.textContent = question.question;
+            qNumber.textContent = index + 1;
+            currentQuestionDisplay.textContent = index + 1;
+            explanation.textContent = question.explanation;
+            explanation.classList.remove('show');
+            
+            // Clear options
+            optionsContainer.innerHTML = '';
+            
+            // Add options
+            question.options.forEach((option, i) => {
+                const optionElement = document.createElement('div');
+                optionElement.classList.add('option');
+                
+                if (userAnswers[index] !== null) {
+                    if (i === userAnswers[index]) {
+                        optionElement.classList.add(i === question.correctAnswer ? 'correct' : 'incorrect');
+                    } else if (i === question.correctAnswer) {
+                        optionElement.classList.add('correct');
+                    }
+                }
+                
+                optionElement.innerHTML = `
+                    <input type="radio" id="option-${i}" name="option" value="${i}">
+                    <label class="option-label" for="option-${i}">
+                        <span class="option-radio"></span>
+                        <span class="option-text">${option}</span>
+                    </label>
+                `;
+                
+                if (userAnswers[index] === i) {
+                    optionElement.classList.add('selected');
+                    optionElement.querySelector('input').checked = true;
+                }
+                
+                optionElement.addEventListener('click', () => selectOption(i));
+                optionsContainer.appendChild(optionElement);
+            });
+            
+            // Update action button
+            if (userAnswers[index] !== null) {
+                actionButton.textContent = 'Next Question';
+                actionButton.disabled = false;
+                showExplanation();
+            } else {
+                actionButton.textContent = 'Fix';
+                actionButton.disabled = true;
+            }
+            
+            // Update navigation buttons
+            updateNavigationButtons();
+        }
+
+        // Select option
+        function selectOption(optionIndex) {
+            if (userAnswers[currentQuestion] !== null) return;
+            
+            const options = document.querySelectorAll('.option');
+            options.forEach(option => option.classList.remove('selected'));
+            
+            options[optionIndex].classList.add('selected');
+            userAnswers[currentQuestion] = optionIndex;
+            actionButton.disabled = false;
+        }
+
+        // Show explanation
+        function showExplanation() {
+            const question = quizData[currentQuestion];
+            const selectedOption = userAnswers[currentQuestion];
+            
+            // Update score if this is the first time answering
+            if (selectedOption === question.correctAnswer && !quizCompleted) {
+                score++;
+                scoreDisplay.textContent = score;
+            }
+            
+            explanation.classList.add('show');
+            actionButton.textContent = 'Next Question';
+        }
+
+        // Go to next question
+        function nextQuestion() {
+            if (currentQuestion < quizData.length - 1) {
+                loadQuestion(currentQuestion + 1);
+            } else {
+                showResults();
+            }
+        }
+
+        // Go to previous question
+        function prevQuestion() {
+            if (currentQuestion > 0) {
+                loadQuestion(currentQuestion - 1);
+            }
+        }
+
+        // Show results
+        function showResults() {
+            quizCompleted = true;
+            quizContainer.style.display = 'none';
+            resultContainer.style.display = 'block';
+            
+            finalScoreDisplay.textContent = `${score}/${quizData.length}`;
+            progressFill.style.width = `${(score / quizData.length) * 100}%`;
+            
+            // Set result message based on score
+            const percentage = (score / quizData.length) * 100;
+            if (percentage >= 80) {
+                resultMessage.textContent = "Excellent work! You've mastered this topic.";
+            } else if (percentage >= 50) {
+                resultMessage.textContent = "Good job! You have a solid understanding.";
+            } else {
+                resultMessage.textContent = "Keep practicing! You'll improve with more study.";
+            }
+        }
+
+        // Restart quiz
+        function restartQuiz() {
+            currentQuestion = 0;
+            score = 0;
+            userAnswers = Array(quizData.length).fill(null);
+            quizCompleted = false;
+            
+            scoreDisplay.textContent = '0';
+            quizContainer.style.display = 'block';
+            resultContainer.style.display = 'none';
+            
+            loadQuestion(0);
+        }
+
+        // Update navigation buttons
+        function updateNavigationButtons() {
+            prevButton.disabled = currentQuestion === 0;
+            nextButton.disabled = currentQuestion === quizData.length - 1 || userAnswers[currentQuestion] === null;
+        }
+
+        // Event listeners
+        actionButton.addEventListener('click', () => {
+            if (userAnswers[currentQuestion] === null) return;
+            
+            if (actionButton.textContent === 'Fix') {
+                showExplanation();
+                updateNavigationButtons();
+            } else {
+                nextQuestion();
+            }
+        });
+
+        prevButton.addEventListener('click', prevQuestion);
+        nextButton.addEventListener('click', nextQuestion);
+        restartButton.addEventListener('click', restartQuiz);
+
+        // Initialize the quiz
+        initQuiz();
+    </script>
+</body>
+</html>
