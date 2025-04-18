@@ -599,4 +599,87 @@
         function showResults() {
             quizCompleted = true;
             
-            finalScoreDisplay.textContent = `${score}/$
+            finalScoreDisplay.textContent = `${score}/${quizData.length}`;
+            progressFill.style.width = `${(score / quizData.length) * 100}%`;
+            
+            // Set result message based on score
+            const percentage = (score / quizData.length) * 100;
+            if (percentage >= 80) {
+                resultMessage.textContent = "Excellent work! 🎉 You've mastered this topic.";
+            } else if (percentage >= 50) {
+                resultMessage.textContent = "Good job! 👍 You have a solid understanding.";
+            } else {
+                resultMessage.textContent = "Keep practicing! 📚 You'll improve with more study.";
+            }
+            
+            // Hide quiz and show results
+            quizContainer.style.display = 'none';
+            resultContainer.style.display = 'block';
+        }
+
+        // Restart quiz
+        function restartQuiz() {
+            currentQuestionIndex = 0;
+            score = 0;
+            userAnswers = Array(quizData.length).fill(null);
+            quizCompleted = false;
+            
+            scoreDisplay.textContent = '0';
+            quizContainer.style.display = 'block';
+            resultContainer.style.display = 'none';
+            
+            loadQuestion(0);
+        }
+
+        // Go to previous question
+        function prevQuestion() {
+            if (currentQuestionIndex > 0) {
+                currentQuestionIndex--;
+                loadQuestion(currentQuestionIndex);
+            }
+        }
+
+        // Go to next question
+        function nextQuestion() {
+            if (currentQuestionIndex < quizData.length - 1) {
+                if (userAnswers[currentQuestionIndex] === null) {
+                    return;
+                }
+                currentQuestionIndex++;
+                loadQuestion(currentQuestionIndex);
+            } else if (currentQuestionIndex === quizData.length - 1 && userAnswers[currentQuestionIndex] !== null) {
+                showResults();
+            }
+        }
+
+        // Update navigation buttons
+        function updateNavigationButtons() {
+            prevButton.disabled = currentQuestionIndex === 0;
+            
+            if (currentQuestionIndex === quizData.length - 1) {
+                nextButton.disabled = userAnswers[currentQuestionIndex] === null;
+                nextButton.textContent = "See Results";
+            } else {
+                nextButton.disabled = userAnswers[currentQuestionIndex] === null;
+                nextButton.textContent = "Next";
+            }
+        }
+
+        // Event listeners
+        actionButton.addEventListener('click', () => {
+            if (actionButton.textContent === 'Fix') {
+                submitAnswer();
+            } else {
+                continueToNext();
+            }
+        });
+        
+        prevButton.addEventListener('click', prevQuestion);
+        nextButton.addEventListener('click', nextQuestion);
+        restartButton.addEventListener('click', restartQuiz);
+
+        // Initialize the quiz
+        initQuiz();
+    </script>
+</body>
+</html>
