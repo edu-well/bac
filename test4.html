@@ -76,11 +76,6 @@
             box-shadow: var(--shadow);
             padding: 30px;
             margin-bottom: 20px;
-            transition: transform 0.3s ease;
-        }
-
-        .quiz-card:active {
-            transform: scale(0.98);
         }
 
         .question-number {
@@ -112,9 +107,10 @@
             border-radius: 12px;
             cursor: pointer;
             transition: var(--transition);
-            position: relative;
-            overflow: hidden;
             background-color: white;
+            display: flex;
+            align-items: center;
+            gap: 12px;
         }
 
         .option:hover {
@@ -127,6 +123,16 @@
             border-color: var(--primary-color);
             background-color: var(--option-selected);
             box-shadow: 0 4px 12px rgba(0, 113, 227, 0.1);
+        }
+
+        .option-radio {
+            width: 22px;
+            height: 22px;
+            border: 2px solid #d2d2d7;
+            border-radius: 50%;
+            flex-shrink: 0;
+            transition: var(--transition);
+            position: relative;
         }
 
         .option.selected .option-radio {
@@ -143,30 +149,6 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-        }
-
-        .option input[type="radio"] {
-            position: absolute;
-            opacity: 0;
-            width: 0;
-            height: 0;
-        }
-
-        .option-label {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            user-select: none;
-        }
-
-        .option-radio {
-            width: 22px;
-            height: 22px;
-            border: 2px solid #d2d2d7;
-            border-radius: 50%;
-            flex-shrink: 0;
-            transition: var(--transition);
-            position: relative;
         }
 
         .option-text {
@@ -200,10 +182,6 @@
             background-color: var(--primary-hover);
             transform: translateY(-2px);
             box-shadow: 0 6px 12px rgba(0, 113, 227, 0.2);
-        }
-
-        .action-button:active {
-            transform: translateY(0);
         }
 
         .action-button:disabled {
@@ -250,106 +228,6 @@
             transform: none;
         }
 
-        /* Answer Page Styles */
-        .answer-page {
-            display: none;
-            width: 100%;
-            max-width: 800px;
-        }
-
-        .answer-card {
-            background-color: var(--card-bg);
-            border-radius: var(--border-radius);
-            box-shadow: var(--shadow);
-            padding: 30px;
-            margin-bottom: 20px;
-        }
-
-        .answer-title {
-            font-size: 24px;
-            font-weight: 600;
-            margin-bottom: 24px;
-            text-align: center;
-        }
-
-        .answer-feedback {
-            font-size: 18px;
-            font-weight: 500;
-            margin-bottom: 30px;
-            text-align: center;
-            padding: 16px;
-            border-radius: 12px;
-        }
-
-        .correct-feedback {
-            background-color: rgba(52, 199, 89, 0.1);
-            color: var(--correct-color);
-        }
-
-        .incorrect-feedback {
-            background-color: rgba(255, 59, 48, 0.1);
-            color: var(--incorrect-color);
-        }
-
-        .answer-comparison {
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
-            margin-bottom: 30px;
-        }
-
-        .answer-item {
-            padding: 18px;
-            border-radius: 12px;
-        }
-
-        .user-answer {
-            background-color: rgba(255, 59, 48, 0.05);
-            border: 1px solid var(--incorrect-color);
-        }
-
-        .correct-answer {
-            background-color: rgba(52, 199, 89, 0.05);
-            border: 1px solid var(--correct-color);
-        }
-
-        .answer-label {
-            font-size: 14px;
-            font-weight: 500;
-            color: var(--light-text);
-            margin-bottom: 8px;
-        }
-
-        .answer-value {
-            font-size: 18px;
-            font-weight: 500;
-        }
-
-        .answer-explanation {
-            font-size: 16px;
-            color: var(--text-color);
-            margin-top: 24px;
-            padding-top: 24px;
-            border-top: 1px solid rgba(210, 210, 215, 0.5);
-        }
-
-        /* Animations */
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.02); }
-            100% { transform: scale(1); }
-        }
-
-        .pulse {
-            animation: pulse 0.3s ease;
-        }
-
-        /* Responsive adjustments */
         @media (max-width: 600px) {
             .question-text {
                 font-size: 20px;
@@ -371,7 +249,7 @@
         <div class="score">Score: <span id="score">0</span></div>
     </div>
 
-    <div class="quiz-card" id="quiz-card">
+    <div class="quiz-card">
         <div class="question-number">Question <span id="q-number">1</span></div>
         <div class="question-text" id="question-text">What is the capital of France?</div>
         
@@ -387,32 +265,6 @@
         <button class="nav-button" id="next-button" disabled>Next</button>
     </div>
 
-    <div class="answer-page" id="answer-page">
-        <div class="answer-card">
-            <h2 class="answer-title" id="answer-title">Your Answer</h2>
-            <div class="answer-feedback" id="answer-feedback">
-                <span id="feedback-text">Correct!</span>
-            </div>
-            
-            <div class="answer-comparison">
-                <div class="answer-item user-answer">
-                    <div class="answer-label">Your Answer</div>
-                    <div class="answer-value" id="user-answer-value">Paris</div>
-                </div>
-                <div class="answer-item correct-answer">
-                    <div class="answer-label">Correct Answer</div>
-                    <div class="answer-value" id="correct-answer-value">Paris</div>
-                </div>
-            </div>
-            
-            <div class="answer-explanation" id="answer-explanation">
-                Paris is the capital and most populous city of France. It has been one of Europe's major centers of finance, diplomacy, commerce, fashion, science, and arts.
-            </div>
-            
-            <button class="action-button" id="continue-button">Continue</button>
-        </div>
-    </div>
-
     <script>
         // Quiz data
         const quizData = [
@@ -420,36 +272,35 @@
                 question: "What is the capital of France?",
                 options: ["London", "Berlin", "Paris"],
                 correctAnswer: 2,
-                explanation: "Paris is the capital and most populous city of France. It has been one of Europe's major centers of finance, diplomacy, commerce, fashion, science, and arts."
+                explanation: "Paris is the capital and most populous city of France."
             },
             {
                 question: "Which planet is known as the Red Planet?",
                 options: ["Venus", "Mars", "Jupiter"],
                 correctAnswer: 1,
-                explanation: "Mars is often called the 'Red Planet' because of its reddish appearance, which is caused by iron oxide (rust) on its surface."
+                explanation: "Mars appears reddish due to iron oxide on its surface."
             },
             {
                 question: "What is the largest mammal in the world?",
                 options: ["Elephant", "Blue Whale", "Giraffe"],
                 correctAnswer: 1,
-                explanation: "The blue whale is the largest animal known to have ever existed, reaching lengths of up to 100 feet (30 meters) and weights of up to 200 tons."
+                explanation: "Blue whales can grow up to 100 feet long."
             },
             {
                 question: "Which language is primarily used for web development?",
                 options: ["Java", "Python", "JavaScript"],
                 correctAnswer: 2,
-                explanation: "JavaScript is the programming language of the Web. Along with HTML and CSS, it's one of the three core technologies of web development."
+                explanation: "JavaScript runs in web browsers to make pages interactive."
             },
             {
                 question: "What year was the first iPhone released?",
                 options: ["2005", "2007", "2010"],
                 correctAnswer: 1,
-                explanation: "The first iPhone was announced by Steve Jobs on January 9, 2007, and was released on June 29, 2007. It revolutionized the smartphone industry."
+                explanation: "The first iPhone revolutionized smartphones in 2007."
             }
         ];
 
         // DOM elements
-        const quizCard = document.getElementById('quiz-card');
         const questionText = document.getElementById('question-text');
         const optionsContainer = document.getElementById('options-container');
         const actionButton = document.getElementById('action-button');
@@ -459,14 +310,6 @@
         const qNumber = document.getElementById('q-number');
         const prevButton = document.getElementById('prev-button');
         const nextButton = document.getElementById('next-button');
-        const answerPage = document.getElementById('answer-page');
-        const answerTitle = document.getElementById('answer-title');
-        const answerFeedback = document.getElementById('answer-feedback');
-        const feedbackText = document.getElementById('feedback-text');
-        const userAnswerValue = document.getElementById('user-answer-value');
-        const correctAnswerValue = document.getElementById('correct-answer-value');
-        const answerExplanation = document.getElementById('answer-explanation');
-        const continueButton = document.getElementById('continue-button');
 
         // Quiz state
         let currentQuestionIndex = 0;
@@ -481,9 +324,6 @@
 
         // Load question
         function loadQuestion(index) {
-            if (index < 0 || index >= quizData.length) return;
-
-            currentQuestionIndex = index;
             const question = quizData[index];
             
             // Update UI
@@ -504,18 +344,22 @@
                 }
                 
                 optionElement.innerHTML = `
-                    <input type="radio" name="option" value="${i}" ${userAnswers[index] === i ? 'checked' : ''}>
-                    <label class="option-label">
-                        <span class="option-radio"></span>
-                        <span class="option-text">${option}</span>
-                    </label>
+                    <span class="option-radio"></span>
+                    <span class="option-text">${option}</span>
                 `;
                 
                 optionElement.addEventListener('click', () => {
-                    // Only allow selection if not already answered
-                    if (userAnswers[index] === null) {
-                        selectOption(i, optionElement);
-                    }
+                    // Remove selected class from all options
+                    document.querySelectorAll('.option').forEach(opt => {
+                        opt.classList.remove('selected');
+                    });
+                    
+                    // Add selected class to clicked option
+                    optionElement.classList.add('selected');
+                    
+                    // Store user's answer
+                    userAnswers[index] = i;
+                    actionButton.disabled = false;
                 });
                 
                 optionsContainer.appendChild(optionElement);
@@ -526,31 +370,6 @@
             
             // Update navigation buttons
             updateNavigationButtons();
-            
-            // Show quiz card
-            quizCard.style.display = 'block';
-            answerPage.style.display = 'none';
-        }
-
-        // Select option with animation
-        function selectOption(optionIndex, optionElement) {
-            // Remove selected class from all options
-            document.querySelectorAll('.option').forEach(opt => {
-                opt.classList.remove('selected');
-            });
-            
-            // Add selected class to clicked option with animation
-            optionElement.classList.add('selected');
-            optionElement.classList.add('pulse');
-            
-            // Remove animation after it completes
-            setTimeout(() => {
-                optionElement.classList.remove('pulse');
-            }, 300);
-            
-            // Store user's answer
-            userAnswers[currentQuestionIndex] = optionIndex;
-            actionButton.disabled = false;
         }
 
         // Submit answer
@@ -559,32 +378,14 @@
             
             const question = quizData[currentQuestionIndex];
             const selectedOption = userAnswers[currentQuestionIndex];
-            const isCorrect = selectedOption === question.correctAnswer;
             
-            // Update score if correct
-            if (isCorrect) {
+            // Check if answer is correct
+            if (selectedOption === question.correctAnswer) {
                 score++;
                 scoreDisplay.textContent = score;
             }
             
-            // Update answer page
-            answerTitle.textContent = `Question ${currentQuestionIndex + 1}`;
-            feedbackText.textContent = isCorrect ? "Correct! 🎉" : "Incorrect ❌";
-            answerFeedback.className = isCorrect ? "answer-feedback correct-feedback" : "answer-feedback incorrect-feedback";
-            userAnswerValue.textContent = question.options[selectedOption];
-            correctAnswerValue.textContent = question.options[question.correctAnswer];
-            answerExplanation.textContent = question.explanation;
-            
-            // Show answer page
-            quizCard.style.display = 'none';
-            answerPage.style.display = 'block';
-            
-            // Add animation
-            answerPage.style.animation = 'fadeIn 0.4s ease-out';
-        }
-
-        // Continue to next question
-        function continueToNext() {
+            // Move to next question or show results
             if (currentQuestionIndex < quizData.length - 1) {
                 currentQuestionIndex++;
                 loadQuestion(currentQuestionIndex);
@@ -595,4 +396,45 @@
 
         // Show results
         function showResults() {
-            const percentage = (score / quizData.length) * 100;
+            alert(`Quiz completed!\nYour score: ${score}/${quizData.length}`);
+            
+            // Reset quiz
+            currentQuestionIndex = 0;
+            score = 0;
+            userAnswers = Array(quizData.length).fill(null);
+            scoreDisplay.textContent = '0';
+            loadQuestion(0);
+        }
+
+        // Update navigation buttons
+        function updateNavigationButtons() {
+            prevButton.disabled = currentQuestionIndex === 0;
+            nextButton.disabled = currentQuestionIndex === quizData.length - 1 || userAnswers[currentQuestionIndex] === null;
+        }
+
+        // Go to previous question
+        function prevQuestion() {
+            if (currentQuestionIndex > 0) {
+                currentQuestionIndex--;
+                loadQuestion(currentQuestionIndex);
+            }
+        }
+
+        // Go to next question
+        function nextQuestion() {
+            if (currentQuestionIndex < quizData.length - 1) {
+                currentQuestionIndex++;
+                loadQuestion(currentQuestionIndex);
+            }
+        }
+
+        // Event listeners
+        actionButton.addEventListener('click', submitAnswer);
+        prevButton.addEventListener('click', prevQuestion);
+        nextButton.addEventListener('click', nextQuestion);
+
+        // Initialize the quiz
+        initQuiz();
+    </script>
+</body>
+</html>
