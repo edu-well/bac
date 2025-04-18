@@ -7,6 +7,7 @@
     <style>
         :root {
             --primary-color: #0071e3;
+            --primary-hover: #0062c4;
             --correct-color: #34c759;
             --incorrect-color: #ff3b30;
             --text-color: #1d1d1f;
@@ -14,8 +15,9 @@
             --bg-color: #f5f5f7;
             --card-bg: #ffffff;
             --shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-            --transition: all 0.4s cubic-bezier(0.28, 0.62, 0.35, 1);
-            --border-radius: 18px;
+            --transition: all 0.3s cubic-bezier(0.25, 0.1, 0.25, 1);
+            --border-radius: 14px;
+            --option-selected: rgba(0, 113, 227, 0.08);
         }
 
         * {
@@ -31,30 +33,25 @@
             line-height: 1.5;
             min-height: 100vh;
             padding: 20px;
-        }
-
-        .page {
-            display: none;
-            width: 100%;
-            max-width: 800px;
-            margin: 0 auto;
-        }
-
-        .page.active {
-            display: block;
-            animation: fadeIn 0.6s ease-out;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
 
         .header {
             width: 100%;
+            max-width: 800px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 15px 20px;
+            padding: 16px 20px;
             background-color: var(--card-bg);
             border-radius: var(--border-radius);
             box-shadow: var(--shadow);
             margin-bottom: 20px;
+            position: sticky;
+            top: 20px;
+            z-index: 100;
         }
 
         .progress {
@@ -71,12 +68,19 @@
             letter-spacing: -0.24px;
         }
 
-        .quiz-card, .answer-card, .result-card {
+        .quiz-card {
+            width: 100%;
+            max-width: 800px;
             background-color: var(--card-bg);
             border-radius: var(--border-radius);
             box-shadow: var(--shadow);
             padding: 30px;
             margin-bottom: 20px;
+            transition: transform 0.3s ease;
+        }
+
+        .quiz-card:active {
+            transform: scale(0.98);
         }
 
         .question-number {
@@ -104,7 +108,7 @@
 
         .option {
             padding: 18px 20px;
-            border: 1px solid #d2d2d7;
+            border: 1px solid rgba(210, 210, 215, 0.5);
             border-radius: 12px;
             cursor: pointer;
             transition: var(--transition);
@@ -116,21 +120,29 @@
         .option:hover {
             background-color: rgba(0, 0, 0, 0.02);
             transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
         }
 
         .option.selected {
             border-color: var(--primary-color);
-            background-color: rgba(0, 113, 227, 0.05);
+            background-color: var(--option-selected);
+            box-shadow: 0 4px 12px rgba(0, 113, 227, 0.1);
         }
 
-        .option.correct {
-            border-color: var(--correct-color);
-            background-color: rgba(52, 199, 89, 0.05);
+        .option.selected .option-radio {
+            border-color: var(--primary-color);
         }
 
-        .option.incorrect {
-            border-color: var(--incorrect-color);
-            background-color: rgba(255, 59, 48, 0.05);
+        .option.selected .option-radio::after {
+            content: '';
+            position: absolute;
+            width: 12px;
+            height: 12px;
+            background-color: var(--primary-color);
+            border-radius: 50%;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
         }
 
         .option input[type="radio"] {
@@ -144,11 +156,12 @@
             display: flex;
             align-items: center;
             gap: 12px;
+            user-select: none;
         }
 
         .option-radio {
-            width: 20px;
-            height: 20px;
+            width: 22px;
+            height: 22px;
             border: 2px solid #d2d2d7;
             border-radius: 50%;
             flex-shrink: 0;
@@ -156,56 +169,16 @@
             position: relative;
         }
 
-        .option.selected .option-radio {
-            border-color: var(--primary-color);
-        }
-
-        .option.selected .option-radio::after {
-            content: '';
-            position: absolute;
-            width: 10px;
-            height: 10px;
-            background-color: var(--primary-color);
-            border-radius: 50%;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-        }
-
-        .option.correct .option-radio {
-            border-color: var(--correct-color);
-        }
-
-        .option.correct .option-radio::after {
-            content: '';
-            position: absolute;
-            width: 10px;
-            height: 10px;
-            background-color: var(--correct-color);
-            border-radius: 50%;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-        }
-
-        .option.incorrect .option-radio {
-            border-color: var(--incorrect-color);
-        }
-
-        .option.incorrect .option-radio::after {
-            content: '✕';
-            position: absolute;
-            color: var(--incorrect-color);
-            font-size: 12px;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-        }
-
         .option-text {
             font-size: 17px;
             font-weight: 500;
             letter-spacing: -0.24px;
+            transition: color 0.2s ease;
+        }
+
+        .option.selected .option-text {
+            color: var(--primary-color);
+            font-weight: 600;
         }
 
         .action-button {
@@ -213,168 +186,39 @@
             color: white;
             border: none;
             border-radius: 12px;
-            padding: 12px 24px;
+            padding: 14px 28px;
             font-size: 17px;
             font-weight: 500;
             cursor: pointer;
             transition: var(--transition);
             display: inline-block;
             letter-spacing: -0.24px;
+            width: 100%;
         }
 
         .action-button:hover {
-            background-color: #0062c4;
+            background-color: var(--primary-hover);
             transform: translateY(-2px);
             box-shadow: 0 6px 12px rgba(0, 113, 227, 0.2);
         }
 
+        .action-button:active {
+            transform: translateY(0);
+        }
+
         .action-button:disabled {
-            background-color: #d2d2d7;
+            background-color: #e0e0e0;
+            color: #a0a0a0;
             cursor: not-allowed;
             transform: none;
             box-shadow: none;
         }
 
-        /* Answer Page Styles */
-        .answer-title {
-            font-size: 28px;
-            font-weight: 600;
-            margin-bottom: 30px;
-            letter-spacing: -0.38px;
-            text-align: center;
-        }
-
-        .answer-result {
-            font-size: 20px;
-            font-weight: 500;
-            margin-bottom: 30px;
-            letter-spacing: -0.24px;
-            text-align: center;
-        }
-
-        .answer-correct {
-            color: var(--correct-color);
-        }
-
-        .answer-incorrect {
-            color: var(--incorrect-color);
-        }
-
-        .answer-comparison {
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-            margin-bottom: 40px;
-        }
-
-        .answer-item {
-            padding: 20px;
-            border-radius: 12px;
-            text-align: left;
-            transition: var(--transition);
-        }
-
-        .user-answer {
-            background-color: rgba(255, 59, 48, 0.05);
-            border: 1px solid var(--incorrect-color);
-        }
-
-        .correct-answer {
-            background-color: rgba(52, 199, 89, 0.05);
-            border: 1px solid var(--correct-color);
-        }
-
-        .answer-label {
-            font-size: 14px;
-            font-weight: 500;
-            color: var(--light-text);
-            margin-bottom: 8px;
-            letter-spacing: -0.24px;
-        }
-
-        .answer-value {
-            font-size: 18px;
-            font-weight: 500;
-            letter-spacing: -0.24px;
-        }
-
-        .answer-explanation {
-            font-size: 16px;
-            color: var(--text-color);
-            margin-top: 20px;
-            padding-top: 20px;
-            border-top: 1px solid #f0f0f0;
-            letter-spacing: -0.24px;
-            text-align: left;
-        }
-
-        /* Result Page Styles */
-        .result-title {
-            font-size: 28px;
-            font-weight: 600;
-            margin-bottom: 20px;
-            letter-spacing: -0.38px;
-            text-align: center;
-        }
-
-        .result-score {
-            font-size: 72px;
-            font-weight: 700;
-            color: var(--primary-color);
-            margin-bottom: 20px;
-            letter-spacing: -1.5px;
-            text-align: center;
-        }
-
-        .result-message {
-            font-size: 20px;
-            margin-bottom: 30px;
-            letter-spacing: -0.24px;
-            text-align: center;
-        }
-
-        .progress-bar {
-            width: 100%;
-            height: 6px;
-            background-color: #e0e0e0;
-            border-radius: 3px;
-            margin-bottom: 30px;
-            overflow: hidden;
-        }
-
-        .progress-fill {
-            height: 100%;
-            background-color: var(--primary-color);
-            border-radius: 3px;
-            transition: width 0.8s cubic-bezier(0.22, 1, 0.36, 1);
-        }
-
-        .restart-button {
-            background-color: var(--primary-color);
-            color: white;
-            border: none;
-            border-radius: 12px;
-            padding: 12px 24px;
-            font-size: 17px;
-            font-weight: 500;
-            cursor: pointer;
-            transition: var(--transition);
-            letter-spacing: -0.24px;
-            display: block;
-            margin: 0 auto;
-        }
-
-        .restart-button:hover {
-            background-color: #0062c4;
-            transform: translateY(-2px);
-            box-shadow: 0 6px 12px rgba(0, 113, 227, 0.2);
-        }
-
-        /* Navigation */
         .navigation-buttons {
             display: flex;
             justify-content: space-between;
             width: 100%;
+            max-width: 800px;
             gap: 15px;
         }
 
@@ -382,9 +226,9 @@
             flex: 1;
             background-color: var(--card-bg);
             color: var(--primary-color);
-            border: 1px solid #d2d2d7;
+            border: 1px solid rgba(210, 210, 215, 0.8);
             border-radius: 12px;
-            padding: 12px;
+            padding: 14px;
             font-size: 16px;
             font-weight: 500;
             cursor: pointer;
@@ -406,54 +250,148 @@
             transform: none;
         }
 
+        /* Answer Page Styles */
+        .answer-page {
+            display: none;
+            width: 100%;
+            max-width: 800px;
+        }
+
+        .answer-card {
+            background-color: var(--card-bg);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            padding: 30px;
+            margin-bottom: 20px;
+        }
+
+        .answer-title {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 24px;
+            text-align: center;
+        }
+
+        .answer-feedback {
+            font-size: 18px;
+            font-weight: 500;
+            margin-bottom: 30px;
+            text-align: center;
+            padding: 16px;
+            border-radius: 12px;
+        }
+
+        .correct-feedback {
+            background-color: rgba(52, 199, 89, 0.1);
+            color: var(--correct-color);
+        }
+
+        .incorrect-feedback {
+            background-color: rgba(255, 59, 48, 0.1);
+            color: var(--incorrect-color);
+        }
+
+        .answer-comparison {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            margin-bottom: 30px;
+        }
+
+        .answer-item {
+            padding: 18px;
+            border-radius: 12px;
+        }
+
+        .user-answer {
+            background-color: rgba(255, 59, 48, 0.05);
+            border: 1px solid var(--incorrect-color);
+        }
+
+        .correct-answer {
+            background-color: rgba(52, 199, 89, 0.05);
+            border: 1px solid var(--correct-color);
+        }
+
+        .answer-label {
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--light-text);
+            margin-bottom: 8px;
+        }
+
+        .answer-value {
+            font-size: 18px;
+            font-weight: 500;
+        }
+
+        .answer-explanation {
+            font-size: 16px;
+            color: var(--text-color);
+            margin-top: 24px;
+            padding-top: 24px;
+            border-top: 1px solid rgba(210, 210, 215, 0.5);
+        }
+
         /* Animations */
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
+            from { opacity: 0; transform: translateY(10px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
-        @keyframes scaleIn {
-            from { transform: scale(0.9); opacity: 0; }
-            to { transform: scale(1); opacity: 1; }
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.02); }
+            100% { transform: scale(1); }
+        }
+
+        .pulse {
+            animation: pulse 0.3s ease;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 600px) {
+            .question-text {
+                font-size: 20px;
+            }
+            
+            .option {
+                padding: 16px;
+            }
+            
+            .action-button, .nav-button {
+                padding: 12px;
+            }
         }
     </style>
 </head>
 <body>
-    <!-- Question Page -->
-    <div class="page active" id="question-page">
-        <div class="header">
-            <div class="progress">Question <span id="current-question">1</span> of <span id="total-questions">5</span></div>
-            <div class="score">Score: <span id="score">0</span></div>
-        </div>
-
-        <div class="quiz-card">
-            <div class="question-number">Question <span id="q-number">1</span></div>
-            <div class="question-text" id="question-text">What is the capital of France?</div>
-            
-            <div class="options-container" id="options-container">
-                <!-- Options will be inserted here by JavaScript -->
-            </div>
-            
-            <button class="action-button" id="action-button" disabled>Submit Answer</button>
-        </div>
-
-        <div class="navigation-buttons">
-            <button class="nav-button" id="prev-button" disabled>Previous</button>
-            <button class="nav-button" id="next-button" disabled>Next</button>
-        </div>
+    <div class="header">
+        <div class="progress">Question <span id="current-question">1</span> of <span id="total-questions">5</span></div>
+        <div class="score">Score: <span id="score">0</span></div>
     </div>
 
-    <!-- Answer Page -->
-    <div class="page" id="answer-page">
-        <div class="header">
-            <div class="progress">Question <span id="answer-question-number">1</span> of <span id="answer-total-questions">5</span></div>
-            <div class="score">Score: <span id="answer-score">0</span></div>
+    <div class="quiz-card" id="quiz-card">
+        <div class="question-number">Question <span id="q-number">1</span></div>
+        <div class="question-text" id="question-text">What is the capital of France?</div>
+        
+        <div class="options-container" id="options-container">
+            <!-- Options will be inserted here by JavaScript -->
         </div>
+        
+        <button class="action-button" id="action-button" disabled>Submit Answer</button>
+    </div>
 
+    <div class="navigation-buttons">
+        <button class="nav-button" id="prev-button" disabled>Previous</button>
+        <button class="nav-button" id="next-button" disabled>Next</button>
+    </div>
+
+    <div class="answer-page" id="answer-page">
         <div class="answer-card">
             <h2 class="answer-title" id="answer-title">Your Answer</h2>
-            <div class="answer-result" id="answer-result">
-                <span id="correct-incorrect-text">Correct!</span>
+            <div class="answer-feedback" id="answer-feedback">
+                <span id="feedback-text">Correct!</span>
             </div>
             
             <div class="answer-comparison">
@@ -472,19 +410,6 @@
             </div>
             
             <button class="action-button" id="continue-button">Continue</button>
-        </div>
-    </div>
-
-    <!-- Result Page -->
-    <div class="page" id="result-page">
-        <div class="result-card">
-            <div class="result-title">Quiz Completed</div>
-            <div class="result-score" id="final-score">0/5</div>
-            <div class="result-message" id="result-message">Good effort!</div>
-            <div class="progress-bar">
-                <div class="progress-fill" id="progress-fill" style="width: 0%"></div>
-            </div>
-            <button class="restart-button" id="restart-button">Start Again</button>
         </div>
     </div>
 
@@ -524,9 +449,7 @@
         ];
 
         // DOM elements
-        const questionPage = document.getElementById('question-page');
-        const answerPage = document.getElementById('answer-page');
-        const resultPage = document.getElementById('result-page');
+        const quizCard = document.getElementById('quiz-card');
         const questionText = document.getElementById('question-text');
         const optionsContainer = document.getElementById('options-container');
         const actionButton = document.getElementById('action-button');
@@ -536,28 +459,19 @@
         const qNumber = document.getElementById('q-number');
         const prevButton = document.getElementById('prev-button');
         const nextButton = document.getElementById('next-button');
-        
-        // Answer page elements
-        const answerQuestionNumber = document.getElementById('answer-question-number');
-        const answerScore = document.getElementById('answer-score');
+        const answerPage = document.getElementById('answer-page');
         const answerTitle = document.getElementById('answer-title');
-        const correctIncorrectText = document.getElementById('correct-incorrect-text');
+        const answerFeedback = document.getElementById('answer-feedback');
+        const feedbackText = document.getElementById('feedback-text');
         const userAnswerValue = document.getElementById('user-answer-value');
         const correctAnswerValue = document.getElementById('correct-answer-value');
         const answerExplanation = document.getElementById('answer-explanation');
         const continueButton = document.getElementById('continue-button');
-        
-        // Result page elements
-        const finalScoreDisplay = document.getElementById('final-score');
-        const resultMessage = document.getElementById('result-message');
-        const progressFill = document.getElementById('progress-fill');
-        const restartButton = document.getElementById('restart-button');
 
         // Quiz state
         let currentQuestionIndex = 0;
         let score = 0;
         let userAnswers = Array(quizData.length).fill(null);
-        let quizCompleted = false;
 
         // Initialize quiz
         function initQuiz() {
@@ -582,21 +496,103 @@
             
             // Add options
             question.options.forEach((option, i) => {
-                const optionElement = document.createElement('label');
+                const optionElement = document.createElement('div');
                 optionElement.classList.add('option');
                 
-                if (userAnswers[index] !== null) {
-                    if (i === userAnswers[index]) {
-                        optionElement.classList.add(userAnswers[index] === question.correctAnswer ? 'correct' : 'incorrect');
-                    } else if (i === question.correctAnswer) {
-                        optionElement.classList.add('correct');
-                    }
-                } else {
-                    optionElement.addEventListener('click', () => selectOption(i));
+                if (userAnswers[index] === i) {
+                    optionElement.classList.add('selected');
                 }
                 
                 optionElement.innerHTML = `
-                    <input type="radio" name="option" value="${i}" ${userAnswers[index] === i ? 'checked' : ''} ${userAnswers[index] !== null ? 'disabled' : ''}>
-                    <span class="option-label">
+                    <input type="radio" name="option" value="${i}" ${userAnswers[index] === i ? 'checked' : ''}>
+                    <label class="option-label">
                         <span class="option-radio"></span>
+                        <span class="option-text">${option}</span>
+                    </label>
+                `;
+                
+                optionElement.addEventListener('click', () => {
+                    // Only allow selection if not already answered
+                    if (userAnswers[index] === null) {
+                        selectOption(i, optionElement);
+                    }
+                });
+                
+                optionsContainer.appendChild(optionElement);
+            });
             
+            // Update action button
+            actionButton.disabled = userAnswers[index] === null;
+            
+            // Update navigation buttons
+            updateNavigationButtons();
+            
+            // Show quiz card
+            quizCard.style.display = 'block';
+            answerPage.style.display = 'none';
+        }
+
+        // Select option with animation
+        function selectOption(optionIndex, optionElement) {
+            // Remove selected class from all options
+            document.querySelectorAll('.option').forEach(opt => {
+                opt.classList.remove('selected');
+            });
+            
+            // Add selected class to clicked option with animation
+            optionElement.classList.add('selected');
+            optionElement.classList.add('pulse');
+            
+            // Remove animation after it completes
+            setTimeout(() => {
+                optionElement.classList.remove('pulse');
+            }, 300);
+            
+            // Store user's answer
+            userAnswers[currentQuestionIndex] = optionIndex;
+            actionButton.disabled = false;
+        }
+
+        // Submit answer
+        function submitAnswer() {
+            if (userAnswers[currentQuestionIndex] === null) return;
+            
+            const question = quizData[currentQuestionIndex];
+            const selectedOption = userAnswers[currentQuestionIndex];
+            const isCorrect = selectedOption === question.correctAnswer;
+            
+            // Update score if correct
+            if (isCorrect) {
+                score++;
+                scoreDisplay.textContent = score;
+            }
+            
+            // Update answer page
+            answerTitle.textContent = `Question ${currentQuestionIndex + 1}`;
+            feedbackText.textContent = isCorrect ? "Correct! 🎉" : "Incorrect ❌";
+            answerFeedback.className = isCorrect ? "answer-feedback correct-feedback" : "answer-feedback incorrect-feedback";
+            userAnswerValue.textContent = question.options[selectedOption];
+            correctAnswerValue.textContent = question.options[question.correctAnswer];
+            answerExplanation.textContent = question.explanation;
+            
+            // Show answer page
+            quizCard.style.display = 'none';
+            answerPage.style.display = 'block';
+            
+            // Add animation
+            answerPage.style.animation = 'fadeIn 0.4s ease-out';
+        }
+
+        // Continue to next question
+        function continueToNext() {
+            if (currentQuestionIndex < quizData.length - 1) {
+                currentQuestionIndex++;
+                loadQuestion(currentQuestionIndex);
+            } else {
+                showResults();
+            }
+        }
+
+        // Show results
+        function showResults() {
+            const percentage = (score / quizData.length) * 100;
