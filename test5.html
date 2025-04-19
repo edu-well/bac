@@ -1,211 +1,169 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Secure Access</title>
+    <title>بداية الرحلة - إنشاء حساب</title>
     <style>
-        :root {
-            --primary: #0071e3;
-            --error: #ff3b30;
-            --text: #1d1d1f;
-            --bg: #f5f5f7;
-        }
-        
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, sans-serif;
-            background: var(--bg);
-            color: var(--text);
+        * {
+            box-sizing: border-box;
             margin: 0;
             padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
-        
-        #overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0,0,0,0.5);
-            backdrop-filter: blur(10px);
+
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
-            z-index: 1000;
         }
-        
-        .access-box {
+
+        .container {
             background: white;
-            padding: 40px;
-            border-radius: 18px;
-            width: 90%;
-            max-width: 400px;
-            text-align: center;
+            padding: 2.5rem;
+            border-radius: 20px;
             box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-        }
-        
-        .logo {
-            width: 50px;
-            height: 50px;
-            margin-bottom: 20px;
-        }
-        
-        h1 {
-            font-size: 24px;
-            margin-bottom: 10px;
-        }
-        
-        p {
-            color: #86868b;
-            margin-bottom: 30px;
-        }
-        
-        #codeInput {
-            width: 100%;
-            padding: 15px;
-            font-size: 18px;
             text-align: center;
-            letter-spacing: 5px;
-            border: 1px solid #d2d2d7;
-            border-radius: 12px;
-            margin-bottom: 20px;
+            max-width: 400px;
+            width: 90%;
         }
-        
-        #submitBtn {
-            background: var(--primary);
-            color: white;
-            border: none;
-            padding: 15px;
-            width: 100%;
-            border-radius: 12px;
-            font-size: 16px;
+
+        h1 {
+            color: #2c3e50;
+            margin-bottom: 1.5rem;
+            font-size: 1.8rem;
+            line-height: 1.4;
+        }
+
+        .avatar-upload {
+            position: relative;
+            width: 120px;
+            height: 120px;
+            margin: 0 auto 1.5rem;
             cursor: pointer;
-            transition: all 0.3s;
         }
-        
-        #submitBtn:hover {
-            background: #0062c3;
+
+        .avatar-preview {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: #f0f2f5;
+            border: 3px dashed #d1d8e0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
         }
-        
-        #submitBtn.loading {
-            pointer-events: none;
-            opacity: 0.7;
+
+        .avatar-preview:hover {
+            border-color: #3498db;
+            background: #e8f4fc;
         }
-        
-        #errorMessage {
-            color: var(--error);
-            height: 20px;
-            margin-top: 15px;
-            opacity: 0;
-            transition: opacity 0.3s;
+
+        .upload-icon {
+            font-size: 2rem;
+            color: #7f8c8d;
         }
-        
-        #errorMessage.show {
-            opacity: 1;
-        }
-        
-        #content {
+
+        #avatar-input {
             display: none;
-            padding: 20px;
         }
-        
-        @keyframes shake {
-            0%, 100% { transform: translateX(0); }
-            20%, 60% { transform: translateX(-5px); }
-            40%, 80% { transform: translateX(5px); }
+
+        .username-input {
+            width: 100%;
+            padding: 12px 20px;
+            margin: 1rem 0;
+            border: 2px solid #e0e6ed;
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
         }
-        
-        .shake {
-            animation: shake 0.4s;
+
+        .username-input:focus {
+            outline: none;
+            border-color: #3498db;
+            box-shadow: 0 0 0 3px rgba(52,152,219,0.1);
+        }
+
+        .create-account-btn {
+            background: #3498db;
+            color: white;
+            padding: 14px 30px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+            font-weight: 600;
+        }
+
+        .create-account-btn:hover {
+            background: #2980b9;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(52,152,219,0.3);
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 1.5rem;
+            }
+            
+            h1 {
+                font-size: 1.4rem;
+            }
         }
     </style>
 </head>
 <body>
-    <!-- Access Code Overlay -->
-    <div id="overlay">
-        <div class="access-box">
-            <svg class="logo" viewBox="0 0 24 24" fill="#0071e3">
-                <path d="M18.71 19.5C17.88 20.74 17 21.95 15.66 21.97C14.32 22 13.89 21.18 12.37 21.18C10.84 21.18 10.37 21.95 9.1 22C7.79 22.05 6.8 20.68 5.96 19.47C4.25 16.89 2.94 12.11 4.7 9.04C5.57 7.46 7.13 6.53 8.82 6.5C10.1 6.47 11.32 7.41 12.11 7.41C12.89 7.41 14.37 6.31 15.92 6.5C16.57 6.53 18.39 6.82 19.56 8.42C19.47 8.5 17.39 10.09 17.41 12.63C17.44 15.65 20.06 16.66 20.09 16.67C20.06 16.74 19.67 18.11 18.71 19.5ZM13 4.5C13.96 3.38 15.26 2.73 16.41 2.73C16.53 4.15 15.82 5.55 14.91 6.41C14.09 7.18 12.87 7.92 11.53 7.78C11.45 6.35 12.16 4.97 13 4.5Z"/>
-            </svg>
-            <h1>Enter Access Code</h1>
-            <p>This content is protected. Please enter the 4-digit code.</p>
-            <input type="text" id="codeInput" maxlength="4" placeholder="____">
-            <button id="submitBtn">Continue</button>
-            <div id="errorMessage"></div>
+    <div class="container">
+        <h1>مرحبًا، أنت تبدأ رحلتك الأولى هنا!</h1>
+        
+        <div class="avatar-upload">
+            <div class="avatar-preview" id="avatar-preview">
+                <div class="upload-icon">+</div>
+            </div>
+            <input type="file" id="avatar-input" accept="image/*">
         </div>
-    </div>
-    
-    <!-- Protected Content (hidden until unlocked) -->
-    <div id="content">
-        <h1>Welcome to Secure Content</h1>
-        <p>You've successfully entered the correct code.</p>
+
+        <input type="text" class="username-input" placeholder="اختر اسم مستخدم">
+        
+        <button class="create-account-btn">إنشاء حساب</button>
     </div>
 
     <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const overlay = document.getElementById('overlay');
-        const codeInput = document.getElementById('codeInput');
-        const submitBtn = document.getElementById('submitBtn');
-        const errorMessage = document.getElementById('errorMessage');
-        const content = document.getElementById('content');
+        const avatarPreview = document.getElementById('avatar-preview');
+        const avatarInput = document.getElementById('avatar-input');
 
-        // Complex validation function (x=4 digits → y=6 digits)
-        const validateCode = (x) => {
-            x = BigInt(x);
-            let y = (x ^ BigInt(0xACE1)) * BigInt(0xDEADBEEF);
-            y = (y >> BigInt(4)) | (y << BigInt(28));
-            y ^= y >> BigInt(13);
-            y *= BigInt(0x5BD1E995);
-            y ^= y >> BigInt(15);
-            y = Number(y % BigInt(999983))) + 123456;
-            return Math.abs(y).toString().padStart(6, '0').slice(0, 6);
-        };
-
-        // HARDCODED VALIDATION (x=4528 → y=718492)
-        const SECRET_Y = '718492';
-
-        submitBtn.addEventListener('click', function() {
-            const input = codeInput.value.trim();
-            
-            if (!/^\d{4}$/.test(input)) {
-                showError('Code must be 4 digits');
-                return;
-            }
-
-            submitBtn.classList.add('loading');
-            
-            setTimeout(() => {
-                const computedY = validateCode(parseInt(input));
-                
-                if (computedY === SECRET_Y) {
-                    overlay.style.opacity = '0';
-                    setTimeout(() => {
-                        overlay.style.display = 'none';
-                        content.style.display = 'block';
-                    }, 500);
-                } else {
-                    showError('Invalid access code');
-                    codeInput.classList.add('shake');
-                    setTimeout(() => codeInput.classList.remove('shake'), 400);
-                }
-                submitBtn.classList.remove('loading');
-            }, 800);
+        // Avatar upload functionality
+        avatarPreview.addEventListener('click', () => {
+            avatarInput.click();
         });
 
-        function showError(msg) {
-            errorMessage.textContent = msg;
-            errorMessage.classList.add('show');
-            setTimeout(() => errorMessage.classList.remove('show'), 2000);
-        }
+        avatarInput.addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    avatarPreview.style.backgroundImage = `url(${e.target.result})`;
+                    avatarPreview.style.backgroundSize = 'cover';
+                    avatarPreview.style.backgroundPosition = 'center';
+                    avatarPreview.innerHTML = '';
+                }
+                reader.readAsDataURL(file);
+            }
+        });
 
-        // Ensure code is always required on refresh
-        window.onbeforeunload = function() {
-            overlay.style.display = 'flex';
-            overlay.style.opacity = '1';
-            content.style.display = 'none';
-            codeInput.value = '';
-        }
-    });
+        // Button hover effect
+        const createBtn = document.querySelector('.create-account-btn');
+        createBtn.addEventListener('mouseover', () => {
+            createBtn.style.transform = 'translateY(-2px)';
+        });
+        createBtn.addEventListener('mouseout', () => {
+            createBtn.style.transform = 'translateY(0)';
+        });
     </script>
 </body>
 </html>
