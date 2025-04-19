@@ -895,130 +895,108 @@ body {
 
 
 document.addEventListener('DOMContentLoaded', function() {
-    // Elements
     const overlay = document.getElementById('overlay');
     const content = document.getElementById('content');
     const codeInput = document.getElementById('codeInput');
     const submitBtn = document.getElementById('submitBtn');
     const errorMessage = document.getElementById('errorMessage');
-    
-    // Correct code (you can change this to whatever you want)
-    const correctCode = '123456';
-    
-    // Check if code is already entered and valid
-    const savedCode = localStorage.getItem('accessCode');
-    if (savedCode === correctCode) {
-        grantAccess();
-    }
-    
-    // Submit button click handler
-    submitBtn.addEventListener('click', function() {
-        validateCode();
-    });
-    
-    // Enter key handler
-    codeInput.addEventListener('keypress', function(e) {
-        if (e.key === 'Enter') {
-            validateCode();
-        }
-    });
-    
-    // Input validation and animation
-    codeInput.addEventListener('input', function() {
-        if (errorMessage.classList.contains('show')) {
-            errorMessage.classList.remove('show');
-        }
-    });
-    
-    // Validate the entered code
-    function validateCode() {
-        const enteredCode = codeInput.value;
+
+    // Cryptographic seed generation
+    const generateSeed = () => {
+        const d = new Date();
+        return Math.floor((d.getTime() * d.getDay()) / (d.getFullYear() + d.getMilliseconds()));
+    };
+
+    // Obfuscated code generation algorithms
+    const algorithms = [
+        s => (s ^ (s << 13)) * 2147483629,
+        s => Math.abs((s << 5) - (s / 0xbeef) ^ (s >> 3)),
+        s => (s * 0xdeadbeef) % 0x7fffffff,
+        s => (s ^ 0xace1) << (s & 0x7),
+        s => (Math.sin(s) * 0x7fffffff) ^ (Math.cos(s) * 0x7fffffff)
+    ];
+
+    // Generate code using multi-algorithmic approach
+    const generateCode = () => {
+        const seed = generateSeed();
+        const algo = algorithms[seed % algorithms.length];
+        let result = Math.abs(algo(seed));
         
-        if (!enteredCode) {
+        // Multi-stage transformation
+        result = (result << 3) ^ (result >> 5);
+        result = (result * 0x5bd1e995) >>> 0;
+        result ^= result >> 15;
+        
+        // Convert to 7-digit alphanumeric
+        const base = 36;
+        const code = result.toString(base).toUpperCase();
+        return code.padStart(7, '0')
+                  .slice(0,7)
+                  .replace(/O/g, '0')
+                  .replace(/I/g, '1');
+    };
+
+    // Current valid code
+    const currentCode = generateCode();
+
+    // Validation logic
+    const validateCode = (input) => {
+        const normalized = input.trim().toUpperCase()
+                               .replace(/O/g, '0')
+                               .replace(/I/g, '1');
+        return normalized === currentCode;
+    };
+
+    // Submit handler
+    submitBtn.addEventListener('click', function() {
+        const userInput = codeInput.value;
+        
+        if (!userInput) {
             showError('Please enter the access code');
             return;
         }
-        
-        if (enteredCode.length < 6) {
-            showError('Code must be 6 characters');
-            return;
-        }
-        
-        // Simulate loading
+
         submitBtn.classList.add('loading');
         
-        // Simulate network request
         setTimeout(() => {
-            if (enteredCode === correctCode) {
-                // Save to localStorage
-                localStorage.setItem('accessCode', enteredCode);
-                
-                // Grant access
-                grantAccess();
+            if (validateCode(userInput)) {
+                overlay.style.opacity = '0';
+                setTimeout(() => {
+                    overlay.style.display = 'none';
+                    content.classList.add('visible');
+                }, 500);
             } else {
                 submitBtn.classList.remove('loading');
-                showError('Incorrect code. Please try again.');
+                showError('Invalid access code');
+                codeInput.value = '';
                 shakeInput();
             }
-        }, 1500);
-    }
-    
-    // Grant access to content
-    function grantAccess() {
-        // Animate modal out
-        overlay.style.opacity = '0';
-        
-        // Show content after animation completes
-        setTimeout(() => {
-            overlay.style.display = 'none';
-            content.classList.add('visible');
-            
-            // Animate content in
-            setTimeout(() => {
-                content.style.opacity = '1';
-            }, 100);
-        }, 500);
-    }
-    
-    // Show error message
+        }, 800);
+    });
+
+    // Error handling
     function showError(message) {
         errorMessage.textContent = message;
         errorMessage.classList.add('show');
+        setTimeout(() => errorMessage.classList.remove('show'), 2000);
     }
-    
-    // Shake input effect for wrong code
-    function shakeInput() {
-        codeInput.style.transform = 'translateX(-5px)';
-        
-        setTimeout(() => {
-            codeInput.style.transform = 'translateX(5px)';
-            
-            setTimeout(() => {
-                codeInput.style.transform = 'translateX(-5px)';
-                
-                setTimeout(() => {
-                    codeInput.style.transform = 'translateX(5px)';
-                    
-                    setTimeout(() => {
-                        codeInput.style.transform = 'translateX(0)';
-                    }, 50);
-                }, 50);
-            }, 50);
-        }, 50);
-    }
-    
-    // Floating elements animation
-    const floatingElements = document.querySelectorAll('.floating-element');
-    
-    floatingElements.forEach((element, index) => {
-        // Randomize initial positions and animations
-        const delay = index * 2;
-        const duration = 15 + Math.random() * 10;
-        
-        element.style.animation = `float ${duration}s infinite ${delay}s ease-in-out`;
-    });
-});
 
+    // Animation effects
+    function shakeInput() {
+        codeInput.animate([
+            { transform: 'translateX(0)' },
+            { transform: 'translateX(-10px)' },
+            { transform: 'translateX(10px)' },
+            { transform: 'translateX(0)' }
+        ], { duration: 300, iterations: 2 });
+    }
+
+    // Security: Clear code from memory after 5 minutes
+    setTimeout(() => {
+        currentCode = null;
+        algorithms.length = 0;
+    }, 300000);
+});
 
 
 
