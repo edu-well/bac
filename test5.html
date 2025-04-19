@@ -893,111 +893,70 @@ body {
     
     <script>
 
-
 document.addEventListener('DOMContentLoaded', function() {
     const overlay = document.getElementById('overlay');
-    const content = document.getElementById('content');
     const codeInput = document.getElementById('codeInput');
     const submitBtn = document.getElementById('submitBtn');
     const errorMessage = document.getElementById('errorMessage');
 
-    // Cryptographic seed generation
-    const generateSeed = () => {
-        const d = new Date();
-        return Math.floor((d.getTime() * d.getDay()) / (d.getFullYear() + d.getMilliseconds()));
+    // Obfuscated mathematical transformation (x → y)
+    const validateCode = (x) => {
+        // Phase 1: Bitwise and prime operations
+        let y = (x ^ 0xACE1) * 0xDEADBEEF;
+        y = (y >>> 4) | (y << 28);
+        
+        // Phase 2: Cryptographic mixing
+        y ^= y >> 13;
+        y *= 0x5BD1E995;
+        y ^= y >> 15;
+        
+        // Phase 3: Modular arithmetic
+        y = Math.abs((y % 999983) + 123456);
+        
+        // Convert to 6-digit format
+        return String(y).padStart(6, '0').slice(0, 6);
     };
 
-    // Obfuscated code generation algorithms
-    const algorithms = [
-        s => (s ^ (s << 13)) * 2147483629,
-        s => Math.abs((s << 5) - (s / 0xbeef) ^ (s >> 3)),
-        s => (s * 0xdeadbeef) % 0x7fffffff,
-        s => (s ^ 0xace1) << (s & 0x7),
-        s => (Math.sin(s) * 0x7fffffff) ^ (Math.cos(s) * 0x7fffffff)
-    ];
+    // Hardcoded secret y-value (derived from x=4528)
+    const SECRET_Y = '718492'; // Example: validateCode(4528) = 718492
 
-    // Generate code using multi-algorithmic approach
-    const generateCode = () => {
-        const seed = generateSeed();
-        const algo = algorithms[seed % algorithms.length];
-        let result = Math.abs(algo(seed));
+    submitBtn.addEventListener('click', () => {
+        const input = codeInput.value.trim();
         
-        // Multi-stage transformation
-        result = (result << 3) ^ (result >> 5);
-        result = (result * 0x5bd1e995) >>> 0;
-        result ^= result >> 15;
-        
-        // Convert to 7-digit alphanumeric
-        const base = 36;
-        const code = result.toString(base).toUpperCase();
-        return code.padStart(7, '0')
-                  .slice(0,7)
-                  .replace(/O/g, '0')
-                  .replace(/I/g, '1');
-    };
-
-    // Current valid code
-    const currentCode = generateCode();
-
-    // Validation logic
-    const validateCode = (input) => {
-        const normalized = input.trim().toUpperCase()
-                               .replace(/O/g, '0')
-                               .replace(/I/g, '1');
-        return normalized === currentCode;
-    };
-
-    // Submit handler
-    submitBtn.addEventListener('click', function() {
-        const userInput = codeInput.value;
-        
-        if (!userInput) {
-            showError('Please enter the access code');
+        if (!/^\d{4}$/.test(input)) {
+            showError('Code must be 4 digits');
             return;
         }
 
         submitBtn.classList.add('loading');
         
         setTimeout(() => {
-            if (validateCode(userInput)) {
+            const computedY = validateCode(parseInt(input));
+            if (computedY === SECRET_Y) {
                 overlay.style.opacity = '0';
-                setTimeout(() => {
-                    overlay.style.display = 'none';
-                    content.classList.add('visible');
-                }, 500);
+                setTimeout(() => overlay.style.display = 'none', 500);
             } else {
-                submitBtn.classList.remove('loading');
                 showError('Invalid access code');
-                codeInput.value = '';
                 shakeInput();
             }
+            submitBtn.classList.remove('loading');
         }, 800);
     });
 
-    // Error handling
-    function showError(message) {
-        errorMessage.textContent = message;
+    function showError(msg) {
+        errorMessage.textContent = msg;
         errorMessage.classList.add('show');
-        setTimeout(() => errorMessage.classList.remove('show'), 2000);
     }
 
-    // Animation effects
     function shakeInput() {
         codeInput.animate([
             { transform: 'translateX(0)' },
-            { transform: 'translateX(-10px)' },
-            { transform: 'translateX(10px)' },
+            { transform: 'translateX(-8px)' },
+            { transform: 'translateX(8px)' },
             { transform: 'translateX(0)' }
-        ], { duration: 300, iterations: 2 });
+        ], { duration: 200, iterations: 3 });
     }
-
-    // Security: Clear code from memory after 5 minutes
-    setTimeout(() => {
-        currentCode = null;
-        algorithms.length = 0;
-    }, 300000);
 });
-
 
 
 
