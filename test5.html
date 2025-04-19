@@ -3,962 +3,209 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Exclusive Content | Secure Access</title>
-    <link rel="stylesheet" href="styles.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=SF+Pro+Display:wght@300;400;500;600&display=swap" rel="stylesheet">
-
-
-
-<style>
-
-
-
-:root {
-    --primary-color: #0071e3;
-    --primary-hover: #0077ed;
-    --text-color: #1d1d1f;
-    --text-secondary: #86868b;
-    --background: #ffffff;
-    --modal-background: rgba(0, 0, 0, 0.5);
-    --modal-content-bg: #f5f5f7;
-    --input-border: #d2d2d7;
-    --input-focus: #0071e3;
-    --error-color: #ff3b30;
-    --success-color: #34c759;
-    --font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, sans-serif;
-    --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-    --shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-    --card-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
-}
-
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-body {
-    font-family: var(--font-family);
-    color: var(--text-color);
-    background-color: var(--background);
-    line-height: 1.6;
-    overflow-x: hidden;
-}
-
-/* Overlay and Modal Styles */
-.overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: var(--modal-background);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 1000;
-    backdrop-filter: blur(10px);
-    animation: fadeIn 0.5s ease-out;
-}
-
-.access-modal {
-    background-color: var(--modal-content-bg);
-    border-radius: 18px;
-    width: 100%;
-    max-width: 420px;
-    padding: 40px;
-    box-shadow: var(--shadow);
-    transform: translateY(0);
-    transition: var(--transition);
-    position: relative;
-    overflow: hidden;
-}
-
-.access-modal::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 8px;
-    background: linear-gradient(90deg, #0071e3, #5e9eff);
-}
-
-.modal-content {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-}
-
-.logo-container {
-    margin-bottom: 24px;
-}
-
-.logo {
-    width: 50px;
-    height: 50px;
-    color: var(--primary-color);
-}
-
-.modal-title {
-    font-size: 28px;
-    font-weight: 600;
-    margin-bottom: 8px;
-    letter-spacing: -0.5px;
-}
-
-.modal-subtitle {
-    font-size: 16px;
-    color: var(--text-secondary);
-    margin-bottom: 32px;
-    max-width: 320px;
-}
-
-.code-input-container {
-    position: relative;
-    width: 100%;
-    margin-bottom: 24px;
-}
-
-.code-input {
-    width: 100%;
-    padding: 16px 20px;
-    font-size: 18px;
-    font-weight: 500;
-    letter-spacing: 4px;
-    text-align: center;
-    border: 1px solid var(--input-border);
-    border-radius: 12px;
-    background-color: transparent;
-    transition: var(--transition);
-    outline: none;
-    color: var(--text-color);
-}
-
-.code-input:focus {
-    border-color: var(--input-focus);
-}
-
-.code-input::placeholder {
-    letter-spacing: normal;
-    color: var(--text-secondary);
-    opacity: 0.7;
-}
-
-.input-border {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    height: 2px;
-    background-color: var(--primary-color);
-    transform: scaleX(0);
-    transform-origin: center;
-    transition: transform 0.3s ease;
-}
-
-.code-input:focus ~ .input-border {
-    transform: scaleX(1);
-}
-
-.submit-btn {
-    width: 100%;
-    padding: 16px;
-    background-color: var(--primary-color);
-    color: white;
-    border: none;
-    border-radius: 12px;
-    font-size: 16px;
-    font-weight: 500;
-    cursor: pointer;
-    transition: var(--transition);
-    position: relative;
-    overflow: hidden;
-}
-
-.submit-btn:hover {
-    background-color: var(--primary-hover);
-    transform: translateY(-2px);
-}
-
-.submit-btn:active {
-    transform: translateY(0);
-}
-
-.btn-text {
-    display: inline-block;
-    transition: var(--transition);
-}
-
-.btn-loader {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 20px;
-    height: 20px;
-    border: 3px solid rgba(255, 255, 255, 0.3);
-    border-radius: 50%;
-    border-top-color: white;
-    animation: spin 1s ease-in-out infinite;
-    opacity: 0;
-    transition: var(--transition);
-}
-
-.submit-btn.loading .btn-text {
-    opacity: 0;
-}
-
-.submit-btn.loading .btn-loader {
-    opacity: 1;
-}
-
-.error-message {
-    color: var(--error-color);
-    font-size: 14px;
-    margin-top: 16px;
-    height: 20px;
-    opacity: 0;
-    transition: var(--transition);
-}
-
-.error-message.show {
-    opacity: 1;
-}
-
-/* Content Styles (hidden initially) */
-.content {
-    display: none;
-    opacity: 0;
-    transition: opacity 0.5s ease;
-}
-
-.content.visible {
-    display: block;
-    opacity: 1;
-}
-
-/* Header Styles */
-.header {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    z-index: 100;
-    background-color: rgba(255, 255, 255, 0.8);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-}
-
-.navbar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0 40px;
-    height: 64px;
-    max-width: 1440px;
-    margin: 0 auto;
-}
-
-.navbar-logo .logo {
-    width: 24px;
-    height: 24px;
-}
-
-.nav-links {
-    display: flex;
-    list-style: none;
-}
-
-.nav-links li {
-    margin: 0 15px;
-}
-
-.nav-links a {
-    text-decoration: none;
-    color: var(--text-color);
-    font-size: 14px;
-    font-weight: 400;
-    transition: var(--transition);
-    position: relative;
-    padding: 8px 0;
-}
-
-.nav-links a:hover {
-    color: var(--primary-color);
-}
-
-.nav-links a::after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 0;
-    height: 2px;
-    background-color: var(--primary-color);
-    transition: var(--transition);
-}
-
-.nav-links a:hover::after {
-    width: 100%;
-}
-
-.nav-button {
-    background-color: transparent;
-    border: 1px solid var(--primary-color);
-    color: var(--primary-color);
-    padding: 8px 16px;
-    border-radius: 20px;
-    font-size: 14px;
-    font-weight: 500;
-    cursor: pointer;
-    transition: var(--transition);
-}
-
-.nav-button:hover {
-    background-color: rgba(0, 113, 227, 0.1);
-}
-
-/* Hero Section */
-.hero-section {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 160px 40px 100px;
-    max-width: 1440px;
-    margin: 0 auto;
-}
-
-.hero-content {
-    flex: 1;
-    max-width: 600px;
-    padding-right: 40px;
-}
-
-.hero-title {
-    font-size: 56px;
-    font-weight: 600;
-    line-height: 1.1;
-    margin-bottom: 16px;
-    letter-spacing: -1px;
-}
-
-.hero-subtitle {
-    font-size: 24px;
-    color: var(--text-secondary);
-    margin-bottom: 32px;
-    max-width: 500px;
-}
-
-.hero-buttons {
-    display: flex;
-    gap: 16px;
-}
-
-.primary-btn, .secondary-btn {
-    padding: 12px 24px;
-    font-size: 16px;
-    font-weight: 500;
-    border-radius: 24px;
-    cursor: pointer;
-    transition: var(--transition);
-}
-
-.primary-btn {
-    background-color: var(--primary-color);
-    color: white;
-    border: none;
-}
-
-.primary-btn:hover {
-    background-color: var(--primary-hover);
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(0, 113, 227, 0.3);
-}
-
-.secondary-btn {
-    background-color: transparent;
-    color: var(--primary-color);
-    border: 1px solid var(--primary-color);
-}
-
-.secondary-btn:hover {
-    background-color: rgba(0, 113, 227, 0.1);
-    transform: translateY(-2px);
-}
-
-.hero-image {
-    flex: 1;
-    position: relative;
-    height: 500px;
-}
-
-.image-container {
-    position: relative;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(135deg, #f5f5f7, #e5e5ea);
-    border-radius: 24px;
-    overflow: hidden;
-}
-
-.gradient-overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: linear-gradient(135deg, rgba(0, 113, 227, 0.1), rgba(0, 113, 227, 0.05));
-}
-
-.floating-element {
-    position: absolute;
-    border-radius: 50%;
-    background: linear-gradient(135deg, rgba(0, 113, 227, 0.2), rgba(0, 113, 227, 0.1));
-    filter: blur(20px);
-    animation: float 15s infinite ease-in-out;
-}
-
-.floating-element:nth-child(1) {
-    width: 200px;
-    height: 200px;
-    top: -50px;
-    left: -50px;
-    animation-delay: 0s;
-}
-
-.floating-element:nth-child(2) {
-    width: 300px;
-    height: 300px;
-    bottom: -100px;
-    right: -100px;
-    animation-delay: 2.5s;
-}
-
-.floating-element:nth-child(3) {
-    width: 150px;
-    height: 150px;
-    top: 50%;
-    left: 30%;
-    animation-delay: 5s;
-}
-
-/* Features Section */
-.features-section {
-    padding: 100px 40px;
-    max-width: 1440px;
-    margin: 0 auto;
-    text-align: center;
-}
-
-.section-title {
-    font-size: 40px;
-    font-weight: 600;
-    margin-bottom: 16px;
-    letter-spacing: -0.5px;
-}
-
-.section-subtitle {
-    font-size: 20px;
-    color: var(--text-secondary);
-    margin-bottom: 60px;
-    max-width: 600px;
-    margin-left: auto;
-    margin-right: auto;
-}
-
-.features-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 30px;
-    margin-top: 40px;
-}
-
-.feature-card {
-    background-color: white;
-    border-radius: 18px;
-    padding: 40px 30px;
-    text-align: center;
-    transition: var(--transition);
-    box-shadow: var(--card-shadow);
-}
-
-.feature-card:hover {
-    transform: translateY(-10px);
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-}
-
-.feature-icon {
-    width: 60px;
-    height: 60px;
-    margin: 0 auto 24px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: var(--primary-color);
-}
-
-.feature-icon svg {
-    width: 100%;
-    height: 100%;
-}
-
-.feature-title {
-    font-size: 20px;
-    font-weight: 600;
-    margin-bottom: 12px;
-}
-
-.feature-description {
-    font-size: 16px;
-    color: var(--text-secondary);
-    line-height: 1.6;
-}
-
-/* Footer Styles */
-.footer {
-    background-color: #f5f5f7;
-    padding: 60px 40px 20px;
-    border-top: 1px solid rgba(0, 0, 0, 0.1);
-}
-
-.footer-content {
-    max-width: 1440px;
-    margin: 0 auto;
-    display: flex;
-    flex-direction: column;
-}
-
-.footer-logo {
-    margin-bottom: 30px;
-}
-
-.footer-logo .logo {
-    width: 24px;
-    height: 24px;
-    color: var(--text-color);
-}
-
-.footer-links {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 40px;
-    margin-bottom: 40px;
-}
-
-.footer-column h4 {
-    font-size: 14px;
-    font-weight: 600;
-    margin-bottom: 16px;
-    color: var(--text-secondary);
-}
-
-.footer-column ul {
-    list-style: none;
-}
-
-.footer-column li {
-    margin-bottom: 12px;
-}
-
-.footer-column a {
-    text-decoration: none;
-    color: var(--text-color);
-    font-size: 14px;
-    transition: var(--transition);
-}
-
-.footer-column a:hover {
-    color: var(--primary-color);
-}
-
-.footer-bottom {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding-top: 20px;
-    border-top: 1px solid rgba(0, 0, 0, 0.1);
-    font-size: 12px;
-    color: var(--text-secondary);
-}
-
-.legal-links {
-    display: flex;
-    gap: 20px;
-}
-
-.legal-links a {
-    color: var(--text-secondary);
-    text-decoration: none;
-    transition: var(--transition);
-}
-
-.legal-links a:hover {
-    color: var(--primary-color);
-}
-
-/* Animations */
-@keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
-}
-
-@keyframes spin {
-    to { transform: translate(-50%, -50%) rotate(360deg); }
-}
-
-@keyframes float {
-    0% { transform: translateY(0) rotate(0deg); }
-    50% { transform: translateY(-20px) rotate(5deg); }
-    100% { transform: translateY(0) rotate(0deg); }
-}
-
-/* Responsive Styles */
-@media (max-width: 1024px) {
-    .hero-section {
-        flex-direction: column;
-        padding: 120px 40px 80px;
-    }
-    
-    .hero-content {
-        padding-right: 0;
-        margin-bottom: 60px;
-        text-align: center;
-        max-width: 100%;
-    }
-    
-    .hero-title {
-        font-size: 48px;
-    }
-    
-    .hero-subtitle {
-        margin-left: auto;
-        margin-right: auto;
-    }
-    
-    .hero-buttons {
-        justify-content: center;
-    }
-    
-    .hero-image {
-        width: 100%;
-        height: 400px;
-    }
-}
-
-@media (max-width: 768px) {
-    .navbar {
-        padding: 0 20px;
-    }
-    
-    .hero-section {
-        padding: 100px 20px 60px;
-    }
-    
-    .hero-title {
-        font-size: 36px;
-    }
-    
-    .hero-subtitle {
-        font-size: 20px;
-    }
-    
-    .features-section {
-        padding: 80px 20px;
-    }
-    
-    .section-title {
-        font-size: 32px;
-    }
-    
-    .section-subtitle {
-        font-size: 18px;
-    }
-    
-    .footer {
-        padding: 40px 20px 20px;
-    }
-}
-
-@media (max-width: 480px) {
-    .access-modal {
-        padding: 30px 20px;
-        margin: 0 20px;
-    }
-    
-    .modal-title {
-        font-size: 24px;
-    }
-    
-    .modal-subtitle {
-        font-size: 14px;
-    }
-    
-    .hero-title {
-        font-size: 32px;
-    }
-    
-    .hero-subtitle {
-        font-size: 18px;
-    }
-    
-    .hero-buttons {
-        flex-direction: column;
-        gap: 12px;
-    }
-    
-    .primary-btn, .secondary-btn {
-        width: 100%;
-    }
-    
-    .footer-bottom {
-        flex-direction: column;
-        gap: 12px;
-        text-align: center;
-    }
-    
-    .legal-links {
-        flex-wrap: wrap;
-        justify-content: center;
-    }
-}
-
-
-</style>
-
-
-
-
+    <title>Secure Access</title>
+    <style>
+        :root {
+            --primary: #0071e3;
+            --error: #ff3b30;
+            --text: #1d1d1f;
+            --bg: #f5f5f7;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            margin: 0;
+            padding: 0;
+        }
+        
+        #overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.5);
+            backdrop-filter: blur(10px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+        
+        .access-box {
+            background: white;
+            padding: 40px;
+            border-radius: 18px;
+            width: 90%;
+            max-width: 400px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        
+        .logo {
+            width: 50px;
+            height: 50px;
+            margin-bottom: 20px;
+        }
+        
+        h1 {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+        
+        p {
+            color: #86868b;
+            margin-bottom: 30px;
+        }
+        
+        #codeInput {
+            width: 100%;
+            padding: 15px;
+            font-size: 18px;
+            text-align: center;
+            letter-spacing: 5px;
+            border: 1px solid #d2d2d7;
+            border-radius: 12px;
+            margin-bottom: 20px;
+        }
+        
+        #submitBtn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 15px;
+            width: 100%;
+            border-radius: 12px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        #submitBtn:hover {
+            background: #0062c3;
+        }
+        
+        #submitBtn.loading {
+            pointer-events: none;
+            opacity: 0.7;
+        }
+        
+        #errorMessage {
+            color: var(--error);
+            height: 20px;
+            margin-top: 15px;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        
+        #errorMessage.show {
+            opacity: 1;
+        }
+        
+        #content {
+            display: none;
+            padding: 20px;
+        }
+        
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            20%, 60% { transform: translateX(-5px); }
+            40%, 80% { transform: translateX(5px); }
+        }
+        
+        .shake {
+            animation: shake 0.4s;
+        }
+    </style>
 </head>
-
 <body>
-    <div class="overlay" id="overlay">
-        <div class="access-modal">
-            <div class="modal-content">
-                <div class="logo-container">
-                    <svg class="logo" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M18.71 19.5C17.88 20.74 17 21.95 15.66 21.97C14.32 22 13.89 21.18 12.37 21.18C10.84 21.18 10.37 21.95 9.1 22C7.79 22.05 6.8 20.68 5.96 19.47C4.25 16.89 2.94 12.11 4.7 9.04C5.57 7.46 7.13 6.53 8.82 6.5C10.1 6.47 11.32 7.41 12.11 7.41C12.89 7.41 14.37 6.31 15.92 6.5C16.57 6.53 18.39 6.82 19.56 8.42C19.47 8.5 17.39 10.09 17.41 12.63C17.44 15.65 20.06 16.66 20.09 16.67C20.06 16.74 19.67 18.11 18.71 19.5ZM13 4.5C13.96 3.38 15.26 2.73 16.41 2.73C16.53 4.15 15.82 5.55 14.91 6.41C14.09 7.18 12.87 7.92 11.53 7.78C11.45 6.35 12.16 4.97 13 4.5Z" fill="currentColor"/>
-                    </svg>
-                </div>
-                <h1 class="modal-title">Enter Access Code</h1>
-                <p class="modal-subtitle">This content is protected. Please enter the code provided to you.</p>
-                
-                <div class="code-input-container">
-                    <input type="text" id="codeInput" maxlength="6" placeholder="••••••" class="code-input">
-                    <div class="input-border"></div>
-                </div>
-                
-                <button id="submitBtn" class="submit-btn">
-                    <span class="btn-text">Continue</span>
-                    <span class="btn-loader"></span>
-                </button>
-                
-                <p class="error-message" id="errorMessage"></p>
-            </div>
+    <!-- Access Code Overlay -->
+    <div id="overlay">
+        <div class="access-box">
+            <svg class="logo" viewBox="0 0 24 24" fill="#0071e3">
+                <path d="M18.71 19.5C17.88 20.74 17 21.95 15.66 21.97C14.32 22 13.89 21.18 12.37 21.18C10.84 21.18 10.37 21.95 9.1 22C7.79 22.05 6.8 20.68 5.96 19.47C4.25 16.89 2.94 12.11 4.7 9.04C5.57 7.46 7.13 6.53 8.82 6.5C10.1 6.47 11.32 7.41 12.11 7.41C12.89 7.41 14.37 6.31 15.92 6.5C16.57 6.53 18.39 6.82 19.56 8.42C19.47 8.5 17.39 10.09 17.41 12.63C17.44 15.65 20.06 16.66 20.09 16.67C20.06 16.74 19.67 18.11 18.71 19.5ZM13 4.5C13.96 3.38 15.26 2.73 16.41 2.73C16.53 4.15 15.82 5.55 14.91 6.41C14.09 7.18 12.87 7.92 11.53 7.78C11.45 6.35 12.16 4.97 13 4.5Z"/>
+            </svg>
+            <h1>Enter Access Code</h1>
+            <p>This content is protected. Please enter the 4-digit code.</p>
+            <input type="text" id="codeInput" maxlength="4" placeholder="____">
+            <button id="submitBtn">Continue</button>
+            <div id="errorMessage"></div>
         </div>
     </div>
     
-    <div class="content" id="content">
-        <header class="header">
-            <nav class="navbar">
-                <div class="navbar-logo">
-                    <svg class="logo" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M18.71 19.5C17.88 20.74 17 21.95 15.66 21.97C14.32 22 13.89 21.18 12.37 21.18C10.84 21.18 10.37 21.95 9.1 22C7.79 22.05 6.8 20.68 5.96 19.47C4.25 16.89 2.94 12.11 4.7 9.04C5.57 7.46 7.13 6.53 8.82 6.5C10.1 6.47 11.32 7.41 12.11 7.41C12.89 7.41 14.37 6.31 15.92 6.5C16.57 6.53 18.39 6.82 19.56 8.42C19.47 8.5 17.39 10.09 17.41 12.63C17.44 15.65 20.06 16.66 20.09 16.67C20.06 16.74 19.67 18.11 18.71 19.5ZM13 4.5C13.96 3.38 15.26 2.73 16.41 2.73C16.53 4.15 15.82 5.55 14.91 6.41C14.09 7.18 12.87 7.92 11.53 7.78C11.45 6.35 12.16 4.97 13 4.5Z" fill="currentColor"/>
-                    </svg>
-                </div>
-                <ul class="nav-links">
-                    <li><a href="#">Home</a></li>
-                    <li><a href="#">Products</a></li>
-                    <li><a href="#">Services</a></li>
-                    <li><a href="#">About</a></li>
-                    <li><a href="#">Contact</a></li>
-                </ul>
-                <button class="nav-button">Sign In</button>
-            </nav>
-        </header>
-        
-        <main class="main-content">
-            <section class="hero-section">
-                <div class="hero-content">
-                    <h1 class="hero-title">Welcome to Exclusive Content</h1>
-                    <p class="hero-subtitle">Experience the difference with our premium services and cutting-edge technology.</p>
-                    <div class="hero-buttons">
-                        <button class="primary-btn">Learn More</button>
-                        <button class="secondary-btn">Watch Video</button>
-                    </div>
-                </div>
-                <div class="hero-image">
-                    <div class="image-container">
-                        <div class="gradient-overlay"></div>
-                        <div class="floating-element"></div>
-                        <div class="floating-element"></div>
-                        <div class="floating-element"></div>
-                    </div>
-                </div>
-            </section>
-            
-            <section class="features-section">
-                <h2 class="section-title">Designed for Excellence</h2>
-                <p class="section-subtitle">Our platform offers unparalleled performance and user experience.</p>
-                
-                <div class="features-grid">
-                    <div class="feature-card">
-                        <div class="feature-icon">
-                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M12 15C13.6569 15 15 13.6569 15 12C15 10.3431 13.6569 9 12 9C10.3431 9 9 10.3431 9 12C9 13.6569 10.3431 15 12 15Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                                <path d="M19.4 15C19.2669 15.3016 19.2271 15.6363 19.2856 15.9606C19.3441 16.2849 19.4983 16.5835 19.7266 16.8166C19.9549 17.0497 20.2461 17.2061 20.561 17.2639C20.8759 17.3217 21.1985 17.2784 21.4866 17.14L21.6 17.08C21.8826 16.9274 22.1122 16.6935 22.2579 16.4096C22.4036 16.1257 22.4584 15.8054 22.415 15.4906C22.3716 15.1758 22.2321 14.8819 22.0156 14.65C21.7991 14.4181 21.5163 14.2601 21.2066 14.2C20.8995 14.1346 20.6189 13.9652 20.4084 13.7176C20.1979 13.47 20.0693 13.1573 20.0416 12.8286C20.0139 12.4999 20.0884 12.1728 20.2541 11.8926C20.4198 11.6124 20.6678 11.3943 20.96 11.27L21 11.25C21.2837 11.0951 21.5126 10.8579 21.6557 10.5709C21.7988 10.2839 21.8492 9.96085 21.8 9.64491C21.7508 9.32897 21.6045 9.0356 21.3817 8.80499C21.1589 8.57438 20.8705 8.4184 20.5566 8.35991C20.2427 8.30142 19.9191 8.34342 19.63 8.47991L19.54 8.53C19.2589 8.69394 18.9244 8.74924 18.602 8.68468C18.2796 8.62012 17.9914 8.44011 17.7926 8.17838C17.5938 7.91665 17.4985 7.59219 17.5244 7.26538C17.5503 6.93857 17.6958 6.63293 17.9336 6.4066C18.1714 6.18027 18.4846 6.04998 18.8136 6.0416C19.1426 6.03322 19.4646 6.14739 19.7166 6.3616L19.8 6.43C20.0835 6.5857 20.4132 6.64014 20.7336 6.58438C21.054 6.52862 21.346 6.36626 21.5616 6.12438C21.7772 5.8825 21.903 5.57568 21.9179 5.25338C21.9328 4.93108 21.8359 4.61298 21.6441 4.35238C21.4523 4.09178 21.1774 3.90491 20.8641 3.82438C20.5508 3.74385 20.2185 3.77458 19.9266 3.9116L19.83 3.96C19.5309 4.10374 19.1842 4.1237 18.8704 4.01553C18.5566 3.90736 18.3007 3.68066 18.16 3.39C17.8911 2.80385 17.454 2.3106 16.9018 1.97191C16.3496 1.63322 15.7069 1.46484 15.0541 1.48838C14.4014 1.51192 13.7689 1.72639 13.2396 2.10438C12.7103 2.48237 12.3092 3.0059 12.09 3.6C11.9837 3.88878 11.7689 4.1226 11.4926 4.24991C11.2163 4.37722 10.9019 4.38771 10.6176 4.27938C10.3333 4.17105 10.1035 3.95291 10.0003 3.67838C9.897 3.40385 9.93056 3.09838 10.0926 2.85C10.2546 2.60162 10.5284 2.43538 10.84 2.4C11.1516 2.36462 11.4679 2.46438 11.7 2.67L11.77 2.73C12.0543 2.8857 12.384 2.94014 12.7044 2.88438C13.0248 2.82862 13.3168 2.66626 13.5324 2.42438C13.748 2.1825 13.8738 1.87568 13.8887 1.55338C13.9036 1.23108 13.8067 0.912976 13.6149 0.652376C13.4231 0.391776 13.1482 0.204906 12.8349 0.124376C12.5216 0.0438456 12.1893 0.0745764 11.8974 0.211596L11.8 0.26C11.5009 0.403745 11.1542 0.423699 10.8404 0.31553C10.5266 0.207361 10.2707 -0.0193387 10.13 -0.31C9.86106 -0.896154 9.42404 -1.3894 8.87182 -1.72809C8.3196 -2.06678 7.67686 -2.23516 7.02414 -2.21162C6.37142 -2.18808 5.73886 -1.97361 5.20957 -1.59562C4.68028 -1.21763 4.27923 -0.694097 4.06 -0.1C3.95366 0.188777 3.73892 0.4226 3.4626 0.549906C3.18628 0.677213 2.87187 0.687705 2.58757 0.579376C2.30327 0.471047 2.07349 0.252906 1.97025 -0.0216238C1.86701 -0.296154 1.90056 -0.601623 2.06257 -0.85C2.22459 -1.09838 2.49835 -1.26462 2.81 -1.3C3.12165 -1.33538 3.43792 -1.23562 3.67 -1.03L3.74 -0.97C4.02426 -0.814297 4.35404 -0.759862 4.67441 -0.815623C4.99478 -0.871384 5.28679 -1.03374 5.50241 -1.27562C5.71803 -1.5175 5.84381 -1.82432 5.85869 -2.14662C5.87357 -2.46892 5.77671 -2.78702 5.58489 -3.04762C5.39307 -3.30822 5.11821 -3.4951 4.80489 -3.57562C4.49157 -3.65615 4.15927 -3.62542 3.86741 -3.4884L3.77 -3.44C3.47087 -3.29626 3.12421 -3.2763 2.81041 -3.38447C2.49661 -3.49264 2.24066 -3.71934 2.1 -4.01C1.83106 -4.59615 1.39404 -5.0894 0.841818 -5.42809C0.289596 -5.76678 -0.353143 -5.93516 -1.00586 -5.91162C-1.65858 -5.88808 -2.29114 -5.67361 -2.82043 -5.29562C-3.34972 -4.91763 -3.75077 -4.3941 -3.97 -3.8C-4.07634 -3.51122 -4.29108 -3.2774 -4.5674 -3.15009C-4.84372 -3.02278 -5.15813 -3.01229 -5.44243 -3.12062C-5.72673 -3.22895 -5.95651 -3.44709 -6.05975 -3.72162C-6.16299 -3.99615 -6.12944 -4.30162 -5.96743 -4.55C-5.80541 -4.79838 -5.53165 -4.96462 -5.22 -5C-4.90835 -5.03538 -4.59208 -4.93562 -4.36 -4.73L-4.29 -4.67" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                            </svg>
-                        </div>
-                        <h3 class="feature-title">Premium Performance</h3>
-                        <p class="feature-description">Optimized for speed and efficiency with our advanced technology stack.</p>
-                    </div>
-                    
-                    <div class="feature-card">
-                        <div class="feature-icon">
-                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                                <path d="M12 8V12L15 15" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                            </svg>
-                        </div>
-                        <h3 class="feature-title">24/7 Support</h3>
-                        <p class="feature-description">Dedicated support team available around the clock to assist you.</p>
-                    </div>
-                    
-                    <div class="feature-card">
-                        <div class="feature-icon">
-                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                                <path d="M16 12L12 8L8 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                                <path d="M12 16V8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                            </svg>
-                        </div>
-                        <h3 class="feature-title">Regular Updates</h3>
-                        <p class="feature-description">Continuous improvements and new features added regularly.</p>
-                    </div>
-                </div>
-            </section>
-        </main>
-        
-        <footer class="footer">
-            <div class="footer-content">
-                <div class="footer-logo">
-                    <svg class="logo" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M18.71 19.5C17.88 20.74 17 21.95 15.66 21.97C14.32 22 13.89 21.18 12.37 21.18C10.84 21.18 10.37 21.95 9.1 22C7.79 22.05 6.8 20.68 5.96 19.47C4.25 16.89 2.94 12.11 4.7 9.04C5.57 7.46 7.13 6.53 8.82 6.5C10.1 6.47 11.32 7.41 12.11 7.41C12.89 7.41 14.37 6.31 15.92 6.5C16.57 6.53 18.39 6.82 19.56 8.42C19.47 8.5 17.39 10.09 17.41 12.63C17.44 15.65 20.06 16.66 20.09 16.67C20.06 16.74 19.67 18.11 18.71 19.5ZM13 4.5C13.96 3.38 15.26 2.73 16.41 2.73C16.53 4.15 15.82 5.55 14.91 6.41C14.09 7.18 12.87 7.92 11.53 7.78C11.45 6.35 12.16 4.97 13 4.5Z" fill="currentColor"/>
-                    </svg>
-                </div>
-                <div class="footer-links">
-                    <div class="footer-column">
-                        <h4 class="footer-title">Products</h4>
-                        <ul>
-                            <li><a href="#">Overview</a></li>
-                            <li><a href="#">Features</a></li>
-                            <li><a href="#">Pricing</a></li>
-                            <li><a href="#">Releases</a></li>
-                        </ul>
-                    </div>
-                    <div class="footer-column">
-                        <h4 class="footer-title">Company</h4>
-                        <ul>
-                            <li><a href="#">About</a></li>
-                            <li><a href="#">Careers</a></li>
-                            <li><a href="#">Press</a></li>
-                            <li><a href="#">Contact</a></li>
-                        </ul>
-                    </div>
-                    <div class="footer-column">
-                        <h4 class="footer-title">Resources</h4>
-                        <ul>
-                            <li><a href="#">Blog</a></li>
-                            <li><a href="#">Help Center</a></li>
-                            <li><a href="#">Tutorials</a></li>
-                            <li><a href="#">Community</a></li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-            <div class="footer-bottom">
-                <p class="copyright">© 2023 Exclusive Content. All rights reserved.</p>
-                <div class="legal-links">
-                    <a href="#">Privacy Policy</a>
-                    <a href="#">Terms of Service</a>
-                    <a href="#">Cookies</a>
-                </div>
-            </div>
-        </footer>
+    <!-- Protected Content (hidden until unlocked) -->
+    <div id="content">
+        <h1>Welcome to Secure Content</h1>
+        <p>You've successfully entered the correct code.</p>
     </div>
-    
-   <script>
-document.addEventListener('DOMContentLoaded', function() {
-    const overlay = document.getElementById('overlay');
-    const codeInput = document.getElementById('codeInput');
-    const submitBtn = document.getElementById('submitBtn');
-    const errorMessage = document.getElementById('errorMessage');
 
-    // Fixed validation using BigInt
-    const validateCode = (x) => {
-        // Convert input to BigInt immediately
-        x = BigInt(x);
-        
-        // Phase 1: Bitwise operations (now overflow-safe)
-        let y = (x ^ BigInt(0xACE1)) * BigInt(0xDEADBEEF);
-        y = (y >> BigInt(4)) | (y << BigInt(28));
-        
-        // Phase 2: Cryptographic mixing
-        y ^= y >> BigInt(13);
-        y *= BigInt(0x5BD1E995);
-        y ^= y >> BigInt(15);
-        
-        // Final conversion to 6-digit number
-        y = Number(y % BigInt(999983)) + 123456;
-        return Math.abs(y).toString().padStart(6, '0').slice(0, 6);
-    };
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const overlay = document.getElementById('overlay');
+        const codeInput = document.getElementById('codeInput');
+        const submitBtn = document.getElementById('submitBtn');
+        const errorMessage = document.getElementById('errorMessage');
+        const content = document.getElementById('content');
 
-    // Pre-calculated correct pair (x=4528 → y=718492)
-    const SECRET_Y = '718492';
+        // Complex validation function (x=4 digits → y=6 digits)
+        const validateCode = (x) => {
+            x = BigInt(x);
+            let y = (x ^ BigInt(0xACE1)) * BigInt(0xDEADBEEF);
+            y = (y >> BigInt(4)) | (y << BigInt(28));
+            y ^= y >> BigInt(13);
+            y *= BigInt(0x5BD1E995);
+            y ^= y >> BigInt(15);
+            y = Number(y % BigInt(999983))) + 123456;
+            return Math.abs(y).toString().padStart(6, '0').slice(0, 6);
+        };
 
-    submitBtn.addEventListener('click', () => {
-        const input = codeInput.value.trim();
-        
-        if (!/^\d{4}$/.test(input)) {
-            showError('Code must be 4 digits');
-            return;
+        // HARDCODED VALIDATION (x=4528 → y=718492)
+        const SECRET_Y = '718492';
+
+        submitBtn.addEventListener('click', function() {
+            const input = codeInput.value.trim();
+            
+            if (!/^\d{4}$/.test(input)) {
+                showError('Code must be 4 digits');
+                return;
+            }
+
+            submitBtn.classList.add('loading');
+            
+            setTimeout(() => {
+                const computedY = validateCode(parseInt(input));
+                
+                if (computedY === SECRET_Y) {
+                    overlay.style.opacity = '0';
+                    setTimeout(() => {
+                        overlay.style.display = 'none';
+                        content.style.display = 'block';
+                    }, 500);
+                } else {
+                    showError('Invalid access code');
+                    codeInput.classList.add('shake');
+                    setTimeout(() => codeInput.classList.remove('shake'), 400);
+                }
+                submitBtn.classList.remove('loading');
+            }, 800);
+        });
+
+        function showError(msg) {
+            errorMessage.textContent = msg;
+            errorMessage.classList.add('show');
+            setTimeout(() => errorMessage.classList.remove('show'), 2000);
         }
 
-        submitBtn.classList.add('loading');
-        
-        setTimeout(() => {
-            const computedY = validateCode(parseInt(input));
-            console.log('[Debug] Input:', input, 'Output:', computedY); // Debug line
-            if (computedY === SECRET_Y) {
-                overlay.style.opacity = '0';
-                setTimeout(() => overlay.style.display = 'none', 500);
-            } else {
-                showError('Invalid access code');
-                shakeInput();
-            }
-            submitBtn.classList.remove('loading');
-        }, 800);
+        // Ensure code is always required on refresh
+        window.onbeforeunload = function() {
+            overlay.style.display = 'flex';
+            overlay.style.opacity = '1';
+            content.style.display = 'none';
+            codeInput.value = '';
+        }
     });
-
-    function showError(msg) {
-        errorMessage.textContent = msg;
-        errorMessage.classList.add('show');
-        setTimeout(() => errorMessage.classList.remove('show'), 2000);
-    }
-
-    function shakeInput() {
-        codeInput.animate([
-            { transform: 'translateX(0)' },
-            { transform: 'translateX(-8px)' },
-            { transform: 'translateX(8px)' },
-            { transform: 'translateX(0)' }
-        ], { duration: 200, iterations: 3 });
-    }
-});
-</script>
+    </script>
 </body>
 </html>
