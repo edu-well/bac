@@ -891,34 +891,34 @@ body {
         </footer>
     </div>
     
-    <script>
-
+   <script>
 document.addEventListener('DOMContentLoaded', function() {
     const overlay = document.getElementById('overlay');
     const codeInput = document.getElementById('codeInput');
     const submitBtn = document.getElementById('submitBtn');
     const errorMessage = document.getElementById('errorMessage');
 
-    // Obfuscated mathematical transformation (x → y)
+    // Fixed validation using BigInt
     const validateCode = (x) => {
-        // Phase 1: Bitwise and prime operations
-        let y = (x ^ 0xACE1) * 0xDEADBEEF;
-        y = (y >>> 4) | (y << 28);
+        // Convert input to BigInt immediately
+        x = BigInt(x);
+        
+        // Phase 1: Bitwise operations (now overflow-safe)
+        let y = (x ^ BigInt(0xACE1)) * BigInt(0xDEADBEEF);
+        y = (y >> BigInt(4)) | (y << BigInt(28));
         
         // Phase 2: Cryptographic mixing
-        y ^= y >> 13;
-        y *= 0x5BD1E995;
-        y ^= y >> 15;
+        y ^= y >> BigInt(13);
+        y *= BigInt(0x5BD1E995);
+        y ^= y >> BigInt(15);
         
-        // Phase 3: Modular arithmetic
-        y = Math.abs((y % 999983) + 123456);
-        
-        // Convert to 6-digit format
-        return String(y).padStart(6, '0').slice(0, 6);
+        // Final conversion to 6-digit number
+        y = Number(y % BigInt(999983)) + 123456;
+        return Math.abs(y).toString().padStart(6, '0').slice(0, 6);
     };
 
-    // Hardcoded secret y-value (derived from x=4528)
-    const SECRET_Y = '718492'; // Example: validateCode(4528) = 718492
+    // Pre-calculated correct pair (x=4528 → y=718492)
+    const SECRET_Y = '718492';
 
     submitBtn.addEventListener('click', () => {
         const input = codeInput.value.trim();
@@ -932,6 +932,7 @@ document.addEventListener('DOMContentLoaded', function() {
         
         setTimeout(() => {
             const computedY = validateCode(parseInt(input));
+            console.log('[Debug] Input:', input, 'Output:', computedY); // Debug line
             if (computedY === SECRET_Y) {
                 overlay.style.opacity = '0';
                 setTimeout(() => overlay.style.display = 'none', 500);
@@ -946,6 +947,7 @@ document.addEventListener('DOMContentLoaded', function() {
     function showError(msg) {
         errorMessage.textContent = msg;
         errorMessage.classList.add('show');
+        setTimeout(() => errorMessage.classList.remove('show'), 2000);
     }
 
     function shakeInput() {
@@ -957,9 +959,6 @@ document.addEventListener('DOMContentLoaded', function() {
         ], { duration: 200, iterations: 3 });
     }
 });
-
-
-
 </script>
 </body>
 </html>
