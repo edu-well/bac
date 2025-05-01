@@ -1,371 +1,325 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fitness Calendar</title>
+    <title>Fitness Planner Pro</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto+Flex:wght@300;400;500;700&family=SF+Pro+Display:wght@300;400;500;700&display=swap">
     <style>
         :root {
-            --primary-color: #4285F4;
-            --secondary-color: #34A853;
-            --accent-color: #EA4335;
-            --light-gray: #F5F5F5;
-            --medium-gray: #E0E0E0;
-            --dark-gray: #757575;
-            --text-color: #212121;
-            --white: #FFFFFF;
-            --card-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+            /* Light Theme */
+            --bg-primary: #ffffff;
+            --bg-secondary: #f5f5f7;
+            --text-primary: #1c1c1e;
+            --text-secondary: #636366;
+            --accent-blue: #007AFF;
+            --accent-green: #34C759;
+            --accent-orange: #FF9500;
+            --accent-red: #FF3B30;
+            --card-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            --border-radius: 12px;
+        }
+
+        [data-theme="dark"] {
+            /* Dark Theme */
+            --bg-primary: #1c1c1e;
+            --bg-secondary: #2c2c2e;
+            --text-primary: #f5f5f5;
+            --text-secondary: #a8a8a8;
+            --card-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
         }
 
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Roboto', Arial, sans-serif;
+            font-family: 'SF Pro Display', 'Roboto Flex', sans-serif;
+            transition: background 0.3s, color 0.3s;
         }
 
         body {
-            background-color: var(--light-gray);
-            color: var(--text-color);
-            padding: 16px;
-            max-width: 600px;
-            margin: 0 auto;
+            background-color: var(--bg-secondary);
+            color: var(--text-primary);
+            padding: 0;
+            max-width: 100%;
+            min-height: 100vh;
         }
 
-        .header {
+        /* Header & Theme Toggle */
+        .app-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 24px;
+            padding: 20px;
+            background-color: var(--bg-primary);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
         }
 
-        .header h1 {
+        .app-title {
             font-size: 24px;
+            font-weight: 700;
+        }
+
+        .theme-toggle {
+            background: none;
+            border: none;
+            font-size: 20px;
+            cursor: pointer;
+            color: var(--text-primary);
+        }
+
+        /* Main Layout */
+        .app-container {
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            min-height: calc(100vh - 72px);
+        }
+
+        /* Sidebar */
+        .sidebar {
+            background-color: var(--bg-primary);
+            padding: 20px;
+            border-right: 1px solid rgba(0, 0, 0, 0.1);
+        }
+
+        .sidebar-menu {
+            list-style: none;
+        }
+
+        .sidebar-menu li {
+            padding: 12px 0;
             font-weight: 500;
+            cursor: pointer;
         }
 
-        .header a {
-            color: var(--primary-color);
-            text-decoration: none;
-            font-size: 14px;
+        .sidebar-menu li.active {
+            color: var(--accent-blue);
         }
 
-        .month-header {
-            font-size: 18px;
-            font-weight: 500;
-            margin-bottom: 16px;
-            color: var(--dark-gray);
+        /* Main Content */
+        .main-content {
+            padding: 20px;
+            overflow-y: auto;
         }
 
-        .date-picker {
+        /* Calendar View */
+        .calendar-header {
             display: flex;
             justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .calendar-title {
+            font-size: 20px;
+            font-weight: 600;
+        }
+
+        .view-toggle button {
+            background: var(--bg-secondary);
+            border: none;
+            padding: 8px 16px;
+            border-radius: 20px;
+            margin-left: 8px;
+            cursor: pointer;
+            font-weight: 500;
+        }
+
+        .view-toggle button.active {
+            background: var(--accent-blue);
+            color: white;
+        }
+
+        /* Date Picker */
+        .date-picker {
+            display: flex;
+            gap: 8px;
             margin-bottom: 24px;
             overflow-x: auto;
             padding-bottom: 8px;
         }
 
         .date-item {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 12px 8px;
-            min-width: 40px;
-            border-radius: 8px;
+            min-width: 60px;
+            padding: 12px;
+            text-align: center;
+            border-radius: var(--border-radius);
             cursor: pointer;
-            flex-shrink: 0;
+            background: var(--bg-primary);
+            box-shadow: var(--card-shadow);
         }
 
         .date-item.active {
-            background-color: var(--primary-color);
-            color: var(--white);
+            background: var(--accent-blue);
+            color: white;
         }
 
-        .day {
-            font-size: 12px;
-            margin-bottom: 4px;
-            text-transform: uppercase;
-        }
-
-        .number {
-            font-size: 16px;
-            font-weight: 500;
-        }
-
-        .search-bar {
-            background-color: var(--white);
-            border-radius: 24px;
-            padding: 12px 16px;
-            margin-bottom: 16px;
-            box-shadow: var(--card-shadow);
-            display: flex;
-            align-items: center;
-        }
-
-        .search-bar input {
-            border: none;
-            outline: none;
-            width: 100%;
-            margin-left: 8px;
-            color: var(--text-color);
-        }
-
-        .search-bar input::placeholder {
-            color: var(--dark-gray);
-        }
-
-        .category-tabs {
-            display: flex;
-            margin-bottom: 16px;
-        }
-
-        .category-tab {
-            padding: 8px 16px;
-            margin-right: 8px;
-            border-radius: 16px;
-            font-size: 14px;
-            cursor: pointer;
-        }
-
-        .category-tab.active {
-            background-color: var(--primary-color);
-            color: var(--white);
-        }
-
-        .plan-card {
-            background-color: var(--white);
-            border-radius: 8px;
+        /* Workout Cards */
+        .workout-card {
+            background: var(--bg-primary);
+            border-radius: var(--border-radius);
             padding: 16px;
-            margin-bottom: 12px;
+            margin-bottom: 16px;
             box-shadow: var(--card-shadow);
-            border-left: 4px solid var(--primary-color);
+            border-left: 4px solid var(--accent-blue);
         }
 
-        .plan-card.medium {
-            border-left-color: var(--accent-color);
+        .workout-card.medium {
+            border-left-color: var(--accent-orange);
         }
 
-        .plan-card.light {
-            border-left-color: var(--secondary-color);
+        .workout-card.hard {
+            border-left-color: var(--accent-red);
         }
 
-        .plan-header {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 8px;
+        /* Progress Dashboard */
+        .progress-section {
+            margin-top: 32px;
         }
 
-        .plan-title {
-            font-weight: 500;
+        .progress-cards {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
         }
 
-        .plan-time {
-            color: var(--dark-gray);
-            font-size: 14px;
+        .progress-card {
+            background: var(--bg-primary);
+            border-radius: var(--border-radius);
+            padding: 16px;
+            box-shadow: var(--card-shadow);
         }
 
-        .plan-details {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 12px;
-            font-size: 14px;
-            color: var(--dark-gray);
-        }
-
-        .plan-room {
-            display: flex;
-            align-items: center;
-        }
-
-        .plan-room::before {
-            content: "📍";
-            margin-right: 4px;
-        }
-
-        .plan-trainer {
-            display: flex;
-            align-items: center;
-        }
-
-        .plan-trainer::before {
-            content: "👤";
-            margin-right: 4px;
-        }
-
-        .no-plans {
-            text-align: center;
-            padding: 24px;
-            color: var(--dark-gray);
+        /* Responsive Adjustments */
+        @media (max-width: 768px) {
+            .app-container {
+                grid-template-columns: 1fr;
+            }
+            .sidebar {
+                display: none;
+            }
         }
     </style>
 </head>
 <body>
-    <div class="header">
-        <h1>Schedule</h1>
-        <a href="#">See All</a>
-    </div>
+    <header class="app-header">
+        <h1 class="app-title">Fitness Planner Pro</h1>
+        <button class="theme-toggle" id="themeToggle">🌓</button>
+    </header>
 
-    <div class="month-header">Aug, 2023</div>
+    <div class="app-container">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <ul class="sidebar-menu">
+                <li class="active">Dashboard</li>
+                <li>Calendar</li>
+                <li>Workouts</li>
+                <li>Progress</li>
+                <li>Clients</li>
+                <li>Settings</li>
+            </ul>
+        </aside>
 
-    <div class="date-picker" id="date-picker">
-        <!-- Dates will be populated by JavaScript -->
-    </div>
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="calendar-header">
+                <h2 class="calendar-title">August 2023</h2>
+                <div class="view-toggle">
+                    <button class="active">Week</button>
+                    <button>Month</button>
+                </div>
+            </div>
 
-    <div class="search-bar">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="#757575">
-            <path d="M15.5 14h-.79l-.28-.27a6.5 6.5 0 0 0 1.48-5.34c-.47-2.78-2.79-5-5.59-5.34a6.505 6.505 0 0 0-7.27 7.27c.34 2.8 2.56 5.12 5.34 5.59a6.5 6.5 0 0 0 5.34-1.48l.27.28v.79l4.25 4.25c.41.41 1.08.41 1.49 0 .41-.41.41-1.08 0-1.49L15.5 14zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"></path>
-        </svg>
-        <input type="text" placeholder="Search...">
-    </div>
+            <!-- Date Picker -->
+            <div class="date-picker" id="datePicker">
+                <!-- Dynamically generated -->
+            </div>
 
-    <div class="category-tabs">
-        <div class="category-tab active">Meetings</div>
-        <div class="category-tab">Events</div>
-        <div class="category-tab">Holiday</div>
-    </div>
+            <!-- Workout Plans -->
+            <div id="workoutsContainer">
+                <div class="workout-card">
+                    <h3>Morning Yoga</h3>
+                    <p>07:00 - 08:00 AM</p>
+                    <p>Intensity: <span class="intensity-light">Light</span></p>
+                </div>
+                <div class="workout-card medium">
+                    <h3>HIIT Training</h3>
+                    <p>17:00 - 18:00 PM</p>
+                    <p>Intensity: <span class="intensity-medium">Medium</span></p>
+                </div>
+            </div>
 
-    <div id="plans-content">
-        <!-- Content will be populated by JavaScript based on selected date -->
+            <!-- Progress Dashboard -->
+            <section class="progress-section">
+                <h2>Your Progress</h2>
+                <div class="progress-cards">
+                    <div class="progress-card">
+                        <h3>Workouts Completed</h3>
+                        <p>12/15</p>
+                    </div>
+                    <div class="progress-card">
+                        <h3>Calories Burned</h3>
+                        <p>4,200 kcal</p>
+                    </div>
+                    <div class="progress-card">
+                        <h3>Current Streak</h3>
+                        <p>7 days 🔥</p>
+                    </div>
+                </div>
+            </section>
+        </main>
     </div>
 
     <script>
-        // Sample plans data for each day
-        const plansData = {
-            '31': [
-                {
-                    title: "Morning Yoga",
-                    type: "meeting",
-                    intensity: "light",
-                    time: "8:00 - 8:45 AM",
-                    room: "Studio A",
-                    trainer: "James Brown"
-                }
-            ],
-            '01': [
-                {
-                    title: "HIIT Training",
-                    type: "event",
-                    intensity: "medium",
-                    time: "9:00 - 9:45 AM",
-                    room: "Gym 2",
-                    trainer: "Laura Perez"
-                },
-                {
-                    title: "Nutrition Meeting",
-                    type: "meeting",
-                    intensity: "light",
-                    time: "2:00 - 2:30 PM",
-                    room: "Conference",
-                    trainer: "Dr. Smith"
-                }
-            ],
-            '02': [], // No plans
-            '03': [
-                {
-                    title: "Swimming Session",
-                    type: "event",
-                    intensity: "light",
-                    time: "7:00 - 8:00 AM",
-                    room: "Pool",
-                    trainer: "Michael Johnson"
-                }
-            ],
-            '04': [
-                {
-                    title: "Personal Training",
-                    type: "meeting",
-                    intensity: "medium",
-                    time: "6:00 - 7:00 PM",
-                    room: "Private Studio",
-                    trainer: "Sarah Wilson"
-                }
-            ]
-        };
+        // Theme Toggle
+        const themeToggle = document.getElementById('themeToggle');
+        themeToggle.addEventListener('click', () => {
+            const currentTheme = document.documentElement.getAttribute('data-theme');
+            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+            document.documentElement.setAttribute('data-theme', newTheme);
+            themeToggle.textContent = newTheme === 'light' ? '🌓' : '☀️';
+        });
 
-        // Generate date picker for August 2023 (as in the reference image)
-        const datePicker = document.getElementById('date-picker');
-        const days = ['Fri', 'Sat', 'Sun', 'Mon', 'Tue'];
-        const dates = ['31', '01', '02', '03', '04'];
+        // Date Picker Generation
+        const datePicker = document.getElementById('datePicker');
+        const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+        const today = new Date();
         
-        dates.forEach((date, index) => {
-            const dayName = days[index];
+        for (let i = 0; i < 7; i++) {
+            const date = new Date();
+            date.setDate(today.getDate() + i);
             
             const dateItem = document.createElement('div');
             dateItem.className = 'date-item';
-            dateItem.dataset.date = date;
-            
-            // Highlight today (for demo purposes, we'll highlight Aug 1)
-            if (date === '01') {
-                dateItem.classList.add('active');
-                // Load today's plans initially
-                updatePlansContent(date, 'meeting');
-            }
+            if (i === 0) dateItem.classList.add('active');
             
             dateItem.innerHTML = `
-                <div class="day">${dayName}</div>
-                <div class="number">${date}</div>
+                <div>${days[date.getDay()]}</div>
+                <div>${date.getDate()}</div>
             `;
             
-            dateItem.addEventListener('click', function() {
-                document.querySelectorAll('.date-item').forEach(item => {
-                    item.classList.remove('active');
-                });
-                this.classList.add('active');
-                
-                // Get active tab
-                const activeTab = document.querySelector('.category-tab.active').textContent.toLowerCase();
-                
-                // Update plans content based on selected date and tab
-                updatePlansContent(this.dataset.date, activeTab);
+            dateItem.addEventListener('click', () => {
+                document.querySelectorAll('.date-item').forEach(item => item.classList.remove('active'));
+                dateItem.classList.add('active');
+                // Here you would fetch workouts for the selected date
             });
             
             datePicker.appendChild(dateItem);
-        });
-
-        // Add tab switching functionality
-        document.querySelectorAll('.category-tab').forEach(tab => {
-            tab.addEventListener('click', function() {
-                document.querySelectorAll('.category-tab').forEach(t => {
-                    t.classList.remove('active');
-                });
-                this.classList.add('active');
-                
-                // Get selected date
-                const selectedDate = document.querySelector('.date-item.active')?.dataset.date;
-                if (selectedDate) {
-                    updatePlansContent(selectedDate, this.textContent.toLowerCase());
-                }
-            });
-        });
-
-        // Function to update the plans content based on selected date and tab
-        function updatePlansContent(dateKey, type) {
-            const plansContent = document.getElementById('plans-content');
-            const plans = (plansData[dateKey] || []).filter(plan => plan.type === type);
-            
-            if (plans.length === 0) {
-                plansContent.innerHTML = '<div class="no-plans">No activities scheduled</div>';
-                return;
-            }
-            
-            let html = '';
-            plans.forEach(plan => {
-                html += `
-                    <div class="plan-card ${plan.intensity}">
-                        <div class="plan-header">
-                            <div class="plan-title">${plan.title}</div>
-                            <div class="plan-time">${plan.time}</div>
-                        </div>
-                        <div class="plan-details">
-                            <div class="plan-room">${plan.room}</div>
-                            <div class="plan-trainer">${plan.trainer}</div>
-                        </div>
-                    </div>
-                `;
-            });
-            
-            plansContent.innerHTML = html;
         }
+
+        // Simulated Workout Data
+        const workouts = [
+            { title: "Morning Run", time: "07:00 - 08:00", intensity: "light" },
+            { title: "Strength Training", time: "18:00 - 19:00", intensity: "medium" }
+        ];
+
+        // View Toggle
+        document.querySelectorAll('.view-toggle button').forEach(button => {
+            button.addEventListener('click', () => {
+                document.querySelectorAll('.view-toggle button').forEach(btn => btn.classList.remove('active'));
+                button.classList.add('active');
+            });
+        });
     </script>
 </body>
 </html>
