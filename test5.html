@@ -3,141 +3,150 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fitness Planner</title>
+    <title>Fitness Calendar</title>
     <style>
         :root {
-            --system-gray-6: #F2F2F7;
-            --system-gray-5: #E5E5EA;
-            --system-gray-2: #AEAEB2;
-            
-            --system-blue: #007AFF;
-            --system-green: #34C759;
-            --system-orange: #FF9500;
-            
-            --text-primary: #1C1C1E;
-            --text-secondary: #636366;
-            
-            --card-radius: 12px;
-            --card-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+            --primary-color: #4285F4;
+            --secondary-color: #34A853;
+            --accent-color: #EA4335;
+            --light-gray: #F5F5F5;
+            --medium-gray: #E0E0E0;
+            --dark-gray: #757575;
+            --text-color: #212121;
+            --white: #FFFFFF;
+            --card-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
         }
 
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+            font-family: 'Roboto', Arial, sans-serif;
         }
 
         body {
-            background-color: var(--system-gray-6);
-            color: var(--text-primary);
-            padding: 20px;
+            background-color: var(--light-gray);
+            color: var(--text-color);
+            padding: 16px;
             max-width: 600px;
             margin: 0 auto;
-            line-height: 1.5;
         }
 
         .header {
-            margin-bottom: 28px;
-        }
-
-        .greeting {
-            font-size: 28px;
-            font-weight: 600;
-            margin-bottom: 4px;
-        }
-
-        .date {
-            color: var(--text-secondary);
-            font-size: 16px;
-            font-weight: 400;
-        }
-
-        .card {
-            background-color: white;
-            border-radius: var(--card-radius);
-            padding: 18px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
             margin-bottom: 24px;
-            box-shadow: var(--card-shadow);
         }
 
-        .challenge-title {
-            font-weight: 600;
-            margin-bottom: 6px;
+        .header h1 {
+            font-size: 24px;
+            font-weight: 500;
+        }
+
+        .header a {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .month-header {
             font-size: 18px;
-        }
-
-        .challenge-text {
-            color: var(--text-secondary);
-            font-size: 15px;
+            font-weight: 500;
+            margin-bottom: 16px;
+            color: var(--dark-gray);
         }
 
         .date-picker {
             display: flex;
             justify-content: space-between;
-            margin-bottom: 28px;
+            margin-bottom: 24px;
             overflow-x: auto;
             padding-bottom: 8px;
-            -webkit-overflow-scrolling: touch;
         }
 
         .date-item {
             display: flex;
             flex-direction: column;
             align-items: center;
-            padding: 12px 10px;
-            min-width: 50px;
-            border-radius: var(--card-radius);
+            padding: 12px 8px;
+            min-width: 40px;
+            border-radius: 8px;
             cursor: pointer;
             flex-shrink: 0;
         }
 
-        .date-item:not(:last-child) {
-            margin-right: 6px;
-        }
-
         .date-item.active {
-            background-color: var(--system-blue);
-            color: white;
+            background-color: var(--primary-color);
+            color: var(--white);
         }
 
         .day {
-            font-size: 13px;
-            margin-bottom: 6px;
+            font-size: 12px;
+            margin-bottom: 4px;
             text-transform: uppercase;
-            font-weight: 500;
         }
 
         .number {
-            font-size: 18px;
+            font-size: 16px;
             font-weight: 500;
         }
 
-        .section-title {
-            font-size: 20px;
-            font-weight: 600;
-            margin-bottom: 18px;
+        .search-bar {
+            background-color: var(--white);
+            border-radius: 24px;
+            padding: 12px 16px;
+            margin-bottom: 16px;
+            box-shadow: var(--card-shadow);
+            display: flex;
+            align-items: center;
         }
 
-        .plan-container {
-            margin-bottom: 24px;
+        .search-bar input {
+            border: none;
+            outline: none;
+            width: 100%;
+            margin-left: 8px;
+            color: var(--text-color);
+        }
+
+        .search-bar input::placeholder {
+            color: var(--dark-gray);
+        }
+
+        .category-tabs {
+            display: flex;
+            margin-bottom: 16px;
+        }
+
+        .category-tab {
+            padding: 8px 16px;
+            margin-right: 8px;
+            border-radius: 16px;
+            font-size: 14px;
+            cursor: pointer;
+        }
+
+        .category-tab.active {
+            background-color: var(--primary-color);
+            color: var(--white);
         }
 
         .plan-card {
-            background-color: white;
-            border-radius: var(--card-radius);
+            background-color: var(--white);
+            border-radius: 8px;
             padding: 16px;
             margin-bottom: 12px;
             box-shadow: var(--card-shadow);
-            border-left: 4px solid var(--system-blue);
+            border-left: 4px solid var(--primary-color);
         }
 
         .plan-card.medium {
-            border-left-color: var(--system-orange);
+            border-left-color: var(--accent-color);
         }
 
         .plan-card.light {
-            border-left-color: var(--system-green);
+            border-left-color: var(--secondary-color);
         }
 
         .plan-header {
@@ -147,12 +156,11 @@
         }
 
         .plan-title {
-            font-weight: 600;
-            font-size: 16px;
+            font-weight: 500;
         }
 
-        .plan-date {
-            color: var(--text-secondary);
+        .plan-time {
+            color: var(--dark-gray);
             font-size: 14px;
         }
 
@@ -161,179 +169,141 @@
             justify-content: space-between;
             margin-top: 12px;
             font-size: 14px;
-            color: var(--text-secondary);
+            color: var(--dark-gray);
         }
 
-        .plan-time, .plan-room {
+        .plan-room {
             display: flex;
             align-items: center;
         }
 
-        .plan-time::before {
-            content: "🕒";
-            margin-right: 6px;
-            font-size: 13px;
-        }
-
         .plan-room::before {
             content: "📍";
-            margin-right: 6px;
-            font-size: 13px;
+            margin-right: 4px;
         }
 
         .plan-trainer {
             display: flex;
             align-items: center;
-            margin-top: 12px;
-            font-size: 14px;
-            color: var(--text-secondary);
         }
 
         .plan-trainer::before {
             content: "👤";
-            margin-right: 6px;
-            font-size: 13px;
+            margin-right: 4px;
         }
 
         .no-plans {
-            color: var(--text-secondary);
             text-align: center;
-            padding: 20px;
-            font-size: 15px;
-        }
-
-        @media (max-width: 480px) {
-            body {
-                padding: 16px;
-            }
-            
-            .date-item {
-                padding: 10px 8px;
-                min-width: 44px;
-            }
+            padding: 24px;
+            color: var(--dark-gray);
         }
     </style>
 </head>
 <body>
     <div class="header">
-        <div class="greeting">Hello, Sandra</div>
-        <div class="date" id="current-date">Today, November 25</div>
+        <h1>Schedule</h1>
+        <a href="#">See All</a>
     </div>
 
-    <div class="card">
-        <div class="challenge-title">Daily Challenge</div>
-        <div class="challenge-text">Complete your plan before 9:00 AM</div>
-    </div>
+    <div class="month-header">Aug, 2023</div>
 
     <div class="date-picker" id="date-picker">
         <!-- Dates will be populated by JavaScript -->
     </div>
 
-    <div class="plan-container">
-        <div class="section-title">Your Plan</div>
-        <div id="plans-content">
-            <!-- Content will be populated by JavaScript based on selected date -->
-        </div>
+    <div class="search-bar">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="#757575">
+            <path d="M15.5 14h-.79l-.28-.27a6.5 6.5 0 0 0 1.48-5.34c-.47-2.78-2.79-5-5.59-5.34a6.505 6.505 0 0 0-7.27 7.27c.34 2.8 2.56 5.12 5.34 5.59a6.5 6.5 0 0 0 5.34-1.48l.27.28v.79l4.25 4.25c.41.41 1.08.41 1.49 0 .41-.41.41-1.08 0-1.49L15.5 14zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"></path>
+        </svg>
+        <input type="text" placeholder="Search...">
+    </div>
+
+    <div class="category-tabs">
+        <div class="category-tab active">Meetings</div>
+        <div class="category-tab">Events</div>
+        <div class="category-tab">Holiday</div>
+    </div>
+
+    <div id="plans-content">
+        <!-- Content will be populated by JavaScript based on selected date -->
     </div>
 
     <script>
         // Sample plans data for each day
         const plansData = {
-            '22': [
+            '31': [
                 {
-                    title: "Morning Run",
+                    title: "Morning Yoga",
+                    type: "meeting",
                     intensity: "light",
-                    time: "07:00 - 08:00",
-                    room: "Outdoor",
-                    trainer: "Alex Johnson"
+                    time: "8:00 - 8:45 AM",
+                    room: "Studio A",
+                    trainer: "James Brown"
                 }
             ],
-            '23': [
+            '01': [
                 {
-                    title: "Strength Training",
+                    title: "HIIT Training",
+                    type: "event",
                     intensity: "medium",
-                    time: "17:00 - 18:30",
-                    room: "Gym A",
-                    trainer: "Mike Chen"
-                }
-            ],
-            '24': [], // No plans for this day
-            '25': [
-                {
-                    title: "Yoga Group",
-                    intensity: "medium",
-                    time: "14:00 - 15:00",
-                    room: "A5 Room",
-                    trainer: "Tiffany Way"
-                }
-            ],
-            '26': [
-                {
-                    title: "Swimming",
-                    intensity: "light",
-                    time: "08:00 - 09:00",
-                    room: "Pool",
-                    trainer: "Sarah Miller"
+                    time: "9:00 - 9:45 AM",
+                    room: "Gym 2",
+                    trainer: "Laura Perez"
                 },
                 {
-                    title: "Pilates",
-                    intensity: "medium",
-                    time: "18:00 - 19:00",
-                    room: "Studio 3",
-                    trainer: "James Wilson"
-                }
-            ],
-            '27': [
-                {
-                    title: "Boxing",
-                    intensity: "medium",
-                    time: "19:00 - 20:30",
-                    room: "Boxing Ring",
-                    trainer: "Carlos Rodriguez"
-                }
-            ],
-            '28': [
-                {
-                    title: "Balance Session",
+                    title: "Nutrition Meeting",
+                    type: "meeting",
                     intensity: "light",
-                    time: "18:00 - 19:30",
-                    room: "A2 Room",
-                    trainer: "Tiffany Way"
+                    time: "2:00 - 2:30 PM",
+                    room: "Conference",
+                    trainer: "Dr. Smith"
+                }
+            ],
+            '02': [], // No plans
+            '03': [
+                {
+                    title: "Swimming Session",
+                    type: "event",
+                    intensity: "light",
+                    time: "7:00 - 8:00 AM",
+                    room: "Pool",
+                    trainer: "Michael Johnson"
+                }
+            ],
+            '04': [
+                {
+                    title: "Personal Training",
+                    type: "meeting",
+                    intensity: "medium",
+                    time: "6:00 - 7:00 PM",
+                    room: "Private Studio",
+                    trainer: "Sarah Wilson"
                 }
             ]
         };
 
-        // Set current date
-        const today = new Date();
-        const options = { month: 'long', day: 'numeric' };
-        document.getElementById('current-date').textContent = `Today, ${today.toLocaleDateString('en-US', options)}`;
-
-        // Generate date picker
+        // Generate date picker for August 2023 (as in the reference image)
         const datePicker = document.getElementById('date-picker');
-        const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+        const days = ['Fri', 'Sat', 'Sun', 'Mon', 'Tue'];
+        const dates = ['31', '01', '02', '03', '04'];
         
-        for (let i = -3; i <= 3; i++) {
-            const date = new Date();
-            date.setDate(today.getDate() + i);
-            
-            const dayName = days[date.getDay()];
-            const dayNumber = date.getDate();
-            const dateKey = dayNumber.toString();
+        dates.forEach((date, index) => {
+            const dayName = days[index];
             
             const dateItem = document.createElement('div');
             dateItem.className = 'date-item';
-            dateItem.dataset.date = dateKey;
+            dateItem.dataset.date = date;
             
-            // Highlight today
-            if (i === 0) {
+            // Highlight today (for demo purposes, we'll highlight Aug 1)
+            if (date === '01') {
                 dateItem.classList.add('active');
                 // Load today's plans initially
-                updatePlansContent(dateKey);
+                updatePlansContent(date, 'meeting');
             }
             
             dateItem.innerHTML = `
                 <div class="day">${dayName}</div>
-                <div class="number">${dayNumber}</div>
+                <div class="number">${date}</div>
             `;
             
             dateItem.addEventListener('click', function() {
@@ -342,23 +312,39 @@
                 });
                 this.classList.add('active');
                 
-                // Update plans content based on selected date
-                updatePlansContent(this.dataset.date);
+                // Get active tab
+                const activeTab = document.querySelector('.category-tab.active').textContent.toLowerCase();
+                
+                // Update plans content based on selected date and tab
+                updatePlansContent(this.dataset.date, activeTab);
             });
             
             datePicker.appendChild(dateItem);
-        }
-        
-        // Center the current date in the picker
-        datePicker.scrollLeft = (datePicker.scrollWidth - datePicker.clientWidth) / 2;
+        });
 
-        // Function to update the plans content based on selected date
-        function updatePlansContent(dateKey) {
+        // Add tab switching functionality
+        document.querySelectorAll('.category-tab').forEach(tab => {
+            tab.addEventListener('click', function() {
+                document.querySelectorAll('.category-tab').forEach(t => {
+                    t.classList.remove('active');
+                });
+                this.classList.add('active');
+                
+                // Get selected date
+                const selectedDate = document.querySelector('.date-item.active')?.dataset.date;
+                if (selectedDate) {
+                    updatePlansContent(selectedDate, this.textContent.toLowerCase());
+                }
+            });
+        });
+
+        // Function to update the plans content based on selected date and tab
+        function updatePlansContent(dateKey, type) {
             const plansContent = document.getElementById('plans-content');
-            const plans = plansData[dateKey] || [];
+            const plans = (plansData[dateKey] || []).filter(plan => plan.type === type);
             
             if (plans.length === 0) {
-                plansContent.innerHTML = '<div class="no-plans">No plans for this day</div>';
+                plansContent.innerHTML = '<div class="no-plans">No activities scheduled</div>';
                 return;
             }
             
@@ -368,24 +354,17 @@
                     <div class="plan-card ${plan.intensity}">
                         <div class="plan-header">
                             <div class="plan-title">${plan.title}</div>
-                            <div class="plan-date">${getFormattedDate(dateKey)}</div>
+                            <div class="plan-time">${plan.time}</div>
                         </div>
                         <div class="plan-details">
-                            <div class="plan-time">${plan.time}</div>
                             <div class="plan-room">${plan.room}</div>
+                            <div class="plan-trainer">${plan.trainer}</div>
                         </div>
-                        <div class="plan-trainer">${plan.trainer}</div>
                     </div>
                 `;
             });
             
             plansContent.innerHTML = html;
-        }
-        
-        // Helper function to format date as "November 22"
-        function getFormattedDate(day) {
-            const currentMonth = today.toLocaleString('default', { month: 'long' });
-            return `${currentMonth} ${day}`;
         }
     </script>
 </body>
