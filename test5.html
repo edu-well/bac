@@ -3,154 +3,206 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fitness Planner</title>
+    <title>Wellness Planner</title>
+    <link href="https://fonts.googleapis.com/css2?family=SF+Pro+Display:wght@300;400;500;600&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary-color: #6c5ce7;
-            --secondary-color: #a29bfe;
-            --accent-color: #fd79a8;
-            --light-color: #f8f9fa;
-            --dark-color: #2d3436;
-            --success-color: #00b894;
-            --warning-color: #fdcb6e;
-            --border-radius: 12px;
-            --box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            --system-gray-6: #F2F2F7;
+            --system-gray-5: #E5E5EA;
+            --system-gray-4: #D1D1D6;
+            --system-gray-3: #C7C7CC;
+            --system-gray-2: #AEAEB2;
+            --system-gray-1: #8E8E93;
+            
+            --system-blue: #007AFF;
+            --system-green: #34C759;
+            --system-indigo: #5856D6;
+            --system-orange: #FF9500;
+            --system-pink: #FF2D55;
+            --system-purple: #AF52DE;
+            --system-red: #FF3B30;
+            --system-teal: #5AC8FA;
+            --system-yellow: #FFCC00;
+            
+            --text-primary: #1C1C1E;
+            --text-secondary: #636366;
+            --text-tertiary: #8E8E93;
+            
+            --card-radius: 14px;
+            --card-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+            --section-spacing: 28px;
         }
 
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, sans-serif;
+            -webkit-font-smoothing: antialiased;
         }
 
         body {
-            background-color: #f5f6fa;
-            color: var(--dark-color);
+            background-color: var(--system-gray-6);
+            color: var(--text-primary);
             padding: 20px;
             max-width: 600px;
             margin: 0 auto;
+            line-height: 1.5;
         }
 
         .header {
-            margin-bottom: 24px;
+            margin-bottom: var(--section-spacing);
+            padding-top: 12px;
         }
 
         .greeting {
-            font-size: 24px;
+            font-size: 32px;
             font-weight: 600;
-            margin-bottom: 4px;
+            margin-bottom: 2px;
+            letter-spacing: -0.5px;
         }
 
         .date {
-            color: #636e72;
-            font-size: 14px;
+            color: var(--text-secondary);
+            font-size: 16px;
+            font-weight: 400;
         }
 
-        .challenge-card {
+        .card {
             background-color: white;
-            border-radius: var(--border-radius);
-            padding: 16px;
-            margin-bottom: 24px;
-            box-shadow: var(--box-shadow);
+            border-radius: var(--card-radius);
+            padding: 20px;
+            margin-bottom: var(--section-spacing);
+            box-shadow: var(--card-shadow);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
         }
 
         .challenge-title {
             font-weight: 600;
             margin-bottom: 8px;
+            font-size: 20px;
         }
 
         .challenge-text {
-            color: #636e72;
-            font-size: 14px;
+            color: var(--text-secondary);
+            font-size: 16px;
+            font-weight: 400;
         }
 
         .date-picker {
             display: flex;
             justify-content: space-between;
-            margin-bottom: 24px;
+            margin-bottom: var(--section-spacing);
             overflow-x: auto;
-            padding-bottom: 8px;
+            padding-bottom: 12px;
+            -webkit-overflow-scrolling: touch;
         }
 
         .date-item {
             display: flex;
             flex-direction: column;
             align-items: center;
-            padding: 12px 8px;
-            min-width: 40px;
-            border-radius: var(--border-radius);
+            padding: 14px 12px;
+            min-width: 52px;
+            border-radius: var(--card-radius);
             cursor: pointer;
-            transition: all 0.2s ease;
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            flex-shrink: 0;
+        }
+
+        .date-item:not(:last-child) {
+            margin-right: 8px;
         }
 
         .date-item:hover {
-            background-color: #f1f2f6;
+            background-color: var(--system-gray-5);
         }
 
         .date-item.active {
-            background-color: var(--primary-color);
+            background-color: var(--system-blue);
             color: white;
         }
 
         .day {
-            font-size: 12px;
-            margin-bottom: 4px;
+            font-size: 13px;
+            margin-bottom: 6px;
             text-transform: uppercase;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+            opacity: 0.8;
+        }
+
+        .date-item.active .day {
+            opacity: 0.9;
         }
 
         .number {
-            font-size: 16px;
-            font-weight: 600;
+            font-size: 20px;
+            font-weight: 500;
         }
 
         .section-title {
-            font-size: 18px;
+            font-size: 22px;
             font-weight: 600;
-            margin-bottom: 16px;
+            margin-bottom: 20px;
+            letter-spacing: -0.3px;
         }
 
         .plan-container {
-            margin-bottom: 24px;
+            margin-bottom: var(--section-spacing);
         }
 
         .plan-card {
             background-color: white;
-            border-radius: var(--border-radius);
-            padding: 16px;
-            margin-bottom: 12px;
-            box-shadow: var(--box-shadow);
-            border-left: 4px solid var(--accent-color);
+            border-radius: var(--card-radius);
+            padding: 18px;
+            margin-bottom: 16px;
+            box-shadow: var(--card-shadow);
+            border-left: 5px solid var(--system-blue);
+            transition: transform 0.2s ease;
+        }
+
+        .plan-card:hover {
+            transform: translateY(-2px);
         }
 
         .plan-card.medium {
-            border-left-color: var(--warning-color);
+            border-left-color: var(--system-orange);
         }
 
         .plan-card.light {
-            border-left-color: var(--success-color);
+            border-left-color: var(--system-green);
         }
 
         .plan-header {
             display: flex;
             justify-content: space-between;
-            margin-bottom: 8px;
+            margin-bottom: 10px;
+            align-items: center;
         }
 
         .plan-title {
             font-weight: 600;
+            font-size: 18px;
         }
 
         .plan-date {
-            color: #636e72;
-            font-size: 14px;
+            color: var(--text-secondary);
+            font-size: 15px;
+            font-weight: 500;
         }
 
         .plan-details {
             display: flex;
             justify-content: space-between;
-            margin-top: 12px;
-            font-size: 14px;
+            margin-top: 14px;
+            font-size: 15px;
+            color: var(--text-secondary);
         }
 
         .plan-time, .plan-room {
@@ -160,47 +212,97 @@
 
         .plan-time::before {
             content: "🕒";
-            margin-right: 4px;
+            margin-right: 6px;
+            font-size: 14px;
         }
 
         .plan-room::before {
             content: "📍";
-            margin-right: 4px;
+            margin-right: 6px;
+            font-size: 14px;
         }
 
         .plan-trainer {
             display: flex;
             align-items: center;
-            margin-top: 12px;
-            font-size: 14px;
+            margin-top: 14px;
+            font-size: 15px;
+            color: var(--text-secondary);
         }
 
         .plan-trainer::before {
             content: "👤";
-            margin-right: 4px;
+            margin-right: 6px;
+            font-size: 14px;
         }
 
+        /* Apple-like status bar */
+        .status-bar {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 24px;
+            font-size: 14px;
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        .time {
+            margin-left: 4px;
+        }
+
+        .status-icons {
+            display: flex;
+            gap: 4px;
+        }
+
+        /* Responsive adjustments */
         @media (max-width: 480px) {
             body {
                 padding: 16px;
             }
             
-            .date-item {
-                padding: 8px 6px;
-                min-width: 36px;
+            .greeting {
+                font-size: 28px;
             }
+            
+            .date-item {
+                padding: 12px 10px;
+                min-width: 48px;
+            }
+            
+            .number {
+                font-size: 18px;
+            }
+            
+            .section-title {
+                font-size: 20px;
+            }
+        }
+
+        /* Focus states for accessibility */
+        .date-item:focus, .card:focus {
+            outline: 2px solid var(--system-blue);
+            outline-offset: 2px;
         }
     </style>
 </head>
 <body>
-    <div class="header">
-        <div class="greeting">Hello, Sandra</div>
-        <div class="date" id="current-date">Today 25 Nov.</div>
+    <div class="status-bar">
+        <div class="time" id="current-time">9:41</div>
+        <div class="status-icons">
+            <span>📶</span>
+            <span>🔋</span>
+        </div>
     </div>
 
-    <div class="challenge-card">
-        <div class="challenge-title">Daily challenge</div>
-        <div class="challenge-text">Do your plan before 09:00 AM</div>
+    <div class="header">
+        <div class="greeting">Hello, Sandra</div>
+        <div class="date" id="current-date">Today, November 25</div>
+    </div>
+
+    <div class="card">
+        <div class="challenge-title">Daily Challenge</div>
+        <div class="challenge-text">Complete your plan before 9:00 AM</div>
     </div>
 
     <div class="date-picker" id="date-picker">
@@ -208,38 +310,51 @@
     </div>
 
     <div class="plan-container">
-        <div class="section-title">Your plan</div>
+        <div class="section-title">Your Plan</div>
         
         <div class="plan-card medium">
             <div class="plan-header">
                 <div class="plan-title">Yoga Group</div>
-                <div class="plan-date">25 Nov.</div>
+                <div class="plan-date">November 25</div>
             </div>
             <div class="plan-details">
-                <div class="plan-time">14:00-15:00</div>
-                <div class="plan-room">A5 room</div>
+                <div class="plan-time">14:00 - 15:00</div>
+                <div class="plan-room">A5 Room</div>
             </div>
             <div class="plan-trainer">Tiffany Way</div>
         </div>
         
         <div class="plan-card light">
             <div class="plan-header">
-                <div class="plan-title">Balance</div>
-                <div class="plan-date">28 Nov.</div>
+                <div class="plan-title">Balance Session</div>
+                <div class="plan-date">November 28</div>
             </div>
             <div class="plan-details">
-                <div class="plan-time">18:00-19:30</div>
-                <div class="plan-room">A2 room</div>
+                <div class="plan-time">18:00 - 19:30</div>
+                <div class="plan-room">A2 Room</div>
             </div>
             <div class="plan-trainer">Tiffany Way</div>
         </div>
     </div>
 
     <script>
-        // Set current date
-        const today = new Date();
-        const options = { day: 'numeric', month: 'short' };
-        document.getElementById('current-date').textContent = `Today ${today.toLocaleDateString('en-US', options)}`;
+        // Set current time and date
+        function updateTime() {
+            const now = new Date();
+            
+            // Update time in status bar
+            const hours = now.getHours();
+            const minutes = now.getMinutes().toString().padStart(2, '0');
+            document.getElementById('current-time').textContent = `${hours}:${minutes}`;
+            
+            // Update date in header
+            const options = { month: 'long', day: 'numeric' };
+            const todayString = now.toLocaleDateString('en-US', options);
+            document.getElementById('current-date').textContent = `Today, ${todayString}`;
+        }
+        
+        updateTime();
+        setInterval(updateTime, 60000); // Update every minute
 
         // Generate date picker
         const datePicker = document.getElementById('date-picker');
@@ -247,14 +362,24 @@
         
         for (let i = -3; i <= 3; i++) {
             const date = new Date();
-            date.setDate(today.getDate() + i);
+            date.setDate(date.getDate() + i);
             
             const dayName = days[date.getDay()];
             const dayNumber = date.getDate();
+            const month = date.getMonth();
+            const year = date.getFullYear();
             
             const dateItem = document.createElement('div');
             dateItem.className = 'date-item';
-            if (i === 0) dateItem.classList.add('active');
+            dateItem.tabIndex = 0; // Make it focusable for keyboard navigation
+            
+            // Highlight today
+            const today = new Date();
+            if (date.getDate() === today.getDate() && 
+                date.getMonth() === today.getMonth() && 
+                date.getFullYear() === today.getFullYear()) {
+                dateItem.classList.add('active');
+            }
             
             dateItem.innerHTML = `
                 <div class="day">${dayName}</div>
@@ -268,8 +393,22 @@
                 this.classList.add('active');
             });
             
+            // Add keyboard support
+            dateItem.addEventListener('keydown', function(e) {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    this.click();
+                }
+            });
+            
             datePicker.appendChild(dateItem);
         }
+        
+        // Add smooth scrolling to date picker
+        datePicker.scrollTo({
+            left: datePicker.scrollWidth / 2 - datePicker.clientWidth / 2,
+            behavior: 'smooth'
+        });
     </script>
 </body>
 </html>
