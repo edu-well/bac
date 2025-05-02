@@ -1,430 +1,148 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Jackie's Education Dashboard</title>
-    <style>
-        :root {
-            --primary: #4361ee;
-            --primary-light: rgba(67, 97, 238, 0.1);
-            --dark: #1a1a2e;
-            --light: #f8f9fa;
-            --gray: #6c757d;
-            --white: #ffffff;
-            --border-radius: 12px;
-            --shadow-sm: 0 1px 3px rgba(0,0,0,0.12);
-            --shadow-md: 0 4px 6px rgba(0,0,0,0.1);
-            --shadow-lg: 0 10px 15px rgba(0,0,0,0.1);
-        }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-        }
+1. has changed (change)
 
-        body {
-            background-color: #f5f7ff;
-            color: var(--dark);
-            line-height: 1.6;
-        }
+Correct Sentence: Social media has changed the way teenagers communicate.
+Grammar Rule: Present Perfect
+Why? Describes a change that started in the past and still affects now.
+Example: The internet has changed everything.
+Keywords:
+→ Tense: Present Perfect
+→ Signal: has + past participle
+→ Meaning: past → present
+→ Form: active verb
 
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 1.5rem;
-        }
 
-        /* Header */
-        .header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 2rem;
-        }
+---
 
-        .greeting h1 {
-            font-size: 1.8rem;
-            font-weight: 600;
-            margin-bottom: 0.25rem;
-        }
+2. have been created (create)
 
-        .greeting p {
-            color: var(--gray);
-            font-size: 0.95rem;
-        }
+Correct Sentence: Many new platforms have been created.
+Grammar Rule: Present Perfect Passive
+Why? The subject (platforms) receives the action.
+Example: Many tools have been invented recently.
+Keywords:
+→ Tense: Present Perfect
+→ Form: Passive (have been + past participle)
+→ Subject: receives the action
+→ Use with: things created, discovered, built...
 
-        /* Search Bar */
-        .search-container {
-            position: relative;
-            width: 300px;
-        }
 
-        .search-bar {
-            display: flex;
-            align-items: center;
-            background: var(--white);
-            border-radius: var(--border-radius);
-            padding: 0.75rem 1rem;
-            box-shadow: var(--shadow-sm);
-            width: 100%;
-        }
+---
 
-        .search-bar input {
-            border: none;
-            outline: none;
-            padding: 0 0.5rem;
-            width: 100%;
-            font-size: 0.95rem;
-            background: transparent;
-        }
+3. useful (use)
 
-        .search-bar i {
-            color: var(--gray);
-        }
+Correct Sentence: These tools are useful for staying in touch.
+Grammar Rule: Adjective after “be”
+Why? “are” is a linking verb → needs adjective, not noun or verb
+Example: These apps are helpful.
+Keywords:
+→ Word Type: Adjective
+→ Structure: be + adjective
+→ Describes: nouns (tools, apps...)
+→ Common Adjectives: useful, helpful, harmful
 
-        /* Search Results */
-        .search-results {
-            position: absolute;
-            top: 100%;
-            left: 0;
-            right: 0;
-            background: var(--white);
-            border-radius: 0 0 var(--border-radius) var(--border-radius);
-            box-shadow: var(--shadow-lg);
-            max-height: 300px;
-            overflow-y: auto;
-            display: none;
-            z-index: 100;
-        }
 
-        .search-result {
-            padding: 1rem;
-            border-bottom: 1px solid rgba(0,0,0,0.05);
-            cursor: pointer;
-            transition: background 0.2s;
-        }
+---
 
-        .search-result:hover {
-            background: var(--primary-light);
-        }
+4. dangerous (danger)
 
-        .search-result-title {
-            font-weight: 600;
-            color: var(--primary);
-            margin-bottom: 0.25rem;
-        }
+Correct Sentence: They can be dangerous if used too much.
+Grammar Rule: Adjective after “be”
+Why? After “be”, we describe something → use adjective
+Example: Junk food can be unhealthy.
+Keywords:
+→ Word Type: Adjective
+→ Structure: be + adjective
+→ Function: describes risk or quality
+→ Similar Forms: dangerous, risky, harmful
 
-        .search-result-desc {
-            font-size: 0.85rem;
-            color: var(--gray);
-        }
 
-        /* Glass Schedule Cards */
-        .schedule-container {
-            background: rgba(255, 255, 255, 0.7);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            border-radius: var(--border-radius);
-            box-shadow: var(--shadow-sm);
-            overflow: hidden;
-            margin-bottom: 1.5rem;
-        }
+---
 
-        .schedule-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 1.5rem;
-            border-bottom: 1px solid rgba(0,0,0,0.05);
-        }
+5. linked (link)
 
-        .schedule-title {
-            font-size: 1.25rem;
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
+Correct Sentence: Time has been linked to poor sleep.
+Grammar Rule: Present Perfect Passive
+Why? The subject is not doing the linking → passive voice needed
+Example: Pollution has been linked to disease.
+Keywords:
+→ Tense: Present Perfect
+→ Voice: Passive
+→ Form: has/have been + past participle
+→ Function: scientific cause/effect
 
-        .view-all {
-            color: var(--primary);
-            text-decoration: none;
-            font-weight: 500;
-            cursor: pointer;
-        }
 
-        .schedule-body {
-            padding: 1.5rem;
-        }
+---
 
-        .schedule-item {
-            display: flex;
-            align-items: flex-start;
-            gap: 1.5rem;
-            padding: 1rem;
-            border-radius: 8px;
-            margin-bottom: 1rem;
-            transition: background 0.2s;
-        }
+6. have already experienced (already / experience)
 
-        .schedule-item:last-child {
-            margin-bottom: 0;
-        }
+Correct Sentence: Teenagers have already experienced online pressure.
+Grammar Rule: Present Perfect with “already”
+Why? “already” fits with actions that happened before now
+Example: I have already seen that movie.
+Keywords:
+→ Tense: Present Perfect
+→ Signal Word: already
+→ Form: have + past participle
+→ Use When: recent past, still relevant
 
-        .schedule-item:hover {
-            background: rgba(255,255,255,0.5);
-        }
 
-        .schedule-time {
-            min-width: 80px;
-            font-weight: 600;
-            color: var(--primary);
-            background: rgba(67, 97, 238, 0.1);
-            padding: 0.5rem;
-            border-radius: 6px;
-            text-align: center;
-        }
+---
 
-        .schedule-details {
-            flex: 1;
-        }
+7. will need (need)
 
-        .schedule-class {
-            font-weight: 600;
-            margin-bottom: 0.25rem;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
+Correct Sentence: Parents will need to educate...
+Grammar Rule: Future Simple
+Why? Talks about something that will happen in the future
+Example: You will need a ticket.
+Keywords:
+→ Tense: Future
+→ Form: will + base verb
+→ Time: later, next, tomorrow, in the future
+→ No -ing or -ed
 
-        .schedule-meta {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 1rem;
-            font-size: 0.85rem;
-            color: var(--gray);
-        }
 
-        .schedule-meta span {
-            display: flex;
-            align-items: center;
-            gap: 0.25rem;
-        }
+---
 
-        /* Modal */
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0,0,0,0.5);
-            z-index: 1000;
-            justify-content: center;
-            align-items: center;
-        }
+8. have started (start)
 
-        .modal-content {
-            background: var(--white);
-            border-radius: var(--border-radius);
-            box-shadow: var(--shadow-lg);
-            width: 90%;
-            max-width: 800px;
-            max-height: 80vh;
-            overflow-y: auto;
-        }
+Correct Sentence: Some schools have started programs...
+Grammar Rule: Present Perfect
+Why? Describes a recent action with a present result
+Example: I have started exercising this month.
+Keywords:
+→ Tense: Present Perfect
+→ Time Signal: recent action
+→ Form: have + past participle
+→ Use For: news, changes, achievements
 
-        .modal-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 1.5rem;
-            border-bottom: 1px solid rgba(0,0,0,0.05);
-        }
 
-        .modal-title {
-            font-size: 1.5rem;
-            font-weight: 600;
-        }
+---
 
-        .modal-close {
-            background: none;
-            border: none;
-            font-size: 1.5rem;
-            cursor: pointer;
-            color: var(--gray);
-        }
+9. effects (effect)
 
-        .modal-body {
-            padding: 1.5rem;
-        }
+Correct Sentence: Understand the effects of digital life.
+Grammar Rule: Plural Noun
+Why? Refers to multiple consequences → need plural form
+Example: The effects of stress are serious.
+Keywords:
+→ Word Type: Noun
+→ Form: plural (s at the end)
+→ Use For: results, outcomes
+→ Confusion Alert: don’t confuse with “affect” (verb)
 
-        .full-schedule-item {
-            display: flex;
-            align-items: center;
-            gap: 1.5rem;
-            padding: 1.5rem;
-            border-bottom: 1px solid rgba(0,0,0,0.05);
-        }
 
-        .full-schedule-item:last-child {
-            border-bottom: none;
-        }
+---
 
-        .full-schedule-date {
-            min-width: 80px;
-            text-align: center;
-        }
+10. responsibly (responsible)
 
-        .full-schedule-day {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: var(--primary);
-        }
+Correct Sentence: If used responsibly, social media can help.
+Grammar Rule: Adverb of manner
+Why? Describes how something is used → adverb
+Example: She speaks politely.
+Keywords:
+→ Word Type: Adverb
+→ Form: adjective + -ly
+→ Answers: how?
+→ Common Adverbs: safely, quickly, respectfully
 
-        .full-schedule-month {
-            font-size: 0.8rem;
-            text-transform: uppercase;
-            color: var(--gray);
-        }
-
-        .full-schedule-details {
-            flex: 1;
-        }
-
-        .full-schedule-title {
-            font-weight: 600;
-            margin-bottom: 0.5rem;
-        }
-
-        .full-schedule-meta {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 1rem;
-            font-size: 0.9rem;
-            color: var(--gray);
-        }
-
-        /* Responsive */
-        @media (max-width: 768px) {
-            .header {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 1rem;
-            }
-            
-            .search-container {
-                width: 100%;
-            }
-            
-            .schedule-item {
-                flex-direction: column;
-                gap: 1rem;
-            }
-            
-            .schedule-time {
-                width: 100%;
-                text-align: left;
-            }
-        }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <header class="header">
-            <div class="greeting">
-                <h1>Hi Jackie</h1>
-                <p>Here's your schedule for today</p>
-            </div>
-            <div class="search-container">
-                <div class="search-bar">
-                    <i class="fas fa-search"></i>
-                    <input type="text" placeholder="Search classes..." id="searchInput">
-                </div>
-                <div class="search-results" id="searchResults">
-                    <!-- Search results will appear here -->
-                </div>
-            </div>
-        </header>
-
-        <div class="schedule-container">
-            <div class="schedule-header">
-                <h2 class="schedule-title"><i class="fas fa-calendar-day"></i> Today's Classes</h2>
-                <a class="view-all" id="viewAllBtn">View all</a>
-            </div>
-            <div class="schedule-body" id="todaySchedule">
-                <!-- Today's schedule will appear here -->
-            </div>
-        </div>
-    </div>
-
-    <!-- Modal for full schedule -->
-    <div class="modal" id="scheduleModal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h2 class="modal-title">Full Schedule</h2>
-                <button class="modal-close" id="closeModal">&times;</button>
-            </div>
-            <div class="modal-body">
-                <div id="fullSchedule">
-                    <!-- Full schedule will appear here -->
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // Sample data - fixed and complete
-            const scheduleData = {
-                today: [
-                    {
-                        time: "09:00 - 10:30",
-                        class: "Typography II",
-                        location: "Room CI, Art Building",
-                        instructor: "Gabriel Sutton",
-                        description: "Advanced typography principles and applications"
-                    },
-                    {
-                        time: "11:00 - 12:30",
-                        class: "Design Psychology",
-                        location: "Room D2, Design Center",
-                        instructor: "Jessie Reeves",
-                        description: "Understanding user behavior and cognitive processes"
-                    },
-                    {
-                        time: "14:00 - 15:30",
-                        class: "Color Theory",
-                        location: "Room A5, Art Building",
-                        instructor: "Marcus Wong",
-                        description: "Advanced color systems and their psychological impact"
-                    }
-                ],
-                upcoming: [
-                    {
-                        date: "2023-11-15",
-                        day: "15",
-                        month: "Nov",
-                        time: "10:00 - 12:00",
-                        class: "Midterm Exam",
-                        location: "Main Hall",
-                        description: "Design Principles midterm examination"
-                    },
-                    {
-                        date: "2023-11-18",
-                        day: "18",
-                        month: "Nov",
-                        time: "14:00 - 16:00",
-                        class: "Guest Lecture",
-                        location: "Auditorium",
-                        description: "UX Design Trends with industry expert Sarah Johnson"
-                    },
-                    {
-                        date: "2023-11-22",
-                        day: "22",
-                        month: "Nov",
-                        time
