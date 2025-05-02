@@ -6,37 +6,39 @@
     <title>Jackie's Education Dashboard</title>
     <style>
         :root {
-            --primary: #4361ee;
-            --primary-light: #e6f0ff;
-            --secondary: #3f37c9;
-            --accent: #4895ef;
-            --dark: #1a1a2e;
-            --light: #f8f9fa;
-            --gray: #6c757d;
+            --primary: #0071e3;
+            --primary-light: rgba(0, 113, 227, 0.1);
+            --dark: #1d1d1f;
+            --light: #f5f5f7;
+            --gray: #86868b;
+            --gray-light: #f5f5f7;
             --white: #ffffff;
-            --border-radius: 12px;
-            --shadow-sm: 0 1px 3px rgba(0,0,0,0.12);
-            --shadow-md: 0 4px 6px rgba(0,0,0,0.1);
-            --shadow-lg: 0 10px 15px rgba(0,0,0,0.1);
+            --border-radius: 18px;
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.08);
+            --shadow-md: 0 4px 12px rgba(0,0,0,0.08);
+            --shadow-lg: 0 12px 24px rgba(0,0,0,0.1);
+            --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
         }
 
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 
+                         'SF Pro Text', 'Helvetica Neue', sans-serif;
         }
 
         body {
-            background-color: #f5f7ff;
+            background-color: var(--light);
             color: var(--dark);
-            line-height: 1.6;
+            line-height: 1.5;
+            -webkit-font-smoothing: antialiased;
         }
 
         .container {
             max-width: 1200px;
             margin: 0 auto;
-            padding: 1.5rem;
+            padding: 2rem;
         }
 
         /* Header */
@@ -44,132 +46,177 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 2rem;
+            margin-bottom: 3rem;
         }
 
         .greeting h1 {
-            font-size: 1.8rem;
+            font-size: 2rem;
             font-weight: 600;
             margin-bottom: 0.25rem;
+            letter-spacing: -0.5px;
+            color: var(--dark);
         }
 
         .greeting p {
             color: var(--gray);
-            font-size: 0.95rem;
+            font-size: 1rem;
+            font-weight: 400;
         }
 
         /* Search Bar */
         .search-container {
             position: relative;
-            width: 300px;
+            width: 320px;
         }
 
         .search-bar {
             display: flex;
             align-items: center;
             background: var(--white);
-            border-radius: var(--border-radius);
-            padding: 0.75rem 1rem;
+            border-radius: 99px;
+            padding: 0.85rem 1.5rem;
             box-shadow: var(--shadow-sm);
             width: 100%;
+            transition: var(--transition);
+            border: 1px solid rgba(0,0,0,0.04);
+        }
+
+        .search-bar:focus-within {
+            box-shadow: var(--shadow-md);
+            border-color: rgba(0,0,0,0.1);
         }
 
         .search-bar input {
             border: none;
             outline: none;
-            padding: 0 0.5rem;
+            padding: 0 0.75rem;
             width: 100%;
-            font-size: 0.95rem;
+            font-size: 1rem;
+            font-weight: 400;
             background: transparent;
+            color: var(--dark);
+        }
+
+        .search-bar input::placeholder {
+            color: var(--gray);
+            opacity: 0.8;
         }
 
         .search-bar i {
             color: var(--gray);
+            font-size: 1rem;
         }
 
         /* Search Results */
         .search-results {
             position: absolute;
-            top: 100%;
+            top: calc(100% + 8px);
             left: 0;
             right: 0;
             background: var(--white);
-            border-radius: 0 0 var(--border-radius) var(--border-radius);
+            border-radius: var(--border-radius);
             box-shadow: var(--shadow-lg);
-            max-height: 300px;
+            max-height: 400px;
             overflow-y: auto;
             display: none;
             z-index: 100;
+            padding: 0.5rem 0;
         }
 
         .search-result {
-            padding: 1rem;
-            border-bottom: 1px solid rgba(0,0,0,0.05);
+            padding: 1rem 1.5rem;
             cursor: pointer;
-            transition: background 0.2s;
+            transition: var(--transition);
         }
 
         .search-result:hover {
-            background: var(--primary-light);
+            background: var(--gray-light);
         }
 
         .search-result-title {
-            font-weight: 600;
-            color: var(--primary);
+            font-weight: 500;
+            color: var(--dark);
             margin-bottom: 0.25rem;
+            font-size: 1rem;
         }
 
         .search-result-desc {
             font-size: 0.85rem;
             color: var(--gray);
+            line-height: 1.4;
+        }
+
+        .search-result-type {
+            display: inline-block;
+            margin-top: 0.5rem;
+            font-size: 0.75rem;
+            color: var(--primary);
+            background: var(--primary-light);
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
         }
 
         /* Glass Schedule Cards */
         .schedule-container {
-            background: rgba(255, 255, 255, 0.7);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
             border-radius: var(--border-radius);
             box-shadow: var(--shadow-sm);
             overflow: hidden;
             margin-bottom: 2rem;
+            border: 1px solid rgba(255,255,255,0.2);
+            transition: var(--transition);
+        }
+
+        .schedule-container:hover {
+            box-shadow: var(--shadow-md);
         }
 
         .schedule-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 1.5rem;
-            border-bottom: 1px solid rgba(0,0,0,0.05);
+            padding: 1.75rem 2rem;
+            border-bottom: 1px solid rgba(0,0,0,0.03);
         }
 
         .schedule-title {
-            font-size: 1.25rem;
+            font-size: 1.5rem;
             font-weight: 600;
+            letter-spacing: -0.25px;
+            color: var(--dark);
             display: flex;
             align-items: center;
-            gap: 0.5rem;
+            gap: 0.75rem;
         }
 
         .view-all {
             color: var(--primary);
             text-decoration: none;
             font-weight: 500;
+            font-size: 1rem;
             cursor: pointer;
+            transition: opacity 0.2s;
+        }
+
+        .view-all:hover {
+            opacity: 0.8;
         }
 
         .schedule-body {
-            padding: 1.5rem;
+            padding: 1.5rem 2rem;
         }
 
         .schedule-item {
             display: flex;
             align-items: flex-start;
-            gap: 1.5rem;
-            padding: 1rem;
-            border-radius: 8px;
+            gap: 1.75rem;
+            padding: 1.25rem;
+            border-radius: 14px;
             margin-bottom: 1rem;
-            transition: background 0.2s;
+            transition: var(--transition);
+            position: relative;
         }
 
         .schedule-item:last-child {
@@ -177,17 +224,20 @@
         }
 
         .schedule-item:hover {
-            background: rgba(255,255,255,0.7);
+            background: rgba(255,255,255,0.6);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-sm);
         }
 
         .schedule-time {
-            min-width: 80px;
-            font-weight: 600;
+            min-width: 90px;
+            font-weight: 500;
             color: var(--primary);
-            background: rgba(67, 97, 238, 0.1);
-            padding: 0.5rem;
-            border-radius: 6px;
+            background: var(--primary-light);
+            padding: 0.75rem;
+            border-radius: 10px;
             text-align: center;
+            font-size: 0.95rem;
         }
 
         .schedule-details {
@@ -195,25 +245,27 @@
         }
 
         .schedule-class {
-            font-weight: 600;
-            margin-bottom: 0.25rem;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
             display: flex;
             align-items: center;
-            gap: 0.5rem;
+            gap: 0.75rem;
+            font-size: 1.1rem;
+            color: var(--dark);
         }
 
         .schedule-meta {
             display: flex;
             flex-wrap: wrap;
-            gap: 1rem;
-            font-size: 0.85rem;
+            gap: 1.25rem;
+            font-size: 0.9rem;
             color: var(--gray);
         }
 
         .schedule-meta span {
             display: flex;
             align-items: center;
-            gap: 0.25rem;
+            gap: 0.5rem;
         }
 
         /* Modal */
@@ -225,38 +277,53 @@
             right: 0;
             bottom: 0;
             background: rgba(0,0,0,0.5);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
             z-index: 1000;
             justify-content: center;
             align-items: center;
+            padding: 2rem;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .modal.show {
+            opacity: 1;
         }
 
         .modal-content {
             background: var(--white);
             border-radius: var(--border-radius);
             box-shadow: var(--shadow-lg);
-            width: 90%;
+            width: 100%;
             max-width: 800px;
             max-height: 80vh;
             overflow-y: auto;
-            animation: modalFadeIn 0.3s ease;
+            transform: translateY(20px);
+            transition: transform 0.3s ease;
         }
 
-        @keyframes modalFadeIn {
-            from { opacity: 0; transform: translateY(-20px); }
-            to { opacity: 1; transform: translateY(0); }
+        .modal.show .modal-content {
+            transform: translateY(0);
         }
 
         .modal-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 1.5rem;
+            padding: 1.75rem 2rem;
             border-bottom: 1px solid rgba(0,0,0,0.05);
+            position: sticky;
+            top: 0;
+            background: var(--white);
+            z-index: 10;
         }
 
         .modal-title {
             font-size: 1.5rem;
             font-weight: 600;
+            color: var(--dark);
+            letter-spacing: -0.25px;
         }
 
         .modal-close {
@@ -265,22 +332,39 @@
             font-size: 1.5rem;
             cursor: pointer;
             color: var(--gray);
+            transition: color 0.2s;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+        }
+
+        .modal-close:hover {
+            background: rgba(0,0,0,0.03);
+            color: var(--dark);
         }
 
         .modal-body {
-            padding: 1.5rem;
+            padding: 1.5rem 2rem;
         }
 
         .full-schedule-item {
             display: flex;
             align-items: center;
-            gap: 1.5rem;
-            padding: 1.5rem;
-            border-bottom: 1px solid rgba(0,0,0,0.05);
+            gap: 2rem;
+            padding: 1.75rem;
+            border-bottom: 1px solid rgba(0,0,0,0.03);
+            transition: var(--transition);
         }
 
         .full-schedule-item:last-child {
             border-bottom: none;
+        }
+
+        .full-schedule-item:hover {
+            background: var(--gray-light);
         }
 
         .full-schedule-date {
@@ -289,15 +373,18 @@
         }
 
         .full-schedule-day {
-            font-size: 1.5rem;
-            font-weight: 700;
+            font-size: 1.75rem;
+            font-weight: 600;
             color: var(--primary);
+            line-height: 1;
         }
 
         .full-schedule-month {
-            font-size: 0.8rem;
+            font-size: 0.85rem;
             text-transform: uppercase;
             color: var(--gray);
+            letter-spacing: 0.5px;
+            margin-top: 0.25rem;
         }
 
         .full-schedule-details {
@@ -305,38 +392,80 @@
         }
 
         .full-schedule-title {
-            font-weight: 600;
-            margin-bottom: 0.5rem;
+            font-weight: 500;
+            margin-bottom: 0.75rem;
+            font-size: 1.2rem;
+            color: var(--dark);
         }
 
         .full-schedule-meta {
             display: flex;
             flex-wrap: wrap;
-            gap: 1rem;
-            font-size: 0.9rem;
+            gap: 1.5rem;
+            font-size: 0.95rem;
+            color: var(--gray);
+            margin-bottom: 0.75rem;
+        }
+
+        .full-schedule-desc {
+            font-size: 0.95rem;
+            line-height: 1.5;
             color: var(--gray);
         }
 
         /* Responsive */
         @media (max-width: 768px) {
+            .container {
+                padding: 1.5rem;
+            }
+            
             .header {
                 flex-direction: column;
                 align-items: flex-start;
-                gap: 1rem;
+                gap: 1.5rem;
+                margin-bottom: 2rem;
             }
             
             .search-container {
                 width: 100%;
             }
             
+            .schedule-header,
+            .modal-header {
+                padding: 1.5rem;
+            }
+            
+            .schedule-body,
+            .modal-body {
+                padding: 1.25rem;
+            }
+            
             .schedule-item {
                 flex-direction: column;
                 gap: 1rem;
+                padding: 1.5rem;
             }
             
             .schedule-time {
                 width: 100%;
                 text-align: left;
+            }
+            
+            .full-schedule-item {
+                flex-direction: column;
+                gap: 1.25rem;
+                align-items: flex-start;
+                padding: 1.5rem;
+            }
+            
+            .full-schedule-date {
+                display: flex;
+                align-items: center;
+                gap: 1rem;
+            }
+            
+            .full-schedule-day {
+                font-size: 1.5rem;
             }
         }
     </style>
@@ -345,13 +474,13 @@
     <div class="container">
         <header class="header">
             <div class="greeting">
-                <h1>Hi Jackie</h1>
-                <p>Here's your schedule for today</p>
+                <h1>Good morning, Jackie</h1>
+                <p>Your schedule for today</p>
             </div>
             <div class="search-container">
                 <div class="search-bar">
                     <i class="fas fa-search"></i>
-                    <input type="text" placeholder="Search classes..." id="searchInput">
+                    <input type="text" placeholder="Search classes, events..." id="searchInput">
                 </div>
                 <div class="search-results" id="searchResults">
                     <!-- Search results will appear here -->
@@ -361,7 +490,10 @@
 
         <div class="schedule-container">
             <div class="schedule-header">
-                <h2 class="schedule-title"><i class="fas fa-calendar-day"></i> Today's Classes</h2>
+                <h2 class="schedule-title">
+                    <i class="fas fa-calendar-day"></i>
+                    Today's Schedule
+                </h2>
                 <a class="view-all" id="viewAllBtn">View all</a>
             </div>
             <div class="schedule-body" id="todaySchedule">
@@ -395,14 +527,14 @@
                         class: "Typography II",
                         location: "Room CI, Art Building",
                         instructor: "Gabriel Sutton",
-                        description: "Advanced typography principles and applications"
+                        description: "Advanced typography principles and applications in modern design"
                     },
                     {
                         time: "11:00 - 12:30",
                         class: "Design Psychology",
                         location: "Room D2, Design Center",
                         instructor: "Jessie Reeves",
-                        description: "Understanding user behavior and cognitive processes"
+                        description: "Understanding cognitive processes in user experience design"
                     },
                     {
                         time: "14:00 - 15:30",
@@ -420,7 +552,7 @@
                         time: "10:00 - 12:00",
                         class: "Midterm Exam",
                         location: "Main Hall",
-                        description: "Design Principles midterm examination"
+                        description: "Design Principles midterm examination covering all concepts from weeks 1-6"
                     },
                     {
                         date: "2023-11-18",
@@ -429,7 +561,7 @@
                         time: "14:00 - 16:00",
                         class: "Guest Lecture",
                         location: "Auditorium",
-                        description: "UX Design Trends with industry expert Sarah Johnson"
+                        description: "Emerging UX Design Trends with industry expert Sarah Johnson from Apple"
                     },
                     {
                         date: "2023-11-22",
@@ -438,18 +570,27 @@
                         time: "09:00 - 11:00",
                         class: "Workshop",
                         location: "Design Lab",
-                        description: "Interactive prototyping tools and techniques"
+                        description: "Interactive prototyping tools and techniques using Figma and Principle"
+                    },
+                    {
+                        date: "2023-11-25",
+                        day: "25",
+                        month: "Nov",
+                        time: "13:00 - 15:00",
+                        class: "Group Project Review",
+                        location: "Team Room 3",
+                        description: "Final project presentation preparation and feedback session"
                     }
                 ],
                 searchData: [
                     {
                         title: "Typography II",
-                        description: "Advanced typography principles and applications",
+                        description: "Advanced typography principles and applications in modern design",
                         type: "Class"
                     },
                     {
                         title: "Design Psychology",
-                        description: "Understanding user behavior and cognitive processes",
+                        description: "Understanding cognitive processes in user experience design",
                         type: "Class"
                     },
                     {
@@ -459,7 +600,12 @@
                     },
                     {
                         title: "Midterm Exam",
-                        description: "Design Principles midterm examination",
+                        description: "Design Principles midterm examination covering all concepts",
+                        type: "Event"
+                    },
+                    {
+                        title: "Guest Lecture",
+                        description: "Emerging UX Design Trends with industry expert Sarah Johnson",
                         type: "Event"
                     }
                 ]
@@ -474,12 +620,12 @@
                     <div class="schedule-time">${item.time}</div>
                     <div class="schedule-details">
                         <div class="schedule-class">
-                            <i class="fas fa-book"></i>
+                            <i class="fas fa-book-open"></i>
                             ${item.class}
                         </div>
                         <div class="schedule-meta">
                             <span><i class="fas fa-map-marker-alt"></i> ${item.location}</span>
-                            <span><i class="fas fa-user"></i> ${item.instructor}</span>
+                            <span><i class="fas fa-user-graduate"></i> ${item.instructor}</span>
                         </div>
                     </div>
                 `;
@@ -502,82 +648,7 @@
                             <span><i class="fas fa-clock"></i> ${item.time}</span>
                             <span><i class="fas fa-map-marker-alt"></i> ${item.location}</span>
                         </div>
-                        <p>${item.description}</p>
+                        <div class="full-schedule-desc">${item.description}</div>
                     </div>
                 `;
-                fullSchedule.appendChild(fullItem);
-            });
-
-            // Modal functionality
-            const modal = document.getElementById('scheduleModal');
-            const viewAllBtn = document.getElementById('viewAllBtn');
-            const closeModal = document.getElementById('closeModal');
-
-            viewAllBtn.addEventListener('click', () => {
-                modal.style.display = 'flex';
-                document.body.style.overflow = 'hidden';
-            });
-
-            closeModal.addEventListener('click', () => {
-                modal.style.display = 'none';
-                document.body.style.overflow = 'auto';
-            });
-
-            window.addEventListener('click', (e) => {
-                if (e.target === modal) {
-                    modal.style.display = 'none';
-                    document.body.style.overflow = 'auto';
-                }
-            });
-
-            // Search functionality
-            const searchInput = document.getElementById('searchInput');
-            const searchResults = document.getElementById('searchResults');
-
-            searchInput.addEventListener('input', function() {
-                const term = this.value.toLowerCase();
-                searchResults.innerHTML = '';
-                
-                if (term.length < 2) {
-                    searchResults.style.display = 'none';
-                    return;
-                }
-                
-                const filtered = scheduleData.searchData.filter(item => 
-                    item.title.toLowerCase().includes(term) || 
-                    item.description.toLowerCase().includes(term)
-                );
-                
-                if (filtered.length > 0) {
-                    filtered.forEach(item => {
-                        const resultItem = document.createElement('div');
-                        resultItem.className = 'search-result';
-                        resultItem.innerHTML = `
-                            <div class="search-result-title">${item.title}</div>
-                            <div class="search-result-desc">${item.description}</div>
-                            <small>${item.type}</small>
-                        `;
-                        searchResults.appendChild(resultItem);
-                    });
-                    searchResults.style.display = 'block';
-                } else {
-                    const noResults = document.createElement('div');
-                    noResults.className = 'search-result';
-                    noResults.textContent = 'No results found';
-                    searchResults.appendChild(noResults);
-                    searchResults.style.display = 'block';
-                }
-            });
-
-            // Close search results when clicking outside
-            document.addEventListener('click', function(e) {
-                if (!e.target.closest('.search-container')) {
-                    searchResults.style.display = 'none';
-                }
-            });
-        });
-    </script>
-    <!-- Font Awesome -->
-    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
-</body>
-</html>
+            
