@@ -6,502 +6,332 @@
     <title>Jackie's Education Dashboard</title>
     <style>
         :root {
-            --primary-color: #5b6bf0;
-            --primary-light: #eef0fd;
-            --secondary-color: #f8f9fa;
-            --text-color: #2d3748;
-            --light-text: #718096;
-            --border-color: #e2e8f0;
+            --primary: #4361ee;
+            --primary-light: #e6f0ff;
+            --secondary: #3f37c9;
+            --accent: #4895ef;
+            --dark: #1a1a2e;
+            --light: #f8f9fa;
+            --gray: #6c757d;
+            --success: #4cc9f0;
+            --warning: #f8961e;
+            --danger: #f72585;
             --white: #ffffff;
-            --shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-            --shadow-hover: 0 6px 16px rgba(0, 0, 0, 0.12);
-            --high-priority: #f56565;
-            --medium-priority: #f6ad55;
-            --low-priority: #68d391;
-            --completed: #a0aec0;
+            --border-radius: 12px;
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.12);
+            --shadow-md: 0 4px 6px rgba(0,0,0,0.1);
+            --shadow-lg: 0 10px 15px rgba(0,0,0,0.1);
         }
 
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
         }
 
         body {
-            background-color: #f9fafb;
-            color: var(--text-color);
+            background-color: #f5f7ff;
+            color: var(--dark);
             line-height: 1.6;
         }
 
         .container {
             max-width: 1200px;
             margin: 0 auto;
-            padding: 1.5rem;
+            padding: 1rem;
         }
 
-        /* Header Styles */
+        /* Header */
         .header {
-            margin-bottom: 2rem;
-        }
-
-        .header-top {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 1.5rem;
+            margin-bottom: 2rem;
+            padding: 1rem 0;
+        }
+
+        .greeting h1 {
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: var(--dark);
+            margin-bottom: 0.25rem;
+        }
+
+        .greeting p {
+            color: var(--gray);
+            font-size: 0.95rem;
         }
 
         .search-bar {
-            position: relative;
+            display: flex;
+            align-items: center;
+            background: var(--white);
+            border-radius: var(--border-radius);
+            padding: 0.5rem 1rem;
+            box-shadow: var(--shadow-sm);
             width: 300px;
         }
 
-        .search-bar i {
-            position: absolute;
-            left: 12px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: var(--light-text);
-        }
-
         .search-bar input {
-            width: 100%;
-            padding: 0.75rem 1rem 0.75rem 2.5rem;
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            font-size: 0.95rem;
-            transition: all 0.2s;
-        }
-
-        .search-bar input:focus {
+            border: none;
             outline: none;
-            border-color: var(--primary-color);
-            box-shadow: 0 0 0 3px rgba(91, 107, 240, 0.2);
+            padding: 0.5rem;
+            width: 100%;
+            font-size: 0.95rem;
+            background: transparent;
         }
 
-        .profile {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
+        .search-bar i {
+            color: var(--gray);
+            margin-right: 0.5rem;
         }
 
-        .profile-img {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 2px solid var(--primary-light);
+        /* Stats Cards */
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
         }
 
-        .welcome h1 {
+        .stat-card {
+            background: var(--white);
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            box-shadow: var(--shadow-sm);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .stat-value {
             font-size: 2rem;
             font-weight: 700;
-            margin-bottom: 0.25rem;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
         }
 
-        .welcome p {
-            color: var(--light-text);
-            font-size: 1rem;
-        }
-
-        /* Counters */
-        .counters {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-            gap: 1rem;
-            margin: 1.5rem 0;
-        }
-
-        .counter-card {
-            background: var(--white);
-            border-radius: 10px;
-            padding: 1.25rem;
-            text-align: center;
-            box-shadow: var(--shadow);
-            transition: transform 0.2s;
-        }
-
-        .counter-card:hover {
-            transform: translateY(-3px);
-        }
-
-        .counter-value {
-            font-size: 2.25rem;
-            font-weight: 700;
-            color: var(--primary-color);
-            margin-bottom: 0.25rem;
-        }
-
-        .counter-label {
-            color: var(--light-text);
+        .stat-label {
+            color: var(--gray);
             font-size: 0.9rem;
         }
 
-        /* Main Content Grid */
-        .main-content {
+        /* Main Content */
+        .main-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 1.5rem;
         }
 
         @media (max-width: 768px) {
-            .main-content {
+            .main-grid {
                 grid-template-columns: 1fr;
             }
         }
 
-        /* Section Styles */
-        .section {
+        /* Panel Styles */
+        .panel {
             background: var(--white);
-            border-radius: 12px;
-            padding: 1.5rem;
-            box-shadow: var(--shadow);
-            height: fit-content;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow-sm);
+            overflow: hidden;
         }
 
-        .section-header {
+        .panel-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 1.5rem;
+            padding: 1rem 1.5rem;
+            border-bottom: 1px solid rgba(0,0,0,0.05);
         }
 
-        .section-header h2 {
-            font-size: 1.25rem;
+        .panel-title {
+            font-size: 1.2rem;
             font-weight: 600;
             display: flex;
             align-items: center;
             gap: 0.5rem;
         }
 
-        .see-all {
-            color: var(--primary-color);
+        .panel-actions a {
+            color: var(--primary);
             text-decoration: none;
             font-size: 0.9rem;
             font-weight: 500;
-            transition: opacity 0.2s;
         }
 
-        .see-all:hover {
-            opacity: 0.8;
+        .panel-body {
+            padding: 1.5rem;
         }
 
-        /* Today's Classes Section */
-        .classes-list {
+        /* Schedule List */
+        .schedule-list {
             display: grid;
             gap: 1rem;
         }
 
-        .class-card {
-            padding: 1.25rem;
-            border-radius: 8px;
-            background: var(--primary-light);
-            transition: transform 0.2s, box-shadow 0.2s;
-            cursor: pointer;
-            display: grid;
-            grid-template-columns: auto 1fr;
+        .schedule-item {
+            display: flex;
+            align-items: flex-start;
             gap: 1rem;
-            align-items: center;
-        }
-
-        .class-card:hover {
-            transform: translateY(-2px);
-            box-shadow: var(--shadow-hover);
-        }
-
-        .class-icon {
-            width: 48px;
-            height: 48px;
-            background: var(--white);
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--primary-color);
-            font-size: 1.25rem;
-        }
-
-        .class-content {
-            display: flex;
-            flex-direction: column;
-            gap: 0.25rem;
-        }
-
-        .class-title {
-            font-size: 1.1rem;
-            font-weight: 600;
-            color: var(--primary-color);
-        }
-
-        .class-detail {
-            display: flex;
-            align-items: center;
-            font-size: 0.9rem;
-            color: var(--light-text);
-            gap: 0.5rem;
-        }
-
-        .class-detail i {
-            width: 16px;
-            text-align: center;
-        }
-
-        .class-time {
-            margin-top: 0.5rem;
-            font-size: 0.85rem;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            color: var(--text-color);
-            font-weight: 500;
-        }
-
-        /* Tasks Section */
-        .tasks-list {
-            display: grid;
-            gap: 1rem;
-        }
-
-        .task-card {
-            padding: 1.25rem;
-            border-radius: 8px;
-            background: var(--secondary-color);
-            transition: transform 0.2s, box-shadow 0.2s;
-            cursor: pointer;
-        }
-
-        .task-card:hover {
-            transform: translateY(-2px);
-            box-shadow: var(--shadow-hover);
-        }
-
-        .task-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 0.75rem;
-        }
-
-        .task-title {
-            font-size: 1rem;
-            font-weight: 600;
-        }
-
-        .task-subject {
-            font-size: 0.85rem;
-            color: var(--light-text);
-            margin-bottom: 0.5rem;
-        }
-
-        .deadline-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0.75rem 1rem;
-            background: var(--white);
-            border-radius: 6px;
-            margin-bottom: 0.5rem;
-            border-left: 4px solid var(--high-priority);
-        }
-
-        .deadline-item.medium {
-            border-left-color: var(--medium-priority);
-        }
-
-        .deadline-item.low {
-            border-left-color: var(--low-priority);
-        }
-
-        .deadline-text {
-            font-weight: 500;
-        }
-
-        .deadline-days {
-            color: var(--high-priority);
-            font-weight: 600;
-            background: rgba(245, 101, 101, 0.1);
-            padding: 0.25rem 0.5rem;
-            border-radius: 4px;
-            font-size: 0.85rem;
-        }
-
-        .deadline-days.medium {
-            color: var(--medium-priority);
-            background: rgba(246, 173, 85, 0.1);
-        }
-
-        .deadline-days.low {
-            color: var(--low-priority);
-            background: rgba(104, 211, 145, 0.1);
-        }
-
-        .task-checkbox {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            margin-top: 0.75rem;
-        }
-
-        .task-checkbox input {
-            width: 18px;
-            height: 18px;
-            cursor: pointer;
-        }
-
-        .task-checkbox label {
-            font-size: 0.95rem;
-            cursor: pointer;
-        }
-
-        .task-checkbox.completed label {
-            text-decoration: line-through;
-            color: var(--completed);
-        }
-
-        /* Upcoming Events Section */
-        .events-list {
-            display: grid;
-            gap: 1rem;
-        }
-
-        .event-card {
             padding: 1rem;
             border-radius: 8px;
-            background: var(--white);
-            border-left: 4px solid var(--primary-color);
-            display: grid;
-            grid-template-columns: auto 1fr;
-            gap: 1rem;
-            align-items: center;
+            transition: background 0.2s;
         }
 
-        .event-date {
-            text-align: center;
-        }
-
-        .event-day {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: var(--primary-color);
-        }
-
-        .event-month {
-            font-size: 0.8rem;
-            text-transform: uppercase;
-            color: var(--light-text);
-        }
-
-        .event-content {
-            display: flex;
-            flex-direction: column;
-            gap: 0.25rem;
-        }
-
-        .event-title {
-            font-size: 1rem;
-            font-weight: 600;
-        }
-
-        .event-time {
-            font-size: 0.85rem;
-            color: var(--light-text);
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        /* Resources Section */
-        .resources-list {
-            display: grid;
-            gap: 1rem;
-        }
-
-        .resource-card {
-            padding: 1rem;
-            border-radius: 8px;
-            background: var(--white);
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            transition: transform 0.2s;
-        }
-
-        .resource-card:hover {
-            transform: translateY(-2px);
-        }
-
-        .resource-icon {
-            width: 40px;
-            height: 40px;
+        .schedule-item:hover {
             background: var(--primary-light);
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--primary-color);
-            font-size: 1rem;
         }
 
-        .resource-info {
+        .schedule-time {
+            min-width: 80px;
+            font-weight: 600;
+            color: var(--primary);
+        }
+
+        .schedule-details {
             flex: 1;
         }
 
-        .resource-title {
-            font-size: 0.95rem;
+        .schedule-title {
             font-weight: 600;
             margin-bottom: 0.25rem;
         }
 
-        .resource-meta {
-            font-size: 0.8rem;
-            color: var(--light-text);
+        .schedule-meta {
             display: flex;
+            gap: 1rem;
+            font-size: 0.85rem;
+            color: var(--gray);
+        }
+
+        .schedule-meta span {
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+        }
+
+        /* Tasks List */
+        .task-list {
+            display: grid;
             gap: 1rem;
         }
 
-        .resource-action {
-            color: var(--primary-color);
-            font-size: 0.9rem;
-            font-weight: 500;
+        .task-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            border-radius: 8px;
+            background: var(--white);
+            box-shadow: var(--shadow-sm);
         }
 
-        /* Responsive Styles */
+        .task-checkbox {
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--gray);
+            border-radius: 4px;
+            appearance: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .task-checkbox:checked {
+            background: var(--primary);
+            border-color: var(--primary);
+        }
+
+        .task-checkbox:checked::after {
+            content: "✓";
+            color: white;
+            font-size: 0.8rem;
+        }
+
+        .task-content {
+            flex: 1;
+        }
+
+        .task-title {
+            font-weight: 500;
+            margin-bottom: 0.25rem;
+        }
+
+        .task-info {
+            display: flex;
+            gap: 1rem;
+            font-size: 0.85rem;
+            color: var(--gray);
+        }
+
+        .task-priority {
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .priority-high {
+            background: rgba(247, 37, 133, 0.1);
+            color: var(--danger);
+        }
+
+        .priority-medium {
+            background: rgba(248, 150, 30, 0.1);
+            color: var(--warning);
+        }
+
+        /* Upcoming Section */
+        .upcoming-list {
+            display: grid;
+            gap: 1rem;
+        }
+
+        .upcoming-item {
+            padding: 1rem;
+            border-left: 4px solid var(--accent);
+            background: var(--white);
+            border-radius: 8px;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .upcoming-date {
+            font-size: 0.85rem;
+            color: var(--gray);
+            margin-bottom: 0.25rem;
+        }
+
+        .upcoming-title {
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+
+        .upcoming-details {
+            font-size: 0.9rem;
+            color: var(--gray);
+        }
+
+        /* Responsive */
         @media (max-width: 768px) {
-            .header-top {
+            .header {
                 flex-direction: column;
+                align-items: flex-start;
                 gap: 1rem;
-                align-items: stretch;
             }
             
             .search-bar {
                 width: 100%;
             }
             
-            .profile {
-                justify-content: flex-end;
-            }
-            
-            .counters {
+            .stats {
                 grid-template-columns: 1fr;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .container {
-                padding: 1rem;
-            }
-            
-            .section {
-                padding: 1.25rem 1rem;
-            }
-            
-            .class-card, .event-card {
-                grid-template-columns: 1fr;
-            }
-            
-            .class-icon, .event-date {
-                display: none;
             }
         }
     </style>
@@ -509,191 +339,274 @@
 <body>
     <div class="container">
         <header class="header">
-            <div class="header-top">
-                <div class="search-bar">
-                    <i class="fas fa-search"></i>
-                    <input type="text" placeholder="Search classes, tasks...">
-                </div>
-                <div class="profile">
-                    <img src="https://ui-avatars.com/api/?name=Jackie&background=5b6bf0&color=fff" alt="Profile" class="profile-img">
-                    <span>Jackie</span>
-                </div>
+            <div class="greeting">
+                <h1>Good morning, Jackie</h1>
+                <p>Here's what's happening today</p>
             </div>
-            
-            <div class="welcome">
-                <h1>Hi Jackie</h1>
-                <p>Here's your education dashboard for today</p>
-            </div>
-            
-            <div class="counters">
-                <div class="counter-card">
-                    <div class="counter-value" id="class-counter">3</div>
-                    <div class="counter-label">Today's Classes</div>
-                </div>
-                <div class="counter-card">
-                    <div class="counter-value" id="task-counter">6</div>
-                    <div class="counter-label">Pending Tasks</div>
-                </div>
-                <div class="counter-card">
-                    <div class="counter-value" id="deadline-counter">2</div>
-                    <div class="counter-label">Upcoming Deadlines</div>
-                </div>
+            <div class="search-bar">
+                <i class="fas fa-search"></i>
+                <input type="text" placeholder="Search classes, tasks...">
             </div>
         </header>
 
-        <main class="main-content">
-            <section class="section">
-                <div class="section-header">
-                    <h2><i class="fas fa-calendar-day"></i> TODAY'S CLASSES</h2>
-                    <a href="#" class="see-all">See all</a>
-                </div>
-                
-                <div class="classes-list" id="today-classes">
-                    <!-- Classes loaded via JavaScript -->
-                </div>
-            </section>
+        <div class="stats">
+            <div class="stat-card">
+                <div class="stat-value" id="class-count">3</div>
+                <div class="stat-label">Today's Classes</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="task-count">5</div>
+                <div class="stat-label">Pending Tasks</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="deadline-count">2</div>
+                <div class="stat-label">Upcoming Deadlines</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="resource-count">3</div>
+                <div class="stat-label">Study Resources</div>
+            </div>
+        </div>
 
-            <section class="section">
-                <div class="section-header">
-                    <h2><i class="fas fa-tasks"></i> YOUR TASKS</h2>
-                    <a href="#" class="see-all">See all</a>
+        <div class="main-grid">
+            <div class="panel">
+                <div class="panel-header">
+                    <h2 class="panel-title"><i class="fas fa-calendar-day"></i> Today's Schedule</h2>
+                    <div class="panel-actions">
+                        <a href="#">View all</a>
+                    </div>
                 </div>
-                
-                <div class="tasks-list" id="tasks">
-                    <!-- Tasks loaded via JavaScript -->
+                <div class="panel-body">
+                    <div class="schedule-list" id="schedule">
+                        <!-- Filled by JavaScript -->
+                    </div>
                 </div>
-            </section>
+            </div>
 
-            <section class="section">
-                <div class="section-header">
-                    <h2><i class="fas fa-calendar-week"></i> UPCOMING EVENTS</h2>
-                    <a href="#" class="see-all">See all</a>
+            <div class="panel">
+                <div class="panel-header">
+                    <h2 class="panel-title"><i class="fas fa-tasks"></i> Your Tasks</h2>
+                    <div class="panel-actions">
+                        <a href="#">View all</a>
+                    </div>
                 </div>
-                
-                <div class="events-list" id="upcoming-events">
-                    <!-- Events loaded via JavaScript -->
+                <div class="panel-body">
+                    <div class="task-list" id="tasks">
+                        <!-- Filled by JavaScript -->
+                    </div>
                 </div>
-            </section>
+            </div>
 
-            <section class="section">
-                <div class="section-header">
-                    <h2><i class="fas fa-book-open"></i> STUDY RESOURCES</h2>
-                    <a href="#" class="see-all">See all</a>
+            <div class="panel">
+                <div class="panel-header">
+                    <h2 class="panel-title"><i class="fas fa-calendar-week"></i> Upcoming</h2>
+                    <div class="panel-actions">
+                        <a href="#">View all</a>
+                    </div>
                 </div>
-                
-                <div class="resources-list" id="study-resources">
-                    <!-- Resources loaded via JavaScript -->
+                <div class="panel-body">
+                    <div class="upcoming-list" id="upcoming">
+                        <!-- Filled by JavaScript -->
+                    </div>
                 </div>
-            </section>
-        </main>
+            </div>
+
+            <div class="panel">
+                <div class="panel-header">
+                    <h2 class="panel-title"><i class="fas fa-book"></i> Resources</h2>
+                    <div class="panel-actions">
+                        <a href="#">View all</a>
+                    </div>
+                </div>
+                <div class="panel-body">
+                    <div class="upcoming-list" id="resources">
+                        <!-- Filled by JavaScript -->
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // Data for the dashboard
-            const dashboardData = {
-                "todayClasses": [
+            // Sample data
+            const data = {
+                schedule: [
                     {
-                        "title": "The Basic of Typography II",
-                        "location": "Room CI, Faculty of Art & Design",
-                        "instructor": "Gabriel Sutton",
-                        "time": "09:00 - 10:30 AM",
-                        "icon": "fas fa-font"
+                        time: "09:00 AM",
+                        title: "Typography II",
+                        location: "Room CI, Art Building",
+                        instructor: "Gabriel Sutton"
                     },
                     {
-                        "title": "Design Psychology: Principles",
-                        "location": "Room CI, Faculty of Art & Design",
-                        "instructor": "Jessie Reeves",
-                        "time": "11:00 - 12:30 PM",
-                        "icon": "fas fa-brain"
+                        time: "11:00 AM",
+                        title: "Design Psychology",
+                        location: "Room D2, Design Center",
+                        instructor: "Jessie Reeves"
                     },
                     {
-                        "title": "Advanced Color Theory",
-                        "location": "Room D2, Faculty of Art & Design",
-                        "instructor": "Marcus Wong",
-                        "time": "02:00 - 03:30 PM",
-                        "icon": "fas fa-palette"
+                        time: "02:00 PM",
+                        title: "Color Theory",
+                        location: "Room A5, Art Building",
+                        instructor: "Marcus Wong"
                     }
                 ],
-                "tasks": {
-                    "deadlines": [
-                        {
-                            "task": "Typography Assignment",
-                            "daysLeft": "3",
-                            "subject": "Typography II",
-                            "priority": "high"
-                        },
-                        {
-                            "task": "Design Psychology Paper",
-                            "daysLeft": "10",
-                            "subject": "Design Psychology",
-                            "priority": "medium"
-                        }
-                    ],
-                    "otherTasks": [
-                        {
-                            "name": "Read Typography Chapter 4",
-                            "subject": "Typography II",
-                            "completed": false
-                        },
-                        {
-                            "name": "Prepare presentation slides",
-                            "subject": "Color Theory",
-                            "completed": false
-                        },
-                        {
-                            "name": "Submit weekly reflection",
-                            "subject": "Design Psychology",
-                            "completed": true
-                        },
-                        {
-                            "name": "Review portfolio pieces",
-                            "subject": "Portfolio",
-                            "completed": false
-                        }
-                    ]
-                },
-                "upcomingEvents": [
+                tasks: [
                     {
-                        "title": "Midterm Exam: Design Principles",
-                        "date": "2023-11-15",
-                        "time": "10:00 AM - 12:00 PM",
-                        "location": "Main Hall"
+                        title: "Complete typography assignment",
+                        course: "Typography II",
+                        due: "Due in 3 days",
+                        priority: "high",
+                        completed: false
                     },
                     {
-                        "title": "Guest Lecture: UX Design Trends",
-                        "date": "2023-11-18",
-                        "time": "02:00 PM - 04:00 PM",
-                        "location": "Auditorium"
+                        title: "Read chapter 4 materials",
+                        course: "Design Psychology",
+                        due: "Due tomorrow",
+                        priority: "medium",
+                        completed: false
                     },
                     {
-                        "title": "Project Submission Deadline",
-                        "date": "2023-11-22",
-                        "time": "11:59 PM",
-                        "location": "Online"
+                        title: "Prepare presentation slides",
+                        course: "Color Theory",
+                        due: "No due date",
+                        priority: "low",
+                        completed: true
+                    },
+                    {
+                        title: "Submit weekly reflection",
+                        course: "Design Psychology",
+                        due: "Due in 5 days",
+                        priority: "medium",
+                        completed: false
                     }
                 ],
-                "studyResources": [
+                upcoming: [
                     {
-                        "title": "Typography Fundamentals PDF",
-                        "type": "PDF",
-                        "course": "Typography II",
-                        "uploaded": "2 days ago"
+                        date: "Nov 15, 2023",
+                        title: "Midterm Exam",
+                        details: "Design Principles | Main Hall | 10:00 AM"
                     },
                     {
-                        "title": "Color Theory Slides",
-                        "type": "Presentation",
-                        "course": "Color Theory",
-                        "uploaded": "1 week ago"
+                        date: "Nov 18, 2023",
+                        title: "Guest Lecture",
+                        details: "UX Design Trends | Auditorium | 2:00 PM"
+                    }
+                ],
+                resources: [
+                    {
+                        title: "Typography Fundamentals",
+                        type: "PDF",
+                        course: "Typography II"
                     },
                     {
-                        "title": "Design Psychology Case Studies",
-                        "type": "Document",
-                        "course": "Design Psychology",
-                        "uploaded": "3 days ago"
+                        title: "Color Theory Slides",
+                        type: "Presentation",
+                        course: "Color Theory"
+                    },
+                    {
+                        title: "Design Psychology Cases",
+                        type: "Document",
+                        course: "Design Psychology"
                     }
                 ]
             };
 
             // Initialize counters
-            document.getElementById('cl
+            document.getElementById('class-count').textContent = data.schedule.length;
+            document.getElementById('task-count').textContent = data.tasks.length;
+            document.getElementById('deadline-count').textContent = data.upcoming.length;
+            document.getElementById('resource-count').textContent = data.resources.length;
+
+            // Render schedule
+            const scheduleContainer = document.getElementById('schedule');
+            data.schedule.forEach(item => {
+                const element = document.createElement('div');
+                element.className = 'schedule-item';
+                element.innerHTML = `
+                    <div class="schedule-time">${item.time}</div>
+                    <div class="schedule-details">
+                        <div class="schedule-title">${item.title}</div>
+                        <div class="schedule-meta">
+                            <span><i class="fas fa-map-marker-alt"></i> ${item.location}</span>
+                            <span><i class="fas fa-user"></i> ${item.instructor}</span>
+                        </div>
+                    </div>
+                `;
+                scheduleContainer.appendChild(element);
+            });
+
+            // Render tasks
+            const tasksContainer = document.getElementById('tasks');
+            data.tasks.forEach(task => {
+                const element = document.createElement('div');
+                element.className = 'task-item';
+                element.innerHTML = `
+                    <input type="checkbox" class="task-checkbox" ${task.completed ? 'checked' : ''}>
+                    <div class="task-content">
+                        <div class="task-title">${task.title}</div>
+                        <div class="task-info">
+                            <span>${task.course}</span>
+                            <span>${task.due}</span>
+                        </div>
+                    </div>
+                    <div class="task-priority priority-${task.priority}">${task.priority}</div>
+                `;
+                tasksContainer.appendChild(element);
+            });
+
+            // Render upcoming
+            const upcomingContainer = document.getElementById('upcoming');
+            data.upcoming.forEach(item => {
+                const element = document.createElement('div');
+                element.className = 'upcoming-item';
+                element.innerHTML = `
+                    <div class="upcoming-date">${item.date}</div>
+                    <div class="upcoming-title">${item.title}</div>
+                    <div class="upcoming-details">${item.details}</div>
+                `;
+                upcomingContainer.appendChild(element);
+            });
+
+            // Render resources
+            const resourcesContainer = document.getElementById('resources');
+            data.resources.forEach(item => {
+                const element = document.createElement('div');
+                element.className = 'upcoming-item';
+                element.innerHTML = `
+                    <div class="upcoming-title">${item.title}</div>
+                    <div class="upcoming-details">
+                        <span>${item.type}</span> • <span>${item.course}</span>
+                    </div>
+                `;
+                resourcesContainer.appendChild(element);
+            });
+
+            // Search functionality
+            const searchInput = document.querySelector('.search-bar input');
+            searchInput.addEventListener('input', function() {
+                const term = this.value.toLowerCase();
+                
+                document.querySelectorAll('.schedule-item, .task-item, .upcoming-item').forEach(item => {
+                    const text = item.textContent.toLowerCase();
+                    item.style.display = text.includes(term) ? 'flex' : 'none';
+                });
+            });
+
+            // Task checkbox functionality
+            document.querySelectorAll('.task-checkbox').forEach(checkbox => {
+                checkbox.addEventListener('change', function() {
+                    const taskItem = this.closest('.task-item');
+                    if (this.checked) {
+                        taskItem.style.opacity = '0.7';
+                    } else {
+                        taskItem.style.opacity = '1';
+                    }
+                });
+            });
+        });
+    </script>
+    <!-- Font Awesome -->
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+</body>
+</html>
