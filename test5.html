@@ -39,14 +39,19 @@
             max-width: 1200px;
             margin: 0 auto;
             padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
 
         /* Header */
         .header {
             display: flex;
-            justify-content: space-between;
+            flex-direction: column;
             align-items: center;
             margin-bottom: 2.5rem;
+            width: 100%;
+            text-align: center;
         }
 
         .greeting h1 {
@@ -60,12 +65,15 @@
             color: var(--gray);
             font-size: 0.95rem;
             font-weight: 400;
+            margin-bottom: 1.5rem;
         }
 
-        /* Search Bar */
+        /* Centered Search Bar */
         .search-container {
             position: relative;
-            width: 320px;
+            width: 100%;
+            max-width: 600px;
+            margin: 0 auto;
         }
 
         .search-bar {
@@ -198,8 +206,185 @@
             font-size: 0.9rem;
         }
 
-        /* Rest of your existing styles... */
-        /* [Previous CSS styles for schedule-container, modal, etc.] */
+        /* Result Detail Modal */
+        .result-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.5);
+            backdrop-filter: blur(5px);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .result-modal.show {
+            opacity: 1;
+        }
+
+        .result-modal-content {
+            background: var(--white);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow-lg);
+            width: 100%;
+            max-width: 800px;
+            max-height: 80vh;
+            overflow-y: auto;
+            transform: translateY(20px);
+            transition: transform 0.3s ease;
+        }
+
+        .result-modal.show .result-modal-content {
+            transform: translateY(0);
+        }
+
+        .result-modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem;
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+        }
+
+        .result-modal-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .result-modal-close {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--gray);
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: background 0.2s;
+        }
+
+        .result-modal-close:hover {
+            background: rgba(0,0,0,0.05);
+        }
+
+        .result-modal-body {
+            padding: 1.5rem;
+        }
+
+        .result-detail-card {
+            background: var(--white);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow-sm);
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            border: 1px solid rgba(0,0,0,0.05);
+        }
+
+        .result-detail-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .result-detail-icon {
+            width: 48px;
+            height: 48px;
+            background: var(--primary-light);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary);
+            font-size: 1.25rem;
+        }
+
+        .result-detail-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--dark);
+        }
+
+        .result-detail-type {
+            font-size: 0.85rem;
+            color: var(--primary);
+            background: var(--primary-light);
+            padding: 0.25rem 0.75rem;
+            border-radius: 99px;
+            margin-left: auto;
+        }
+
+        .result-detail-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .detail-box {
+            background: var(--light);
+            border-radius: 10px;
+            padding: 1.25rem;
+            transition: var(--transition);
+        }
+
+        .detail-box:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .detail-box-title {
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: var(--gray);
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .detail-box-content {
+            font-size: 1rem;
+            font-weight: 500;
+            color: var(--dark);
+        }
+
+        .result-detail-description {
+            margin-top: 1.5rem;
+            padding: 1.25rem;
+            background: var(--light);
+            border-radius: 10px;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            color: var(--dark);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .container {
+                padding: 1.5rem;
+            }
+            
+            .result-detail-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .result-modal-body {
+                padding: 1rem;
+            }
+        }
     </style>
 </head>
 <body>
@@ -207,20 +392,72 @@
         <header class="header">
             <div class="greeting">
                 <h1>Hi Jackie</h1>
-                <p>Here's your schedule for today</p>
+                <p>Search for your classes and schedule</p>
             </div>
             <div class="search-container">
                 <div class="search-bar">
                     <i class="fas fa-search"></i>
-                    <input type="text" placeholder="Search classes..." id="searchInput">
+                    <input type="text" placeholder="Search classes, events, or instructors..." id="searchInput">
                 </div>
                 <div class="search-results" id="searchResults">
                     <!-- Search results will appear here -->
                 </div>
             </div>
         </header>
+    </div>
 
-        <!-- Rest of your HTML content... -->
+    <!-- Result Detail Modal -->
+    <div class="result-modal" id="resultModal">
+        <div class="result-modal-content">
+            <div class="result-modal-header">
+                <h2 class="result-modal-title" id="resultModalTitle">
+                    <i class="fas fa-book" id="resultModalIcon"></i>
+                    <span id="resultTitleText">Class Details</span>
+                </h2>
+                <button class="result-modal-close" id="closeResultModal">&times;</button>
+            </div>
+            <div class="result-modal-body">
+                <div class="result-detail-card">
+                    <div class="result-detail-header">
+                        <div class="result-detail-icon" id="detailMainIcon">
+                            <i class="fas fa-book"></i>
+                        </div>
+                        <div class="result-detail-title" id="detailMainTitle">Class Title</div>
+                        <div class="result-detail-type" id="detailType">Class</div>
+                    </div>
+                    
+                    <div class="result-detail-content">
+                        <div class="detail-box">
+                            <div class="detail-box-title">
+                                <i class="fas fa-clock"></i>
+                                Time
+                            </div>
+                            <div class="detail-box-content" id="detailTime">09:00 - 10:30 AM</div>
+                        </div>
+                        
+                        <div class="detail-box">
+                            <div class="detail-box-title">
+                                <i class="fas fa-map-marker-alt"></i>
+                                Location
+                            </div>
+                            <div class="detail-box-content" id="detailLocation">Room CI, Art Building</div>
+                        </div>
+                        
+                        <div class="detail-box">
+                            <div class="detail-box-title">
+                                <i class="fas fa-user-graduate"></i>
+                                Instructor
+                            </div>
+                            <div class="detail-box-content" id="detailInstructor">Gabriel Sutton</div>
+                        </div>
+                    </div>
+                    
+                    <div class="result-detail-description" id="detailDescription">
+                        Advanced typography principles and applications in modern design.
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
     <script>
@@ -229,48 +466,80 @@
             const scheduleData = {
                 searchData: [
                     {
+                        id: 1,
                         title: "Typography II",
-                        description: "Advanced typography principles and applications in modern design",
+                        description: "Advanced typography principles and applications in modern design. This course covers type anatomy, hierarchy, and layout systems.",
                         type: "Class",
-                        icon: "fa-font"
+                        icon: "fa-font",
+                        time: "09:00 - 10:30 AM",
+                        location: "Room CI, Art Building",
+                        instructor: "Gabriel Sutton",
+                        credits: "3 Credits",
+                        duration: "90 mins"
                     },
                     {
+                        id: 2,
                         title: "Design Psychology",
-                        description: "Understanding cognitive processes in user experience design",
+                        description: "Understanding cognitive processes in user experience design. Explore how users perceive and interact with digital interfaces.",
                         type: "Class",
-                        icon: "fa-brain"
+                        icon: "fa-brain",
+                        time: "11:00 - 12:30 PM",
+                        location: "Room D2, Design Center",
+                        instructor: "Jessie Reeves",
+                        credits: "3 Credits",
+                        duration: "90 mins"
                     },
                     {
+                        id: 3,
                         title: "Color Theory",
-                        description: "Advanced color systems and their psychological impact",
+                        description: "Advanced color systems and their psychological impact. Learn color harmony, contrast, and emotional responses to color.",
                         type: "Class", 
-                        icon: "fa-palette"
+                        icon: "fa-palette",
+                        time: "02:00 - 03:30 PM",
+                        location: "Room A5, Art Building",
+                        instructor: "Marcus Wong",
+                        credits: "3 Credits",
+                        duration: "90 mins"
                     },
                     {
+                        id: 4,
                         title: "Midterm Exam",
-                        description: "Design Principles midterm examination covering all concepts",
+                        description: "Design Principles midterm examination covering all concepts from weeks 1-6. Bring your sketchbook and pencils.",
                         type: "Event",
-                        icon: "fa-calendar-alt"
+                        icon: "fa-calendar-alt",
+                        time: "10:00 AM - 12:00 PM",
+                        location: "Main Hall",
+                        instructor: "All Faculty",
+                        date: "Nov 15, 2023"
                     },
                     {
+                        id: 5,
                         title: "Guest Lecture",
-                        description: "UX Design Trends with industry expert Sarah Johnson",
+                        description: "UX Design Trends with industry expert Sarah Johnson from Apple. Learn about the latest innovations in user experience.",
                         type: "Event",
-                        icon: "fa-chalkboard-teacher"
+                        icon: "fa-chalkboard-teacher",
+                        time: "02:00 - 04:00 PM",
+                        location: "Auditorium",
+                        instructor: "Sarah Johnson",
+                        date: "Nov 18, 2023"
                     }
                 ]
             };
 
-            // Enhanced Search Functionality
+            // DOM Elements
             const searchInput = document.getElementById('searchInput');
             const searchResults = document.getElementById('searchResults');
+            const resultModal = document.getElementById('resultModal');
+            const closeResultModal = document.getElementById('closeResultModal');
 
+            // Highlight text function
             function highlightText(text, term) {
                 if (!term) return text;
                 const regex = new RegExp(`(${term})`, 'gi');
                 return text.replace(regex, '<span class="highlight">$1</span>');
             }
 
+            // Search Functionality
             searchInput.addEventListener('input', function() {
                 const term = this.value.toLowerCase().trim();
                 searchResults.innerHTML = '';
@@ -282,7 +551,8 @@
                 
                 const filtered = scheduleData.searchData.filter(item => 
                     item.title.toLowerCase().includes(term) || 
-                    item.description.toLowerCase().includes(term)
+                    item.description.toLowerCase().includes(term) ||
+                    item.instructor.toLowerCase().includes(term)
                 );
                 
                 if (filtered.length > 0) {
@@ -298,15 +568,13 @@
                                     ${highlightText(item.title, term)}
                                 </div>
                                 <div class="search-result-desc">
-                                    ${highlightText(item.description, term)}
+                                    ${highlightText(item.description.substring(0, 100) + '...', term)}
                                 </div>
                                 <span class="search-result-type">${item.type}</span>
                             </div>
                         `;
                         resultItem.addEventListener('click', () => {
-                            searchInput.value = item.title;
-                            searchResults.style.display = 'none';
-                            // You could add navigation to the relevant item here
+                            showResultDetail(item);
                         });
                         searchResults.appendChild(resultItem);
                     });
@@ -323,17 +591,6 @@
                 }
             });
 
-            // Close search results when clicking outside
-            document.addEventListener('click', function(e) {
-                if (!e.target.closest('.search-container')) {
-                    searchResults.style.display = 'none';
-                }
-            });
-
-            // Rest of your JavaScript...
-        });
-    </script>
-    <!-- Font Awesome -->
-    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
-</body>
-</html>
+            // Show Result Detail
+            function showResultDetail(item) {
+        
