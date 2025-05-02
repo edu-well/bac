@@ -3,576 +3,367 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Jackie's Education Dashboard</title>
+    <title>Fitness Tracker</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         :root {
-            --primary: #4361ee;
-            --primary-light: rgba(67, 97, 238, 0.1);
-            --primary-lighter: rgba(67, 97, 238, 0.05);
-            --dark: #1a1a2e;
-            --light: #f8f9fa;
-            --gray: #6c757d;
+            --primary-color: #4a6bff;
+            --secondary-color: #ff7d4a;
+            --light-bg: #f8f9fa;
+            --dark-text: #2c3e50;
+            --light-text: #7f8c8d;
             --white: #ffffff;
-            --border-radius: 14px;
-            --shadow-sm: 0 1px 3px rgba(0,0,0,0.08);
-            --shadow-md: 0 4px 12px rgba(0,0,0,0.08);
-            --shadow-lg: 0 12px 24px rgba(0,0,0,0.1);
-            --transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            --shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
         }
 
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            font-family: 'Roboto', sans-serif;
         }
 
         body {
-            background-color: #f5f7ff;
-            color: var(--dark);
-            line-height: 1.5;
-            -webkit-font-smoothing: antialiased;
+            background-color: var(--light-bg);
+            color: var(--dark-text);
+            padding: 20px;
         }
 
         .container {
-            max-width: 1200px;
+            max-width: 500px;
             margin: 0 auto;
-            padding: 2rem;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        /* Header */
-        .header {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            margin-bottom: 2.5rem;
-            width: 100%;
-            text-align: center;
-        }
-
-        .greeting h1 {
-            font-size: 1.8rem;
-            font-weight: 600;
-            margin-bottom: 0.25rem;
-            color: var(--dark);
-        }
-
-        .greeting p {
-            color: var(--gray);
-            font-size: 0.95rem;
-            font-weight: 400;
-            margin-bottom: 1.5rem;
-        }
-
-        /* Centered Search Bar */
-        .search-container {
-            position: relative;
-            width: 100%;
-            max-width: 600px;
-            margin: 0 auto;
-        }
-
-        .search-bar {
-            display: flex;
-            align-items: center;
-            background: var(--white);
-            border-radius: 99px;
-            padding: 0.85rem 1.5rem;
-            box-shadow: var(--shadow-sm);
-            width: 100%;
-            transition: var(--transition);
-            border: 1px solid rgba(0,0,0,0.04);
-        }
-
-        .search-bar:focus-within {
-            box-shadow: var(--shadow-md);
-            border-color: rgba(0,0,0,0.1);
-        }
-
-        .search-bar input {
-            border: none;
-            outline: none;
-            padding: 0 0.75rem;
-            width: 100%;
-            font-size: 1rem;
-            font-weight: 400;
-            background: transparent;
-            color: var(--dark);
-        }
-
-        .search-bar input::placeholder {
-            color: var(--gray);
-            opacity: 0.8;
-        }
-
-        .search-bar i {
-            color: var(--gray);
-            font-size: 1rem;
-        }
-
-        /* Enhanced Search Results */
-        .search-results {
-            position: absolute;
-            top: calc(100% + 8px);
-            left: 0;
-            right: 0;
-            background: var(--white);
-            border-radius: var(--border-radius);
-            box-shadow: var(--shadow-lg);
-            max-height: 400px;
-            overflow-y: auto;
-            display: none;
-            z-index: 100;
-            padding: 0.5rem;
-            border: 1px solid rgba(0,0,0,0.05);
-        }
-
-        .search-result {
-            padding: 1rem 1.25rem;
-            border-radius: 10px;
-            margin: 0.25rem;
-            cursor: pointer;
-            transition: var(--transition);
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-        }
-
-        .search-result:hover {
-            background: var(--primary-lighter);
-            transform: translateX(2px);
-        }
-
-        .search-result-icon {
-            width: 36px;
-            height: 36px;
-            background: var(--primary-light);
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--primary);
-            font-size: 0.9rem;
-            flex-shrink: 0;
-        }
-
-        .search-result-content {
-            flex: 1;
-        }
-
-        .search-result-title {
-            font-weight: 500;
-            color: var(--dark);
-            margin-bottom: 0.25rem;
-            font-size: 0.95rem;
-        }
-
-        .search-result-desc {
-            font-size: 0.85rem;
-            color: var(--gray);
-            line-height: 1.4;
-            display: -webkit-box;
-            -webkit-line-clamp: 2;
-            -webkit-box-orient: vertical;
+            background-color: var(--white);
+            border-radius: 20px;
+            box-shadow: var(--shadow);
             overflow: hidden;
         }
 
-        .search-result-type {
-            display: inline-block;
-            margin-top: 0.5rem;
-            font-size: 0.75rem;
-            color: var(--primary);
-            background: var(--primary-light);
-            padding: 0.25rem 0.5rem;
-            border-radius: 4px;
-        }
-
-        .no-results {
-            padding: 1.5rem;
+        .header {
+            padding: 20px;
             text-align: center;
-            color: var(--gray);
-            font-size: 0.9rem;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: var(--white);
         }
 
-        /* Result Detail Modal */
-        .result-modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0,0,0,0.5);
-            backdrop-filter: blur(5px);
-            z-index: 1000;
-            justify-content: center;
+        .header h1 {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .calendar {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            text-align: center;
+            padding: 15px 10px;
+            background-color: var(--white);
+        }
+
+        .calendar-day {
+            font-size: 12px;
+            color: var(--light-text);
+            font-weight: 500;
+            padding: 5px 0;
+        }
+
+        .calendar-date {
+            font-size: 14px;
+            font-weight: 500;
+            padding: 8px 0;
+            border-radius: 50%;
+            margin: 0 auto;
+            width: 30px;
+            height: 30px;
+            display: flex;
             align-items: center;
-            padding: 2rem;
+            justify-content: center;
         }
 
-        .result-modal-content {
-            background: var(--white);
-            border-radius: var(--border-radius);
-            box-shadow: var(--shadow-lg);
-            width: 100%;
-            max-width: 800px;
-            max-height: 80vh;
-            overflow-y: auto;
+        .calendar-date.active {
+            background-color: var(--primary-color);
+            color: var(--white);
         }
 
-        .result-modal-header {
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            padding: 15px;
+            background-color: var(--white);
+        }
+
+        .stat-card {
+            background-color: var(--light-bg);
+            border-radius: 12px;
+            padding: 15px 10px;
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            font-size: 12px;
+            color: var(--light-text);
+        }
+
+        .activities {
+            padding: 15px;
             display: flex;
             justify-content: space-between;
-            align-items: center;
-            padding: 1.5rem;
-            border-bottom: 1px solid rgba(0,0,0,0.05);
+            background-color: var(--white);
         }
 
-        .result-modal-title {
-            font-size: 1.5rem;
-            font-weight: 600;
+        .activity-tab {
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
+            background-color: var(--light-bg);
+            color: var(--light-text);
+        }
+
+        .activity-tab.active {
+            background-color: var(--primary-color);
+            color: var(--white);
+        }
+
+        .user-level {
+            padding: 15px;
+            text-align: center;
+            background-color: var(--white);
+        }
+
+        .level-badge {
+            display: inline-block;
+            padding: 8px 20px;
+            border-radius: 20px;
+            background-color: var(--secondary-color);
+            color: var(--white);
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .workout-card {
+            background-color: var(--white);
+            border-radius: 15px;
+            margin: 15px;
+            padding: 20px;
+            box-shadow: var(--shadow);
             display: flex;
             align-items: center;
-            gap: 0.75rem;
         }
 
-        .result-modal-close {
-            background: none;
-            border: none;
-            font-size: 1.5rem;
-            cursor: pointer;
-            color: var(--gray);
-            width: 40px;
-            height: 40px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 50%;
-            transition: background 0.2s;
-        }
-
-        .result-modal-close:hover {
-            background: rgba(0,0,0,0.05);
-        }
-
-        .result-modal-body {
-            padding: 1.5rem;
-        }
-
-        .result-detail-card {
-            background: var(--white);
-            border-radius: var(--border-radius);
-            box-shadow: var(--shadow-sm);
-            padding: 1.5rem;
-            margin-bottom: 1.5rem;
-            border: 1px solid rgba(0,0,0,0.05);
-        }
-
-        .result-detail-header {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            margin-bottom: 1rem;
-        }
-
-        .result-detail-icon {
-            width: 48px;
-            height: 48px;
-            background: var(--primary-light);
+        .workout-icon {
+            width: 50px;
+            height: 50px;
             border-radius: 12px;
+            background-color: var(--primary-color);
             display: flex;
             align-items: center;
             justify-content: center;
-            color: var(--primary);
-            font-size: 1.25rem;
+            margin-right: 15px;
+            color: var(--white);
+            font-size: 20px;
         }
 
-        .result-detail-title {
-            font-size: 1.25rem;
+        .workout-info {
+            flex: 1;
+        }
+
+        .workout-title {
+            font-size: 16px;
             font-weight: 600;
-            color: var(--dark);
+            margin-bottom: 5px;
         }
 
-        .result-detail-type {
-            font-size: 0.85rem;
-            color: var(--primary);
-            background: var(--primary-light);
-            padding: 0.25rem 0.75rem;
-            border-radius: 99px;
-            margin-left: auto;
-        }
-
-        .result-detail-content {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 1.5rem;
-            margin-top: 1.5rem;
-        }
-
-        .detail-box {
-            background: var(--light);
-            border-radius: 10px;
-            padding: 1.25rem;
-        }
-
-        .detail-box-title {
-            font-size: 0.85rem;
-            font-weight: 500;
-            color: var(--gray);
-            margin-bottom: 0.5rem;
+        .workout-details {
             display: flex;
+            justify-content: space-between;
+        }
+
+        .workout-detail {
+            font-size: 12px;
+            color: var(--light-text);
+        }
+
+        .workout-detail span {
+            font-weight: 600;
+            color: var(--dark-text);
+        }
+
+        .navigation {
+            display: flex;
+            justify-content: space-around;
+            padding: 15px;
+            background-color: var(--white);
+            border-top: 1px solid #eee;
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
             align-items: center;
-            gap: 0.5rem;
+            color: var(--light-text);
+            font-size: 12px;
         }
 
-        .detail-box-content {
-            font-size: 1rem;
-            font-weight: 500;
-            color: var(--dark);
+        .nav-item.active {
+            color: var(--primary-color);
         }
 
-        .result-detail-description {
-            margin-top: 1.5rem;
-            padding: 1.25rem;
-            background: var(--light);
-            border-radius: 10px;
-            font-size: 0.95rem;
-            line-height: 1.6;
-            color: var(--dark);
-        }
-
-        /* Responsive */
-        @media (max-width: 768px) {
-            .container {
-                padding: 1.5rem;
-            }
-            
-            .result-detail-content {
-                grid-template-columns: 1fr;
-            }
-            
-            .result-modal-body {
-                padding: 1rem;
-            }
+        .nav-icon {
+            font-size: 20px;
+            margin-bottom: 5px;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <header class="header">
-            <div class="greeting">
-                <h1>Hi Jackie</h1>
-                <p>Search for your classes and schedule</p>
-            </div>
-            <div class="search-container">
-                <div class="search-bar">
-                    <i class="fas fa-search"></i>
-                    <input type="text" placeholder="Search classes, events, or instructors..." id="searchInput">
-                </div>
-                <div class="search-results" id="searchResults">
-                    <!-- Search results will appear here -->
-                </div>
-            </div>
-        </header>
-    </div>
+        <div class="header">
+            <h1>Fitness Tracker</h1>
+            <p>May 2025</p>
+        </div>
 
-    <!-- Result Detail Modal -->
-    <div class="result-modal" id="resultModal">
-        <div class="result-modal-content">
-            <div class="result-modal-header">
-                <h2 class="result-modal-title">
-                    <i class="fas fa-book" id="resultModalIcon"></i>
-                    <span id="resultModalTitle">Class Details</span>
-                </h2>
-                <button class="result-modal-close" id="closeResultModal">&times;</button>
+        <div class="calendar">
+            <div class="calendar-day">Sun</div>
+            <div class="calendar-day">Mon</div>
+            <div class="calendar-day">Tue</div>
+            <div class="calendar-day">Wed</div>
+            <div class="calendar-day">Thu</div>
+            <div class="calendar-day">Fri</div>
+            <div class="calendar-day">Sat</div>
+
+            <div class="calendar-date">12</div>
+            <div class="calendar-date">13</div>
+            <div class="calendar-date">14</div>
+            <div class="calendar-date">15</div>
+            <div class="calendar-date active">16</div>
+            <div class="calendar-date">17</div>
+            <div class="calendar-date">18</div>
+        </div>
+
+        <div class="stats">
+            <div class="stat-card">
+                <div class="stat-value">1200</div>
+                <div class="stat-label">Kcal</div>
             </div>
-            <div class="result-modal-body">
-                <div class="result-detail-card">
-                    <div class="result-detail-header">
-                        <div class="result-detail-icon" id="detailMainIcon">
-                            <i class="fas fa-book"></i>
-                        </div>
-                        <div class="result-detail-title" id="detailMainTitle">Class Title</div>
-                        <div class="result-detail-type" id="detailType">Class</div>
-                    </div>
-                    
-                    <div class="result-detail-content">
-                        <div class="detail-box">
-                            <div class="detail-box-title">
-                                <i class="fas fa-clock"></i>
-                                Time
-                            </div>
-                            <div class="detail-box-content" id="detailTime">09:00 - 10:30 AM</div>
-                        </div>
-                        
-                        <div class="detail-box">
-                            <div class="detail-box-title">
-                                <i class="fas fa-map-marker-alt"></i>
-                                Location
-                            </div>
-                            <div class="detail-box-content" id="detailLocation">Room CI, Art Building</div>
-                        </div>
-                        
-                        <div class="detail-box">
-                            <div class="detail-box-title">
-                                <i class="fas fa-user-graduate"></i>
-                                Instructor
-                            </div>
-                            <div class="detail-box-content" id="detailInstructor">Gabriel Sutton</div>
-                        </div>
-                    </div>
-                    
-                    <div class="result-detail-description" id="detailDescription">
-                        Advanced typography principles and applications in modern design.
-                    </div>
+            <div class="stat-card">
+                <div class="stat-value">06</div>
+                <div class="stat-label">Workouts</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value">3:00</div>
+                <div class="stat-label">Hr</div>
+            </div>
+        </div>
+
+        <div class="activities">
+            <div class="activity-tab active">Strength</div>
+            <div class="activity-tab">Cycling</div>
+            <div class="activity-tab">Gym</div>
+        </div>
+
+        <div class="user-level">
+            <div class="level-badge">Beginner</div>
+        </div>
+
+        <div class="workout-card">
+            <div class="workout-icon">
+                <i class="fas fa-dumbbell"></i>
+            </div>
+            <div class="workout-info">
+                <div class="workout-title">Strength</div>
+                <div class="workout-details">
+                    <div class="workout-detail">Time: <span>10 Minutes</span></div>
+                    <div class="workout-detail">Burn: <span>200 Kcal</span></div>
                 </div>
+            </div>
+        </div>
+
+        <div class="navigation">
+            <div class="nav-item active">
+                <i class="fas fa-home nav-icon"></i>
+                <span>Home</span>
+            </div>
+            <div class="nav-item">
+                <i class="fas fa-chart-line nav-icon"></i>
+                <span>Stats</span>
+            </div>
+            <div class="nav-item">
+                <i class="fas fa-running nav-icon"></i>
+                <span>Workouts</span>
+            </div>
+            <div class="nav-item">
+                <i class="fas fa-user nav-icon"></i>
+                <span>Profile</span>
             </div>
         </div>
     </div>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // Sample data - properly structured
-            const scheduleData = {
-                searchData: [
-                    {
-                        id: 1,
-                        title: "Typography II",
-                        description: "Advanced typography principles and applications in modern design. This course covers type anatomy, hierarchy, and layout systems.",
-                        type: "Class",
-                        icon: "fa-font",
-                        time: "09:00 - 10:30 AM",
-                        location: "Room CI, Art Building",
-                        instructor: "Gabriel Sutton"
-                    },
-                    {
-                        id: 2,
-                        title: "Design Psychology",
-                        description: "Understanding cognitive processes in user experience design. Explore how users perceive and interact with digital interfaces.",
-                        type: "Class",
-                        icon: "fa-brain",
-                        time: "11:00 - 12:30 PM",
-                        location: "Room D2, Design Center",
-                        instructor: "Jessie Reeves"
-                    },
-                    {
-                        id: 3,
-                        title: "Color Theory",
-                        description: "Advanced color systems and their psychological impact. Learn color harmony, contrast, and emotional responses to color.",
-                        type: "Class", 
-                        icon: "fa-palette",
-                        time: "02:00 - 03:30 PM",
-                        location: "Room A5, Art Building",
-                        instructor: "Marcus Wong"
-                    },
-                    {
-                        id: 4,
-                        title: "Midterm Exam",
-                        description: "Design Principles midterm examination covering all concepts from weeks 1-6. Bring your sketchbook and pencils.",
-                        type: "Event",
-                        icon: "fa-calendar-alt",
-                        time: "10:00 AM - 12:00 PM",
-                        location: "Main Hall",
-                        instructor: "All Faculty"
-                    },
-                    {
-                        id: 5,
-                        title: "Guest Lecture",
-                        description: "UX Design Trends with industry expert Sarah Johnson from Apple. Learn about the latest innovations in user experience.",
-                        type: "Event",
-                        icon: "fa-chalkboard-teacher",
-                        time: "02:00 - 04:00 PM",
-                        location: "Auditorium",
-                        instructor: "Sarah Johnson"
-                    }
-                ]
-            };
-
-            // DOM Elements
-            const searchInput = document.getElementById('searchInput');
-            const searchResults = document.getElementById('searchResults');
-            const resultModal = document.getElementById('resultModal');
-            const closeResultModal = document.getElementById('closeResultModal');
-
-            // Search Functionality - Fixed Version
-            searchInput.addEventListener('input', function() {
-                const term = this.value.toLowerCase().trim();
-                searchResults.innerHTML = '';
-                
-                if (term.length < 2) {
-                    searchResults.style.display = 'none';
-                    return;
-                }
-                
-                // Filter results (case insensitive)
-                const filtered = scheduleData.searchData.filter(item => {
-                    const searchFields = [
-                        item.title.toLowerCase(),
-                        item.description.toLowerCase(),
-                        item.instructor.toLowerCase(),
-                        item.location.toLowerCase(),
-                        item.type.toLowerCase()
-                    ];
-                    return searchFields.some(field => field.includes(term));
-                });
-                
-                if (filtered.length > 0) {
-                    filtered.forEach(item => {
-                        const resultItem = document.createElement('div');
-                        resultItem.className = 'search-result';
-                        resultItem.innerHTML = `
-                            <div class="search-result-icon">
-                                <i class="fas ${item.icon}"></i>
-                            </div>
-                            <div class="search-result-content">
-                                <div class="search-result-title">${item.title}</div>
-                                <div class="search-result-desc">${item.description.substring(0, 100)}...</div>
-                                <span class="search-result-type">${item.type}</span>
-                            </div>
-                        `;
-                        resultItem.addEventListener('click', () => {
-                            showResultDetail(item);
-                        });
-                        searchResults.appendChild(resultItem);
-                    });
-                    searchResults.style.display = 'block';
-                } else {
-                    const noResults = document.createElement('div');
-                    noResults.className = 'no-results';
-                    noResults.innerHTML = `
-                        <i class="fas fa-search" style="font-size: 1.5rem; margin-bottom: 0.5rem;"></i>
-                        <div>No results found for "${term}"</div>
-                    `;
-                    searchResults.appendChild(noResults);
-                    searchResults.style.display = 'block';
-                }
+        // Calendar functionality
+        const dates = document.querySelectorAll('.calendar-date');
+        dates.forEach(date => {
+            date.addEventListener('click', () => {
+                dates.forEach(d => d.classList.remove('active'));
+                date.classList.add('active');
+                // Here you would typically load data for the selected date
             });
+        });
 
-            // Show Result Detail
-            function showResultDetail(item) {
-                // Update modal content
-                document.getElementById('resultModalTitle').textContent = item.title;
-                document.getElementById('resultModalIcon').className = `fas ${item.icon}`;
-                document.getElementById('detailMainTitle').textContent = item.title;
-                document.getElementById('detailMainIcon').innerHTML = `<i class="fas ${item.icon}"></i>`;
-                document.getElementById('detailType').textContent = item.type;
-                document.getElementById('detailTime').textContent = item.time;
-                document.getElementById('detailLocation').textContent = item.location;
-                document.getElementById('detailInstructor').textContent = item.instructor;
-                document.getElementById('detailDescription').textContent = item.description;
-                
-                // Clear search
-                searchInput.value = item.title;
-                searchResults.style.display = 'none';
-                
-                // Show modal
-                resultModal.style.display = 'flex';
-                document.body.style.overflow = 'hidden';
-            }
+        // Activity tabs functionality
+        const activityTabs = document.querySelectorAll('.activity-tab');
+        activityTabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                activityTabs.forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+                // Here you would filter workouts by the selected activity type
+            });
+        });
 
-            // Close Modal
-            closeResultModal.addEventListener('click', () => {
-                resultModal.style.dis
+        // Navigation functionality
+        const navItems = document.querySelectorAll('.nav-item');
+        navItems.forEach(item => {
+            item.addEventListener('click', () => {
+                navItems.forEach(i => i.classList.remove('active'));
+                item.classList.add('active');
+                // Here you would navigate to different sections of the app
+            });
+        });
+
+        // Simulate loading workout data
+        function loadWorkoutData() {
+            // In a real app, this would come from an API
+            const workoutData = {
+                title: "Strength",
+                time: "10 Minutes",
+                calories: "200 Kcal",
+                icon: "fas fa-dumbbell"
+            };
+            
+            document.querySelector('.workout-title').textContent = workoutData.title;
+            document.querySelector('.workout-detail:nth-child(1) span').textContent = workoutData.time;
+            document.querySelector('.workout-detail:nth-child(2) span').textContent = workoutData.calories;
+            document.querySelector('.workout-icon i').className = workoutData.icon;
+        }
+
+        // Initialize the app
+        document.addEventListener('DOMContentLoaded', () => {
+            loadWorkoutData();
+            
+            // Update stats (simulated)
+            setInterval(() => {
+                const kcal = document.querySelector('.stat-card:nth-child(1) .stat-value');
+                const currentKcal = parseInt(kcal.textContent);
+                kcal.textContent = currentKcal + Math.floor(Math.random() * 10);
+            }, 5000);
+        });
+    </script>
+</body>
+</html>
