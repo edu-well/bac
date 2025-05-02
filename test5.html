@@ -12,7 +12,6 @@
             --dark: #1a1a2e;
             --light: #f8f9fa;
             --gray: #6c757d;
-            --gray-light: #e9ecef;
             --white: #ffffff;
             --border-radius: 14px;
             --shadow-sm: 0 1px 3px rgba(0,0,0,0.08);
@@ -169,14 +168,6 @@
             color: var(--dark);
             margin-bottom: 0.25rem;
             font-size: 0.95rem;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .search-result-title .highlight {
-            color: var(--primary);
-            font-weight: 600;
         }
 
         .search-result-desc {
@@ -220,12 +211,6 @@
             justify-content: center;
             align-items: center;
             padding: 2rem;
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-
-        .result-modal.show {
-            opacity: 1;
         }
 
         .result-modal-content {
@@ -236,12 +221,6 @@
             max-width: 800px;
             max-height: 80vh;
             overflow-y: auto;
-            transform: translateY(20px);
-            transition: transform 0.3s ease;
-        }
-
-        .result-modal.show .result-modal-content {
-            transform: translateY(0);
         }
 
         .result-modal-header {
@@ -337,12 +316,6 @@
             background: var(--light);
             border-radius: 10px;
             padding: 1.25rem;
-            transition: var(--transition);
-        }
-
-        .detail-box:hover {
-            transform: translateY(-3px);
-            box-shadow: var(--shadow-sm);
         }
 
         .detail-box-title {
@@ -410,9 +383,9 @@
     <div class="result-modal" id="resultModal">
         <div class="result-modal-content">
             <div class="result-modal-header">
-                <h2 class="result-modal-title" id="resultModalTitle">
+                <h2 class="result-modal-title">
                     <i class="fas fa-book" id="resultModalIcon"></i>
-                    <span id="resultTitleText">Class Details</span>
+                    <span id="resultModalTitle">Class Details</span>
                 </h2>
                 <button class="result-modal-close" id="closeResultModal">&times;</button>
             </div>
@@ -462,7 +435,7 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // Sample data
+            // Sample data - properly structured
             const scheduleData = {
                 searchData: [
                     {
@@ -473,9 +446,7 @@
                         icon: "fa-font",
                         time: "09:00 - 10:30 AM",
                         location: "Room CI, Art Building",
-                        instructor: "Gabriel Sutton",
-                        credits: "3 Credits",
-                        duration: "90 mins"
+                        instructor: "Gabriel Sutton"
                     },
                     {
                         id: 2,
@@ -485,9 +456,7 @@
                         icon: "fa-brain",
                         time: "11:00 - 12:30 PM",
                         location: "Room D2, Design Center",
-                        instructor: "Jessie Reeves",
-                        credits: "3 Credits",
-                        duration: "90 mins"
+                        instructor: "Jessie Reeves"
                     },
                     {
                         id: 3,
@@ -497,9 +466,7 @@
                         icon: "fa-palette",
                         time: "02:00 - 03:30 PM",
                         location: "Room A5, Art Building",
-                        instructor: "Marcus Wong",
-                        credits: "3 Credits",
-                        duration: "90 mins"
+                        instructor: "Marcus Wong"
                     },
                     {
                         id: 4,
@@ -509,8 +476,7 @@
                         icon: "fa-calendar-alt",
                         time: "10:00 AM - 12:00 PM",
                         location: "Main Hall",
-                        instructor: "All Faculty",
-                        date: "Nov 15, 2023"
+                        instructor: "All Faculty"
                     },
                     {
                         id: 5,
@@ -520,8 +486,7 @@
                         icon: "fa-chalkboard-teacher",
                         time: "02:00 - 04:00 PM",
                         location: "Auditorium",
-                        instructor: "Sarah Johnson",
-                        date: "Nov 18, 2023"
+                        instructor: "Sarah Johnson"
                     }
                 ]
             };
@@ -532,14 +497,7 @@
             const resultModal = document.getElementById('resultModal');
             const closeResultModal = document.getElementById('closeResultModal');
 
-            // Highlight text function
-            function highlightText(text, term) {
-                if (!term) return text;
-                const regex = new RegExp(`(${term})`, 'gi');
-                return text.replace(regex, '<span class="highlight">$1</span>');
-            }
-
-            // Search Functionality
+            // Search Functionality - Fixed Version
             searchInput.addEventListener('input', function() {
                 const term = this.value.toLowerCase().trim();
                 searchResults.innerHTML = '';
@@ -549,11 +507,17 @@
                     return;
                 }
                 
-                const filtered = scheduleData.searchData.filter(item => 
-                    item.title.toLowerCase().includes(term) || 
-                    item.description.toLowerCase().includes(term) ||
-                    item.instructor.toLowerCase().includes(term)
-                );
+                // Filter results (case insensitive)
+                const filtered = scheduleData.searchData.filter(item => {
+                    const searchFields = [
+                        item.title.toLowerCase(),
+                        item.description.toLowerCase(),
+                        item.instructor.toLowerCase(),
+                        item.location.toLowerCase(),
+                        item.type.toLowerCase()
+                    ];
+                    return searchFields.some(field => field.includes(term));
+                });
                 
                 if (filtered.length > 0) {
                     filtered.forEach(item => {
@@ -564,12 +528,8 @@
                                 <i class="fas ${item.icon}"></i>
                             </div>
                             <div class="search-result-content">
-                                <div class="search-result-title">
-                                    ${highlightText(item.title, term)}
-                                </div>
-                                <div class="search-result-desc">
-                                    ${highlightText(item.description.substring(0, 100) + '...', term)}
-                                </div>
+                                <div class="search-result-title">${item.title}</div>
+                                <div class="search-result-desc">${item.description.substring(0, 100)}...</div>
                                 <span class="search-result-type">${item.type}</span>
                             </div>
                         `;
@@ -593,4 +553,26 @@
 
             // Show Result Detail
             function showResultDetail(item) {
-        
+                // Update modal content
+                document.getElementById('resultModalTitle').textContent = item.title;
+                document.getElementById('resultModalIcon').className = `fas ${item.icon}`;
+                document.getElementById('detailMainTitle').textContent = item.title;
+                document.getElementById('detailMainIcon').innerHTML = `<i class="fas ${item.icon}"></i>`;
+                document.getElementById('detailType').textContent = item.type;
+                document.getElementById('detailTime').textContent = item.time;
+                document.getElementById('detailLocation').textContent = item.location;
+                document.getElementById('detailInstructor').textContent = item.instructor;
+                document.getElementById('detailDescription').textContent = item.description;
+                
+                // Clear search
+                searchInput.value = item.title;
+                searchResults.style.display = 'none';
+                
+                // Show modal
+                resultModal.style.display = 'flex';
+                document.body.style.overflow = 'hidden';
+            }
+
+            // Close Modal
+            closeResultModal.addEventListener('click', () => {
+                resultModal.style.dis
