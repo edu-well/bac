@@ -7,19 +7,17 @@
     <style>
         :root {
             --primary: #4361ee;
-            --primary-light: rgba(67, 97, 238, 0.1);
+            --primary-light: #e6f0ff;
             --secondary: #3f37c9;
             --accent: #4895ef;
             --dark: #1a1a2e;
             --light: #f8f9fa;
             --gray: #6c757d;
             --white: #ffffff;
-            --glass-bg: rgba(255, 255, 255, 0.7);
             --border-radius: 12px;
             --shadow-sm: 0 1px 3px rgba(0,0,0,0.12);
             --shadow-md: 0 4px 6px rgba(0,0,0,0.1);
             --shadow-lg: 0 10px 15px rgba(0,0,0,0.1);
-            --blur: blur(10px);
         }
 
         * {
@@ -30,10 +28,9 @@
         }
 
         body {
-            background: linear-gradient(135deg, #f5f7ff 0%, #e6ecff 100%);
+            background-color: #f5f7ff;
             color: var(--dark);
             line-height: 1.6;
-            min-height: 100vh;
         }
 
         .container {
@@ -75,13 +72,6 @@
             padding: 0.75rem 1rem;
             box-shadow: var(--shadow-sm);
             width: 100%;
-            transition: all 0.3s ease;
-            position: relative;
-            z-index: 10;
-        }
-
-        .search-bar:focus-within {
-            box-shadow: var(--shadow-lg);
         }
 
         .search-bar input {
@@ -97,6 +87,7 @@
             color: var(--gray);
         }
 
+        /* Search Results */
         .search-results {
             position: absolute;
             top: 100%;
@@ -105,29 +96,27 @@
             background: var(--white);
             border-radius: 0 0 var(--border-radius) var(--border-radius);
             box-shadow: var(--shadow-lg);
-            max-height: 400px;
+            max-height: 300px;
             overflow-y: auto;
             display: none;
-            z-index: 9;
-            margin-top: -5px;
-            padding-top: 5px;
+            z-index: 100;
         }
 
-        .search-result-item {
+        .search-result {
             padding: 1rem;
             border-bottom: 1px solid rgba(0,0,0,0.05);
             cursor: pointer;
             transition: background 0.2s;
         }
 
-        .search-result-item:hover {
+        .search-result:hover {
             background: var(--primary-light);
         }
 
         .search-result-title {
             font-weight: 600;
-            margin-bottom: 0.25rem;
             color: var(--primary);
+            margin-bottom: 0.25rem;
         }
 
         .search-result-desc {
@@ -137,36 +126,25 @@
 
         /* Glass Schedule Cards */
         .schedule-container {
-            margin-bottom: 2rem;
-        }
-
-        .schedule-card {
-            background: var(--glass-bg);
-            backdrop-filter: var(--blur);
-            -webkit-backdrop-filter: var(--blur);
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
             border-radius: var(--border-radius);
             box-shadow: var(--shadow-sm);
             overflow: hidden;
-            margin-bottom: 1.5rem;
-            transition: transform 0.3s, box-shadow 0.3s;
-        }
-
-        .schedule-card:hover {
-            transform: translateY(-5px);
-            box-shadow: var(--shadow-lg);
+            margin-bottom: 2rem;
         }
 
         .schedule-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 1rem 1.5rem;
-            background: rgba(255,255,255,0.3);
-            border-bottom: 1px solid rgba(255,255,255,0.2);
+            padding: 1.5rem;
+            border-bottom: 1px solid rgba(0,0,0,0.05);
         }
 
         .schedule-title {
-            font-size: 1.2rem;
+            font-size: 1.25rem;
             font-weight: 600;
             display: flex;
             align-items: center;
@@ -178,11 +156,6 @@
             text-decoration: none;
             font-weight: 500;
             cursor: pointer;
-            transition: opacity 0.2s;
-        }
-
-        .view-all:hover {
-            opacity: 0.8;
         }
 
         .schedule-body {
@@ -197,7 +170,6 @@
             border-radius: 8px;
             margin-bottom: 1rem;
             transition: background 0.2s;
-            position: relative;
         }
 
         .schedule-item:last-child {
@@ -205,7 +177,7 @@
         }
 
         .schedule-item:hover {
-            background: rgba(255,255,255,0.5);
+            background: rgba(255,255,255,0.7);
         }
 
         .schedule-time {
@@ -228,10 +200,6 @@
             display: flex;
             align-items: center;
             gap: 0.5rem;
-        }
-
-        .schedule-class i {
-            color: var(--primary);
         }
 
         .schedule-meta {
@@ -257,18 +225,16 @@
             right: 0;
             bottom: 0;
             background: rgba(0,0,0,0.5);
-            backdrop-filter: blur(5px);
-            z-index: 100;
+            z-index: 1000;
             justify-content: center;
             align-items: center;
-            padding: 1rem;
         }
 
         .modal-content {
             background: var(--white);
             border-radius: var(--border-radius);
             box-shadow: var(--shadow-lg);
-            width: 100%;
+            width: 90%;
             max-width: 800px;
             max-height: 80vh;
             overflow-y: auto;
@@ -299,20 +265,10 @@
             font-size: 1.5rem;
             cursor: pointer;
             color: var(--gray);
-            transition: color 0.2s;
-        }
-
-        .modal-close:hover {
-            color: var(--dark);
         }
 
         .modal-body {
             padding: 1.5rem;
-        }
-
-        .full-schedule {
-            display: grid;
-            gap: 1.5rem;
         }
 
         .full-schedule-item {
@@ -320,17 +276,15 @@
             align-items: center;
             gap: 1.5rem;
             padding: 1.5rem;
-            background: var(--light);
-            border-radius: var(--border-radius);
-            transition: transform 0.2s;
+            border-bottom: 1px solid rgba(0,0,0,0.05);
         }
 
-        .full-schedule-item:hover {
-            transform: translateX(5px);
+        .full-schedule-item:last-child {
+            border-bottom: none;
         }
 
         .full-schedule-date {
-            min-width: 100px;
+            min-width: 80px;
             text-align: center;
         }
 
@@ -391,13 +345,13 @@
     <div class="container">
         <header class="header">
             <div class="greeting">
-                <h1>Good morning, Jackie</h1>
+                <h1>Hi Jackie</h1>
                 <p>Here's your schedule for today</p>
             </div>
             <div class="search-container">
                 <div class="search-bar">
                     <i class="fas fa-search"></i>
-                    <input type="text" placeholder="Search classes, events..." id="searchInput">
+                    <input type="text" placeholder="Search classes..." id="searchInput">
                 </div>
                 <div class="search-results" id="searchResults">
                     <!-- Search results will appear here -->
@@ -406,14 +360,12 @@
         </header>
 
         <div class="schedule-container">
-            <div class="schedule-card">
-                <div class="schedule-header">
-                    <h2 class="schedule-title"><i class="fas fa-calendar-day"></i> Today's Schedule</h2>
-                    <a class="view-all" id="viewAllBtn">View all</a>
-                </div>
-                <div class="schedule-body" id="todaySchedule">
-                    <!-- Today's schedule items will appear here -->
-                </div>
+            <div class="schedule-header">
+                <h2 class="schedule-title"><i class="fas fa-calendar-day"></i> Today's Classes</h2>
+                <a class="view-all" id="viewAllBtn">View all</a>
+            </div>
+            <div class="schedule-body" id="todaySchedule">
+                <!-- Today's schedule will appear here -->
             </div>
         </div>
     </div>
@@ -426,8 +378,8 @@
                 <button class="modal-close" id="closeModal">&times;</button>
             </div>
             <div class="modal-body">
-                <div class="full-schedule" id="fullSchedule">
-                    <!-- Full schedule items will appear here -->
+                <div id="fullSchedule">
+                    <!-- Full schedule will appear here -->
                 </div>
             </div>
         </div>
@@ -487,15 +439,6 @@
                         class: "Workshop",
                         location: "Design Lab",
                         description: "Interactive prototyping tools and techniques"
-                    },
-                    {
-                        date: "2023-11-25",
-                        day: "25",
-                        month: "Nov",
-                        time: "13:00 - 15:00",
-                        class: "Group Project",
-                        location: "Team Room 3",
-                        description: "Final project presentation preparation"
                     }
                 ],
                 searchData: [
@@ -517,11 +460,6 @@
                     {
                         title: "Midterm Exam",
                         description: "Design Principles midterm examination",
-                        type: "Event"
-                    },
-                    {
-                        title: "Guest Lecture",
-                        description: "UX Design Trends with industry expert Sarah Johnson",
                         type: "Event"
                     }
                 ]
@@ -613,16 +551,33 @@
                 if (filtered.length > 0) {
                     filtered.forEach(item => {
                         const resultItem = document.createElement('div');
-                        resultItem.className = 'search-result-item';
+                        resultItem.className = 'search-result';
                         resultItem.innerHTML = `
-                            <div class="search-result-title">${item.title} <small>(${item.type})</small></div>
+                            <div class="search-result-title">${item.title}</div>
                             <div class="search-result-desc">${item.description}</div>
+                            <small>${item.type}</small>
                         `;
                         searchResults.appendChild(resultItem);
                     });
                     searchResults.style.display = 'block';
                 } else {
                     const noResults = document.createElement('div');
-                    noResults.className = 'search-result-item';
+                    noResults.className = 'search-result';
                     noResults.textContent = 'No results found';
-                    searchResults.appendChild(noRe
+                    searchResults.appendChild(noResults);
+                    searchResults.style.display = 'block';
+                }
+            });
+
+            // Close search results when clicking outside
+            document.addEventListener('click', function(e) {
+                if (!e.target.closest('.search-container')) {
+                    searchResults.style.display = 'none';
+                }
+            });
+        });
+    </script>
+    <!-- Font Awesome -->
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+</body>
+</html>
