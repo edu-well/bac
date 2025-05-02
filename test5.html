@@ -3,27 +3,32 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Jackie's Schedule Manager</title>
+    <title>Jackie's Education Dashboard</title>
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
 <style>
 
-
 :root {
-    --primary-color: #4a6bff;
-    --secondary-color: #f5f7ff;
-    --text-color: #333;
-    --light-text: #777;
-    --border-color: #e0e0e0;
+    --primary-color: #5b6bf0;
+    --primary-light: #eef0fd;
+    --secondary-color: #f8f9fa;
+    --text-color: #2d3748;
+    --light-text: #718096;
+    --border-color: #e2e8f0;
     --white: #ffffff;
     --shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    --shadow-hover: 0 6px 16px rgba(0, 0, 0, 0.12);
+    --high-priority: #f56565;
+    --medium-priority: #f6ad55;
+    --low-priority: #68d391;
 }
 
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
 }
 
 body {
@@ -33,26 +38,110 @@ body {
 }
 
 .container {
-    max-width: 800px;
+    max-width: 1000px;
     margin: 0 auto;
-    padding: 2rem 1.5rem;
+    padding: 1.5rem;
 }
 
+/* Header Styles */
 .header {
     margin-bottom: 2rem;
 }
 
-.header h1 {
-    font-size: 2rem;
-    font-weight: 600;
-    margin-bottom: 0.5rem;
+.header-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
 }
 
-.header p {
+.search-bar {
+    position: relative;
+    width: 300px;
+}
+
+.search-bar i {
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--light-text);
+}
+
+.search-bar input {
+    width: 100%;
+    padding: 0.75rem 1rem 0.75rem 2.5rem;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    font-size: 0.95rem;
+    transition: all 0.2s;
+}
+
+.search-bar input:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(91, 107, 240, 0.2);
+}
+
+.profile {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.profile-img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid var(--primary-light);
+}
+
+.welcome h1 {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 0.25rem;
+}
+
+.welcome p {
     color: var(--light-text);
     font-size: 1rem;
 }
 
+/* Counters */
+.counters {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 1rem;
+    margin: 1.5rem 0;
+}
+
+.counter-card {
+    background: var(--white);
+    border-radius: 10px;
+    padding: 1.25rem;
+    text-align: center;
+    box-shadow: var(--shadow);
+    transition: transform 0.2s;
+}
+
+.counter-card:hover {
+    transform: translateY(-3px);
+}
+
+.counter-value {
+    font-size: 2.25rem;
+    font-weight: 700;
+    color: var(--primary-color);
+    margin-bottom: 0.25rem;
+}
+
+.counter-label {
+    color: var(--light-text);
+    font-size: 0.9rem;
+}
+
+/* Section Styles */
 .section {
     background: var(--white);
     border-radius: 12px;
@@ -71,6 +160,9 @@ body {
 .section-header h2 {
     font-size: 1.25rem;
     font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
 }
 
 .see-all {
@@ -85,43 +177,111 @@ body {
     opacity: 0.8;
 }
 
-.class-card, .task-card {
+/* Class Cards */
+.classes-list {
+    display: grid;
+    gap: 1rem;
+}
+
+.class-card {
     padding: 1.25rem;
-    margin-bottom: 1rem;
+    border-radius: 8px;
+    background: var(--primary-light);
+    transition: transform 0.2s, box-shadow 0.2s;
+    cursor: pointer;
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 1rem;
+    align-items: center;
+}
+
+.class-card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-hover);
+}
+
+.class-icon {
+    width: 48px;
+    height: 48px;
+    background: var(--white);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--primary-color);
+    font-size: 1.25rem;
+}
+
+.class-content {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.class-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--primary-color);
+}
+
+.class-detail {
+    display: flex;
+    align-items: center;
+    font-size: 0.9rem;
+    color: var(--light-text);
+    gap: 0.5rem;
+}
+
+.class-detail i {
+    width: 16px;
+    text-align: center;
+}
+
+.class-time {
+    margin-top: 0.5rem;
+    font-size: 0.85rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--text-color);
+    font-weight: 500;
+}
+
+/* Task Cards */
+.tasks-list {
+    display: grid;
+    gap: 1rem;
+}
+
+.task-card {
+    padding: 1.25rem;
     border-radius: 8px;
     background: var(--secondary-color);
     transition: transform 0.2s, box-shadow 0.2s;
     cursor: pointer;
 }
 
-.class-card:hover, .task-card:hover {
+.task-card:hover {
     transform: translateY(-2px);
-    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+    box-shadow: var(--shadow-hover);
 }
 
-.class-card:last-child, .task-card:last-child {
-    margin-bottom: 0;
-}
-
-.class-title {
-    font-size: 1.1rem;
-    font-weight: 600;
-    margin-bottom: 0.5rem;
-    color: var(--primary-color);
-}
-
-.class-detail, .task-detail {
+.task-header {
     display: flex;
+    justify-content: space-between;
     align-items: center;
-    margin-bottom: 0.25rem;
-    font-size: 0.9rem;
-    color: var(--light-text);
+    margin-bottom: 0.75rem;
 }
 
-.class-detail i, .task-detail i {
-    margin-right: 0.5rem;
-    width: 16px;
-    text-align: center;
+.task-title {
+    font-size: 1rem;
+    font-weight: 600;
+}
+
+.task-subject {
+    font-size: 0.85rem;
+    color: var(--light-text);
+    margin-bottom: 0.5rem;
 }
 
 .deadline-item {
@@ -129,9 +289,18 @@ body {
     justify-content: space-between;
     align-items: center;
     padding: 0.75rem 1rem;
-    background: var(--secondary-color);
+    background: var(--white);
     border-radius: 6px;
     margin-bottom: 0.5rem;
+    border-left: 4px solid var(--high-priority);
+}
+
+.deadline-item.medium {
+    border-left-color: var(--medium-priority);
+}
+
+.deadline-item.low {
+    border-left-color: var(--low-priority);
 }
 
 .deadline-text {
@@ -139,66 +308,247 @@ body {
 }
 
 .deadline-days {
-    color: var(--primary-color);
+    color: var(--high-priority);
     font-weight: 600;
+    background: rgba(245, 101, 101, 0.1);
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+    font-size: 0.85rem;
 }
 
-@media (max-width: 600px) {
+.deadline-days.medium {
+    color: var(--medium-priority);
+    background: rgba(246, 173, 85, 0.1);
+}
+
+.deadline-days.low {
+    color: var(--low-priority);
+    background: rgba(104, 211, 145, 0.1);
+}
+
+.task-checkbox {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-top: 0.75rem;
+}
+
+.task-checkbox input {
+    width: 18px;
+    height: 18px;
+}
+
+.task-checkbox label {
+    font-size: 0.95rem;
+}
+
+.task-checkbox.completed label {
+    text-decoration: line-through;
+    color: var(--light-text);
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+    .header-top {
+        flex-direction: column;
+        gap: 1rem;
+        align-items: stretch;
+    }
+    
+    .search-bar {
+        width: 100%;
+    }
+    
+    .profile {
+        justify-content: flex-end;
+    }
+    
+    .counters {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 480px) {
     .container {
-        padding: 1.5rem 1rem;
+        padding: 1rem;
     }
     
     .section {
         padding: 1.25rem 1rem;
     }
     
-    .header h1 {
-        font-size: 1.75rem;
+    .class-card {
+        grid-template-columns: 1fr;
+    }
+    
+    .class-icon {
+        display: none;
     }
 }
 
 
+
 </style>
-</head>
 <body>
     <div class="container">
         <header class="header">
-            <h1>Hi Jackie</h1>
-            <p>Here is a list of schedule you need to check...</p>
+            <div class="header-top">
+                <div class="search-bar">
+                    <i class="fas fa-search"></i>
+                    <input type="text" placeholder="Search classes, tasks...">
+                </div>
+                <div class="profile">
+                    <img src="images/profile.jpg" alt="Profile" class="profile-img">
+                    <span>Jackie</span>
+                </div>
+            </div>
+            
+            <div class="welcome">
+                <h1>Hi Jackie</h1>
+                <p>Here's your education dashboard for today</p>
+            </div>
+            
+            <div class="counters">
+                <div class="counter-card">
+                    <div class="counter-value" id="class-counter">3</div>
+                    <div class="counter-label">Today's Classes</div>
+                </div>
+                <div class="counter-card">
+                    <div class="counter-value" id="task-counter">4</div>
+                    <div class="counter-label">Pending Tasks</div>
+                </div>
+                <div class="counter-card">
+                    <div class="counter-value" id="deadline-counter">2</div>
+                    <div class="counter-label">Upcoming Deadlines</div>
+                </div>
+            </div>
         </header>
 
         <main class="main-content">
             <section class="section">
                 <div class="section-header">
-                    <h2>TODAY CLASSES (3)</h2>
+                    <h2><i class="fas fa-calendar-day"></i> TODAY CLASSES</h2>
                     <a href="#" class="see-all">See all</a>
                 </div>
                 
                 <div class="classes-list" id="today-classes">
-                    <!-- Classes will be loaded from JSON via JavaScript -->
+                    <!-- Classes loaded from JSON -->
                 </div>
             </section>
 
             <section class="section">
                 <div class="section-header">
-                    <h2>YOUR TASKS (4)</h2>
+                    <h2><i class="fas fa-tasks"></i> YOUR TASKS</h2>
                     <a href="#" class="see-all">See all</a>
                 </div>
                 
                 <div class="tasks-list" id="tasks">
-                    <!-- Tasks will be loaded from JSON via JavaScript -->
+                    <!-- Tasks loaded from JSON -->
                 </div>
             </section>
         </main>
     </div>
 
+    <!-- Embedded JSON data -->
+    <script type="application/json" id="schedule-data">
+    {
+        "todayClasses": [
+            {
+                "title": "The Basic of Typography II",
+                "location": "Room CI, Faculty of Art & Design",
+                "instructor": "Gabriel Sutton",
+                "time": "09:00 - 10:30 AM",
+                "icon": "fas fa-font"
+            },
+            {
+                "title": "Design Psychology: Principles",
+                "location": "Room CI, Faculty of Art & Design",
+                "instructor": "Jessie Reeves",
+                "time": "11:00 - 12:30 PM",
+                "icon": "fas fa-brain"
+            },
+            {
+                "title": "Advanced Color Theory",
+                "location": "Room D2, Faculty of Art & Design",
+                "instructor": "Marcus Wong",
+                "time": "02:00 - 03:30 PM",
+                "icon": "fas fa-palette"
+            }
+        ],
+        "tasks": {
+            "deadlines": [
+                {
+                    "task": "Typography Assignment",
+                    "daysLeft": "3",
+                    "subject": "Typography II",
+                    "priority": "high"
+                },
+                {
+                    "task": "Design Psychology Paper",
+                    "daysLeft": "10",
+                    "subject": "Design Psychology",
+                    "priority": "medium"
+                }
+            ],
+            "otherTasks": [
+                {
+                    "name": "Read Typography Chapter 4",
+                    "subject": "Typography II",
+                    "completed": false
+                },
+                {
+                    "name": "Prepare presentation slides",
+                    "subject": "Color Theory",
+                    "completed": false
+                },
+                {
+                    "name": "Submit weekly reflection",
+                    "subject": "Design Psychology",
+                    "completed": true
+                },
+                {
+                    "name": "Review portfolio pieces",
+                    "subject": "Portfolio",
+                    "completed": false
+                }
+            ]
+        }
+    }
+    </script>
+
     <script>
+
 document.addEventListener('DOMContentLoaded', function() {
     // Get data from embedded JSON
     const scheduleData = JSON.parse(document.getElementById('schedule-data').textContent);
     
+    // Update counters
+    document.getElementById('class-counter').textContent = scheduleData.todayClasses.length;
+    document.getElementById('task-counter').textContent = scheduleData.tasks.otherTasks.length;
+    document.getElementById('deadline-counter').textContent = scheduleData.tasks.deadlines.length;
+    
     renderTodayClasses(scheduleData.todayClasses);
     renderTasks(scheduleData.tasks);
+    
+    // Search functionality
+    const searchInput = document.querySelector('.search-bar input');
+    searchInput.addEventListener('input', function() {
+        const searchTerm = this.value.toLowerCase();
+        
+        // Filter classes
+        const classCards = document.querySelectorAll('.class-card');
+        classCards.forEach(card => {
+            const text = card.textContent.toLowerCase();
+            card.style.display = text.includes(searchTerm) ? 'grid' : 'none';
+        });
+        
+        // Filter tasks
+        const taskCards = document.querySelectorAll('.task-card');
+        taskCards.forEach(card => {
+            const text = card.textContent.toLowerCase();
+            card.style.display = text.includes(searchTerm) ? 'block' : 'none';
+        });
+    });
 
     // Render today's classes
     function renderTodayClasses(classes) {
@@ -209,14 +559,23 @@ document.addEventListener('DOMContentLoaded', function() {
             classElement.className = 'class-card';
             
             classElement.innerHTML = `
-                <h3 class="class-title">${cls.title}</h3>
-                <div class="class-detail">
-                    <i class="fas fa-map-marker-alt"></i>
-                    <span>${cls.location}</span>
+                <div class="class-icon">
+                    <i class="${cls.icon || 'fas fa-book'}"></i>
                 </div>
-                <div class="class-detail">
-                    <i class="fas fa-chalkboard-teacher"></i>
-                    <span>${cls.instructor}</span>
+                <div class="class-content">
+                    <h3 class="class-title">${cls.title}</h3>
+                    <div class="class-detail">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <span>${cls.location}</span>
+                    </div>
+                    <div class="class-detail">
+                        <i class="fas fa-chalkboard-teacher"></i>
+                        <span>${cls.instructor}</span>
+                    </div>
+                    <div class="class-time">
+                        <i class="fas fa-clock"></i>
+                        <span>${cls.time || 'Time not specified'}</span>
+                    </div>
                 </div>
             `;
             
@@ -232,12 +591,16 @@ document.addEventListener('DOMContentLoaded', function() {
         const deadlineElement = document.createElement('div');
         deadlineElement.className = 'task-card';
         
-        let deadlinesHTML = '<h3 class="class-title">Deadline</h3>';
+        let deadlinesHTML = '<h3 class="task-title">Deadlines</h3>';
         tasks.deadlines.forEach(deadline => {
+            const priorityClass = deadline.priority || 'high';
             deadlinesHTML += `
-                <div class="deadline-item">
-                    <span class="deadline-text">${deadline.task}</span>
-                    <span class="deadline-days">${deadline.daysLeft} left</span>
+                <div class="deadline-item ${priorityClass}">
+                    <div>
+                        <div class="deadline-text">${deadline.task}</div>
+                        <div class="task-subject">${deadline.subject || 'General'}</div>
+                    </div>
+                    <div class="deadline-days ${priorityClass}">${deadline.daysLeft} days left</div>
                 </div>
             `;
         });
@@ -250,14 +613,37 @@ document.addEventListener('DOMContentLoaded', function() {
             const taskElement = document.createElement('div');
             taskElement.className = 'task-card';
             
+            const completedClass = task.completed ? 'completed' : '';
+            
             taskElement.innerHTML = `
-                <h3 class="class-title">${task}</h3>
+                <div class="task-header">
+                    <h3 class="task-title">${task.name}</h3>
+                </div>
+                <div class="task-subject">${task.subject || 'General'}</div>
+                <div class="task-checkbox ${completedClass}">
+                    <input type="checkbox" ${task.completed ? 'checked' : ''}>
+                    <label>Mark as completed</label>
+                </div>
             `;
+            
+            // Add checkbox event listener
+            const checkbox = taskElement.querySelector('input');
+            checkbox.addEventListener('change', function() {
+                const label = taskElement.querySelector('label');
+                if (this.checked) {
+                    taskElement.querySelector('.task-checkbox').classList.add('completed');
+                    label.style.textDecoration = 'line-through';
+                } else {
+                    taskElement.querySelector('.task-checkbox').classList.remove('completed');
+                    label.style.textDecoration = 'none';
+                }
+            });
             
             container.appendChild(taskElement);
         });
     }
 });
+
 
 </script>
 </body>
