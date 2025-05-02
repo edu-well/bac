@@ -1,148 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jackie's Education Dashboard</title>
+    <style>
+        :root {
+            --primary: #4361ee;
+            --primary-light: rgba(67, 97, 238, 0.1);
+            --primary-lighter: rgba(67, 97, 238, 0.05);
+            --dark: #1a1a2e;
+            --light: #f8f9fa;
+            --gray: #6c757d;
+            --gray-light: #e9ecef;
+            --white: #ffffff;
+            --border-radius: 14px;
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.08);
+            --shadow-md: 0 4px 12px rgba(0,0,0,0.08);
+            --shadow-lg: 0 12px 24px rgba(0,0,0,0.1);
+            --transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+        }
 
-1. has changed (change)
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+        }
 
-Correct Sentence: Social media has changed the way teenagers communicate.
-Grammar Rule: Present Perfect
-Why? Describes a change that started in the past and still affects now.
-Example: The internet has changed everything.
-Keywords:
-→ Tense: Present Perfect
-→ Signal: has + past participle
-→ Meaning: past → present
-→ Form: active verb
+        body {
+            background-color: #f5f7ff;
+            color: var(--dark);
+            line-height: 1.5;
+            -webkit-font-smoothing: antialiased;
+        }
 
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
 
----
+        /* Header */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2.5rem;
+        }
 
-2. have been created (create)
+        .greeting h1 {
+            font-size: 1.8rem;
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+            color: var(--dark);
+        }
 
-Correct Sentence: Many new platforms have been created.
-Grammar Rule: Present Perfect Passive
-Why? The subject (platforms) receives the action.
-Example: Many tools have been invented recently.
-Keywords:
-→ Tense: Present Perfect
-→ Form: Passive (have been + past participle)
-→ Subject: receives the action
-→ Use with: things created, discovered, built...
+        .greeting p {
+            color: var(--gray);
+            font-size: 0.95rem;
+            font-weight: 400;
+        }
 
+        /* Search Bar */
+        .search-container {
+            position: relative;
+            width: 320px;
+        }
 
----
+        .search-bar {
+            display: flex;
+            align-items: center;
+            background: var(--white);
+            border-radius: 99px;
+            padding: 0.85rem 1.5rem;
+            box-shadow: var(--shadow-sm);
+            width: 100%;
+            transition: var(--transition);
+            border: 1px solid rgba(0,0,0,0.04);
+        }
 
-3. useful (use)
+        .search-bar:focus-within {
+            box-shadow: var(--shadow-md);
+            border-color: rgba(0,0,0,0.1);
+        }
 
-Correct Sentence: These tools are useful for staying in touch.
-Grammar Rule: Adjective after “be”
-Why? “are” is a linking verb → needs adjective, not noun or verb
-Example: These apps are helpful.
-Keywords:
-→ Word Type: Adjective
-→ Structure: be + adjective
-→ Describes: nouns (tools, apps...)
-→ Common Adjectives: useful, helpful, harmful
+        .search-bar input {
+            border: none;
+            outline: none;
+            padding: 0 0.75rem;
+            width: 100%;
+            font-size: 1rem;
+            font-weight: 400;
+            background: transparent;
+            color: var(--dark);
+        }
 
+        .search-bar input::placeholder {
+            color: var(--gray);
+            opacity: 0.8;
+        }
 
----
+        .search-bar i {
+            color: var(--gray);
+            font-size: 1rem;
+        }
 
-4. dangerous (danger)
+        /* Enhanced Search Results */
+        .search-results {
+            position: absolute;
+            top: calc(100% + 8px);
+            left: 0;
+            right: 0;
+            background: var(--white);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow-lg);
+            max-height: 400px;
+            overflow-y: auto;
+            display: none;
+            z-index: 100;
+            padding: 0.5rem;
+            border: 1px solid rgba(0,0,0,0.05);
+        }
 
-Correct Sentence: They can be dangerous if used too much.
-Grammar Rule: Adjective after “be”
-Why? After “be”, we describe something → use adjective
-Example: Junk food can be unhealthy.
-Keywords:
-→ Word Type: Adjective
-→ Structure: be + adjective
-→ Function: describes risk or quality
-→ Similar Forms: dangerous, risky, harmful
+        .search-result {
+            padding: 1rem 1.25rem;
+            border-radius: 10px;
+            margin: 0.25rem;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
 
+        .search-result:hover {
+            background: var(--primary-lighter);
+            transform: translateX(2px);
+        }
 
----
+        .search-result-icon {
+            width: 36px;
+            height: 36px;
+            background: var(--primary-light);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary);
+            font-size: 0.9rem;
+            flex-shrink: 0;
+        }
 
-5. linked (link)
+        .search-result-content {
+            flex: 1;
+        }
 
-Correct Sentence: Time has been linked to poor sleep.
-Grammar Rule: Present Perfect Passive
-Why? The subject is not doing the linking → passive voice needed
-Example: Pollution has been linked to disease.
-Keywords:
-→ Tense: Present Perfect
-→ Voice: Passive
-→ Form: has/have been + past participle
-→ Function: scientific cause/effect
+        .search-result-title {
+            font-weight: 500;
+            color: var(--dark);
+            margin-bottom: 0.25rem;
+            font-size: 0.95rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
 
+        .search-result-title .highlight {
+            color: var(--primary);
+            font-weight: 600;
+        }
 
----
+        .search-result-desc {
+            font-size: 0.85rem;
+            color: var(--gray);
+            line-height: 1.4;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
 
-6. have already experienced (already / experience)
+        .search-result-type {
+            display: inline-block;
+            margin-top: 0.5rem;
+            font-size: 0.75rem;
+            color: var(--primary);
+            background: var(--primary-light);
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+        }
 
-Correct Sentence: Teenagers have already experienced online pressure.
-Grammar Rule: Present Perfect with “already”
-Why? “already” fits with actions that happened before now
-Example: I have already seen that movie.
-Keywords:
-→ Tense: Present Perfect
-→ Signal Word: already
-→ Form: have + past participle
-→ Use When: recent past, still relevant
+        .no-results {
+            padding: 1.5rem;
+            text-align: center;
+            color: var(--gray);
+            font-size: 0.9rem;
+        }
 
+        /* Rest of your existing styles... */
+        /* [Previous CSS styles for schedule-container, modal, etc.] */
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <div class="greeting">
+                <h1>Hi Jackie</h1>
+                <p>Here's your schedule for today</p>
+            </div>
+            <div class="search-container">
+                <div class="search-bar">
+                    <i class="fas fa-search"></i>
+                    <input type="text" placeholder="Search classes..." id="searchInput">
+                </div>
+                <div class="search-results" id="searchResults">
+                    <!-- Search results will appear here -->
+                </div>
+            </div>
+        </header>
 
----
+        <!-- Rest of your HTML content... -->
+    </div>
 
-7. will need (need)
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Sample data
+            const scheduleData = {
+                searchData: [
+                    {
+                        title: "Typography II",
+                        description: "Advanced typography principles and applications in modern design",
+                        type: "Class",
+                        icon: "fa-font"
+                    },
+                    {
+                        title: "Design Psychology",
+                        description: "Understanding cognitive processes in user experience design",
+                        type: "Class",
+                        icon: "fa-brain"
+                    },
+                    {
+                        title: "Color Theory",
+                        description: "Advanced color systems and their psychological impact",
+                        type: "Class", 
+                        icon: "fa-palette"
+                    },
+                    {
+                        title: "Midterm Exam",
+                        description: "Design Principles midterm examination covering all concepts",
+                        type: "Event",
+                        icon: "fa-calendar-alt"
+                    },
+                    {
+                        title: "Guest Lecture",
+                        description: "UX Design Trends with industry expert Sarah Johnson",
+                        type: "Event",
+                        icon: "fa-chalkboard-teacher"
+                    }
+                ]
+            };
 
-Correct Sentence: Parents will need to educate...
-Grammar Rule: Future Simple
-Why? Talks about something that will happen in the future
-Example: You will need a ticket.
-Keywords:
-→ Tense: Future
-→ Form: will + base verb
-→ Time: later, next, tomorrow, in the future
-→ No -ing or -ed
+            // Enhanced Search Functionality
+            const searchInput = document.getElementById('searchInput');
+            const searchResults = document.getElementById('searchResults');
 
+            function highlightText(text, term) {
+                if (!term) return text;
+                const regex = new RegExp(`(${term})`, 'gi');
+                return text.replace(regex, '<span class="highlight">$1</span>');
+            }
 
----
+            searchInput.addEventListener('input', function() {
+                const term = this.value.toLowerCase().trim();
+                searchResults.innerHTML = '';
+                
+                if (term.length < 2) {
+                    searchResults.style.display = 'none';
+                    return;
+                }
+                
+                const filtered = scheduleData.searchData.filter(item => 
+                    item.title.toLowerCase().includes(term) || 
+                    item.description.toLowerCase().includes(term)
+                );
+                
+                if (filtered.length > 0) {
+                    filtered.forEach(item => {
+                        const resultItem = document.createElement('div');
+                        resultItem.className = 'search-result';
+                        resultItem.innerHTML = `
+                            <div class="search-result-icon">
+                                <i class="fas ${item.icon}"></i>
+                            </div>
+                            <div class="search-result-content">
+                                <div class="search-result-title">
+                                    ${highlightText(item.title, term)}
+                                </div>
+                                <div class="search-result-desc">
+                                    ${highlightText(item.description, term)}
+                                </div>
+                                <span class="search-result-type">${item.type}</span>
+                            </div>
+                        `;
+                        resultItem.addEventListener('click', () => {
+                            searchInput.value = item.title;
+                            searchResults.style.display = 'none';
+                            // You could add navigation to the relevant item here
+                        });
+                        searchResults.appendChild(resultItem);
+                    });
+                    searchResults.style.display = 'block';
+                } else {
+                    const noResults = document.createElement('div');
+                    noResults.className = 'no-results';
+                    noResults.innerHTML = `
+                        <i class="fas fa-search" style="font-size: 1.5rem; margin-bottom: 0.5rem;"></i>
+                        <div>No results found for "${term}"</div>
+                    `;
+                    searchResults.appendChild(noResults);
+                    searchResults.style.display = 'block';
+                }
+            });
 
-8. have started (start)
+            // Close search results when clicking outside
+            document.addEventListener('click', function(e) {
+                if (!e.target.closest('.search-container')) {
+                    searchResults.style.display = 'none';
+                }
+            });
 
-Correct Sentence: Some schools have started programs...
-Grammar Rule: Present Perfect
-Why? Describes a recent action with a present result
-Example: I have started exercising this month.
-Keywords:
-→ Tense: Present Perfect
-→ Time Signal: recent action
-→ Form: have + past participle
-→ Use For: news, changes, achievements
-
-
----
-
-9. effects (effect)
-
-Correct Sentence: Understand the effects of digital life.
-Grammar Rule: Plural Noun
-Why? Refers to multiple consequences → need plural form
-Example: The effects of stress are serious.
-Keywords:
-→ Word Type: Noun
-→ Form: plural (s at the end)
-→ Use For: results, outcomes
-→ Confusion Alert: don’t confuse with “affect” (verb)
-
-
----
-
-10. responsibly (responsible)
-
-Correct Sentence: If used responsibly, social media can help.
-Grammar Rule: Adverb of manner
-Why? Describes how something is used → adverb
-Example: She speaks politely.
-Keywords:
-→ Word Type: Adverb
-→ Form: adjective + -ly
-→ Answers: how?
-→ Common Adverbs: safely, quickly, respectfully
-
+            // Rest of your JavaScript...
+        });
+    </script>
+    <!-- Font Awesome -->
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+</body>
+</html>
