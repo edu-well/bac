@@ -1,325 +1,230 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="light">
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fitness Planner Pro</title>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto+Flex:wght@300;400;500;700&family=SF+Pro+Display:wght@300;400;500;700&display=swap">
-    <style>
-        :root {
-            /* Light Theme */
-            --bg-primary: #ffffff;
-            --bg-secondary: #f5f5f7;
-            --text-primary: #1c1c1e;
-            --text-secondary: #636366;
-            --accent-blue: #007AFF;
-            --accent-green: #34C759;
-            --accent-orange: #FF9500;
-            --accent-red: #FF3B30;
-            --card-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-            --border-radius: 12px;
-        }
-
-        [data-theme="dark"] {
-            /* Dark Theme */
-            --bg-primary: #1c1c1e;
-            --bg-secondary: #2c2c2e;
-            --text-primary: #f5f5f5;
-            --text-secondary: #a8a8a8;
-            --card-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'SF Pro Display', 'Roboto Flex', sans-serif;
-            transition: background 0.3s, color 0.3s;
-        }
-
-        body {
-            background-color: var(--bg-secondary);
-            color: var(--text-primary);
-            padding: 0;
-            max-width: 100%;
-            min-height: 100vh;
-        }
-
-        /* Header & Theme Toggle */
-        .app-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 20px;
-            background-color: var(--bg-primary);
-            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-        }
-
-        .app-title {
-            font-size: 24px;
-            font-weight: 700;
-        }
-
-        .theme-toggle {
-            background: none;
-            border: none;
-            font-size: 20px;
-            cursor: pointer;
-            color: var(--text-primary);
-        }
-
-        /* Main Layout */
-        .app-container {
-            display: grid;
-            grid-template-columns: 280px 1fr;
-            min-height: calc(100vh - 72px);
-        }
-
-        /* Sidebar */
-        .sidebar {
-            background-color: var(--bg-primary);
-            padding: 20px;
-            border-right: 1px solid rgba(0, 0, 0, 0.1);
-        }
-
-        .sidebar-menu {
-            list-style: none;
-        }
-
-        .sidebar-menu li {
-            padding: 12px 0;
-            font-weight: 500;
-            cursor: pointer;
-        }
-
-        .sidebar-menu li.active {
-            color: var(--accent-blue);
-        }
-
-        /* Main Content */
-        .main-content {
-            padding: 20px;
-            overflow-y: auto;
-        }
-
-        /* Calendar View */
-        .calendar-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-        }
-
-        .calendar-title {
-            font-size: 20px;
-            font-weight: 600;
-        }
-
-        .view-toggle button {
-            background: var(--bg-secondary);
-            border: none;
-            padding: 8px 16px;
-            border-radius: 20px;
-            margin-left: 8px;
-            cursor: pointer;
-            font-weight: 500;
-        }
-
-        .view-toggle button.active {
-            background: var(--accent-blue);
-            color: white;
-        }
-
-        /* Date Picker */
-        .date-picker {
-            display: flex;
-            gap: 8px;
-            margin-bottom: 24px;
-            overflow-x: auto;
-            padding-bottom: 8px;
-        }
-
-        .date-item {
-            min-width: 60px;
-            padding: 12px;
-            text-align: center;
-            border-radius: var(--border-radius);
-            cursor: pointer;
-            background: var(--bg-primary);
-            box-shadow: var(--card-shadow);
-        }
-
-        .date-item.active {
-            background: var(--accent-blue);
-            color: white;
-        }
-
-        /* Workout Cards */
-        .workout-card {
-            background: var(--bg-primary);
-            border-radius: var(--border-radius);
-            padding: 16px;
-            margin-bottom: 16px;
-            box-shadow: var(--card-shadow);
-            border-left: 4px solid var(--accent-blue);
-        }
-
-        .workout-card.medium {
-            border-left-color: var(--accent-orange);
-        }
-
-        .workout-card.hard {
-            border-left-color: var(--accent-red);
-        }
-
-        /* Progress Dashboard */
-        .progress-section {
-            margin-top: 32px;
-        }
-
-        .progress-cards {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 16px;
-        }
-
-        .progress-card {
-            background: var(--bg-primary);
-            border-radius: var(--border-radius);
-            padding: 16px;
-            box-shadow: var(--card-shadow);
-        }
-
-        /* Responsive Adjustments */
-        @media (max-width: 768px) {
-            .app-container {
-                grid-template-columns: 1fr;
-            }
-            .sidebar {
-                display: none;
-            }
-        }
-    </style>
+  <meta charset="UTF-8">
+  <title>Vite React TS Starter Config</title>
+  <style>
+    /* CSS styles for displaying the configuration */
+    body {
+      font-family: monospace;
+      line-height: 1.6;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+      background-color: #f5f5f5;
+    }
+    .config-section {
+      background: white;
+      border-radius: 8px;
+      padding: 20px;
+      margin-bottom: 20px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    h1, h2 {
+      color: #333;
+    }
+    pre {
+      background: #f8f8f8;
+      padding: 15px;
+      border-radius: 4px;
+      overflow-x: auto;
+    }
+  </style>
 </head>
 <body>
-    <header class="app-header">
-        <h1 class="app-title">Fitness Planner Pro</h1>
-        <button class="theme-toggle" id="themeToggle">🌓</button>
-    </header>
+  <h1>Vite React TypeScript Starter Configuration</h1>
 
-    <div class="app-container">
-        <!-- Sidebar Navigation -->
-        <aside class="sidebar">
-            <ul class="sidebar-menu">
-                <li class="active">Dashboard</li>
-                <li>Calendar</li>
-                <li>Workouts</li>
-                <li>Progress</li>
-                <li>Clients</li>
-                <li>Settings</li>
-            </ul>
-        </aside>
+  <div class="config-section">
+    <h2>1. .gitignore</h2>
+    <pre># Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
 
-        <!-- Main Content -->
-        <main class="main-content">
-            <div class="calendar-header">
-                <h2 class="calendar-title">August 2023</h2>
-                <div class="view-toggle">
-                    <button class="active">Week</button>
-                    <button>Month</button>
-                </div>
-            </div>
+node_modules
+dist
+dist-ssr
+*.local
 
-            <!-- Date Picker -->
-            <div class="date-picker" id="datePicker">
-                <!-- Dynamically generated -->
-            </div>
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?</pre>
+  </div>
 
-            <!-- Workout Plans -->
-            <div id="workoutsContainer">
-                <div class="workout-card">
-                    <h3>Morning Yoga</h3>
-                    <p>07:00 - 08:00 AM</p>
-                    <p>Intensity: <span class="intensity-light">Light</span></p>
-                </div>
-                <div class="workout-card medium">
-                    <h3>HIIT Training</h3>
-                    <p>17:00 - 18:00 PM</p>
-                    <p>Intensity: <span class="intensity-medium">Medium</span></p>
-                </div>
-            </div>
+  <div class="config-section">
+    <h2>2. ESLint Config (edlint.config.js)</h2>
+    <pre>import js from '@eslint/js';
+import globals from 'globals';
+import reactHooks from 'eslint-plugin-react-hooks';
+import reactRefresh from 'eslint-plugin-react-refresh';
+import tseslint from 'typescript-eslint';
 
-            <!-- Progress Dashboard -->
-            <section class="progress-section">
-                <h2>Your Progress</h2>
-                <div class="progress-cards">
-                    <div class="progress-card">
-                        <h3>Workouts Completed</h3>
-                        <p>12/15</p>
-                    </div>
-                    <div class="progress-card">
-                        <h3>Calories Burned</h3>
-                        <p>4,200 kcal</p>
-                    </div>
-                    <div class="progress-card">
-                        <h3>Current Streak</h3>
-                        <p>7 days 🔥</p>
-                    </div>
-                </div>
-            </section>
-        </main>
-    </div>
+export default tseslint.config(
+  { ignores: ['dist'] },
+  {
+    extends: [js.configs.recommended, ...tseslint.configs.recommended],
+    files: ['**/*.{ts,tsx}'],
+    languageOptions: {
+      ecmaVersion: 2020,
+      globals: globals.browser,
+    },
+    plugins: {
+      'react-hooks': reactHooks,
+      'react-refresh': reactRefresh,
+    },
+    rules: {
+      ...reactHooks.configs.recommended.rules,
+      'react-refresh/only-export-components': [
+        'warn',
+        { allowConstantExport: true },
+      ],
+    },
+  }
+);</pre>
+  </div>
 
-    <script>
-        // Theme Toggle
-        const themeToggle = document.getElementById('themeToggle');
-        themeToggle.addEventListener('click', () => {
-            const currentTheme = document.documentElement.getAttribute('data-theme');
-            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
-            document.documentElement.setAttribute('data-theme', newTheme);
-            themeToggle.textContent = newTheme === 'light' ? '🌓' : '☀️';
-        });
+  <div class="config-section">
+    <h2>3. package.json</h2>
+    <pre>{
+  "name": "vite-react-typescript-starter",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "lint": "eslint .",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "lucide-react": "^0.344.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.9.1",
+    "@types/react": "^18.3.5",
+    "@types/react-dom": "^18.3.0",
+    "@vitejs/plugin-react": "^4.3.1",
+    "autoprefixer": "^10.4.18",
+    "eslint": "^9.9.1",
+    "eslint-plugin-react-hooks": "^5.1.0-rc.0",
+    "eslint-plugin-react-refresh": "^0.4.11",
+    "globals": "^15.9.0",
+    "postcss": "^8.4.35",
+    "tailwindcss": "^3.4.1",
+    "typescript": "^5.5.3",
+    "typescript-eslint": "^8.3.0",
+    "vite": "^5.4.2"
+  }
+}</pre>
+  </div>
 
-        // Date Picker Generation
-        const datePicker = document.getElementById('datePicker');
-        const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-        const today = new Date();
-        
-        for (let i = 0; i < 7; i++) {
-            const date = new Date();
-            date.setDate(today.getDate() + i);
-            
-            const dateItem = document.createElement('div');
-            dateItem.className = 'date-item';
-            if (i === 0) dateItem.classList.add('active');
-            
-            dateItem.innerHTML = `
-                <div>${days[date.getDay()]}</div>
-                <div>${date.getDate()}</div>
-            `;
-            
-            dateItem.addEventListener('click', () => {
-                document.querySelectorAll('.date-item').forEach(item => item.classList.remove('active'));
-                dateItem.classList.add('active');
-                // Here you would fetch workouts for the selected date
-            });
-            
-            datePicker.appendChild(dateItem);
-        }
+  <div class="config-section">
+    <h2>4. Tailwind & PostCSS Config</h2>
+    <pre>// postcss.config.js
+export default {
+  plugins: {
+    tailwindcss: {},
+    autoprefixer: {},
+  },
+};
 
-        // Simulated Workout Data
-        const workouts = [
-            { title: "Morning Run", time: "07:00 - 08:00", intensity: "light" },
-            { title: "Strength Training", time: "18:00 - 19:00", intensity: "medium" }
-        ];
+// tailwind.config.js
+/** @type {import('tailwindcss').Config} */
+export default {
+  content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
+  theme: {
+    extend: {},
+  },
+  plugins: [],
+};</pre>
+  </div>
 
-        // View Toggle
-        document.querySelectorAll('.view-toggle button').forEach(button => {
-            button.addEventListener('click', () => {
-                document.querySelectorAll('.view-toggle button').forEach(btn => btn.classList.remove('active'));
-                button.classList.add('active');
-            });
-        });
-    </script>
+  <div class="config-section">
+    <h2>5. TypeScript Configs</h2>
+    <pre>// tsconfig.app.json
+{
+  "compilerOptions": {
+    "target": "ES2020",
+    "useDefineForClassFields": true,
+    "lib": ["ES2020", "DOM", "DOM.Iterable"],
+    "module": "ESNext",
+    "skipLibCheck": true,
+    "moduleResolution": "bundler",
+    "allowImportingTsExtensions": true,
+    "isolatedModules": true,
+    "moduleDetection": "force",
+    "noEmit": true,
+    "jsx": "react-jsx",
+    "strict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noFallthroughCasesInSwitch": true
+  },
+  "include": ["src"]
+}
+
+// tsconfig.json
+{
+  "files": [],
+  "references": [
+    { "path": "./tsconfig.app.json" },
+    { "path": "./tsconfig.node.json" }
+  ]
+}
+
+// tsconfig.node.json
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "lib": ["ES2023"],
+    "module": "ESNext",
+    "skipLibCheck": true,
+    "moduleResolution": "bundler",
+    "allowImportingTsExtensions": true,
+    "isolatedModules": true,
+    "moduleDetection": "force",
+    "noEmit": true,
+    "strict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noFallthroughCasesInSwitch": true
+  },
+  "include": ["vite.config.ts"]
+}</pre>
+  </div>
+
+  <div class="config-section">
+    <h2>6. Vite Config (vite.config.ts)</h2>
+    <pre>import { defineConfig } from 'vite';
+import react from '@vitejs/plugin-react';
+
+export default defineConfig({
+  plugins: [react()],
+  optimizeDeps: {
+    exclude: ['lucide-react'],
+  },
+});</pre>
+  </div>
+
+  <script>
+    // JavaScript to make the page interactive
+    document.addEventListener('DOMContentLoaded', function() {
+      // You could add interactive features here
+      console.log('All configurations loaded');
+    });
+  </script>
 </body>
 </html>
