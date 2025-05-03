@@ -3,17 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Daily App | Premium Lifestyle</title>
-    <link href="https://fonts.googleapis.com/css2?family=SF+Pro+Display:wght@400;500;600&display=swap" rel="stylesheet">
+    <title>Modern Interface</title>
+    <link href="https://fonts.googleapis.com/css2?family=SF+Pro+Display:wght@300;400;500;600&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-color: #fafafa;
+            --bg-color: #f5f5f7;
             --card-bg: #ffffff;
             --text-dark: #1d1d1f;
             --text-light: #86868b;
-            --section-title: #424245;
-            --highlight: #0071e3;
-            --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            --highlight-blue: #0071e3;
+            --highlight-orange: #ff9500;
+            --highlight-purple: #5856d6;
+            --highlight-green: #34c759;
         }
         
         body {
@@ -22,98 +23,121 @@
             margin: 0;
             padding: 0;
             color: var(--text-dark);
-            line-height: 1.5;
             -webkit-font-smoothing: antialiased;
         }
         
         .container {
-            max-width: 980px;
-            margin: 60px auto;
-            padding: 0 22px;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
         }
         
-        .section-title {
-            font-size: 24px;
-            font-weight: 600;
-            color: var(--section-title);
-            margin: 64px 0 24px 0;
-            letter-spacing: -0.25px;
+        /* Top Color Squares Section */
+        .color-squares {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 60px;
         }
         
-        .card-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        .square {
+            flex: 1;
+            height: 300px;
+            border-radius: 24px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+            transition: transform 0.3s ease;
+        }
+        
+        .square:hover {
+            transform: scale(1.02);
+        }
+        
+        .square-1 {
+            background: linear-gradient(135deg, var(--highlight-blue), #5ac8fa);
+        }
+        
+        .square-2 {
+            background: linear-gradient(135deg, var(--highlight-orange), #ffcc00);
+        }
+        
+        /* Stacked Cards Section */
+        .stacked-cards {
+            display: flex;
+            flex-direction: column;
             gap: 20px;
         }
         
         .card {
             background: var(--card-bg);
-            border-radius: 18px;
-            padding: 32px;
-            box-shadow: var(--card-shadow);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease;
         }
         
         .card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+        }
+        
+        .card-1 {
+            border-top: 6px solid var(--highlight-blue);
+        }
+        
+        .card-2 {
+            border-top: 6px solid var(--highlight-orange);
+        }
+        
+        .card-3 {
+            border-top: 6px solid var(--highlight-purple);
+        }
+        
+        .card-4 {
+            border-top: 6px solid var(--highlight-green);
         }
         
         .card-title {
             font-size: 28px;
             font-weight: 600;
-            margin: 0 0 8px 0;
+            margin: 0 0 10px 0;
             letter-spacing: -0.6px;
         }
         
-        .card-subtitle {
+        .card-description {
             font-size: 17px;
             color: var(--text-light);
             margin: 0;
-        }
-        
-        .divider {
-            height: 1px;
-            background: linear-gradient(90deg, transparent 0%, rgba(0,0,0,0.1) 50%, transparent 100%);
-            margin: 80px 0;
-        }
-        
-        .footer {
-            text-align: center;
-            color: var(--text-light);
-            font-size: 14px;
-            margin-top: 100px;
-            padding-bottom: 40px;
+            line-height: 1.5;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <div class="section-title">Daily Exploration</div>
-        <div class="card-grid">
-            <div class="card">
+        <!-- Top Section: Color Squares -->
+        <div class="color-squares">
+            <div class="square square-1"></div>
+            <div class="square square-2"></div>
+        </div>
+        
+        <!-- Bottom Section: Stacked Cards -->
+        <div class="stacked-cards">
+            <div class="card card-1">
+                <h2 class="card-title">Daily Exploration</h2>
+                <p class="card-description">Discover new possibilities and expand your horizons</p>
+            </div>
+            
+            <div class="card card-2">
                 <h2 class="card-title">Residential Upgrading</h2>
-                <p class="card-subtitle">Transform living spaces with intelligent design solutions</p>
+                <p class="card-description">Transform your living spaces with innovative solutions</p>
             </div>
-        </div>
-        
-        <div class="section-title">Life Development</div>
-        <div class="card-grid">
-            <div class="card">
+            
+            <div class="card card-3">
+                <h2 class="card-title">Life Development</h2>
+                <p class="card-description">Enhance your personal and professional growth</p>
+            </div>
+            
+            <div class="card card-4">
                 <h2 class="card-title">Family Management</h2>
-                <p class="card-subtitle">Streamline household operations with premium tools</p>
+                <p class="card-description">Streamline household operations with smart tools</p>
             </div>
-        </div>
-        
-        <div class="divider"></div>
-        
-        <div class="section-title">You May Also Like</div>
-        <div class="card-grid">
-            <!-- Additional recommendation cards would go here -->
-        </div>
-        
-        <div class="footer">
-            Premium Lifestyle Solutions
         </div>
     </div>
 </body>
