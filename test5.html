@@ -3,142 +3,264 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Modern Interface</title>
-    <link href="https://fonts.googleapis.com/css2?family=SF+Pro+Display:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <title>MindGrow | Educational Platform</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-color: #f5f5f7;
+            --bg-color: #f8f9fa;
             --card-bg: #ffffff;
-            --text-dark: #1d1d1f;
-            --text-light: #86868b;
-            --highlight-blue: #0071e3;
-            --highlight-orange: #ff9500;
-            --highlight-purple: #5856d6;
-            --highlight-green: #34c759;
+            --text-dark: #212529;
+            --text-medium: #495057;
+            --text-light: #6c757d;
+            --nature-green: #2b8a3e;
+            --earth-brown: #5c940d;
+            --sky-blue: #1971c2;
+            --sunset-orange: #e67700;
+            --stone-gray: #868e96;
+            --border-radius: 16px;
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.08);
+            --shadow-md: 0 4px 12px rgba(0,0,0,0.05);
         }
         
         body {
-            font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, sans-serif;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
             background-color: var(--bg-color);
             margin: 0;
             padding: 0;
             color: var(--text-dark);
+            line-height: 1.6;
             -webkit-font-smoothing: antialiased;
         }
         
         .container {
             max-width: 1200px;
             margin: 0 auto;
-            padding: 40px 20px;
+            padding: 40px 24px;
         }
         
-        /* Top Color Squares Section */
-        .color-squares {
-            display: flex;
-            gap: 20px;
-            margin-bottom: 60px;
+        header {
+            text-align: center;
+            margin-bottom: 48px;
         }
         
-        .square {
-            flex: 1;
-            height: 300px;
-            border-radius: 24px;
-            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
-            transition: transform 0.3s ease;
+        h1 {
+            font-size: 2.25rem;
+            font-weight: 600;
+            margin-bottom: 12px;
+            color: var(--text-dark);
         }
         
-        .square:hover {
-            transform: scale(1.02);
+        .subtitle {
+            font-size: 1.125rem;
+            color: var(--text-medium);
+            max-width: 700px;
+            margin: 0 auto;
         }
         
-        .square-1 {
-            background: linear-gradient(135deg, var(--highlight-blue), #5ac8fa);
+        /* Knowledge Hub - Top Squares */
+        .knowledge-hub {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 24px;
+            margin-bottom: 64px;
         }
         
-        .square-2 {
-            background: linear-gradient(135deg, var(--highlight-orange), #ffcc00);
-        }
-        
-        /* Stacked Cards Section */
-        .stacked-cards {
+        .knowledge-card {
+            aspect-ratio: 1/0.8;
+            border-radius: var(--border-radius);
+            padding: 32px;
             display: flex;
             flex-direction: column;
-            gap: 20px;
-        }
-        
-        .card {
-            background: var(--card-bg);
-            border-radius: 20px;
-            padding: 40px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+            justify-content: flex-end;
+            position: relative;
+            overflow: hidden;
+            box-shadow: var(--shadow-md);
             transition: transform 0.3s ease;
         }
         
-        .card:hover {
+        .knowledge-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 40%;
+            background: linear-gradient(to bottom, rgba(0,0,0,0.1), transparent);
+            z-index: 1;
+        }
+        
+        .knowledge-card:hover {
             transform: translateY(-5px);
         }
         
-        .card-1 {
-            border-top: 6px solid var(--highlight-blue);
+        .knowledge-card-1 {
+            background-color: #e6fcf5;
+            background-image: url('https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80');
+            background-size: cover;
+            background-position: center;
         }
         
-        .card-2 {
-            border-top: 6px solid var(--highlight-orange);
+        .knowledge-card-2 {
+            background-color: #fff3bf;
+            background-image: url('https://images.unsplash.com/photo-1500382017468-9049fed747ef?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80');
+            background-size: cover;
+            background-position: center;
         }
         
-        .card-3 {
-            border-top: 6px solid var(--highlight-purple);
-        }
-        
-        .card-4 {
-            border-top: 6px solid var(--highlight-green);
-        }
-        
-        .card-title {
-            font-size: 28px;
+        .knowledge-card h3 {
+            font-size: 1.5rem;
             font-weight: 600;
-            margin: 0 0 10px 0;
-            letter-spacing: -0.6px;
+            color: white;
+            margin: 0 0 8px 0;
+            position: relative;
+            z-index: 2;
+            text-shadow: 0 1px 3px rgba(0,0,0,0.3);
         }
         
-        .card-description {
-            font-size: 17px;
-            color: var(--text-light);
+        .knowledge-card p {
+            font-size: 1rem;
+            color: rgba(255,255,255,0.9);
             margin: 0;
-            line-height: 1.5;
+            position: relative;
+            z-index: 2;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.2);
+        }
+        
+        /* Learning Paths - Stacked Cards */
+        .learning-paths {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .path-card {
+            background: var(--card-bg);
+            border-radius: var(--border-radius);
+            padding: 28px 32px;
+            box-shadow: var(--shadow-sm);
+            border-left: 4px solid;
+            transition: all 0.3s ease;
+        }
+        
+        .path-card:hover {
+            box-shadow: var(--shadow-md);
+            transform: translateX(5px);
+        }
+        
+        .path-card-1 {
+            border-color: var(--nature-green);
+        }
+        
+        .path-card-2 {
+            border-color: var(--earth-brown);
+        }
+        
+        .path-card-3 {
+            border-color: var(--sky-blue);
+        }
+        
+        .path-card-4 {
+            border-color: var(--sunset-orange);
+        }
+        
+        .path-card h3 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin: 0 0 8px 0;
+            color: var(--text-dark);
+        }
+        
+        .path-card p {
+            font-size: 1rem;
+            color: var(--text-medium);
+            margin: 0;
+        }
+        
+        .path-meta {
+            display: flex;
+            gap: 16px;
+            margin-top: 12px;
+            font-size: 0.875rem;
+            color: var(--text-light);
+        }
+        
+        .path-meta span {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+        
+        @media (max-width: 768px) {
+            .knowledge-hub {
+                grid-template-columns: 1fr;
+            }
+            
+            .knowledge-card {
+                aspect-ratio: 1/0.7;
+            }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <!-- Top Section: Color Squares -->
-        <div class="color-squares">
-            <div class="square square-1"></div>
-            <div class="square square-2"></div>
-        </div>
+        <header>
+            <h1>MindGrow Educational Platform</h1>
+            <p class="subtitle">Expand your knowledge through structured learning paths and immersive experiences</p>
+        </header>
         
-        <!-- Bottom Section: Stacked Cards -->
-        <div class="stacked-cards">
-            <div class="card card-1">
-                <h2 class="card-title">Daily Exploration</h2>
-                <p class="card-description">Discover new possibilities and expand your horizons</p>
+        <!-- Top Section: Knowledge Hub -->
+        <section class="knowledge-hub">
+            <div class="knowledge-card knowledge-card-1">
+                <h3>Daily Exploration</h3>
+                <p>Discover new concepts through guided daily lessons</p>
             </div>
             
-            <div class="card card-2">
-                <h2 class="card-title">Residential Upgrading</h2>
-                <p class="card-description">Transform your living spaces with innovative solutions</p>
+            <div class="knowledge-card knowledge-card-2">
+                <h3>Residential Upgrading</h3>
+                <p>Learn sustainable home improvement techniques</p>
+            </div>
+        </section>
+        
+        <!-- Bottom Section: Learning Paths -->
+        <section class="learning-paths">
+            <div class="path-card path-card-1">
+                <h3>Life Development Masterclass</h3>
+                <p>Comprehensive program for personal and professional growth</p>
+                <div class="path-meta">
+                    <span>⏱️ 12-week course</span>
+                    <span>📚 45 lessons</span>
+                </div>
             </div>
             
-            <div class="card card-3">
-                <h2 class="card-title">Life Development</h2>
-                <p class="card-description">Enhance your personal and professional growth</p>
+            <div class="path-card path-card-2">
+                <h3>Family Management Essentials</h3>
+                <p>Strategies for harmonious household organization</p>
+                <div class="path-meta">
+                    <span>⏱️ 8-week course</span>
+                    <span>📚 30 lessons</span>
+                </div>
             </div>
             
-            <div class="card card-4">
-                <h2 class="card-title">Family Management</h2>
-                <p class="card-description">Streamline household operations with smart tools</p>
+            <div class="path-card path-card-3">
+                <h3>Environmental Awareness</h3>
+                <p>Understanding ecosystems and sustainable practices</p>
+                <div class="path-meta">
+                    <span>⏱️ 6-week course</span>
+                    <span>📚 24 lessons</span>
+                </div>
             </div>
-        </div>
+            
+            <div class="path-card path-card-4">
+                <h3>Mindful Living</h3>
+                <p>Techniques for reducing stress and increasing focus</p>
+                <div class="path-meta">
+                    <span>⏱️ 4-week course</span>
+                    <span>📚 16 lessons</span>
+                </div>
+            </div>
+        </section>
     </div>
 </body>
 </html>
