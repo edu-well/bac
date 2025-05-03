@@ -3,189 +3,226 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lumina | Professional Learning</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <title>Lumina | Premium Learning</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-color: #f9fafb;
+            --bg-color: #f8fafc;
             --card-bg: #ffffff;
-            --text-dark: #111827;
-            --text-medium: #374151;
-            --text-light: #6b7280;
-            --primary: #2563eb;
-            --accent: #059669;
-            --border: #e5e7eb;
-            --radius-lg: 12px;
+            --text-dark: #0f172a;
+            --text-medium: #334155;
+            --text-light: #64748b;
+            --primary: #3b82f6;
+            --primary-light: #93c5fd;
+            --accent: #10b981;
+            --border: #e2e8f0;
+            --radius-lg: 16px;
             --radius-sm: 8px;
-            --shadow-sm: 0 1px 2px rgba(0,0,0,0.05);
-            --shadow-md: 0 4px 6px rgba(0,0,0,0.05);
-            --transition: all 0.2s ease-out;
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.04);
+            --shadow-md: 0 4px 6px rgba(0,0,0,0.08);
+            --shadow-lg: 0 10px 25px rgba(0,0,0,0.1);
+            --transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         body {
             font-family: 'Inter', sans-serif;
             background-color: var(--bg-color);
             color: var(--text-dark);
-            line-height: 1.5;
+            line-height: 1.6;
             -webkit-font-smoothing: antialiased;
             padding: 0;
             margin: 0;
         }
 
         .container {
-            max-width: 800px;
+            max-width: 1200px;
             margin: 0 auto;
-            padding: 40px 24px;
+            padding: 60px 40px;
         }
 
         /* Header */
         .header {
             text-align: center;
-            margin-bottom: 48px;
+            margin-bottom: 64px;
         }
 
         .logo {
-            font-size: 2rem;
-            font-weight: 600;
-            color: var(--primary);
-            margin-bottom: 8px;
+            font-size: 2.5rem;
+            font-weight: 700;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin-bottom: 12px;
+            letter-spacing: -0.025em;
         }
 
         .tagline {
             color: var(--text-medium);
-            font-size: 1rem;
-            max-width: 500px;
+            font-size: 1.125rem;
+            max-width: 600px;
             margin: 0 auto;
+            font-weight: 400;
         }
 
-        /* Featured Modules - Top Section */
+        /* Featured Modules */
         .featured-modules {
             display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 20px;
-            margin-bottom: 40px;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 24px;
+            margin-bottom: 60px;
         }
 
         .module {
             background: var(--card-bg);
             border-radius: var(--radius-lg);
-            padding: 24px;
+            padding: 32px;
             box-shadow: var(--shadow-md);
             border: 1px solid var(--border);
             transition: var(--transition);
-            height: 180px;
+            height: 220px;
             display: flex;
             flex-direction: column;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .module::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            transition: var(--transition);
         }
 
         .module:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 12px rgba(0,0,0,0.08);
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .module:hover::before {
+            height: 6px;
         }
 
         .module-icon {
-            width: 40px;
-            height: 40px;
+            width: 48px;
+            height: 48px;
             border-radius: var(--radius-sm);
-            background: rgba(37, 99, 235, 0.1);
+            background: rgba(59, 130, 246, 0.1);
             display: flex;
             align-items: center;
             justify-content: center;
-            margin-bottom: 16px;
+            margin-bottom: 20px;
         }
 
         .module-icon svg {
-            width: 20px;
-            height: 20px;
+            width: 24px;
+            height: 24px;
             color: var(--primary);
         }
 
         .module-title {
-            font-size: 1.125rem;
+            font-size: 1.25rem;
             font-weight: 600;
-            margin: 0 0 8px 0;
+            margin: 0 0 12px 0;
+            letter-spacing: -0.01em;
         }
 
         .module-desc {
-            font-size: 0.875rem;
+            font-size: 0.9375rem;
             color: var(--text-medium);
-            margin: 0 0 16px 0;
+            margin: 0 0 24px 0;
             flex-grow: 1;
+            line-height: 1.6;
         }
 
         .module-link {
-            font-size: 0.8125rem;
+            font-size: 0.875rem;
             font-weight: 500;
             color: var(--primary);
             text-decoration: none;
             display: inline-flex;
             align-items: center;
             cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .module-link:hover {
+            color: var(--accent);
         }
 
         .module-link svg {
-            width: 14px;
-            height: 14px;
-            margin-left: 4px;
+            width: 16px;
+            height: 16px;
+            margin-left: 6px;
             transition: var(--transition);
         }
 
         .module-link:hover svg {
-            transform: translateX(2px);
+            transform: translateX(3px);
         }
 
-        /* Lesson Cards - Bottom Section */
+        /* Lesson Cards */
         .lessons {
             display: flex;
             flex-direction: column;
-            gap: 12px;
+            gap: 16px;
+            max-width: 800px;
+            margin: 0 auto;
         }
 
         .lesson-card {
             background: var(--card-bg);
             border-radius: var(--radius-sm);
-            padding: 20px;
+            padding: 24px;
             box-shadow: var(--shadow-sm);
-            border-left: 3px solid var(--primary);
+            border-left: 4px solid var(--primary);
             transition: var(--transition);
             border: 1px solid var(--border);
         }
 
         .lesson-card:hover {
-            transform: translateX(2px);
+            transform: translateX(4px);
+            box-shadow: var(--shadow-md);
         }
 
         .lesson-title {
-            font-size: 1rem;
-            font-weight: 500;
-            margin: 0 0 6px 0;
+            font-size: 1.0625rem;
+            font-weight: 600;
+            margin: 0 0 8px 0;
+            letter-spacing: -0.01em;
         }
 
         .lesson-desc {
-            font-size: 0.8125rem;
+            font-size: 0.875rem;
             color: var(--text-medium);
-            margin: 0 0 12px 0;
+            margin: 0 0 16px 0;
+            line-height: 1.6;
         }
 
         .lesson-meta {
             display: flex;
-            gap: 16px;
-            font-size: 0.75rem;
+            gap: 20px;
+            font-size: 0.8125rem;
             color: var(--text-light);
         }
 
         .meta-item {
             display: flex;
             align-items: center;
-            gap: 4px;
+            gap: 6px;
         }
 
         .meta-item svg {
-            width: 12px;
-            height: 12px;
+            width: 14px;
+            height: 14px;
+            color: var(--text-light);
         }
 
-        /* Modal Styles */
+        /* Modern Modal */
         .modal {
             display: none;
             position: fixed;
@@ -198,36 +235,45 @@
             justify-content: center;
             align-items: center;
             opacity: 0;
-            transition: opacity 0.3s ease;
+            transition: opacity 0.3s ease, backdrop-filter 0.3s ease;
+            backdrop-filter: blur(0px);
+            padding: 20px;
+            box-sizing: border-box;
         }
 
         .modal.active {
             display: flex;
             opacity: 1;
+            backdrop-filter: blur(5px);
         }
 
         .modal-content {
             background-color: var(--card-bg);
             border-radius: var(--radius-lg);
-            width: 90%;
-            max-width: 600px;
-            max-height: 80vh;
-            overflow-y: auto;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-            transform: translateY(20px);
-            transition: transform 0.3s ease;
-            padding: 30px;
+            width: 100%;
+            max-width: 700px;
+            max-height: 85vh;
+            overflow: hidden;
+            box-shadow: var(--shadow-lg);
+            transform: translateY(20px) scale(0.98);
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.15);
+            opacity: 0;
+            display: flex;
+            flex-direction: column;
         }
 
         .modal.active .modal-content {
-            transform: translateY(0);
+            transform: translateY(0) scale(1);
+            opacity: 1;
         }
 
         .modal-header {
+            padding: 24px;
+            border-bottom: 1px solid var(--border);
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 24px;
+            position: relative;
         }
 
         .modal-title {
@@ -240,45 +286,65 @@
         .close-btn {
             background: none;
             border: none;
-            font-size: 1.5rem;
+            font-size: 1.75rem;
             cursor: pointer;
             color: var(--text-light);
-            transition: color 0.2s ease;
+            transition: var(--transition);
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
         }
 
         .close-btn:hover {
             color: var(--text-dark);
+            background-color: rgba(0,0,0,0.05);
+            transform: rotate(90deg);
+        }
+
+        .modal-body {
+            padding: 0;
+            overflow-y: auto;
         }
 
         .file-list {
             display: grid;
-            gap: 12px;
+            gap: 1px;
+            background-color: var(--border);
         }
 
         .file-item {
             display: flex;
             align-items: center;
-            padding: 12px;
-            border-radius: var(--radius-sm);
-            border: 1px solid var(--border);
+            padding: 18px 24px;
+            background-color: var(--card-bg);
             transition: var(--transition);
+            position: relative;
         }
 
         .file-item:hover {
-            background-color: rgba(37, 99, 235, 0.05);
-            border-color: var(--primary);
+            background-color: rgba(59, 130, 246, 0.03);
+            transform: translateX(4px);
         }
 
         .file-icon {
-            width: 40px;
-            height: 40px;
-            background-color: rgba(37, 99, 235, 0.1);
+            width: 44px;
+            height: 44px;
+            background-color: rgba(59, 130, 246, 0.08);
             border-radius: var(--radius-sm);
             display: flex;
             align-items: center;
             justify-content: center;
-            margin-right: 12px;
+            margin-right: 16px;
             flex-shrink: 0;
+            transition: var(--transition);
+        }
+
+        .file-item:hover .file-icon {
+            background-color: rgba(59, 130, 246, 0.15);
+            transform: scale(1.05);
         }
 
         .file-icon svg {
@@ -289,39 +355,90 @@
 
         .file-info {
             flex-grow: 1;
+            min-width: 0;
         }
 
         .file-name {
             font-weight: 500;
-            margin: 0 0 4px 0;
+            margin: 0 0 6px 0;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
 
         .file-meta {
-            font-size: 0.75rem;
+            font-size: 0.8125rem;
             color: var(--text-light);
             display: flex;
-            gap: 12px;
+            gap: 16px;
         }
 
         .file-action {
             color: var(--primary);
-            font-size: 0.8125rem;
+            font-size: 0.875rem;
             font-weight: 500;
             cursor: pointer;
+            padding: 8px 16px;
+            border-radius: var(--radius-sm);
+            transition: var(--transition);
+            white-space: nowrap;
+            margin-left: 16px;
+            border: 1px solid var(--border);
         }
 
-        @media (max-width: 640px) {
-            .featured-modules {
-                grid-template-columns: 1fr;
+        .file-action:hover {
+            background-color: rgba(59, 130, 246, 0.1);
+            border-color: var(--primary-light);
+            transform: translateY(-1px);
+        }
+
+        /* Animated file items */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .file-item {
+            animation: fadeInUp 0.4s ease forwards;
+            opacity: 0;
+        }
+
+        .file-item:nth-child(1) { animation-delay: 0.1s; }
+        .file-item:nth-child(2) { animation-delay: 0.2s; }
+        .file-item:nth-child(3) { animation-delay: 0.3s; }
+        .file-item:nth-child(4) { animation-delay: 0.4s; }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .container {
+                padding: 40px 24px;
             }
             
             .module {
-                height: 160px;
+                height: auto;
+                min-height: 200px;
             }
             
             .modal-content {
-                width: 95%;
-                padding: 20px;
+                max-height: 90vh;
+            }
+            
+            .file-item {
+                flex-wrap: wrap;
+                padding: 16px;
+            }
+            
+            .file-action {
+                margin-left: 0;
+                margin-top: 12px;
+                width: 100%;
+                text-align: center;
             }
         }
     </style>
@@ -330,19 +447,19 @@
     <div class="container">
         <header class="header">
             <div class="logo">Lumina</div>
-            <p class="tagline">Precision learning for professionals</p>
+            <p class="tagline">Premium learning experiences for modern professionals</p>
         </header>
 
-        <!-- Top Section: Featured Modules -->
+        <!-- Featured Modules -->
         <section class="featured-modules">
             <div class="module">
                 <div class="module-icon">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"/>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"/>
                     </svg>
                 </div>
                 <h3 class="module-title">Daily Exploration</h3>
-                <p class="module-desc">Short professional development lessons delivered daily</p>
+                <p class="module-desc">Curated professional insights delivered in concise daily sessions</p>
                 <a href="#" class="module-link" id="explore-btn">
                     Explore content
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -354,13 +471,13 @@
             <div class="module">
                 <div class="module-icon">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>
                     </svg>
                 </div>
                 <h3 class="module-title">Residential Design</h3>
-                <p class="module-desc">Modern approaches to residential space planning</p>
+                <p class="module-desc">Modern approaches to living space optimization and aesthetics</p>
                 <a href="#" class="module-link">
-                    Explore course
+                    View program
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
                     </svg>
@@ -368,154 +485,98 @@
             </div>
         </section>
 
-        <!-- Bottom Section: Lesson Cards -->
+        <!-- Lesson Cards -->
         <section class="lessons">
             <div class="lesson-card">
-                <h3 class="lesson-title">Life Development Fundamentals</h3>
-                <p class="lesson-desc">Core principles for personal and professional growth</p>
+                <h3 class="lesson-title">Life Development Framework</h3>
+                <p class="lesson-desc">Structured methodology for personal and professional evolution</p>
                 <div class="lesson-meta">
                     <div class="meta-item">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
                         </svg>
-                        <span>12 weeks</span>
+                        <span>12-week program</span>
                     </div>
                     <div class="meta-item">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
                         </svg>
-                        <span>24 lessons</span>
+                        <span>36 lessons</span>
                     </div>
                 </div>
             </div>
 
             <div class="lesson-card">
-                <h3 class="lesson-title">Family Systems Management</h3>
-                <p class="lesson-desc">Strategies for efficient household organization</p>
+                <h3 class="lesson-title">Family Systems Architecture</h3>
+                <p class="lesson-desc">Design principles for harmonious household management</p>
                 <div class="lesson-meta">
                     <div class="meta-item">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
                         </svg>
                         <span>8 weeks</span>
                     </div>
                     <div class="meta-item">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
                         </svg>
-                        <span>16 lessons</span>
+                        <span>24 lessons</span>
                     </div>
                 </div>
             </div>
         </section>
     </div>
 
-    <!-- Modal Window -->
+    <!-- Modern Modal -->
     <div class="modal" id="explore-modal">
         <div class="modal-content">
             <div class="modal-header">
-                <h3 class="modal-title">Daily Exploration Content</h3>
+                <h3 class="modal-title">Daily Exploration Resources</h3>
                 <button class="close-btn" id="close-modal">&times;</button>
             </div>
-            <div class="file-list">
-                <div class="file-item">
-                    <div class="file-icon">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
-                        </svg>
-                    </div>
-                    <div class="file-info">
-                        <p class="file-name">Productivity Techniques.pdf</p>
-                        <div class="file-meta">
-                            <span>PDF • 2.4 MB</span>
-                            <span>Added: 2 days ago</span>
+            <div class="modal-body">
+                <div class="file-list">
+                    <div class="file-item">
+                        <div class="file-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                            </svg>
                         </div>
-                    </div>
-                    <div class="file-action">Download</div>
-                </div>
-                <div class="file-item">
-                    <div class="file-icon">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/>
-                        </svg>
-                    </div>
-                    <div class="file-info">
-                        <p class="file-name">Morning Routine.mp4</p>
-                        <div class="file-meta">
-                            <span>Video • 15:32 min</span>
-                            <span>Added: 1 week ago</span>
+                        <div class="file-info">
+                            <p class="file-name">Advanced Productivity Techniques.pdf</p>
+                            <div class="file-meta">
+                                <span>PDF • 2.4 MB</span>
+                                <span>Updated: 2 days ago</span>
+                            </div>
                         </div>
+                        <div class="file-action">Download</div>
                     </div>
-                    <div class="file-action">Watch</div>
-                </div>
-                <div class="file-item">
-                    <div class="file-icon">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7v8a2 2 0 002 2h6M8 7V5a2 2 0 012-2h4.586a1 1 0 01.707.293l4.414 4.414a1 1 0 01.293.707V15a2 2 0 01-2 2h-2M8 7H6a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2v-2"/>
-                        </svg>
-                    </div>
-                    <div class="file-info">
-                        <p class="file-name">Weekly Challenge.docx</p>
-                        <div class="file-meta">
-                            <span>Document • 350 KB</span>
-                            <span>Added: 3 days ago</span>
+                    <div class="file-item">
+                        <div class="file-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/>
+                            </svg>
                         </div>
-                    </div>
-                    <div class="file-action">Download</div>
-                </div>
-                <div class="file-item">
-                    <div class="file-icon">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3"/>
-                        </svg>
-                    </div>
-                    <div class="file-info">
-                        <p class="file-name">Focus Music.mp3</p>
-                        <div class="file-meta">
-                            <span>Audio • 45:18 min</span>
-                            <span>Added: 5 days ago</span>
+                        <div class="file-info">
+                            <p class="file-name">Optimal Morning Routine Tutorial.mp4</p>
+                            <div class="file-meta">
+                                <span>Video • 15:32 min</span>
+                                <span>Added: 1 week ago</span>
+                            </div>
                         </div>
+                        <div class="file-action">Watch</div>
                     </div>
-                    <div class="file-action">Play</div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <script>
-        // Modal functionality
-        document.addEventListener('DOMContentLoaded', function() {
-            const exploreBtn = document.getElementById('explore-btn');
-            const closeBtn = document.getElementById('close-modal');
-            const modal = document.getElementById('explore-modal');
-
-            exploreBtn.addEventListener('click', function(e) {
-                e.preventDefault();
-                modal.classList.add('active');
-                document.body.style.overflow = 'hidden';
-            });
-
-            closeBtn.addEventListener('click', function() {
-                modal.classList.remove('active');
-                document.body.style.overflow = 'auto';
-            });
-
-            // Close modal when clicking outside content
-            modal.addEventListener('click', function(e) {
-                if (e.target === modal) {
-                    modal.classList.remove('active');
-                    document.body.style.overflow = 'auto';
-                }
-            });
-
-            // Close modal with Escape key
-            document.addEventListener('keydown', function(e) {
-                if (e.key === 'Escape' && modal.classList.contains('active')) {
-                    modal.classList.remove('active');
-                    document.body.style.overflow = 'auto';
-                }
-            });
-        });
-    </script>
-</body>
-</html>
+                    <div class="file-item">
+                        <div class="file-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8 7v8a2 2 0 002 2h6M8 7V5a2 2 0 012-2h4.586a1 1 0 01.707.293l4.414 4.414a1 1 0 01.293.707V15a2 2 0 01-2 2h-2M8 7H6a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2v-2"/>
+                            </svg>
+                        </div>
+                        <div class="file-info">
+                            <p class="file-name">Professional Development Challenge.docx</p>
+                            <div class="file-meta">
+                                <span>Document • 350 KB</span>
+                                <span>Added: 3 days ago</span>
+                            </div>
+                        </div>
+                        <div cl
