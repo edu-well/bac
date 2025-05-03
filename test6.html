@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NovaSearch | Modern Search Engine</title>
+    <title>EduSearch | Lesson Finder</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -33,15 +33,14 @@
             min-height: 100vh;
             display: flex;
             flex-direction: column;
-            align-items: center;
-            justify-content: center;
         }
 
-        .search-container {
+        .search-header {
             width: 100%;
-            max-width: 640px;
-            padding: 0 24px;
+            padding: 40px 24px 0;
             text-align: center;
+            margin-top: 15vh; /* Optimal eye-level positioning */
+            margin-bottom: 40px;
         }
 
         .logo {
@@ -55,29 +54,29 @@
             letter-spacing: -0.025em;
         }
 
-        .tagline {
-            color: var(--text-medium);
-            font-size: 1.125rem;
-            margin-bottom: 40px;
-            font-weight: 400;
+        .search-container {
+            width: 100%;
+            max-width: 720px;
+            margin: 0 auto;
+            padding: 0 24px;
         }
 
         .search-box {
             position: relative;
             width: 100%;
-            margin: 0 auto;
+            margin-bottom: 24px;
         }
 
         .search-input {
             width: 100%;
-            padding: 16px 24px;
+            padding: 18px 24px;
             font-size: 1.125rem;
             border: 2px solid var(--border);
             border-radius: var(--radius-lg);
             background-color: white;
             box-shadow: var(--shadow-sm);
             transition: var(--transition);
-            padding-right: 56px;
+            padding-right: 60px;
         }
 
         .search-input:focus {
@@ -86,13 +85,9 @@
             box-shadow: var(--shadow-md);
         }
 
-        .search-input:hover {
-            box-shadow: var(--shadow-md);
-        }
-
         .search-button {
             position: absolute;
-            right: 8px;
+            right: 12px;
             top: 50%;
             transform: translateY(-50%);
             background: none;
@@ -113,40 +108,90 @@
             color: var(--primary);
         }
 
-        /* Micro-interactions */
-        @keyframes float {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-5px); }
+        /* Search Results */
+        .search-results {
+            display: none; /* Hidden by default */
+            width: 100%;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 24px;
         }
 
-        .logo {
-            animation: float 3s ease-in-out infinite;
+        .result-card {
+            background: white;
+            border-radius: var(--radius-sm);
+            padding: 24px;
+            margin-bottom: 16px;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid var(--border);
+            transition: var(--transition);
         }
+
+        .result-card:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+            border-color: var(--primary-light);
+        }
+
+        .result-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin: 0 0 8px 0;
+            color: var(--primary);
+        }
+
+        .result-description {
+            color: var(--text-medium);
+            margin: 0 0 12px 0;
+        }
+
+        .result-meta {
+            display: flex;
+            gap: 16px;
+            font-size: 0.875rem;
+            color: var(--text-light);
+        }
+
+        /* Animation */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .result-card {
+            animation: fadeIn 0.3s ease forwards;
+            opacity: 0;
+        }
+
+        .result-card:nth-child(1) { animation-delay: 0.1s; }
+        .result-card:nth-child(2) { animation-delay: 0.2s; }
+        .result-card:nth-child(3) { animation-delay: 0.3s; }
 
         /* Responsive */
-        @media (max-width: 640px) {
+        @media (max-width: 768px) {
+            .search-header {
+                margin-top: 10vh;
+                padding-top: 24px;
+            }
+            
             .logo {
                 font-size: 2rem;
             }
             
-            .tagline {
-                font-size: 1rem;
-            }
-            
             .search-input {
-                padding: 14px 20px;
-                font-size: 1rem;
+                padding: 16px 20px;
             }
         }
     </style>
 </head>
 <body>
+    <div class="search-header">
+        <h1 class="logo">EduSearch</h1>
+    </div>
+    
     <div class="search-container">
-        <h1 class="logo">NovaSearch</h1>
-        <p class="tagline">Search the web with precision and clarity</p>
-        
         <div class="search-box">
-            <input type="text" class="search-input" placeholder="Search for anything..." aria-label="Search">
+            <input type="text" class="search-input" placeholder="Search for lessons..." aria-label="Search lessons">
             <button class="search-button" aria-label="Search">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
@@ -154,11 +199,44 @@
             </button>
         </div>
     </div>
+    
+    <div class="search-results" id="search-results">
+        <div class="result-card">
+            <h3 class="result-title">Advanced Mathematics</h3>
+            <p class="result-description">Comprehensive course covering calculus, linear algebra, and differential equations with practical applications.</p>
+            <div class="result-meta">
+                <span>📚 24 Lessons</span>
+                <span>⏱️ 8 Hours</span>
+                <span>⭐ 4.8/5 Rating</span>
+            </div>
+        </div>
+        
+        <div class="result-card">
+            <h3 class="result-title">Modern Web Development</h3>
+            <p class="result-description">Learn HTML5, CSS3, JavaScript and frameworks like React and Vue through hands-on projects.</p>
+            <div class="result-meta">
+                <span>📚 36 Lessons</span>
+                <span>⏱️ 12 Hours</span>
+                <span>⭐ 4.9/5 Rating</span>
+            </div>
+        </div>
+        
+        <div class="result-card">
+            <h3 class="result-title">Creative Writing Masterclass</h3>
+            <p class="result-description">Develop your storytelling skills with techniques from bestselling authors and writing exercises.</p>
+            <div class="result-meta">
+                <span>📚 18 Lessons</span>
+                <span>⏱️ 6 Hours</span>
+                <span>⭐ 4.7/5 Rating</span>
+            </div>
+        </div>
+    </div>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const searchInput = document.querySelector('.search-input');
             const searchButton = document.querySelector('.search-button');
+            const searchResults = document.getElementById('search-results');
             
             // Focus the search input on page load
             searchInput.focus();
@@ -167,9 +245,14 @@
             function performSearch() {
                 const query = searchInput.value.trim();
                 if (query) {
-                    alert(`Searching for: ${query}`);
-                    // In a real implementation, you would redirect to search results
-                    // window.location.href = `/search?q=${encodeURIComponent(query)}`;
+                    // Show results container
+                    searchResults.style.display = 'block';
+                    
+                    // Scroll to results smoothly
+                    searchResults.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    
+                    // In a real app, you would fetch actual results here
+                    // fetchResults(query);
                 }
             }
             
@@ -178,6 +261,13 @@
             searchInput.addEventListener('keypress', function(e) {
                 if (e.key === 'Enter') {
                     performSearch();
+                }
+            });
+            
+            // Close results when clicking outside
+            document.addEventListener('click', function(e) {
+                if (!searchResults.contains(e.target) && e.target !== searchInput) {
+                    searchResults.style.display = 'none';
                 }
             });
         });
