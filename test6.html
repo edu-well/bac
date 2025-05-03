@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EduSearch | Lesson Finder</title>
+    <title>EduSearch Pro | Smart Lesson Finder</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -19,7 +19,8 @@
             --radius-sm: 8px;
             --shadow-sm: 0 1px 3px rgba(0,0,0,0.04);
             --shadow-md: 0 4px 6px rgba(0,0,0,0.08);
-            --transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            --shadow-lg: 0 10px 25px rgba(0,0,0,0.1);
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         body {
@@ -39,8 +40,8 @@
             width: 100%;
             padding: 40px 24px 0;
             text-align: center;
-            margin-top: 15vh; /* Optimal eye-level positioning */
-            margin-bottom: 40px;
+            margin-top: 15vh;
+            margin-bottom: 0;
         }
 
         .logo {
@@ -52,6 +53,9 @@
             color: transparent;
             margin-bottom: 8px;
             letter-spacing: -0.025em;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.5s ease, transform 0.5s ease;
         }
 
         .search-container {
@@ -59,6 +63,15 @@
             max-width: 720px;
             margin: 0 auto;
             padding: 0 24px;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.5s ease 0.2s, transform 0.5s ease 0.2s;
+        }
+
+        .loaded .logo,
+        .loaded .search-container {
+            opacity: 1;
+            transform: translateY(0);
         }
 
         .search-box {
@@ -110,11 +123,37 @@
 
         /* Search Results */
         .search-results {
-            display: none; /* Hidden by default */
             width: 100%;
             max-width: 800px;
-            margin: 0 auto;
+            margin: 24px auto 0;
             padding: 0 24px;
+            display: none;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+
+        .search-results.visible {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .results-container {
+            max-height: 60vh;
+            overflow-y: auto;
+            padding-right: 8px;
+            scrollbar-width: thin;
+            scrollbar-color: var(--primary-light) transparent;
+        }
+
+        .results-container::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .results-container::-webkit-scrollbar-thumb {
+            background-color: var(--primary-light);
+            border-radius: 3px;
         }
 
         .result-card {
@@ -152,6 +191,13 @@
             color: var(--text-light);
         }
 
+        .no-results {
+            text-align: center;
+            padding: 40px;
+            color: var(--text-medium);
+            font-size: 1.125rem;
+        }
+
         /* Animation */
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(10px); }
@@ -180,18 +226,23 @@
             
             .search-input {
                 padding: 16px 20px;
+                font-size: 1rem;
+            }
+            
+            .result-card {
+                padding: 20px;
             }
         }
     </style>
 </head>
 <body>
     <div class="search-header">
-        <h1 class="logo">EduSearch</h1>
+        <h1 class="logo">EduSearch Pro</h1>
     </div>
     
     <div class="search-container">
         <div class="search-box">
-            <input type="text" class="search-input" placeholder="Search for lessons..." aria-label="Search lessons">
+            <input type="text" class="search-input" placeholder="Search lessons by name or description..." aria-label="Search lessons">
             <button class="search-button" aria-label="Search">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
@@ -201,73 +252,133 @@
     </div>
     
     <div class="search-results" id="search-results">
-        <div class="result-card">
-            <h3 class="result-title">Advanced Mathematics</h3>
-            <p class="result-description">Comprehensive course covering calculus, linear algebra, and differential equations with practical applications.</p>
-            <div class="result-meta">
-                <span>📚 24 Lessons</span>
-                <span>⏱️ 8 Hours</span>
-                <span>⭐ 4.8/5 Rating</span>
-            </div>
-        </div>
-        
-        <div class="result-card">
-            <h3 class="result-title">Modern Web Development</h3>
-            <p class="result-description">Learn HTML5, CSS3, JavaScript and frameworks like React and Vue through hands-on projects.</p>
-            <div class="result-meta">
-                <span>📚 36 Lessons</span>
-                <span>⏱️ 12 Hours</span>
-                <span>⭐ 4.9/5 Rating</span>
-            </div>
-        </div>
-        
-        <div class="result-card">
-            <h3 class="result-title">Creative Writing Masterclass</h3>
-            <p class="result-description">Develop your storytelling skills with techniques from bestselling authors and writing exercises.</p>
-            <div class="result-meta">
-                <span>📚 18 Lessons</span>
-                <span>⏱️ 6 Hours</span>
-                <span>⭐ 4.7/5 Rating</span>
-            </div>
+        <div class="results-container" id="results-container">
+            <!-- Results will be inserted here by JavaScript -->
         </div>
     </div>
 
     <script>
+        // Sample lesson data
+        const lessons = [
+            {
+                title: "Advanced Mathematics",
+                description: "Comprehensive course covering calculus, linear algebra, and differential equations with practical applications.",
+                lessons: 24,
+                duration: "8 Hours",
+                rating: "4.8/5"
+            },
+            {
+                title: "Modern Web Development",
+                description: "Learn HTML5, CSS3, JavaScript and frameworks like React and Vue through hands-on projects.",
+                lessons: 36,
+                duration: "12 Hours",
+                rating: "4.9/5"
+            },
+            {
+                title: "Creative Writing Masterclass",
+                description: "Develop your storytelling skills with techniques from bestselling authors and writing exercises.",
+                lessons: 18,
+                duration: "6 Hours",
+                rating: "4.7/5"
+            },
+            {
+                title: "Data Science Fundamentals",
+                description: "Introduction to Python, statistics, and machine learning for data analysis.",
+                lessons: 30,
+                duration: "10 Hours",
+                rating: "4.8/5"
+            },
+            {
+                title: "Digital Marketing Strategy",
+                description: "Learn SEO, content marketing, and social media advertising techniques.",
+                lessons: 20,
+                duration: "7 Hours",
+                rating: "4.6/5"
+            }
+        ];
+
         document.addEventListener('DOMContentLoaded', function() {
             const searchInput = document.querySelector('.search-input');
             const searchButton = document.querySelector('.search-button');
             const searchResults = document.getElementById('search-results');
+            const resultsContainer = document.getElementById('results-container');
             
-            // Focus the search input on page load
-            searchInput.focus();
+            // Add loaded class after 2 seconds
+            setTimeout(() => {
+                document.body.classList.add('loaded');
+                searchInput.focus();
+            }, 2000);
             
-            // Handle search submission
-            function performSearch() {
-                const query = searchInput.value.trim();
-                if (query) {
-                    // Show results container
-                    searchResults.style.display = 'block';
-                    
-                    // Scroll to results smoothly
-                    searchResults.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                    
-                    // In a real app, you would fetch actual results here
-                    // fetchResults(query);
+            // Search function
+            function performSearch(query) {
+                const normalizedQuery = query.toLowerCase().trim();
+                
+                if (normalizedQuery.length === 0) {
+                    searchResults.classList.remove('visible');
+                    return;
                 }
+                
+                // Filter lessons by title or description
+                const filteredLessons = lessons.filter(lesson => 
+                    lesson.title.toLowerCase().includes(normalizedQuery) || 
+                    lesson.description.toLowerCase().includes(normalizedQuery)
+                );
+                
+                // Display results
+                displayResults(filteredLessons);
             }
             
-            searchButton.addEventListener('click', performSearch);
+            // Display results function
+            function displayResults(results) {
+                resultsContainer.innerHTML = '';
+                
+                if (results.length === 0) {
+                    resultsContainer.innerHTML = '<div class="no-results">No lessons found matching your search</div>';
+                } else {
+                    results.forEach((lesson, index) => {
+                        const card = document.createElement('div');
+                        card.className = 'result-card';
+                        card.style.animationDelay = `${index * 0.1}s`;
+                        card.innerHTML = `
+                            <h3 class="result-title">${lesson.title}</h3>
+                            <p class="result-description">${lesson.description}</p>
+                            <div class="result-meta">
+                                <span>📚 ${lesson.lessons} Lessons</span>
+                                <span>⏱️ ${lesson.duration}</span>
+                                <span>⭐ ${lesson.rating} Rating</span>
+                            </div>
+                        `;
+                        resultsContainer.appendChild(card);
+                    });
+                }
+                
+                searchResults.classList.add('visible');
+                
+                // Smooth scroll to results
+                setTimeout(() => {
+                    searchResults.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }, 300);
+            }
+            
+            // Event listeners
+            searchInput.addEventListener('input', function() {
+                performSearch(this.value);
+            });
+            
+            searchButton.addEventListener('click', function() {
+                performSearch(searchInput.value);
+            });
             
             searchInput.addEventListener('keypress', function(e) {
                 if (e.key === 'Enter') {
-                    performSearch();
+                    performSearch(this.value);
                 }
             });
             
             // Close results when clicking outside
             document.addEventListener('click', function(e) {
                 if (!searchResults.contains(e.target) && e.target !== searchInput) {
-                    searchResults.style.display = 'none';
+                    searchResults.classList.remove('visible');
                 }
             });
         });
