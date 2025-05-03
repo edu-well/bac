@@ -43,8 +43,7 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
-            touch-action: none; /* Disable touch scrolling */
+            touch-action: none;
         }
 
         .search-header {
@@ -144,18 +143,18 @@
             height: 18px;
         }
 
-        /* Search Results */
+        /* Optimized Search Results Positioning */
         .search-results {
             width: 100%;
             max-width: 680px;
-            margin: 24px auto 0;
+            margin: 12px auto 0; /* Reduced top margin */
             padding: 0 24px;
             display: none;
             opacity: 0;
             transform: translateY(10px);
             transition: opacity 0.3s ease, transform 0.3s ease;
-            max-height: calc(100vh - 250px); /* Adjusted for no-scroll */
-            overflow-y: auto; /* Only scroll inside results */
+            max-height: 55vh; /* Better proportion */
+            overflow-y: auto;
         }
 
         .search-results.visible {
@@ -176,6 +175,7 @@
             box-shadow: var(--shadow-sm);
             border: 1px solid var(--border);
             transition: var(--transition);
+            cursor: pointer;
         }
 
         .result-card:hover {
@@ -205,6 +205,124 @@
             color: var(--text-light);
         }
 
+        /* File Preview Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            backdrop-filter: blur(5px);
+        }
+
+        .modal.active {
+            display: flex;
+            opacity: 1;
+        }
+
+        .modal-content {
+            background-color: white;
+            border-radius: var(--radius-lg);
+            width: 90%;
+            max-width: 800px;
+            max-height: 80vh;
+            overflow-y: auto;
+            box-shadow: var(--shadow-lg);
+            transform: translateY(20px);
+            transition: transform 0.3s ease;
+            padding: 30px;
+        }
+
+        .modal.active .modal-content {
+            transform: translateY(0);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+
+        .modal-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--text-dark);
+            margin: 0;
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            font-size: 1.75rem;
+            cursor: pointer;
+            color: var(--text-light);
+            transition: var(--transition);
+        }
+
+        .close-btn:hover {
+            color: var(--text-dark);
+        }
+
+        .files-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 16px;
+        }
+
+        .file-card {
+            background: var(--bg-color);
+            border-radius: var(--radius-sm);
+            padding: 20px;
+            border: 1px solid var(--border);
+            transition: var(--transition);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+        .file-card:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .file-icon {
+            width: 48px;
+            height: 48px;
+            background-color: rgba(59, 130, 246, 0.1);
+            border-radius: var(--radius-sm);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 12px;
+        }
+
+        .file-icon svg {
+            width: 24px;
+            height: 24px;
+            color: var(--primary);
+        }
+
+        .file-name {
+            font-weight: 500;
+            margin: 0 0 4px 0;
+            word-break: break-word;
+            width: 100%;
+        }
+
+        .file-size {
+            font-size: 0.8125rem;
+            color: var(--text-light);
+        }
+
         /* Responsive */
         @media (max-width: 768px) {
             .search-header {
@@ -226,7 +344,11 @@
             }
             
             .search-results {
-                max-height: calc(100vh - 220px); /* Adjusted for mobile */
+                max-height: 50vh;
+            }
+            
+            .files-grid {
+                grid-template-columns: 1fr;
             }
         }
     </style>
@@ -253,29 +375,63 @@
         </div>
     </div>
 
+    <!-- File Preview Modal -->
+    <div class="modal" id="file-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title" id="modal-title">Lesson Files</h3>
+                <button class="close-btn" id="close-modal">&times;</button>
+            </div>
+            <div class="files-grid" id="files-container">
+                <!-- Files will be inserted here by JavaScript -->
+            </div>
+        </div>
+    </div>
+
     <script>
         // Sample lesson data
         const lessons = [
             {
+                id: 1,
                 title: "Advanced Mathematics",
                 description: "Master calculus, linear algebra, and differential equations with real-world applications.",
                 lessons: 24,
                 duration: "8h",
-                rating: "4.8"
+                rating: "4.8",
+                files: [
+                    { name: "Calculus Fundamentals.pdf", type: "pdf", size: "2.4MB" },
+                    { name: "Linear Algebra Exercises.docx", type: "doc", size: "1.8MB" },
+                    { name: "Differential Equations Video.mp4", type: "video", size: "45MB" },
+                    { name: "Math Cheat Sheet.png", type: "image", size: "3.2MB" }
+                ]
             },
             {
+                id: 2,
                 title: "Web Development Bootcamp",
                 description: "Modern HTML, CSS, JavaScript and React fundamentals through practical projects.",
                 lessons: 36,
                 duration: "12h",
-                rating: "4.9"
+                rating: "4.9",
+                files: [
+                    { name: "HTML5 Basics.pdf", type: "pdf", size: "1.2MB" },
+                    { name: "CSS Flexbox Guide.pdf", type: "pdf", size: "0.8MB" },
+                    { name: "JavaScript Projects.zip", type: "zip", size: "15MB" },
+                    { name: "React Tutorial.mp4", type: "video", size: "62MB" }
+                ]
             },
             {
+                id: 3,
                 title: "Creative Writing",
                 description: "Develop storytelling techniques used by bestselling authors.",
                 lessons: 18,
                 duration: "6h",
-                rating: "4.7"
+                rating: "4.7",
+                files: [
+                    { name: "Character Development.pdf", type: "pdf", size: "1.5MB" },
+                    { name: "Plot Structure.docx", type: "doc", size: "0.9MB" },
+                    { name: "Writing Prompts.pdf", type: "pdf", size: "0.7MB" },
+                    { name: "Author Interviews.mp3", type: "audio", size: "28MB" }
+                ]
             }
         ];
 
@@ -284,6 +440,10 @@
             const searchButton = document.querySelector('.search-button');
             const searchResults = document.getElementById('search-results');
             const resultsContainer = document.getElementById('results-container');
+            const fileModal = document.getElementById('file-modal');
+            const closeModal = document.getElementById('close-modal');
+            const filesContainer = document.getElementById('files-container');
+            const modalTitle = document.getElementById('modal-title');
             
             // Add loaded class after 2 seconds
             setTimeout(() => {
@@ -321,9 +481,10 @@
                         </div>
                     `;
                 } else {
-                    results.forEach((lesson, index) => {
+                    results.forEach((lesson) => {
                         const card = document.createElement('div');
                         card.className = 'result-card';
+                        card.dataset.id = lesson.id;
                         card.innerHTML = `
                             <h3 class="result-title">${lesson.title}</h3>
                             <p class="result-description">${lesson.description}</p>
@@ -333,11 +494,65 @@
                                 <span>⭐ ${lesson.rating}/5</span>
                             </div>
                         `;
+                        card.addEventListener('click', () => showFiles(lesson));
                         resultsContainer.appendChild(card);
                     });
                 }
                 
                 searchResults.classList.add('visible');
+            }
+            
+            // Show files for a lesson
+            function showFiles(lesson) {
+                modalTitle.textContent = `${lesson.title} Files`;
+                filesContainer.innerHTML = '';
+                
+                lesson.files.forEach(file => {
+                    const fileCard = document.createElement('div');
+                    fileCard.className = 'file-card';
+                    
+                    let icon;
+                    switch(file.type) {
+                        case 'pdf':
+                            icon = `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                            </svg>`;
+                            break;
+                        case 'doc':
+                            icon = `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                            </svg>`;
+                            break;
+                        case 'video':
+                            icon = `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/>
+                            </svg>`;
+                            break;
+                        case 'audio':
+                            icon = `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3"/>
+                            </svg>`;
+                            break;
+                        default:
+                            icon = `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"/>
+                            </svg>`;
+                    }
+                    
+                    fileCard.innerHTML = `
+                        <div class="file-icon">${icon}</div>
+                        <p class="file-name">${file.name}</p>
+                        <p class="file-size">${file.size}</p>
+                    `;
+                    filesContainer.appendChild(fileCard);
+                });
+                
+                fileModal.classList.add('active');
+            }
+            
+            // Close modal
+            function closeFileModal() {
+                fileModal.classList.remove('active');
             }
             
             // Event listeners
@@ -346,26 +561,4 @@
             searchInput.addEventListener('keypress', (e) => {
                 if (e.key === 'Enter') performSearch(searchInput.value);
             });
-            
-            document.addEventListener('click', (e) => {
-                if (!searchResults.contains(e.target) && e.target !== searchInput) {
-                    searchResults.classList.remove('visible');
-                }
-            });
-
-            // Prevent any potential scrolling
-            document.addEventListener('scroll', function(e) {
-                window.scrollTo(0, 0);
-            });
-            
-            document.addEventListener('touchmove', function(e) {
-                e.preventDefault();
-            }, { passive: false });
-            
-            document.addEventListener('wheel', function(e) {
-                e.preventDefault();
-            }, { passive: false });
-        });
-    </script>
-</body>
-</html>
+     
