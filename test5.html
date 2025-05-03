@@ -3,23 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MindGrow | Educational Platform</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <title>Lumina | Professional Learning Platform</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-color: #f8f9fa;
+            --bg-color: #fdfdfd;
             --card-bg: #ffffff;
-            --text-dark: #212529;
-            --text-medium: #495057;
-            --text-light: #6c757d;
-            --nature-green: #2b8a3e;
-            --earth-brown: #5c940d;
-            --sky-blue: #1971c2;
-            --sunset-orange: #e67700;
-            --stone-gray: #868e96;
-            --border-radius: 16px;
-            --shadow-sm: 0 1px 3px rgba(0,0,0,0.08);
-            --shadow-md: 0 4px 12px rgba(0,0,0,0.05);
+            --text-dark: #1a1a1a;
+            --text-medium: #4e4e4e;
+            --text-light: #7d7d7d;
+            --primary-blue: #2563eb;
+            --accent-teal: #0d9488;
+            --accent-sage: #64748b;
+            --accent-amber: #d97706;
+            --border-color: #e5e7eb;
+            --border-radius-lg: 20px;
+            --border-radius-sm: 12px;
+            --shadow-sm: 0 1px 2px rgba(0,0,0,0.04);
+            --shadow-md: 0 4px 24px rgba(0,0,0,0.06);
+            --transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
         }
         
         body {
@@ -28,236 +30,373 @@
             margin: 0;
             padding: 0;
             color: var(--text-dark);
-            line-height: 1.6;
+            line-height: 1.65;
             -webkit-font-smoothing: antialiased;
+            text-rendering: optimizeLegibility;
         }
         
         .container {
             max-width: 1200px;
             margin: 0 auto;
-            padding: 40px 24px;
+            padding: 60px 32px;
         }
         
-        header {
+        /* Header */
+        .platform-header {
             text-align: center;
-            margin-bottom: 48px;
+            margin-bottom: 72px;
+            padding: 0 20px;
         }
         
-        h1 {
-            font-size: 2.25rem;
-            font-weight: 600;
-            margin-bottom: 12px;
-            color: var(--text-dark);
+        .platform-name {
+            font-size: 2.75rem;
+            font-weight: 700;
+            letter-spacing: -0.025em;
+            margin-bottom: 16px;
+            background: linear-gradient(90deg, var(--primary-blue), var(--accent-teal));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            display: inline-block;
         }
         
-        .subtitle {
+        .platform-tagline {
             font-size: 1.125rem;
             color: var(--text-medium);
-            max-width: 700px;
+            max-width: 680px;
             margin: 0 auto;
+            font-weight: 400;
+            line-height: 1.75;
         }
         
-        /* Knowledge Hub - Top Squares */
-        .knowledge-hub {
+        /* Knowledge Modules - Top Squares */
+        .knowledge-modules {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
-            gap: 24px;
-            margin-bottom: 64px;
+            gap: 28px;
+            margin-bottom: 80px;
         }
         
-        .knowledge-card {
-            aspect-ratio: 1/0.8;
-            border-radius: var(--border-radius);
-            padding: 32px;
+        .module-card {
+            aspect-ratio: 1/0.75;
+            border-radius: var(--border-radius-lg);
+            padding: 40px;
             display: flex;
             flex-direction: column;
-            justify-content: flex-end;
+            justify-content: space-between;
             position: relative;
             overflow: hidden;
             box-shadow: var(--shadow-md);
-            transition: transform 0.3s ease;
+            transition: var(--transition);
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
         }
         
-        .knowledge-card::before {
+        .module-card::before {
             content: '';
             position: absolute;
             top: 0;
             left: 0;
             right: 0;
-            height: 40%;
-            background: linear-gradient(to bottom, rgba(0,0,0,0.1), transparent);
-            z-index: 1;
+            height: 6px;
+            background: linear-gradient(90deg, var(--primary-blue), var(--accent-teal));
+            z-index: 2;
         }
         
-        .knowledge-card:hover {
-            transform: translateY(-5px);
+        .module-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 8px 32px rgba(0,0,0,0.08);
         }
         
-        .knowledge-card-1 {
-            background-color: #e6fcf5;
-            background-image: url('https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80');
-            background-size: cover;
-            background-position: center;
+        .module-icon {
+            width: 56px;
+            height: 56px;
+            border-radius: var(--border-radius-sm);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 24px;
+            background: linear-gradient(135deg, rgba(37, 99, 235, 0.1), rgba(13, 148, 136, 0.1));
         }
         
-        .knowledge-card-2 {
-            background-color: #fff3bf;
-            background-image: url('https://images.unsplash.com/photo-1500382017468-9049fed747ef?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80');
-            background-size: cover;
-            background-position: center;
+        .module-icon svg {
+            width: 28px;
+            height: 28px;
+            color: var(--primary-blue);
         }
         
-        .knowledge-card h3 {
-            font-size: 1.5rem;
+        .module-content {
+            position: relative;
+            z-index: 3;
+        }
+        
+        .module-title {
+            font-size: 1.625rem;
             font-weight: 600;
-            color: white;
-            margin: 0 0 8px 0;
-            position: relative;
-            z-index: 2;
-            text-shadow: 0 1px 3px rgba(0,0,0,0.3);
+            margin: 0 0 12px 0;
+            color: var(--text-dark);
+            letter-spacing: -0.01em;
         }
         
-        .knowledge-card p {
+        .module-description {
             font-size: 1rem;
-            color: rgba(255,255,255,0.9);
-            margin: 0;
-            position: relative;
-            z-index: 2;
-            text-shadow: 0 1px 2px rgba(0,0,0,0.2);
+            color: var(--text-medium);
+            margin: 0 0 24px 0;
+            line-height: 1.7;
         }
         
-        /* Learning Paths - Stacked Cards */
-        .learning-paths {
+        .module-link {
+            display: inline-flex;
+            align-items: center;
+            font-size: 0.9375rem;
+            font-weight: 500;
+            color: var(--primary-blue);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+        
+        .module-link:hover {
+            color: var(--accent-teal);
+        }
+        
+        .module-link svg {
+            width: 16px;
+            height: 16px;
+            margin-left: 6px;
+            transition: var(--transition);
+        }
+        
+        .module-link:hover svg {
+            transform: translateX(3px);
+        }
+        
+        /* Learning Tracks - Stacked Cards */
+        .learning-tracks {
             display: flex;
             flex-direction: column;
-            gap: 20px;
-            max-width: 800px;
+            gap: 16px;
+            max-width: 840px;
             margin: 0 auto;
         }
         
-        .path-card {
+        .track-card {
             background: var(--card-bg);
-            border-radius: var(--border-radius);
-            padding: 28px 32px;
+            border-radius: var(--border-radius-sm);
+            padding: 32px;
             box-shadow: var(--shadow-sm);
             border-left: 4px solid;
-            transition: all 0.3s ease;
+            transition: var(--transition);
+            border: 1px solid var(--border-color);
         }
         
-        .path-card:hover {
+        .track-card:hover {
             box-shadow: var(--shadow-md);
-            transform: translateX(5px);
+            transform: translateX(4px);
         }
         
-        .path-card-1 {
-            border-color: var(--nature-green);
+        .track-card-1 {
+            border-left-color: var(--primary-blue);
         }
         
-        .path-card-2 {
-            border-color: var(--earth-brown);
+        .track-card-2 {
+            border-left-color: var(--accent-teal);
         }
         
-        .path-card-3 {
-            border-color: var(--sky-blue);
+        .track-card-3 {
+            border-left-color: var(--accent-sage);
         }
         
-        .path-card-4 {
-            border-color: var(--sunset-orange);
+        .track-card-4 {
+            border-left-color: var(--accent-amber);
         }
         
-        .path-card h3 {
+        .track-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 16px;
+        }
+        
+        .track-title {
             font-size: 1.25rem;
             font-weight: 600;
-            margin: 0 0 8px 0;
+            margin: 0;
             color: var(--text-dark);
         }
         
-        .path-card p {
-            font-size: 1rem;
-            color: var(--text-medium);
-            margin: 0;
+        .track-level {
+            font-size: 0.8125rem;
+            font-weight: 500;
+            padding: 4px 10px;
+            border-radius: 20px;
+            background-color: rgba(37, 99, 235, 0.08);
+            color: var(--primary-blue);
         }
         
-        .path-meta {
+        .track-description {
+            font-size: 0.9375rem;
+            color: var(--text-medium);
+            margin: 0 0 20px 0;
+            line-height: 1.7;
+        }
+        
+        .track-meta {
             display: flex;
-            gap: 16px;
-            margin-top: 12px;
-            font-size: 0.875rem;
+            gap: 24px;
+        }
+        
+        .track-meta-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.8125rem;
             color: var(--text-light);
         }
         
-        .path-meta span {
-            display: flex;
-            align-items: center;
-            gap: 4px;
+        .track-meta-item svg {
+            width: 14px;
+            height: 14px;
+            color: var(--text-light);
         }
         
         @media (max-width: 768px) {
-            .knowledge-hub {
+            .knowledge-modules {
                 grid-template-columns: 1fr;
             }
             
-            .knowledge-card {
-                aspect-ratio: 1/0.7;
+            .platform-name {
+                font-size: 2.25rem;
+            }
+            
+            .module-card {
+                padding: 32px;
             }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <header>
-            <h1>MindGrow Educational Platform</h1>
-            <p class="subtitle">Expand your knowledge through structured learning paths and immersive experiences</p>
+        <header class="platform-header">
+            <h1 class="platform-name">Lumina</h1>
+            <p class="platform-tagline">A premium professional learning platform designed to elevate your expertise through structured, research-backed educational experiences.</p>
         </header>
         
-        <!-- Top Section: Knowledge Hub -->
-        <section class="knowledge-hub">
-            <div class="knowledge-card knowledge-card-1">
-                <h3>Daily Exploration</h3>
-                <p>Discover new concepts through guided daily lessons</p>
+        <!-- Top Section: Knowledge Modules -->
+        <section class="knowledge-modules">
+            <div class="module-card">
+                <div class="module-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"/>
+                    </svg>
+                </div>
+                <div class="module-content">
+                    <h3 class="module-title">Daily Exploration</h3>
+                    <p class="module-description">Curated professional development modules delivered daily to expand your knowledge base systematically.</p>
+                    <a href="#" class="module-link">
+                        Explore modules
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                        </svg>
+                    </a>
+                </div>
             </div>
             
-            <div class="knowledge-card knowledge-card-2">
-                <h3>Residential Upgrading</h3>
-                <p>Learn sustainable home improvement techniques</p>
+            <div class="module-card">
+                <div class="module-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>
+                    </svg>
+                </div>
+                <div class="module-content">
+                    <h3 class="module-title">Residential Upgrading</h3>
+                    <p class="module-description">Professional certification in modern residential design principles and sustainable architecture practices.</p>
+                    <a href="#" class="module-link">
+                        View certification
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                        </svg>
+                    </a>
+                </div>
             </div>
         </section>
         
-        <!-- Bottom Section: Learning Paths -->
-        <section class="learning-paths">
-            <div class="path-card path-card-1">
-                <h3>Life Development Masterclass</h3>
-                <p>Comprehensive program for personal and professional growth</p>
-                <div class="path-meta">
-                    <span>⏱️ 12-week course</span>
-                    <span>📚 45 lessons</span>
+        <!-- Bottom Section: Learning Tracks -->
+        <section class="learning-tracks">
+            <div class="track-card track-card-1">
+                <div class="track-header">
+                    <h3 class="track-title">Life Development Mastery</h3>
+                    <span class="track-level">Advanced</span>
+                </div>
+                <p class="track-description">A comprehensive professional development program covering productivity systems, leadership principles, and cognitive performance enhancement.</p>
+                <div class="track-meta">
+                    <div class="track-meta-item">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                        </svg>
+                        <span>12-week program</span>
+                    </div>
+                    <div class="track-meta-item">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                        </svg>
+                        <span>45 lessons</span>
+                    </div>
+                    <div class="track-meta-item">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
+                        </svg>
+                        <span>Certification</span>
+                    </div>
                 </div>
             </div>
             
-            <div class="path-card path-card-2">
-                <h3>Family Management Essentials</h3>
-                <p>Strategies for harmonious household organization</p>
-                <div class="path-meta">
-                    <span>⏱️ 8-week course</span>
-                    <span>📚 30 lessons</span>
+            <div class="track-card track-card-2">
+                <div class="track-header">
+                    <h3 class="track-title">Family Systems Management</h3>
+                    <span class="track-level">Intermediate</span>
+                </div>
+                <p class="track-description">Professional strategies for household efficiency, financial coordination, and family dynamic optimization.</p>
+                <div class="track-meta">
+                    <div class="track-meta-item">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                        </svg>
+                        <span>8 weeks</span>
+                    </div>
+                    <div class="track-meta-item">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                        </svg>
+                        <span>30 lessons</span>
+                    </div>
                 </div>
             </div>
             
-            <div class="path-card path-card-3">
-                <h3>Environmental Awareness</h3>
-                <p>Understanding ecosystems and sustainable practices</p>
-                <div class="path-meta">
-                    <span>⏱️ 6-week course</span>
-                    <span>📚 24 lessons</span>
+            <div class="track-card track-card-3">
+                <div class="track-header">
+                    <h3 class="track-title">Environmental Design Principles</h3>
+                    <span class="track-level">Advanced</span>
                 </div>
-            </div>
-            
-            <div class="path-card path-card-4">
-                <h3>Mindful Living</h3>
-                <p>Techniques for reducing stress and increasing focus</p>
-                <div class="path-meta">
-                    <span>⏱️ 4-week course</span>
-                    <span>📚 16 lessons</span>
+                <p class="track-description">Master modern ecological design concepts and sustainable architecture methodologies.</p>
+                <div class="track-meta">
+                    <div class="track-meta-item">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                        </svg>
+                        <span>10 weeks</span>
+                    </div>
+                    <div class="track-meta-item">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                        </svg>
+                        <span>36 lessons</span>
+                    </div>
+                    <div class="track-meta-item">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
+                        </svg>
+                        <span>CE Credits</span>
+                    </div>
                 </div>
             </div>
         </section>
