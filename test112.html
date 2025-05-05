@@ -92,19 +92,6 @@
             align-items: center;
             gap: 20px;
             color: white;
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .banner::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            right: 0;
-            width: 150px;
-            height: 100%;
-            background: linear-gradient(90deg, rgba(106, 90, 205, 0) 0%, rgba(126, 110, 225, 0.8) 100%);
-            z-index: 1;
         }
         
         .banner-icon {
@@ -163,19 +150,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin: 30px 0 20px 0;
-            position: relative;
-        }
-        
-        .section-header::after {
-            content: '';
-            position: absolute;
-            bottom: -10px;
-            left: 0;
-            width: 50px;
-            height: 3px;
-            background-color: var(--primary-color);
-            border-radius: 3px;
+            margin: 20px 0;
         }
         
         .section-title {
@@ -571,4 +546,248 @@
                 
                 <h3 style="margin-bottom: 15px;">What you'll learn</h3>
                 <ul style="list-style: none; padding-left: 0;">
-               
+                    <li style="margin-bottom: 10px; display: flex; align-items: center;">
+                        <i class="fas fa-check" style="color: green; margin-right: 10px;"></i>
+                        Design principles and color theory
+                    </li>
+                    <li style="margin-bottom: 10px; display: flex; align-items: center;">
+                        <i class="fas fa-check" style="color: green; margin-right: 10px;"></i>
+                        Typography and layout fundamentals
+                    </li>
+                    <li style="margin-bottom: 10px; display: flex; align-items: center;">
+                        <i class="fas fa-check" style="color: green; margin-right: 10px;"></i>
+                        Wireframing and prototyping
+                    </li>
+                    <li style="margin-bottom: 10px; display: flex; align-items: center;">
+                        <i class="fas fa-check" style="color: green; margin-right: 10px;"></i>
+                        User interface patterns and best practices
+                    </li>
+                </ul>
+                
+                <button style="background-color: var(--primary-color); color: white; border: none; border-radius: 10px; padding: 12px 24px; font-size: 16px; font-weight: 500; cursor: pointer; margin-top: 20px; width: 100%;">
+                    Enroll Now
+                </button>
+            </div>
+        </div>
+        
+        <!-- UX Design Page -->
+        <div id="ux-design" class="page">
+            <div class="header">
+                <button class="back-button" onclick="navigateToPage('main-page')">
+                    <i class="fas fa-arrow-left"></i>
+                </button>
+                <h1 class="page-title">UX Design</h1>
+                <button class="notification">
+                    <i class="fas fa-bell"></i>
+                    <span class="badge"></span>
+                </button>
+            </div>
+            
+            <div class="banner">
+                <div class="banner-icon">
+                    <i class="fas fa-users" style="color: white; font-size: 30px;"></i>
+                </div>
+                <div class="banner-content">
+                    <h2>UX Design <span class="arrow">→</span></h2>
+                    <p>Learning is empowerment.</p>
+                </div>
+            </div>
+            
+            <div class="section-header">
+                <h2 class="section-title">Course Content</h2>
+            </div>
+            
+            <div style="background-color: white; padding: 20px; border-radius: 20px; box-shadow: var(--card-shadow);">
+                <h3 style="margin-bottom: 15px;">About this course</h3>
+                <p style="line-height: 1.6; margin-bottom: 20px;">
+                    This comprehensive UX Design course will teach you how to create 
+                    products that provide meaningful and relevant experiences to users. 
+                    From user research to usability testing, you'll learn the complete 
+                    UX design process with practical exercises and real-world projects.
+                </p>
+                
+                <h3 style="margin-bottom: 15px;">What you'll learn</h3>
+                <ul style="list-style: none; padding-left: 0;">
+                    <li style="margin-bottom: 10px; display: flex; align-items: center;">
+                        <i class="fas fa-check" style="color: green; margin-right: 10px;"></i>
+                        User research and persona creation
+                    </li>
+                    <li style="margin-bottom: 10px; display: flex; align-items: center;">
+                        <i class="fas fa-check" style="color: green; margin-right: 10px;"></i>
+                        Information architecture and user flows
+                    </li>
+                    <li style="margin-bottom: 10px; display: flex; align-items: center;">
+                        <i class="fas fa-check" style="color: green; margin-right: 10px;"></i>
+                        Usability testing methods
+                    </li>
+                    <li style="margin-bottom: 10px; display: flex; align-items: center;">
+                        <i class="fas fa-check" style="color: green; margin-right: 10px;"></i>
+                        Interaction design principles
+                    </li>
+                </ul>
+                
+                <button style="background-color: var(--primary-color); color: white; border: none; border-radius: 10px; padding: 12px 24px; font-size: 16px; font-weight: 500; cursor: pointer; margin-top: 20px; width: 100%;">
+                    Enroll Now
+                </button>
+            </div>
+        </div>
+        
+        <!-- Graphic Design Page -->
+        <div id="graphic-design" class="page">
+            <div class="header">
+                <button class="back-button" onclick="navigateToPage('main-page')">
+                    <i class="fas fa-arrow-left"></i>
+                </button>
+                <h1 class="page-title">Graphic Design</h1>
+                <button class="notification">
+                    <i class="fas fa-bell"></i>
+                    <span class="badge"></span>
+                </button>
+            </div>
+            
+            <div class="banner">
+                <div class="banner-icon">
+                    <i class="fas fa-bezier-curve" style="color: white; font-size: 30px;"></i>
+                </div>
+                <div class="banner-content">
+                    <h2>Graphic Design <span class="arrow">→</span></h2>
+                    <p>A Journey to Excellence.</p>
+                </div>
+            </div>
+            
+            <div class="section-header">
+                <h2 class="section-title">Course Content</h2>
+            </div>
+            
+            <div style="background-color: white; padding: 20px; border-radius: 20px; box-shadow: var(--card-shadow);">
+                <h3 style="margin-bottom: 15px;">About this course</h3>
+                <p style="line-height: 1.6; margin-bottom: 20px;">
+                    Become a skilled graphic designer with this comprehensive course. 
+                    From the fundamental principles of design to advanced techniques in 
+                    various software, this course will prepare you for a successful 
+                    career in graphic design with hands-on projects and expert guidance.
+                </p>
+                
+                <h3 style="margin-bottom: 15px;">What you'll learn</h3>
+                <ul style="list-style: none; padding-left: 0;">
+                    <li style="margin-bottom: 10px; display: flex; align-items: center;">
+                        <i class="fas fa-check" style="color: green; margin-right: 10px;"></i>
+                        Design principles and composition
+                    </li>
+                    <li style="margin-bottom: 10px; display: flex; align-items: center;">
+                        <i class="fas fa-check" style="color: green; margin-right: 10px;"></i>
+                        Typography and color theory
+                    </li>
+                    <li style="margin-bottom: 10px; display: flex; align-items: center;">
+                        <i class="fas fa-check" style="color: green; margin-right: 10px;"></i>
+                        Branding and logo design
+                    </li>
+                    <li style="margin-bottom: 10px; display: flex; align-items: center;">
+                        <i class="fas fa-check" style="color: green; margin-right: 10px;"></i>
+                        Print and digital design techniques
+                    </li>
+                </ul>
+                
+                <button style="background-color: var(--primary-color); color: white; border: none; border-radius: 10px; padding: 12px 24px; font-size: 16px; font-weight: 500; cursor: pointer; margin-top: 20px; width: 100%;">
+                    Enroll Now
+                </button>
+            </div>
+        </div>
+        
+        <!-- Copywriter Page -->
+        <div id="copywriter" class="page">
+            <div class="header">
+                <button class="back-button" onclick="navigateToPage('main-page')">
+                    <i class="fas fa-arrow-left"></i>
+                </button>
+                <h1 class="page-title">Copywriter</h1>
+                <button class="notification">
+                    <i class="fas fa-bell"></i>
+                    <span class="badge"></span>
+                </button>
+            </div>
+            
+            <div class="banner">
+                <div class="banner-icon">
+                    <i class="fas fa-pen-nib" style="color: white; font-size: 30px;"></i>
+                </div>
+                <div class="banner-content">
+                    <h2>Copywriter <span class="arrow">→</span></h2>
+                    <p>A Journey to Excellence.</p>
+                </div>
+            </div>
+            
+            <div class="section-header">
+                <h2 class="section-title">Course Content</h2>
+            </div>
+            
+            <div style="background-color: white; padding: 20px; border-radius: 20px; box-shadow: var(--card-shadow);">
+                <h3 style="margin-bottom: 15px;">About this course</h3>
+                <p style="line-height: 1.6; margin-bottom: 20px;">
+                    Master the art of persuasive writing with this comprehensive copywriting course. 
+                    Learn how to craft compelling headlines, engaging content, and persuasive calls-to-action 
+                    that drive results. Whether you're writing for digital or print media, this course will 
+                    give you the skills to create copy that converts.
+                </p>
+                
+                <h3 style="margin-bottom: 15px;">What you'll learn</h3>
+                <ul style="list-style: none; padding-left: 0;">
+                    <li style="margin-bottom: 10px; display: flex; align-items: center;">
+                        <i class="fas fa-check" style="color: green; margin-right: 10px;"></i>
+                        Persuasive writing techniques
+                    </li>
+                    <li style="margin-bottom: 10px; display: flex; align-items: center;">
+                        <i class="fas fa-check" style="color: green; margin-right: 10px;"></i>
+                        Headline and content creation
+                    </li>
+                    <li style="margin-bottom: 10px; display: flex; align-items: center;">
+                        <i class="fas fa-check" style="color: green; margin-right: 10px;"></i>
+                        SEO copywriting
+                    </li>
+                    <li style="margin-bottom: 10px; display: flex; align-items: center;">
+                        <i class="fas fa-check" style="color: green; margin-right: 10px;"></i>
+                        Email marketing and sales copy
+                    </li>
+                </ul>
+                
+                <button style="background-color: var(--primary-color); color: white; border: none; border-radius: 10px; padding: 12px 24px; font-size: 16px; font-weight: 500; cursor: pointer; margin-top: 20px; width: 100%;">
+                    Enroll Now
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // JavaScript for page navigation
+        function navigateToPage(pageId) {
+            // Hide all pages
+            const pages = document.querySelectorAll('.page');
+            pages.forEach(page => {
+                page.classList.remove('active');
+            });
+            
+            // Show selected page
+            const selectedPage = document.getElementById(pageId);
+            selectedPage.classList.add('active');
+        }
+        
+        // JavaScript for tab navigation
+        const navTabs = document.querySelectorAll('.nav-tab');
+        navTabs.forEach(tab => {
+            tab.addEventListener('click', function() {
+                // Remove active class from all tabs
+                navTabs.forEach(t => t.classList.remove('active'));
+                
+                // Add active class to clicked tab
+                this.classList.add('active');
+                
+                // Here you would typically filter content based on the selected category
+                const category = this.getAttribute('data-category');
+                console.log(`Selected category: ${category}`);
+                // For demo purposes, we're just logging the selected category
+            });
+        });
+
+    </script>
+</body>
+</html>
