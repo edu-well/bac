@@ -32,12 +32,7 @@
         }
 
         /* Add this at the top of your CSS (right after :root) */
-html {
-    overflow-x: hidden; /* Blocks horizontal scroll at the root level */
-    width: 100%;        /* Ensures html doesn't expand beyond viewport */
-}
 
-/* Update your existing body styles (keep everything else the same) */
 body {
     font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", 
                 "SF Pro Text", "Helvetica Neue", Helvetica, Arial, 
@@ -56,8 +51,28 @@ body {
     width: 100%;        /* Ensures body doesn't expand */
     margin: 0;          /* Remove default margin */
     padding: 0;         /* Remove default padding */
-}
 
+}
+body {
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", 
+                         "SF Pro Text", "Helvetica Neue", Helvetica, Arial, 
+                         sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-dark);
+            min-height: 100vh;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            line-height: 1.47059;
+            position: relative;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 /* Add this to prevent ANY child element from causing overflow */
 body > * {
     max-width: 100vw;   /* Force all direct children to stay within viewport */
