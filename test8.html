@@ -51,9 +51,8 @@
         /* Subtle gradient background */
         body::before {
             content: '';
-            position: fixed;
-            top: 0;
-            left: 0;
+            
+         
             width: 100%;
             height: 100%;
             background: radial-gradient(circle at 50% 0%, rgba(255, 255, 255, 0.8), transparent 60%),
@@ -62,6 +61,21 @@
                         radial-gradient(circle at 75% 85%, rgba(255, 159, 10, 0.03), transparent 30%);
             z-index: -2;
             animation: subtleShift 20s ease-in-out infinite alternate;
+
+   min-height: 100vh;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            line-height: 1.47059;
+            position: relative;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
         }
         
         @keyframes subtleShift {
