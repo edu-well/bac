@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Apple-Style Design</title>
+    <style>
+        /* Apple-inspired color palette */
+        :root {
+            --bg-color: #f5f5f7;
+            --text-dark: #1d1d1f;
+            --text-light: #86868b;
+            --accent-blue: #0071e3;
+            --ease-out: cubic-bezier(0.25, 1, 0.5, 1);
+            --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", 
+                         "SF Pro Text", "Helvetica Neue", Helvetica, Arial, 
+                         sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-dark);
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            line-height: 1.47059;
+        }
+
+        /* Apple-style ultra-thin grid */
+        .grid-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(rgba(0, 0, 0, 0.02) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 0, 0, 0.02) 1px, transparent 1px);
+            background-size: 48px 48px;
+            z-index: 0;
+            opacity: 0;
+            animation: fadeIn 1s var(--ease-out) forwards 0.5s;
+        }
+
+        @keyframes fadeIn {
+            to { opacity: 1; }
+        }
+
+        /* Main content container */
+        .content {
+            text-align: center;
+            padding: 2rem;
+            max-width: min(90%, 800px);
+            z-index: 1;
+        }
+
+        /* Apple-style typography */
+        .line1 {
+            font-size: clamp(2.5rem, 5vw, 3.75rem);
+            font-weight: 600;
+            letter-spacing: -0.022em;
+            line-height: 1.08349;
+            margin-bottom: 0.5rem;
+            opacity: 0;
+            transform: translateY(10px);
+            animation: fadeInUp 0.8s var(--ease-out) forwards 0.3s;
+        }
+
+        .line2 {
+            font-size: clamp(1.125rem, 2.5vw, 1.75rem);
+            font-weight: 400;
+            color: var(--text-light);
+            letter-spacing: 0.004em;
+            line-height: 1.47059;
+            max-width: 80%;
+            margin: 0 auto;
+            opacity: 0;
+            transform: translateY(10px);
+            animation: fadeInUp 0.8s var(--ease-out) forwards 0.6s;
+        }
+
+        @keyframes fadeInUp {
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Apple-style divider */
+        .divider {
+            width: 48px;
+            height: 1px;
+            background: rgba(0, 0, 0, 0.1);
+            margin: 2rem auto;
+            opacity: 0;
+            animation: fadeIn 0.8s var(--ease-out) forwards 0.9s;
+        }
+
+        /* Apple-style dynamic underline */
+        .underline {
+            position: relative;
+            display: inline-block;
+        }
+
+        .underline::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--accent-blue);
+            transition: width 0.6s var(--ease-in-out);
+        }
+
+        .content:hover .underline::after {
+            width: 100%;
+        }
+
+        /* Apple-style floating dots */
+        .floating-dots {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .dot {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            border-radius: 50%;
+            background: rgba(0, 0, 0, 0.05);
+            animation: float 12s infinite linear;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0) translateX(0); opacity: 0; }
+            20% { opacity: 0.3; }
+            100% { transform: translateY(-100vh) translateX(20px); opacity: 0; }
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .line1 { font-size: clamp(2rem, 8vw, 3rem); }
+            .line2 { max-width: 90%; }
+        }
+
+        /* Reduced motion support */
+        @media (prefers-reduced-motion) {
+            .grid-overlay, .content > *, .dot {
+                animation: none !important;
+                opacity: 1 !important;
+                transform: none !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="grid-overlay"></div>
+    <div class="floating-dots" id="floatingDots"></div>
+
+    <div class="content">
+        <h1 class="line1"><span class="underline">Innovation</span></h1>
+        <p class="line2">This is where the magic happens.</p>
+        <div class="divider"></div>
+    </div>
+
+    <script>
+        // Generate floating dots
+        function createFloatingDots() {
+            const container = document.getElementById('floatingDots');
+            const dotCount = Math.floor(window.innerWidth / 30);
+            
+            for (let i = 0; i < dotCount; i++) {
+                const dot = document.createElement('div');
+                dot.classList.add('dot');
+                
+                // Random positioning
+                dot.style.left = `${Math.random() * 100}%`;
+                dot.style.top = `${Math.random() * 100 + 100}%`;
+                
+                // Random animation duration & delay
+                const duration = 8 + Math.random() * 10;
+                const delay = Math.random() * 5;
+                dot.style.animation = `float ${duration}s linear ${delay}s infinite`;
+                
+                container.appendChild(dot);
+            }
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            createFloatingDots();
+            
+            // Smooth entrance
+            document.body.style.opacity = 0;
+            setTimeout(() => {
+                document.body.style.transition = 'opacity 0.8s var(--ease-out)';
+                document.body.style.opacity = 1;
+            }, 100);
+        });
+
+        // Regenerate dots on resize
+        window.addEventListener('resize', () => {
+            const container = document.getElementById('floatingDots');
+            container.innerHTML = '';
+            createFloatingDots();
+        });
+    </script>
+</body>
+</html>
