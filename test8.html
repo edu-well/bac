@@ -32,11 +32,7 @@
         }
 
         /* Add this at the top of your CSS (right after :root) */
-html {
-overflow-x: hidden;
-   /* Blocks horizontal scroll at the root level */
-           /* Ensures html doesn't expand beyond viewport */
-}
+
 * {
   box-sizing: border-box;
 }
@@ -51,6 +47,7 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
+max-width: 100%;
     overflow-x: hidden; /* Already in your code - keep it! */
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
