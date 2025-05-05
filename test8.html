@@ -33,8 +33,12 @@
 
         /* Add this at the top of your CSS (right after :root) */
 html {
+overflow-x: hidden;
    /* Blocks horizontal scroll at the root level */
-    width: 100%;        /* Ensures html doesn't expand beyond viewport */
+           /* Ensures html doesn't expand beyond viewport */
+}
+* {
+  box-sizing: border-box;
 }
 
 body {
