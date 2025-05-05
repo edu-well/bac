@@ -1,392 +1,754 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Knowledge Hub</title>
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/pdfjs-dist/2.16.105/pdf_viewer.css" rel="stylesheet">
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfjs-dist/2.16.105/pdf.min.js"></script>
-  <style>
-    :root {
-      --apple-gray: #f5f5f7;
-      --apple-text: #1d1d1f;
-      --apple-blue: #0071e3;
-      --apple-blue-hover: #0077ed;
-      --apple-light-border: #d2d2d7;
-    }
-    
-    body {
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-      background-color: white;
-      color: var(--apple-text);
-      letter-spacing: -0.01em;
-    }
-    
-    .container-wrapper {
-      background: linear-gradient(180deg, #fff 0%, var(--apple-gray) 100%);
-      min-height: 100vh;
-    }
-    
-    /* Entrance Animation */
-    .hero-text {
-      opacity: 0;
-      transform: translateY(30px);
-      animation: slideUpFade 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-      animation-delay: 0.2s;
-    }
-    
-    .search-container {
-      opacity: 0;
-      transform: translateY(40px);
-      animation: slideUpFade 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-      animation-delay: 0.6s;
-    }
-    
-    @keyframes slideUpFade {
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-    
-    /* Search Input */
-    .search-input {
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
-      background-color: rgba(255, 255, 255, 0.8);
-      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-    }
-    
-    .search-input:focus {
-      background-color: rgba(255, 255, 255, 0.95);
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-      transform: translateY(-2px);
-    }
-    
-    /* Search Results */
-    .search-results {
-      max-height: 0;
-      overflow: hidden;
-      transition: max-height 0.5s cubic-bezier(0.16, 1, 0.3, 1), 
-                  opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1),
-                  transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-      opacity: 0;
-      transform: translateY(10px);
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
-      background-color: rgba(255, 255, 255, 0.8);
-    }
-    
-    .search-results.active {
-      max-height: 600px;
-      opacity: 1;
-      transform: translateY(0);
-    }
-    
-    /* Result Items */
-    .result-item {
-      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
-      border-bottom: 1px solid rgba(210, 210, 215, 0.5);
-    }
-    
-    .result-item:hover {
-      transform: scale(1.01);
-      background-color: rgba(255, 255, 255, 0.9);
-    }
-    
-    .result-item h3 {
-      transition: color 0.2s ease;
-    }
-    
-    .result-item:hover h3 {
-      color: var(--apple-blue);
-    }
-    
-    /* Modal */
-    .modal {
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-      backdrop-filter: blur(5px);
-      -webkit-backdrop-filter: blur(5px);
-    }
-    
-    .modal.active {
-      opacity: 1;
-      pointer-events: auto;
-    }
-    
-    .modal-container {
-      transform: scale(0.95);
-      transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
-    }
-    
-    .modal.active .modal-container {
-      transform: scale(1);
-    }
-    
-    /* Button */
-    .apple-button {
-      background-color: var(--apple-blue);
-      transition: all 0.2s ease;
-    }
-    
-    .apple-button:hover {
-      background-color: var(--apple-blue-hover);
-      transform: translateY(-1px);
-      box-shadow: 0 2px 8px rgba(0, 113, 227, 0.4);
-    }
-    
-    /* PDF Container */
-    .pdf-container {
-      height: 80vh;
-      max-height: 750px;
-      background-color: var(--apple-gray);
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pet Adoption App</title>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.29.0/feather.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #4880FF;
+            --accent-yellow: #FFB84C;
+            --accent-red: #FF6B6B;
+            --background: #F4F9FF;
+            --text-dark: #1F1F1F;
+            --text-light: #6B6B6B;
+            --border-radius-sm: 16px;
+            --border-radius-md: 20px;
+            --border-radius-lg: 24px;
+            --shadow: 0 8px 20px rgba(72, 128, 255, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Nunito', sans-serif;
+        }
+
+        body {
+            background-color: var(--background);
+            color: var(--text-dark);
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 100%;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        /* Welcome Screen */
+        .welcome-screen {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            padding: 2rem;
+            position: relative;
+            z-index: 10;
+            background-color: var(--background);
+        }
+
+        .welcome-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: flex-start;
+            max-width: 540px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .welcome-image {
+            width: 100%;
+            max-width: 300px;
+            margin: 0 auto 2rem;
+            position: relative;
+        }
+
+        .welcome-image img {
+            width: 100%;
+            height: auto;
+            border-radius: var(--border-radius-md);
+            object-fit: contain;
+        }
+
+        .welcome-heading {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            line-height: 1.2;
+        }
+
+        .welcome-heading span {
+            color: var(--primary);
+        }
+
+        .welcome-subheading {
+            font-size: 1.1rem;
+            color: var(--text-light);
+            margin-bottom: 2.5rem;
+            line-height: 1.5;
+        }
+
+        .cta-button {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            padding: 1rem 2.5rem;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: var(--shadow);
+            transition: all 0.3s ease;
+            margin: 0 auto;
+            display: block;
+            width: 100%;
+            max-width: 200px;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(72, 128, 255, 0.2);
+        }
+
+        .pagination {
+            display: flex;
+            justify-content: center;
+            margin-top: 2rem;
+            gap: 0.5rem;
+        }
+
+        .pagination-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background-color: #DDD;
+        }
+
+        .pagination-dot.active {
+            background-color: var(--primary);
+            width: 24px;
+            border-radius: 4px;
+        }
+
+        /* Decorative Elements */
+        .bubble {
+            position: absolute;
+            border-radius: 50%;
+            background-color: rgba(72, 128, 255, 0.1);
+            z-index: -1;
+            animation: float 10s infinite ease-in-out;
+        }
+
+        .bubble-1 {
+            width: 100px;
+            height: 100px;
+            top: 10%;
+            right: 10%;
+            animation-delay: 0s;
+        }
+
+        .bubble-2 {
+            width: 60px;
+            height: 60px;
+            bottom: 20%;
+            left: 15%;
+            animation-delay: 2s;
+        }
+
+        .bubble-3 {
+            width: 80px;
+            height: 80px;
+            top: 60%;
+            right: 5%;
+            animation-delay: 4s;
+        }
+
+        .cloud {
+            position: absolute;
+            z-index: -1;
+            opacity: 0.7;
+        }
+
+        .cloud-1 {
+            top: 15%;
+            left: 10%;
+            transform: scale(0.8);
+        }
+
+        .cloud-2 {
+            top: 30%;
+            right: 15%;
+            transform: scale(0.6);
+        }
+
+        /* Main Dashboard */
+        .dashboard {
+            min-height: 100vh;
+            padding: 1rem;
+            display: none;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+            margin-bottom: 1rem;
+        }
+
+        .location {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-weight: 600;
+        }
+
+        .location-text {
+            font-size: 1rem;
+        }
+
+        .header-icons {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .icon-button {
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: var(--text-dark);
+        }
+
+        /* Community Banner */
+        .community-banner {
+            background: linear-gradient(135deg, #FFD280 0%, var(--primary) 100%);
+            border-radius: var(--border-radius-md);
+            padding: 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1.5rem;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .banner-content {
+            color: white;
+            z-index: 2;
+        }
+
+        .banner-title {
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+        }
+
+        .banner-button {
+            background-color: white;
+            color: var(--primary);
+            border: none;
+            border-radius: 50px;
+            padding: 0.5rem 1rem;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 0.5rem;
+        }
+
+        .banner-image {
+            position: absolute;
+            right: 0;
+            bottom: 0;
+            height: 100%;
+            width: auto;
+            opacity: 0.7;
+        }
+
+        /* Categories */
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .section-title {
+            font-weight: 700;
+            font-size: 1.1rem;
+        }
+
+        .view-all {
+            color: var(--primary);
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-decoration: none;
+        }
+
+        .categories {
+            display: flex;
+            gap: 0.5rem;
+            overflow-x: auto;
+            padding: 0.5rem 0;
+            margin-bottom: 1.5rem;
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        .categories::-webkit-scrollbar {
+            display: none;
+        }
+
+        .category {
+            background-color: white;
+            border: none;
+            border-radius: 50px;
+            padding: 0.6rem 1.2rem;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            white-space: nowrap;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .category.active {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        /* Pet Cards */
+        .pet-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+            gap: 1rem;
+            margin-bottom: 5rem;
+        }
+
+        .pet-card {
+            background-color: white;
+            border-radius: var(--border-radius-md);
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            position: relative;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .pet-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .pet-card-image {
+            width: 100%;
+            aspect-ratio: 1/1;
+            object-fit: cover;
+            border-radius: var(--border-radius-sm);
+        }
+
+        .pet-card-content {
+            padding: 0.8rem;
+        }
+
+        .pet-card-name {
+            font-weight: 700;
+            margin-bottom: 0.3rem;
+            font-size: 1rem;
+        }
+
+        .pet-card-location {
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+            color: var(--text-light);
+            font-size: 0.8rem;
+        }
+
+        .heart-button {
+            position: absolute;
+            top: 0.5rem;
+            right: 0.5rem;
+            background-color: white;
+            border: none;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            z-index: 2;
+        }
+
+        .heart-icon {
+            color: #ccc;
+            transition: color 0.3s ease;
+        }
+
+        .heart-button.active .heart-icon {
+            color: var(--accent-red);
+        }
+
+        /* Bottom Navigation */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background-color: white;
+            display: flex;
+            justify-content: space-around;
+            padding: 1rem 0;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.05);
+            border-radius: 24px 24px 0 0;
+            z-index: 100;
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: var(--text-light);
+            text-decoration: none;
+            font-size: 0.7rem;
+            font-weight: 500;
+        }
+
+        .nav-item.active {
+            color: var(--primary);
+        }
+
+        .nav-icon {
+            margin-bottom: 0.3rem;
+            font-size: 1.3rem;
+        }
+
+        /* Pet Detail View */
+        .pet-detail {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: var(--background);
+            z-index: 200;
+            overflow-y: auto;
+            display: none;
+            animation: slideUp 0.3s forwards;
+        }
+
+        .detail-header {
+            display: flex;
+            justify-content: space-between;
+            padding: 1rem;
+        }
+
+        .back-button, .more-button {
+            background: white;
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: var(--shadow);
+        }
+
+        .pet-hero {
+            width: 100%;
+            aspect-ratio: 1/1;
+            object-fit: cover;
+            border-radius: var(--border-radius-lg);
+            margin-bottom: 1.5rem;
+        }
+
+        .pet-info {
+            padding: 0 1.5rem;
+        }
+
+        .pet-name {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .pet-location {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--text-light);
+            margin-bottom: 1.5rem;
+            font-size: 0.9rem;
+        }
+
+        .pet-tags {
+            display: flex;
+            gap: 0.8rem;
+            margin-bottom: 2rem;
+        }
+
+        .pet-tag {
+            background-color: #E8F1FF;
+            border-radius: var(--border-radius-sm);
+            padding: 0.8rem 1rem;
+            font-size: 0.8rem;
+            font-weight: 600;
+            flex: 1;
+            text-align: center;
+        }
+
+        .owner-section {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            background-color: white;
+            border-radius: var(--border-radius-md);
+            padding: 1rem;
+            box-shadow: var(--shadow);
+        }
+
+        .owner-image {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .owner-info {
+            flex: 1;
+        }
+
+        .owner-name {
+            font-weight: 600;
+            margin-bottom: 0.2rem;
+        }
+
+        .owner-title {
+            color: var(--text-light);
+            font-size: 0.8rem;
+        }
+
+        .owner-contact {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .contact-button {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: none;
+            cursor: pointer;
+        }
+
+        .message-button {
+            background-color: #E8F1FF;
+            color: var(--primary);
+        }
+
+        .call-button {
+            background-color: #FFE8E8;
+            color: var(--accent-red);
+        }
+
+        .pet-description {
+            margin-bottom: 7rem;
+            line-height: 1.6;
+            color: var(--text-light);
+        }
+
+        .see-more {
+            color: var(--primary);
+            font-weight: 600;
+            cursor: pointer;
+            border: none;
+            background: none;
+            font-size: inherit;
+        }
+
+        .adopt-button {
+            position: fixed;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            padding: 1rem 2rem;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: var(--shadow);
+            width: 80%;
+            max-width: 300px;
+            text-align: center;
+            animation: pulse 2s infinite;
+        }
+
+        /* Animations */
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-20px);
+            }
+        }
+
+        @keyframes slideUp {
+            from {
+                transform: translateY(100%);
+            }
+            to {
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes pulse {
+            0% {
+                box-shadow: 0 0 0 0 rgba(72, 128, 255, 0.4);
+            }
+            70% {
+                box-shadow: 0 0 0 10px rgba(72, 128, 255, 0);
+            }
+            100% {
+                box-shadow: 0 0 0 0 rgba(72, 128, 255, 0);
+            }
+        }
+
+        /* Responsive */
+        @media (min-width: 768px) {
+            .container {
+                max-width: 768px;
+            }
+
+            .welcome-content {
+                flex-direction: row;
+                gap: 2rem;
+                max-width: 768px;
+                text-align: left;
+            }
+
+            .welcome-image {
+                margin: 0;
+            }
+
+            .cta-button {
+                margin: 0;
+            }
+
+            .pet-cards {
+                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            }
+        }
+
+        @media (min-width: 1024px) {
+            .container {
+                max-width: 1024px;
+            }
+        }
+
+        /* Cloud SVG */
+        .cloud-svg {
+            fill: #E8F1FF;
+        }
+    </style>
 </head>
 <body>
-  <!-- Main Content -->
-  <div class="container-wrapper">
-    <div class="min-h-screen flex flex-col items-center justify-center px-4 py-16">
-      <!-- Hero Text -->
-      <div class="hero-text text-center mb-10">
-        <h1 class="text-4xl sm:text-5xl font-semibold text-gray-900 tracking-tight">Knowledge Hub</h1>
-        <p class="mt-4 text-lg text-gray-600 max-w-md mx-auto">Discover premium educational resources for your academic journey.</p>
-      </div>
-      
-      <!-- Search Engine Container -->
-      <div class="search-container w-full max-w-xl flex flex-col items-center transition-all duration-300">
-        <div class="relative w-full">
-          <input 
-            type="text" 
-            id="search-input" 
-            class="search-input w-full px-6 py-5 rounded-2xl border border-gray-200 text-gray-800 focus:outline-none text-lg" 
-            placeholder="Search for resources..."
-          >
-          <div id="search-icon" class="absolute right-6 top-5 text-gray-400">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+    <div class="container">
+        <!-- Welcome Screen -->
+        <section class="welcome-screen" id="welcomeScreen">
+            <!-- Decorative elements -->
+            <div class="bubble bubble-1"></div>
+            <div class="bubble bubble-2"></div>
+            <div class="bubble bubble-3"></div>
+            
+            <svg class="cloud cloud-1" width="80" height="40" viewBox="0 0 80 40">
+                <path class="cloud-svg" d="M10,30 C0,30 0,20 10,20 C10,10 20,10 25,15 C30,5 50,5 55,20 C65,15 75,25 65,30 Z"></path>
             </svg>
-          </div>
-        </div>
-        
-        <!-- Search Results -->
-        <div id="search-results" class="search-results w-full mt-3 rounded-2xl overflow-hidden shadow-lg">
-          <!-- Results will be populated here -->
-        </div>
-      </div>
-    </div>
-  </div>
-    
-  <!-- Modal for PDF Viewer -->
-  <div id="pdf-modal" class="modal fixed inset-0 bg-black bg-opacity-30 flex items-center justify-center z-50 px-4">
-    <div class="modal-container bg-white rounded-2xl w-full max-w-5xl overflow-hidden">
-      <div class="flex justify-between items-center p-6 border-b border-gray-100">
-        <h3 id="modal-title" class="text-xl font-medium text-gray-800"></h3>
-        <button id="close-modal" class="text-gray-400 hover:text-gray-600 transition-colors duration-200">
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
-          </svg>
-        </button>
-      </div>
-      <div class="pdf-container overflow-auto">
-        <div id="pdf-viewer" class="w-full h-full"></div>
-      </div>
-      <div class="p-6 border-t border-gray-100 flex justify-between items-center">
-        <span id="modal-description" class="text-sm text-gray-500"></span>
-        <button class="apple-button px-5 py-2 rounded-full text-white font-medium">Download PDF</button>
-      </div>
-    </div>
-  </div>
-
-  <script>
-    // Sample database
-    const database = [
-      {
-        "title": "Maths Espace",
-        "description": "Cours complet avec exercices sur l'espace pour les étudiants du Bac.",
-        "link": "https://api.placeholder.com/maths-espace.pdf"
-      },
-      {
-        "title": "Physique Mécanique",
-        "description": "Cours sur les forces mécaniques et équations différentielles.",
-        "link": "https://api.placeholder.com/physique-mecanique.pdf"
-      },
-      {
-        "title": "Chimie Organique",
-        "description": "Introduction à la chimie organique et aux composés carbonés.",
-        "link": "https://api.placeholder.com/chimie-organique.pdf"
-      },
-      {
-        "title": "Biologie Cellulaire",
-        "description": "Structure et fonctions des cellules eucaryotes et procaryotes.",
-        "link": "https://api.placeholder.com/biologie-cellulaire.pdf"
-      },
-      {
-        "title": "Littérature Française",
-        "description": "Analyse des grands auteurs français du XVIIe au XXe siècle.",
-        "link": "https://api.placeholder.com/litterature-francaise.pdf"
-      },
-      {
-        "title": "Histoire Moderne",
-        "description": "Événements et périodes clés de l'histoire mondiale de 1789 à 1945.",
-        "link": "https://api.placeholder.com/histoire-moderne.pdf"
-      },
-      {
-        "title": "Géographie Économique",
-        "description": "Étude des relations entre l'espace géographique et l'activité économique.",
-        "link": "https://api.placeholder.com/geographie-economique.pdf"
-      },
-      {
-        "title": "Philosophie Éthique",
-        "description": "Théories principales de l'éthique et applications contemporaines.",
-        "link": "https://api.placeholder.com/philosophie-ethique.pdf"
-      },
-      {
-        "title": "Informatique Algorithmique",
-        "description": "Fondamentaux des algorithmes et structures de données.",
-        "link": "https://api.placeholder.com/informatique-algorithmique.pdf"
-      },
-      {
-        "title": "Sciences Économiques",
-        "description": "Introduction aux principes fondamentaux de l'économie moderne.",
-        "link": "https://api.placeholder.com/sciences-economiques.pdf"
-      }
-    ];
-
-    // DOM Elements
-    const searchInput = document.getElementById('search-input');
-    const searchResults = document.getElementById('search-results');
-    const pdfModal = document.getElementById('pdf-modal');
-    const modalTitle = document.getElementById('modal-title');
-    const modalDescription = document.getElementById('modal-description');
-    const pdfViewer = document.getElementById('pdf-viewer');
-    const closeModal = document.getElementById('close-modal');
-    
-    // Focus on search input after animation
-    setTimeout(() => {
-      searchInput.focus();
-    }, 1200);
-    
-    // Search functionality
-    searchInput.addEventListener('input', function() {
-      const searchTerm = this.value.toLowerCase();
-      
-      if (searchTerm.length === 0) {
-        searchResults.innerHTML = '';
-        searchResults.classList.remove('active');
-        return;
-      }
-      
-      const filteredResults = database.filter(item => 
-        item.description.toLowerCase().includes(searchTerm) || 
-        item.title.toLowerCase().includes(searchTerm)
-      );
-      
-      displayResults(filteredResults);
-    });
-    
-    // Display search results
-    function displayResults(results) {
-      searchResults.innerHTML = '';
-      
-      if (results.length === 0) {
-        searchResults.innerHTML = `
-          <div class="p-6 text-gray-600 text-center">
-            <p class="text-lg">No results found</p>
-            <p class="text-sm text-gray-500 mt-2">Try adjusting your search terms</p>
-          </div>
-        `;
-        searchResults.classList.add('active');
-        return;
-      }
-      
-      results.forEach(result => {
-        const resultItem = document.createElement('div');
-        resultItem.className = 'result-item p-5 cursor-pointer';
-        resultItem.innerHTML = `
-          <h3 class="text-lg font-medium text-gray-800">${result.title}</h3>
-          <p class="text-gray-600 mt-2">${result.description}</p>
-        `;
-        
-        // Add click event to open PDF
-        resultItem.addEventListener('click', () => {
-          openPdfModal(result);
-        });
-        
-        searchResults.appendChild(resultItem);
-      });
-      
-      searchResults.classList.add('active');
-    }
-    
-    // Open PDF modal
-    function openPdfModal(resource) {
-      modalTitle.textContent = resource.title;
-      modalDescription.textContent = resource.description;
-      
-      // In a real implementation, you would load the actual PDF here
-      // For this example, we'll simulate it with a placeholder
-      pdfViewer.innerHTML = `
-        <div class="flex items-center justify-center h-full flex-col p-8">
-          <div class="flex justify-center mb-8">
-            <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="text-gray-300">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+            
+            <svg class="cloud cloud-2" width="60" height="30" viewBox="0 0 80 40">
+                <path class="cloud-svg" d="M10,30 C0,30 0,20 10,20 C10,10 20,10 25,15 C30,5 50,5 55,20 C65,15 75,25 65,30 Z"></path>
             </svg>
-          </div>
-          <img src="/api/placeholder/600/400" alt="PDF preview" class="mb-6 rounded-lg shadow-lg" />
-          <div class="text-center max-w-lg">
-            <h4 class="font-medium text-xl mb-2">${resource.title}</h4>
-            <p class="text-gray-600">${resource.description}</p>
-          </div>
-        </div>
-      `;
-      
-      pdfModal.classList.add('active');
-      
-      // Implementation of PDF.js would look like this:
-      /*
-      // Load the PDF
-      pdfjsLib.getDocument(resource.link).promise.then(function(pdf) {
-        // Get the first page
-        return pdf.getPage(1).then(function(page) {
-          const scale = 1.5;
-          const viewport = page.getViewport({ scale });
-          
-          // Prepare canvas
-          const canvas = document.createElement('canvas');
-          const context = canvas.getContext('2d');
-          canvas.height = viewport.height;
-          canvas.width = viewport.width;
-          
-          pdfViewer.innerHTML = '';
-          pdfViewer.appendChild(canvas);
-          
-          // Render PDF page
-          page.render({
-            canvasContext: context,
-            viewport: viewport
-          });
-        });
-      });
-      */
-    }
-    
-    // Close modal when clicking outside or on close button
-    pdfModal.addEventListener('click', function(e) {
-      if (e.target === pdfModal) {
-        pdfModal.classList.remove('active');
-      }
-    });
-    
-    closeModal.addEventListener('click', function() {
-      pdfModal.classList.remove('active');
-    });
-  </script>
-</body>
-</html>
+
+            <div class="welcome-content">
+                <div class="welcome-image">
+                    <img src="/api/placeholder/400/320" alt="Woman with cat illustration">
+                </div>
+                <div>
+                    <h1 class="welcome-heading">Find Your <span>Dream</span><br>Pet Here</h1>
+                    <p class="welcome-subheading">Join us and discover the best pet in your location.</p>
+                    <button class="cta-button" id="continueButton">Continue</button>
+                </div>
+            </div>
+
+            <div class="pagination">
+                <div class="pagination-dot active"></div>
+                <div class="pagination-dot"></div>
+                <div class="pagination-dot"></div>
+            </div>
+        </section>
+
+        <!-- Main Dashboard -->
+        <section class="dashboard" id="dashboard">
+            <div class="header">
+                <div class="location">
+                    <i data-feather="map-pin" size="16"></i>
+                    <span class="location-text">Chicago, US</span>
+                    <i data-feather="chevron-down" size="16"></i>
+                </div>
+                <div class="header-icons">
+                    <button class="icon-button">
+                        <i data-feather="search" size="20"></i>
+                    </button>
+                    <button class="icon-button">
+                        <i data-feather="bell" size="20"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Community Banner -->
+            <div class="community-banner">
+                <div class="banner-content">
+                    <h3 class="banner-title">Join Our Animal<br>Lovers Community</h3>
+                    <button class="banner-button">Join Now</button>
+                </div>
+                <img src="/api/placeholder/200/150" alt="Cat illustration" class="banner-image">
+            </div>
+
+            <!-- Categories -->
+            <div class="section-header">
+                <h2 class="section-title">Categories</h2>
+                <a href="#" class="view-all">View all</a>
+            </div>
+            <div class="categories">
+                <button class="category active">Cats</button>
+                <button class="category">Dogs</button>
+                <button class="category">Birds</button>
+                <button class="category">Fish</button>
+                <button class="category">Rabbits</button>
+            </div>
+
+            <!-- Adopt Pet -->
+            <div class="section-header">
+                <h2 class="section-title">Adopt Pet</h2>
+                <a href="#" class="view-all">View all</a>
+            </div>
+            <div class="pet-cards">
+                <!-- Pet Card 1: Amber -->
+                <div class="pet-card" data-pet="amber">
+                    <button class="heart-button">
+                        <i data-feather="heart" class="heart-icon"></i>
+                    </button>
+                    <i
