@@ -29,80 +29,7 @@
             display: flex;
             justify-content: center;
             padding-top: 15vh;
-
-        
         }
-        .header {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            padding: 1.2rem 2rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            z-index: 100;
-            backdrop-filter: blur(var(--blur-radius));
-            -webkit-backdrop-filter: blur(var(--blur-radius));
-            background-color: rgba(245, 245, 247, 0.7);
-            opacity: 0;
-            transform: translateY(-10px);
-            animation: slideDown 0.8s var(--ease-out) forwards 0.2s;
-            border-bottom: 1px solid rgba(0, 0, 0, 0.03);
-        }
-
-        @keyframes slideDown {
-            to { 
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .logo {
-            font-size: 1.25rem;
-            font-weight: 600;
-            letter-spacing: -0.01em;
-            transition: all var(--transition-fast) var(--ease-out);
-            display: flex;
-            align-items: center;
-        }
-
-        .logo::before {
-            content: '';
-            display: inline-block;
-            width: 24px;
-            height: 24px;
-            background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple));
-            border-radius: 6px;
-            margin-right: 8px;
-            transform: rotate(10deg);
-            transition: transform var(--transition-fast) var(--ease-elastic);
-        }
-
-        .logo:hover::before {
-            transform: rotate(25deg);
-        }
-
-        .logo span {
-            color: var(--accent-blue);
-            position: relative;
-        }
-
-        .logo span::after {
-            content: '';
-            position: absolute;
-            bottom: -2px;
-            left: 0;
-            width: 0;
-            height: 2px;
-            background: linear-gradient(90deg, var(--accent-blue), var(--accent-purple));
-            transition: width var(--transition-medium) var(--ease-out);
-        }
-
-        .logo:hover span::after {
-            width: 100%;
-        }
-
 
         .container {
             max-width: 600px;
@@ -116,7 +43,16 @@
             position: relative;
         }
 
-       
+        .logo {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            margin: 0 auto;
+            position: relative;
+            background: radial-gradient(circle at 30% 30%, var(--primary-color), var(--secondary-color), var(--tertiary-color));
+            filter: blur(10px);
+            animation: pulse 8s infinite alternate, rotate 30s infinite linear;
+        }
 
         @keyframes pulse {
             0% {
@@ -321,21 +257,13 @@
                 padding: 16px 20px;
             }
         }
-        @media (max-width: 768px) {
-            .header {
-                padding: 1rem;
-            }
     </style>
 </head>
 <body>
-
-    <header class="header">
-        <div class="logo">edu<span>well</span></div>
-    </header>
     <div class="container">
         <div class="logo-container">
             <div class="logo"></div>
-            <h1 class="site-name"></h1>
+            <h1 class="site-name">MyAwesomeSite</h1>
         </div>
         
         <div class="search-container">
@@ -367,7 +295,7 @@
                 { 
                     title: 'Math Exercises', 
                     description: 'Problem sets with solutions', 
-                    driveId: '1Qq9TIwIwxUfjl8jJGYSIfpoip0a2smgg' 
+                    driveId: '1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs' 
                 },
                 { 
                     title: 'Physics Files', 
