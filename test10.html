@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Knowledge Hub</title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/pdfjs-dist/2.16.105/pdf_viewer.css" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfjs-dist/2.16.105/pdf.min.js"></script>
+  <style>
+    :root {
+      --apple-gray: #f5f5f7;
+      --apple-text: #1d1d1f;
+      --apple-blue: #0071e3;
+      --apple-blue-hover: #0077ed;
+      --apple-light-border: #d2d2d7;
+    }
+    
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background-color: white;
+      color: var(--apple-text);
+      letter-spacing: -0.01em;
+    }
+    
+    .container-wrapper {
+      background: linear-gradient(180deg, #fff 0%, var(--apple-gray) 100%);
+      min-height: 100vh;
+    }
+    
+    /* Entrance Animation */
+    .hero-text {
+      opacity: 0;
+      transform: translateY(30px);
+      animation: slideUpFade 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+      animation-delay: 0.2s;
+    }
+    
+    .search-container {
+      opacity: 0;
+      transform: translateY(40px);
+      animation: slideUpFade 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+      animation-delay: 0.6s;
+    }
+    
+    @keyframes slideUpFade {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    /* Search Input */
+    .search-input {
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      background-color: rgba(255, 255, 255, 0.8);
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    }
+    
+    .search-input:focus {
+      background-color: rgba(255, 255, 255, 0.95);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+      transform: translateY(-2px);
+    }
+    
+    /* Search Results */
+    .search-results {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.5s cubic-bezier(0.16, 1, 0.3, 1), 
+                  opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+                  transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+      opacity: 0;
+      transform: translateY(10px);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      background-color: rgba(255, 255, 255, 0.8);
+    }
+    
+    .search-results.active {
+      max-height: 600px;
+      opacity: 1;
+      transform: translateY(0);
+    }
+    
+    /* Result Items */
+    .result-item {
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+      border-bottom: 1px solid rgba(210, 210, 215, 0.5);
+    }
+    
+    .result-item:hover {
+      transform: scale(1.01);
+      background-color: rgba(255, 255, 255, 0.9);
+    }
+    
+    .result-item h3 {
+      transition: color 0.2s ease;
+    }
+    
+    .result-item:hover h3 {
+      color: var(--apple-blue);
+    }
+    
+    /* Modal */
+    .modal {
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+      backdrop-filter: blur(5px);
+      -webkit-backdrop-filter: blur(5px);
+    }
+    
+    .modal.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+    
+    .modal-container {
+      transform: scale(0.95);
+      transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+    }
+    
+    .modal.active .modal-container {
+      transform: scale(1);
+    }
+    
+    /* Button */
+    .apple-button {
+      background-color: var(--apple-blue);
+      transition: all 0.2s ease;
+    }
+    
+    .apple-button:hover {
+      background-color: var(--apple-blue-hover);
+      transform: translateY(-1px);
+      box-shadow: 0 2px 8px rgba(0, 113, 227, 0.4);
+    }
+    
+    /* PDF Container */
+    .pdf-container {
+      height: 80vh;
+      max-height: 750px;
+      background-color: var(--apple-gray);
+    }
+  </style>
+</head>
+<body>
+  <!-- Main Content -->
+  <div class="container-wrapper">
+    <div class="min-h-screen flex flex-col items-center justify-center px-4 py-16">
+      <!-- Hero Text -->
+      <div class="hero-text text-center mb-10">
+        <h1 class="text-4xl sm:text-5xl font-semibold text-gray-900 tracking-tight">Knowledge Hub</h1>
+        <p class="mt-4 text-lg text-gray-600 max-w-md mx-auto">Discover premium educational resources for your academic journey.</p>
+      </div>
+      
+      <!-- Search Engine Container -->
+      <div class="search-container w-full max-w-xl flex flex-col items-center transition-all duration-300">
+        <div class="relative w-full">
+          <input 
+            type="text" 
+            id="search-input" 
+            class="search-input w-full px-6 py-5 rounded-2xl border border-gray-200 text-gray-800 focus:outline-none text-lg" 
+            placeholder="Search for resources..."
+          >
+          <div id="search-icon" class="absolute right-6 top-5 text-gray-400">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+            </svg>
+          </div>
+        </div>
+        
+        <!-- Search Results -->
+        <div id="search-results" class="search-results w-full mt-3 rounded-2xl overflow-hidden shadow-lg">
+          <!-- Results will be populated here -->
+        </div>
+      </div>
+    </div>
+  </div>
+    
+  <!-- Modal for PDF Viewer -->
+  <div id="pdf-modal" class="modal fixed inset-0 bg-black bg-opacity-30 flex items-center justify-center z-50 px-4">
+    <div class="modal-container bg-white rounded-2xl w-full max-w-5xl overflow-hidden">
+      <div class="flex justify-between items-center p-6 border-b border-gray-100">
+        <h3 id="modal-title" class="text-xl font-medium text-gray-800"></h3>
+        <button id="close-modal" class="text-gray-400 hover:text-gray-600 transition-colors duration-200">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+      </div>
+      <div class="pdf-container overflow-auto">
+        <div id="pdf-viewer" class="w-full h-full"></div>
+      </div>
+      <div class="p-6 border-t border-gray-100 flex justify-between items-center">
+        <span id="modal-description" class="text-sm text-gray-500"></span>
+        <button class="apple-button px-5 py-2 rounded-full text-white font-medium">Download PDF</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Sample database
+    const database = [
+      {
+        "title": "Maths Espace",
+        "description": "Cours complet avec exercices sur l'espace pour les étudiants du Bac.",
+        "link": "https://api.placeholder.com/maths-espace.pdf"
+      },
+      {
+        "title": "Physique Mécanique",
+        "description": "Cours sur les forces mécaniques et équations différentielles.",
+        "link": "https://api.placeholder.com/physique-mecanique.pdf"
+      },
+      {
+        "title": "Chimie Organique",
+        "description": "Introduction à la chimie organique et aux composés carbonés.",
+        "link": "https://api.placeholder.com/chimie-organique.pdf"
+      },
+      {
+        "title": "Biologie Cellulaire",
+        "description": "Structure et fonctions des cellules eucaryotes et procaryotes.",
+        "link": "https://api.placeholder.com/biologie-cellulaire.pdf"
+      },
+      {
+        "title": "Littérature Française",
+        "description": "Analyse des grands auteurs français du XVIIe au XXe siècle.",
+        "link": "https://api.placeholder.com/litterature-francaise.pdf"
+      },
+      {
+        "title": "Histoire Moderne",
+        "description": "Événements et périodes clés de l'histoire mondiale de 1789 à 1945.",
+        "link": "https://api.placeholder.com/histoire-moderne.pdf"
+      },
+      {
+        "title": "Géographie Économique",
+        "description": "Étude des relations entre l'espace géographique et l'activité économique.",
+        "link": "https://api.placeholder.com/geographie-economique.pdf"
+      },
+      {
+        "title": "Philosophie Éthique",
+        "description": "Théories principales de l'éthique et applications contemporaines.",
+        "link": "https://api.placeholder.com/philosophie-ethique.pdf"
+      },
+      {
+        "title": "Informatique Algorithmique",
+        "description": "Fondamentaux des algorithmes et structures de données.",
+        "link": "https://api.placeholder.com/informatique-algorithmique.pdf"
+      },
+      {
+        "title": "Sciences Économiques",
+        "description": "Introduction aux principes fondamentaux de l'économie moderne.",
+        "link": "https://api.placeholder.com/sciences-economiques.pdf"
+      }
+    ];
+
+    // DOM Elements
+    const searchInput = document.getElementById('search-input');
+    const searchResults = document.getElementById('search-results');
+    const pdfModal = document.getElementById('pdf-modal');
+    const modalTitle = document.getElementById('modal-title');
+    const modalDescription = document.getElementById('modal-description');
+    const pdfViewer = document.getElementById('pdf-viewer');
+    const closeModal = document.getElementById('close-modal');
+    
+    // Focus on search input after animation
+    setTimeout(() => {
+      searchInput.focus();
+    }, 1200);
+    
+    // Search functionality
+    searchInput.addEventListener('input', function() {
+      const searchTerm = this.value.toLowerCase();
+      
+      if (searchTerm.length === 0) {
+        searchResults.innerHTML = '';
+        searchResults.classList.remove('active');
+        return;
+      }
+      
+      const filteredResults = database.filter(item => 
+        item.description.toLowerCase().includes(searchTerm) || 
+        item.title.toLowerCase().includes(searchTerm)
+      );
+      
+      displayResults(filteredResults);
+    });
+    
+    // Display search results
+    function displayResults(results) {
+      searchResults.innerHTML = '';
+      
+      if (results.length === 0) {
+        searchResults.innerHTML = `
+          <div class="p-6 text-gray-600 text-center">
+            <p class="text-lg">No results found</p>
+            <p class="text-sm text-gray-500 mt-2">Try adjusting your search terms</p>
+          </div>
+        `;
+        searchResults.classList.add('active');
+        return;
+      }
+      
+      results.forEach(result => {
+        const resultItem = document.createElement('div');
+        resultItem.className = 'result-item p-5 cursor-pointer';
+        resultItem.innerHTML = `
+          <h3 class="text-lg font-medium text-gray-800">${result.title}</h3>
+          <p class="text-gray-600 mt-2">${result.description}</p>
+        `;
+        
+        // Add click event to open PDF
+        resultItem.addEventListener('click', () => {
+          openPdfModal(result);
+        });
+        
+        searchResults.appendChild(resultItem);
+      });
+      
+      searchResults.classList.add('active');
+    }
+    
+    // Open PDF modal
+    function openPdfModal(resource) {
+      modalTitle.textContent = resource.title;
+      modalDescription.textContent = resource.description;
+      
+      // In a real implementation, you would load the actual PDF here
+      // For this example, we'll simulate it with a placeholder
+      pdfViewer.innerHTML = `
+        <div class="flex items-center justify-center h-full flex-col p-8">
+          <div class="flex justify-center mb-8">
+            <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="text-gray-300">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+            </svg>
+          </div>
+          <img src="/api/placeholder/600/400" alt="PDF preview" class="mb-6 rounded-lg shadow-lg" />
+          <div class="text-center max-w-lg">
+            <h4 class="font-medium text-xl mb-2">${resource.title}</h4>
+            <p class="text-gray-600">${resource.description}</p>
+          </div>
+        </div>
+      `;
+      
+      pdfModal.classList.add('active');
+      
+      // Implementation of PDF.js would look like this:
+      /*
+      // Load the PDF
+      pdfjsLib.getDocument(resource.link).promise.then(function(pdf) {
+        // Get the first page
+        return pdf.getPage(1).then(function(page) {
+          const scale = 1.5;
+          const viewport = page.getViewport({ scale });
+          
+          // Prepare canvas
+          const canvas = document.createElement('canvas');
+          const context = canvas.getContext('2d');
+          canvas.height = viewport.height;
+          canvas.width = viewport.width;
+          
+          pdfViewer.innerHTML = '';
+          pdfViewer.appendChild(canvas);
+          
+          // Render PDF page
+          page.render({
+            canvasContext: context,
+            viewport: viewport
+          });
+        });
+      });
+      */
+    }
+    
+    // Close modal when clicking outside or on close button
+    pdfModal.addEventListener('click', function(e) {
+      if (e.target === pdfModal) {
+        pdfModal.classList.remove('active');
+      }
+    });
+    
+    closeModal.addEventListener('click', function() {
+      pdfModal.classList.remove('active');
+    });
+  </script>
+</body>
+</html>
