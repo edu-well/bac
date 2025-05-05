@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Apple-Style Design</title>
+    <title>Apple-Style Professional Design</title>
     <style>
         /* Apple-inspired color palette */
         :root {
@@ -37,7 +37,7 @@
             line-height: 1.47059;
         }
 
-        /* Apple-style ultra-thin grid */
+        /* Apple-style ultra-thin grid with animation */
         .grid-overlay {
             position: fixed;
             top: 0;
@@ -65,18 +65,33 @@
             z-index: 1;
         }
 
-        /* Apple-style typography */
+        /* Advanced typewriter animation */
         .line1 {
             font-size: clamp(2.5rem, 5vw, 3.75rem);
             font-weight: 600;
             letter-spacing: -0.022em;
             line-height: 1.08349;
             margin-bottom: 0.5rem;
-            opacity: 0;
-            transform: translateY(10px);
-            animation: fadeInUp 0.8s var(--ease-out) forwards 0.3s;
+            overflow: hidden;
+            white-space: nowrap;
+            border-right: 2px solid var(--accent-blue);
+            width: 0;
+            animation: 
+                typing 1.8s var(--ease-out) forwards 0.3s,
+                blink-caret 0.75s step-end infinite 2.1s;
         }
 
+        @keyframes typing {
+            from { width: 0 }
+            to { width: 100% }
+        }
+
+        @keyframes blink-caret {
+            from, to { border-color: transparent }
+            50% { border-color: var(--accent-blue) }
+        }
+
+        /* Apple-style text with smooth reveal */
         .line2 {
             font-size: clamp(1.125rem, 2.5vw, 1.75rem);
             font-weight: 400;
@@ -87,46 +102,33 @@
             margin: 0 auto;
             opacity: 0;
             transform: translateY(10px);
-            animation: fadeInUp 0.8s var(--ease-out) forwards 0.6s;
+            animation: fadeInUp 0.8s var(--ease-out) forwards 2.4s;
         }
 
         @keyframes fadeInUp {
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* Apple-style divider */
+        /* Apple-style divider with animation */
         .divider {
             width: 48px;
             height: 1px;
             background: rgba(0, 0, 0, 0.1);
             margin: 2rem auto;
             opacity: 0;
-            animation: fadeIn 0.8s var(--ease-out) forwards 0.9s;
+            transform: scaleX(0);
+            transform-origin: left;
+            animation: 
+                fadeIn 0.8s var(--ease-out) forwards 2.8s,
+                scaleIn 0.8s var(--ease-out) forwards 2.8s;
         }
 
-        /* Apple-style dynamic underline */
-        .underline {
-            position: relative;
-            display: inline-block;
+        @keyframes scaleIn {
+            to { transform: scaleX(1); }
         }
 
-        .underline::after {
-            content: '';
-            position: absolute;
-            bottom: -2px;
-            left: 0;
-            width: 0;
-            height: 2px;
-            background: var(--accent-blue);
-            transition: width 0.6s var(--ease-in-out);
-        }
-
-        .content:hover .underline::after {
-            width: 100%;
-        }
-
-        /* Apple-style floating dots */
-        .floating-dots {
+        /* Floating particles with physics */
+        .particles {
             position: fixed;
             width: 100%;
             height: 100%;
@@ -134,12 +136,12 @@
             z-index: -1;
         }
 
-        .dot {
+        .particle {
             position: absolute;
             width: 1px;
             height: 1px;
-            border-radius: 50%;
             background: rgba(0, 0, 0, 0.05);
+            border-radius: 50%;
             animation: float 12s infinite linear;
         }
 
@@ -157,50 +159,55 @@
 
         /* Reduced motion support */
         @media (prefers-reduced-motion) {
-            .grid-overlay, .content > *, .dot {
+            .grid-overlay, .content > *, .particle {
                 animation: none !important;
                 opacity: 1 !important;
                 transform: none !important;
+                border-right: none !important;
+            }
+            .line1 {
+                width: 100%;
+                white-space: normal;
             }
         }
     </style>
 </head>
 <body>
     <div class="grid-overlay"></div>
-    <div class="floating-dots" id="floatingDots"></div>
+    <div class="particles" id="particles"></div>
 
     <div class="content">
-        <h1 class="line1"><span class="underline">Innovation</span></h1>
-        <p class="line2">This is where the magic happens.</p>
+        <h1 class="line1">Professional Design</h1>
+        <p class="line2">Where innovation meets exceptional craftsmanship</p>
         <div class="divider"></div>
     </div>
 
     <script>
-        // Generate floating dots
-        function createFloatingDots() {
-            const container = document.getElementById('floatingDots');
-            const dotCount = Math.floor(window.innerWidth / 30);
+        // Generate floating particles
+        function createParticles() {
+            const container = document.getElementById('particles');
+            const particleCount = Math.floor(window.innerWidth / 20);
             
-            for (let i = 0; i < dotCount; i++) {
-                const dot = document.createElement('div');
-                dot.classList.add('dot');
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.classList.add('particle');
                 
                 // Random positioning
-                dot.style.left = `${Math.random() * 100}%`;
-                dot.style.top = `${Math.random() * 100 + 100}%`;
+                particle.style.left = `${Math.random() * 100}%`;
+                particle.style.top = `${Math.random() * 100 + 100}%`;
                 
-                // Random animation duration & delay
+                // Random animation
                 const duration = 8 + Math.random() * 10;
                 const delay = Math.random() * 5;
-                dot.style.animation = `float ${duration}s linear ${delay}s infinite`;
+                particle.style.animation = `float ${duration}s linear ${delay}s infinite`;
                 
-                container.appendChild(dot);
+                container.appendChild(particle);
             }
         }
 
         // Initialize
         document.addEventListener('DOMContentLoaded', () => {
-            createFloatingDots();
+            createParticles();
             
             // Smooth entrance
             document.body.style.opacity = 0;
@@ -210,11 +217,11 @@
             }, 100);
         });
 
-        // Regenerate dots on resize
+        // Regenerate particles on resize
         window.addEventListener('resize', () => {
-            const container = document.getElementById('floatingDots');
+            const container = document.getElementById('particles');
             container.innerHTML = '';
-            createFloatingDots();
+            createParticles();
         });
     </script>
 </body>
