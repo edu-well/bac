@@ -758,36 +758,7 @@
     </div>
     
     <script>
-        // JavaScript for page navigation
-        function navigateToPage(pageId) {
-            // Hide all pages
-            const pages = document.querySelectorAll('.page');
-            pages.forEach(page => {
-                page.classList.remove('active');
-            });
-            
-            // Show selected page
-            const selectedPage = document.getElementById(pageId);
-            selectedPage.classList.add('active');
-        }
-        
-        // JavaScript for tab navigation
-        const navTabs = document.querySelectorAll('.nav-tab');
-        navTabs.forEach(tab => {
-            tab.addEventListener('click', function() {
-                // Remove active class from all tabs
-                navTabs.forEach(t => t.classList.remove('active'));
-                
-                // Add active class to clicked tab
-                this.classList.add('active');
-                
-                // Here you would typically filter content based on the selected category
-                const category = this.getAttribute('data-category');
-                console.log(`Selected category: ${category}`);
-                // For demo purposes, we're just logging the selected category
-            });
-        });
-// This file contains the JavaScript functionality that would typically be separate
+        // This file contains the JavaScript functionality that would typically be separate
 // In the HTML file above, the JS is included directly in the HTML for simplicity
 
 // Page Navigation Function
