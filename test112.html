@@ -92,6 +92,19 @@
             align-items: center;
             gap: 20px;
             color: white;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .banner::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 150px;
+            height: 100%;
+            background: linear-gradient(90deg, rgba(106, 90, 205, 0) 0%, rgba(126, 110, 225, 0.8) 100%);
+            z-index: 1;
         }
         
         .banner-icon {
@@ -150,7 +163,19 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin: 20px 0;
+            margin: 30px 0 20px 0;
+            position: relative;
+        }
+        
+        .section-header::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 50px;
+            height: 3px;
+            background-color: var(--primary-color);
+            border-radius: 3px;
         }
         
         .section-title {
@@ -322,7 +347,7 @@
             
             <div class="courses-grid">
                 <!-- UI Design Course -->
-                <div class="course-card">
+                <div class="course-card" data-category="reading">
                     <button class="more-button">⋯</button>
                     <div class="course-icon">
                         <i class="fas fa-layer-group"></i>
@@ -345,7 +370,7 @@
                 </div>
                 
                 <!-- UX Design Course -->
-                <div class="course-card">
+                <div class="course-card" data-category="listening">
                     <button class="more-button">⋯</button>
                     <div class="course-icon">
                         <i class="fas fa-users"></i>
@@ -368,7 +393,7 @@
                 </div>
                 
                 <!-- Graphic Design Course -->
-                <div class="course-card">
+                <div class="course-card" data-category="grammar">
                     <button class="more-button">⋯</button>
                     <div class="course-icon">
                         <i class="fas fa-bezier-curve"></i>
@@ -391,7 +416,7 @@
                 </div>
                 
                 <!-- Copywriter Course -->
-                <div class="course-card">
+                <div class="course-card" data-category="speaking">
                     <button class="more-button">⋯</button>
                     <div class="course-icon">
                         <i class="fas fa-pen-nib"></i>
@@ -409,6 +434,99 @@
                         </div>
                     </div>
                     <button class="course-action" onclick="navigateToPage('copywriter')">
+                        <i class="fas fa-arrow-right"></i>
+                    </button>
+                </div>
+                
+                <!-- Additional courses for each category -->
+                <!-- Reading category -->
+                <div class="course-card" data-category="reading">
+                    <button class="more-button">⋯</button>
+                    <div class="course-icon">
+                        <i class="fas fa-book"></i>
+                    </div>
+                    <h3 class="course-title">Reading Comprehension</h3>
+                    <p class="course-subtitle">Mastering advanced reading skills.</p>
+                    <div class="course-meta">
+                        <div class="duration">
+                            <i class="far fa-clock"></i>
+                            <span>4h 15min</span>
+                        </div>
+                        <div class="rating">
+                            <i class="fas fa-star"></i>
+                            <span>4.8</span>
+                        </div>
+                    </div>
+                    <button class="course-action">
+                        <i class="fas fa-arrow-right"></i>
+                    </button>
+                </div>
+                
+                <!-- Listening category -->
+                <div class="course-card" data-category="listening">
+                    <button class="more-button">⋯</button>
+                    <div class="course-icon">
+                        <i class="fas fa-headphones"></i>
+                    </div>
+                    <h3 class="course-title">Active Listening</h3>
+                    <p class="course-subtitle">Communication excellence.</p>
+                    <div class="course-meta">
+                        <div class="duration">
+                            <i class="far fa-clock"></i>
+                            <span>3h 45min</span>
+                        </div>
+                        <div class="rating">
+                            <i class="fas fa-star"></i>
+                            <span>4.7</span>
+                        </div>
+                    </div>
+                    <button class="course-action">
+                        <i class="fas fa-arrow-right"></i>
+                    </button>
+                </div>
+                
+                <!-- Grammar category -->
+                <div class="course-card" data-category="grammar">
+                    <button class="more-button">⋯</button>
+                    <div class="course-icon">
+                        <i class="fas fa-spell-check"></i>
+                    </div>
+                    <h3 class="course-title">Advanced Grammar</h3>
+                    <p class="course-subtitle">Perfect your language skills.</p>
+                    <div class="course-meta">
+                        <div class="duration">
+                            <i class="far fa-clock"></i>
+                            <span>6h 20min</span>
+                        </div>
+                        <div class="rating">
+                            <i class="fas fa-star"></i>
+                            <span>4.9</span>
+                        </div>
+                    </div>
+                    <button class="course-action">
+                        <i class="fas fa-arrow-right"></i>
+                    </button>
+                </div>
+                
+                <!-- Speaking category -->
+                <div class="course-card" data-category="speaking">
+                    <button class="more-button">⋯</button>
+                    <div class="course-icon">
+                        <i class="fas fa-microphone"></i>
+                    </div>
+                    <h3 class="course-title">Public Speaking</h3>
+                    <p class="course-subtitle">Become a confident speaker.</p>
+                    <div class="course-meta">
+                        <div class="duration">
+                            <i class="far fa-clock"></i>
+                            <span>5h 00min</span>
+                        </div>
+                        <div class="rating">
+                            <i class="fas fa-star"></i>
+                            <span>4.8</span>
+                        </div>
+                    </div>
+                    <button class="course-action">
                         <i class="fas fa-arrow-right"></i>
                     </button>
                 </div>
@@ -453,98 +571,4 @@
                 
                 <h3 style="margin-bottom: 15px;">What you'll learn</h3>
                 <ul style="list-style: none; padding-left: 0;">
-                    <li style="margin-bottom: 10px; display: flex; align-items: center;">
-                        <i class="fas fa-check" style="color: green; margin-right: 10px;"></i>
-                        Design principles and color theory
-                    </li>
-                    <li style="margin-bottom: 10px; display: flex; align-items: center;">
-                        <i class="fas fa-check" style="color: green; margin-right: 10px;"></i>
-                        Typography and layout fundamentals
-                    </li>
-                    <li style="margin-bottom: 10px; display: flex; align-items: center;">
-                        <i class="fas fa-check" style="color: green; margin-right: 10px;"></i>
-                        Wireframing and prototyping
-                    </li>
-                    <li style="margin-bottom: 10px; display: flex; align-items: center;">
-                        <i class="fas fa-check" style="color: green; margin-right: 10px;"></i>
-                        User interface patterns and best practices
-                    </li>
-                </ul>
-                
-                <button style="background-color: var(--primary-color); color: white; border: none; border-radius: 10px; padding: 12px 24px; font-size: 16px; font-weight: 500; cursor: pointer; margin-top: 20px; width: 100%;">
-                    Enroll Now
-                </button>
-            </div>
-        </div>
-        
-        <!-- UX Design Page -->
-        <div id="ux-design" class="page">
-            <div class="header">
-                <button class="back-button" onclick="navigateToPage('main-page')">
-                    <i class="fas fa-arrow-left"></i>
-                </button>
-                <h1 class="page-title">UX Design</h1>
-                <button class="notification">
-                    <i class="fas fa-bell"></i>
-                    <span class="badge"></span>
-                </button>
-            </div>
-            
-            <div class="banner">
-                <div class="banner-icon">
-                    <i class="fas fa-users" style="color: white; font-size: 30px;"></i>
-                </div>
-                <div class="banner-content">
-                    <h2>UX Design <span class="arrow">→</span></h2>
-                    <p>Learning is empowerment.</p>
-                </div>
-            </div>
-            
-            <div class="section-header">
-                <h2 class="section-title">Course Content</h2>
-            </div>
-            
-            <div style="background-color: white; padding: 20px; border-radius: 20px; box-shadow: var(--card-shadow);">
-                <h3 style="margin-bottom: 15px;">About this course</h3>
-                <p style="line-height: 1.6; margin-bottom: 20px;">
-                    This comprehensive UX Design course will teach you how to create 
-                    products that provide meaningful and relevant experiences to users. 
-                    From user research to usability testing, you'll learn the complete 
-                    UX design process with practical exercises and real-world projects.
-                </p>
-                
-                <h3 style="margin-bottom: 15px;">What you'll learn</h3>
-                <ul style="list-style: none; padding-left: 0;">
-                    <li style="margin-bottom: 10px; display: flex; align-items: center;">
-                        <i class="fas fa-check" style="color: green; margin-right: 10px;"></i>
-                        User research and persona creation
-                    </li>
-                    <li style="margin-bottom: 10px; display: flex; align-items: center;">
-                        <i class="fas fa-check" style="color: green; margin-right: 10px;"></i>
-                        Information architecture and user flows
-                    </li>
-                    <li style="margin-bottom: 10px; display: flex; align-items: center;">
-                        <i class="fas fa-check" style="color: green; margin-right: 10px;"></i>
-                        Usability testing methods
-                    </li>
-                    <li style="margin-bottom: 10px; display: flex; align-items: center;">
-                        <i class="fas fa-check" style="color: green; margin-right: 10px;"></i>
-                        Interaction design principles
-                    </li>
-                </ul>
-                
-                <button style="background-color: var(--primary-color); color: white; border: none; border-radius: 10px; padding: 12px 24px; font-size: 16px; font-weight: 500; cursor: pointer; margin-top: 20px; width: 100%;">
-                    Enroll Now
-                </button>
-            </div>
-        </div>
-        
-        <!-- Graphic Design Page -->
-        <div id="graphic-design" class="page">
-            <div class="header">
-                <button class="back-button" onclick="navigateToPage('main-page')">
-                    <i class="fas fa-arrow-left"></i>
-                </button>
-                <h1 class="page-title">Graphic Design</h1>
-                <button class="notification">
-                    <i class
+               
