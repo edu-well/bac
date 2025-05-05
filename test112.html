@@ -3,446 +3,333 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LearnSmart - Educational Platform</title>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <title>Educational Website</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* Base Styles */
         :root {
-            --primary-color: #7B6EF6;
-            --secondary-color: #FF6B6B;
-            --tertiary-color: #46CDCF;
-            --quaternary-color: #7E57C2;
-            --background-color: #F5F7FB;
-            --card-color: #FFFFFF;
-            --text-color: #333333;
-            --text-light: #8A8A9A;
-            --border-radius: 16px;
-            --shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-            --transition: all 0.3s ease;
+            --primary-color: #6a5acd;
+            --secondary-color: #f8f9fa;
+            --text-color: #333;
+            --light-purple: #e6e4fd;
+            --card-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
         }
-
+        
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
-
+        
         body {
-            background-color: var(--background-color);
+            background-color: #f5f7fa;
             color: var(--text-color);
-            padding: 20px;
-            max-width: 1200px;
-            margin: 0 auto;
         }
-
-        /* Header Styles */
-        header {
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        /* Header Section */
+        .header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 20px 0;
-        }
-
-        h1 {
-            font-size: 28px;
-            font-weight: 500;
-            color: #8A8A9A;
-        }
-
-        .back-icon {
-            width: 40px;
-            height: 40px;
-            background-color: var(--card-color);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: var(--shadow);
-            cursor: pointer;
-            transition: var(--transition);
-        }
-
-        .notification {
-            width: 40px;
-            height: 40px;
-            background-color: var(--card-color);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: var(--shadow);
-            cursor: pointer;
-            transition: var(--transition);
-            position: relative;
+            padding: 15px 0;
         }
         
-        .notification::after {
-            content: '';
+        .back-button {
+            background: var(--secondary-color);
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            color: #555;
+        }
+        
+        .page-title {
+            font-size: 24px;
+            font-weight: 600;
+            color: #555;
+        }
+        
+        .notification {
+            background: var(--secondary-color);
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            cursor: pointer;
+        }
+        
+        .notification .badge {
             position: absolute;
-            top: 10px;
-            right: 10px;
-            width: 8px;
-            height: 8px;
-            background-color: #FF6B6B;
+            top: 0;
+            right: 0;
+            background-color: #ff4757;
+            width: 10px;
+            height: 10px;
             border-radius: 50%;
         }
-
-        .notification:hover {
-            transform: translateY(-3px);
-        }
-
-        .notification i {
-            color: var(--primary-color);
-            font-size: 18px;
-        }
-
-        /* Banner Styles */
+        
+        /* Banner Section */
         .banner {
             background-color: var(--primary-color);
-            border-radius: var(--border-radius);
-            padding: 30px;
+            border-radius: 20px;
+            padding: 20px;
             margin: 20px 0;
             display: flex;
             align-items: center;
-            justify-content: space-between;
-            box-shadow: var(--shadow);
-        }
-
-        .banner-content {
-            max-width: 60%;
-        }
-
-        .banner h2 {
-            font-size: 32px;
-            margin-bottom: 10px;
+            gap: 20px;
             color: white;
         }
-
-        .banner p {
-            display: none;
-        }
-
-        .banner-image {
-            width: 35%;
-            max-width: 300px;
+        
+        .banner-icon {
+            background: rgba(255, 255, 255, 0.2);
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
             display: flex;
+            align-items: center;
             justify-content: center;
         }
-
-        .banner-image img {
-            width: 100%;
+        
+        .banner-icon img {
+            width: 50px;
             height: auto;
         }
-
-        /* Navigation Styles */
-        .category-nav {
-            display: flex;
-            gap: 15px;
-            margin: 30px 0;
-            overflow-x: auto;
-            padding-bottom: 10px;
-        }
-
-        .category-nav::-webkit-scrollbar {
-            height: 6px;
-        }
-
-        .category-nav::-webkit-scrollbar-thumb {
-            background-color: var(--text-light);
-            border-radius: 10px;
-        }
-
-        .nav-item {
-            padding: 12px 24px;
-            background-color: var(--card-color);
-            border-radius: 30px;
+        
+        .banner-content h2 {
+            font-size: 26px;
             font-weight: 500;
+        }
+        
+        .banner-content .arrow {
+            font-size: 20px;
+            margin-left: 5px;
+        }
+        
+        /* Navigation Tabs */
+        .nav-tabs {
+            display: flex;
+            gap: 10px;
+            margin: 20px 0;
+            overflow-x: auto;
+            padding-bottom: 5px;
+        }
+        
+        .nav-tab {
+            background-color: var(--secondary-color);
+            border: none;
+            border-radius: 15px;
+            padding: 10px 25px;
             cursor: pointer;
             white-space: nowrap;
-            transition: var(--transition);
-            box-shadow: var(--shadow);
-            color: var(--text-light);
+            font-size: 16px;
+            color: #888;
         }
-
-        .nav-item:hover {
-            transform: translateY(-3px);
-        }
-
-        .nav-item.active {
-            background-color: rgba(123, 110, 246, 0.1);
+        
+        .nav-tab.active {
+            background-color: var(--light-purple);
             color: var(--primary-color);
+            font-weight: 500;
         }
-
-        /* Courses Section Styles */
+        
+        /* Course Section */
         .section-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 20px;
+            margin: 20px 0;
         }
-
+        
+        .section-title {
+            font-size: 22px;
+            font-weight: 500;
+            color: #555;
+        }
+        
         .view-all {
             color: var(--primary-color);
             text-decoration: none;
-            font-weight: 600;
-            transition: var(--transition);
+            font-weight: 500;
         }
-
-        .view-all:hover {
-            opacity: 0.8;
-        }
-
+        
         .courses-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
             gap: 20px;
         }
-
+        
         .course-card {
-            background-color: var(--card-color);
-            border-radius: var(--border-radius);
-            overflow: hidden;
-            box-shadow: var(--shadow);
-            transition: var(--transition);
-            cursor: pointer;
+            background-color: white;
+            border-radius: 20px;
+            padding: 20px;
+            box-shadow: var(--card-shadow);
             position: relative;
         }
-
-        .course-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
-        }
-
-        .card-options {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            color: var(--text-light);
-            font-size: 20px;
-        }
-
-        .card-top {
-            padding: 20px;
-            display: flex;
-            align-items: flex-start;
-        }
-
-        .icon-container {
-            width: 60px;
-            height: 60px;
-            border-radius: 16px;
+        
+        .course-icon {
+            background-color: var(--light-purple);
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
             margin-bottom: 15px;
         }
-
-        .reading {
-            background-color: rgba(78, 86, 246, 0.1);
-        }
-
-        .reading i {
+        
+        .course-icon i {
             color: var(--primary-color);
+            font-size: 24px;
         }
-
-        .listening {
-            background-color: rgba(255, 107, 107, 0.1);
-        }
-
-        .listening i {
-            color: var(--secondary-color);
-        }
-
-        .grammar {
-            background-color: rgba(70, 205, 207, 0.1);
-        }
-
-        .grammar i {
-            color: var(--tertiary-color);
-        }
-
-        .speaking {
-            background-color: rgba(126, 87, 194, 0.1);
-        }
-
-        .speaking i {
-            color: var(--quaternary-color);
-        }
-
-        .arrow-icon {
-            color: var(--text-light);
-            font-size: 18px;
-            transition: var(--transition);
-        }
-
-        .course-card:hover .arrow-icon {
-            color: var(--primary-color);
-            transform: translateX(3px);
-        }
-
-        .card-content {
-            padding: 0 20px 20px;
-        }
-
-        .card-title {
-            font-size: 18px;
+        
+        .course-title {
+            font-size: 20px;
             font-weight: 600;
             margin-bottom: 5px;
         }
-
-        .card-subtitle {
-            color: var(--text-light);
+        
+        .course-subtitle {
+            color: #888;
             font-size: 14px;
             margin-bottom: 15px;
         }
-
-        .card-meta {
+        
+        .course-meta {
             display: flex;
             justify-content: space-between;
             align-items: center;
+            margin-top: 20px;
         }
-
+        
         .duration {
             display: flex;
             align-items: center;
-            color: var(--text-light);
+            gap: 5px;
+            color: #888;
             font-size: 14px;
         }
-
-        .duration i {
-            margin-right: 5px;
-        }
-
+        
         .rating {
             display: flex;
             align-items: center;
-            color: var(--text-light);
+            gap: 5px;
+            color: #ffd700;
             font-size: 14px;
         }
-
-        .rating i {
-            color: #FFC107;
-            margin-right: 5px;
+        
+        .rating span {
+            color: #888;
         }
-
-        /* Content pages styles */
-        .content-section {
+        
+        .more-button {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: #888;
+            font-size: 20px;
+        }
+        
+        .course-action {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            background-color: var(--light-purple);
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+        
+        .course-action i {
+            color: var(--primary-color);
+        }
+        
+        /* For page transitions */
+        .page {
             display: none;
         }
-
-        .content-section.active {
+        
+        .page.active {
             display: block;
+            animation: fadeIn 0.3s ease;
         }
-
-        .page-content {
-            background-color: var(--card-color);
-            border-radius: var(--border-radius);
-            padding: 30px;
-            box-shadow: var(--shadow);
-            margin-bottom: 20px;
-        }
-
-        .page-content h2 {
-            color: var(--primary-color);
-            margin-bottom: 20px;
-        }
-
-        .page-content p {
-            color: var(--text-light);
-            line-height: 1.6;
-            margin-bottom: 15px;
-        }
-
-        .back-button {
-            display: inline-flex;
-            align-items: center;
-            padding: 10px 20px;
-            background-color: var(--primary-color);
-            color: white;
-            border-radius: 30px;
-            text-decoration: none;
-            margin-bottom: 20px;
-            transition: var(--transition);
-        }
-
-        .back-button:hover {
-            transform: translateY(-3px);
-            box-shadow: var(--shadow);
-        }
-
-        .back-button i {
-            margin-right: 10px;
-        }
-
-        /* Responsive Design */
-        @media screen and (max-width: 768px) {
-            .banner {
-                flex-direction: column;
-                padding: 20px;
-            }
-            
-            .banner-content {
-                max-width: 100%;
-                margin-bottom: 20px;
-            }
-            
-            .banner-image {
-                width: 80%;
-                max-width: 250px;
-            }
-            
-            .courses-grid {
-                grid-template-columns: 1fr;
-            }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
         }
     </style>
 </head>
 <body>
-    <!-- Main Page -->
-    <div id="main-page" class="content-section active">
-        <header>
-            <h1>Categories</h1>
-            <div class="notification">
-                <i class="fas fa-bell"></i>
+    <div class="container">
+        <!-- Main Page -->
+        <div id="main-page" class="page active">
+            <!-- Header -->
+            <div class="header">
+                <button class="back-button">
+                    <i class="fas fa-arrow-left"></i>
+                </button>
+                <h1 class="page-title">Categories</h1>
+                <button class="notification">
+                    <i class="fas fa-bell"></i>
+                    <span class="badge"></span>
+                </button>
             </div>
-        </header>
-
-        <div class="banner">
-            <div class="banner-content">
-                <h2>Education that inspires.</h2>
-                <p>"The beautiful thing about learning is that no one can take it away from you." — B.B. King</p>
-            </div>
-            <div class="banner-image">
-                <img src="/api/placeholder/400/320" alt="Education Illustration">
-            </div>
-        </div>
-
-        <div class="category-nav">
-            <div class="nav-item active" data-section="reading">Reading</div>
-            <div class="nav-item" data-section="listening">Listening</div>
-            <div class="nav-item" data-section="grammar">Grammar</div>
-            <div class="nav-item" data-section="speaking">Speaking</div>
-        </div>
-
-        <div class="section-header">
-            <h2>Courses</h2>
-            <a href="#" class="view-all">View all</a>
-        </div>
-
-        <div class="courses-grid">
-            <!-- Reading Courses -->
-            <div class="course-card" data-page="reading-fundamentals">
-                <div class="card-top">
-                    <div class="icon-container reading">
-                        <i class="fas fa-book fa-lg"></i>
-                    </div>
-                    <i class="fas fa-arrow-right arrow-icon"></i>
+            
+            <!-- Banner -->
+            <div class="banner">
+                <div class="banner-icon">
+                    <img src="/api/placeholder/100/100" alt="Books Icon">
                 </div>
-                <div class="card-content">
-                    <h3 class="card-title">Reading Fundamentals</h3>
-                    <p class="card-subtitle">Master reading comprehension</p>
-                    <div class="card-meta">
+                <div class="banner-content">
+                    <h2>Education that inspires. <span class="arrow">→</span></h2>
+                </div>
+            </div>
+            
+            <!-- Navigation Tabs -->
+            <div class="nav-tabs">
+                <button class="nav-tab active" data-category="reading">Reading</button>
+                <button class="nav-tab" data-category="listening">Listening</button>
+                <button class="nav-tab" data-category="grammar">Grammar</button>
+                <button class="nav-tab" data-category="speaking">Speaking</button>
+            </div>
+            
+            <!-- Courses Section -->
+            <div class="section-header">
+                <h2 class="section-title">Courses</h2>
+                <a href="#" class="view-all">View all</a>
+            </div>
+            
+            <div class="courses-grid">
+                <!-- UI Design Course -->
+                <div class="course-card">
+                    <button class="more-button">⋯</button>
+                    <div class="course-icon">
+                        <i class="fas fa-layer-group"></i>
+                    </div>
+                    <h3 class="course-title">UI Design</h3>
+                    <p class="course-subtitle">Education you can believe in</p>
+                    <div class="course-meta">
                         <div class="duration">
                             <i class="far fa-clock"></i>
                             <span>5h 30min</span>
@@ -452,159 +339,212 @@
                             <span>4.9</span>
                         </div>
                     </div>
+                    <button class="course-action" onclick="navigateToPage('ui-design')">
+                        <i class="fas fa-arrow-right"></i>
+                    </button>
                 </div>
-            </div>
-            <div class="course-card" data-page="advanced-reading">
-                <div class="card-top">
-                    <div class="icon-container reading">
-                        <i class="fas fa-book-reader fa-lg"></i>
+                
+                <!-- UX Design Course -->
+                <div class="course-card">
+                    <button class="more-button">⋯</button>
+                    <div class="course-icon">
+                        <i class="fas fa-users"></i>
                     </div>
-                    <i class="fas fa-arrow-right arrow-icon"></i>
-                </div>
-                <div class="card-content">
-                    <h3 class="card-title">Advanced Reading</h3>
-                    <p class="card-subtitle">Analytical reading techniques</p>
-                    <div class="card-meta">
+                    <h3 class="course-title">UX Design</h3>
+                    <p class="course-subtitle">Learning is empowerment.</p>
+                    <div class="course-meta">
                         <div class="duration">
                             <i class="far fa-clock"></i>
-                            <span>6h 45min</span>
+                            <span>5h 30min</span>
                         </div>
                         <div class="rating">
                             <i class="fas fa-star"></i>
-                            <span>4.8</span>
+                            <span>4.9</span>
                         </div>
                     </div>
+                    <button class="course-action" onclick="navigateToPage('ux-design')">
+                        <i class="fas fa-arrow-right"></i>
+                    </button>
                 </div>
-            </div>
-            <div class="course-card" data-page="speed-reading">
-                <div class="card-top">
-                    <div class="icon-container reading">
-                        <i class="fas fa-tachometer-alt fa-lg"></i>
+                
+                <!-- Graphic Design Course -->
+                <div class="course-card">
+                    <button class="more-button">⋯</button>
+                    <div class="course-icon">
+                        <i class="fas fa-bezier-curve"></i>
                     </div>
-                    <i class="fas fa-arrow-right arrow-icon"></i>
-                </div>
-                <div class="card-content">
-                    <h3 class="card-title">Speed Reading</h3>
-                    <p class="card-subtitle">Read faster, comprehend better</p>
-                    <div class="card-meta">
+                    <h3 class="course-title">Graphic Design</h3>
+                    <p class="course-subtitle">A Journey to Excellence.</p>
+                    <div class="course-meta">
                         <div class="duration">
                             <i class="far fa-clock"></i>
-                            <span>4h 15min</span>
+                            <span>5h 30min</span>
                         </div>
                         <div class="rating">
                             <i class="fas fa-star"></i>
-                            <span>4.7</span>
+                            <span>4.9</span>
                         </div>
                     </div>
+                    <button class="course-action" onclick="navigateToPage('graphic-design')">
+                        <i class="fas fa-arrow-right"></i>
+                    </button>
+                </div>
+                
+                <!-- Copywriter Course -->
+                <div class="course-card">
+                    <button class="more-button">⋯</button>
+                    <div class="course-icon">
+                        <i class="fas fa-pen-nib"></i>
+                    </div>
+                    <h3 class="course-title">Copywriter</h3>
+                    <p class="course-subtitle">A Journey to Excellence.</p>
+                    <div class="course-meta">
+                        <div class="duration">
+                            <i class="far fa-clock"></i>
+                            <span>5h 30min</span>
+                        </div>
+                        <div class="rating">
+                            <i class="fas fa-star"></i>
+                            <span>4.9</span>
+                        </div>
+                    </div>
+                    <button class="course-action" onclick="navigateToPage('copywriter')">
+                        <i class="fas fa-arrow-right"></i>
+                    </button>
                 </div>
             </div>
         </div>
-    </div>
-
-    <!-- Reading Fundamentals Page -->
-    <div id="reading-fundamentals" class="content-section">
-        <a href="#" class="back-button" onclick="showMainPage()">
-            <i class="fas fa-arrow-left"></i> Back to Courses
-        </a>
-        <div class="page-content">
-            <h2>Reading Fundamentals</h2>
-            <p>Welcome to Reading Fundamentals, a comprehensive course designed to enhance your reading comprehension skills. This course covers various strategies and techniques to improve your understanding of different text types.</p>
-            <p>Throughout this course, you'll learn how to identify main ideas, understand context clues, make inferences, and summarize effectively. We'll also explore various reading materials from different genres to provide a well-rounded learning experience.</p>
-            <p>By the end of this course, you'll be able to approach any text with confidence and extract key information efficiently.</p>
-            <h3>Course Modules:</h3>
-            <ul>
-                <li>Introduction to Reading Comprehension</li>
-                <li>Identifying Main Ideas and Supporting Details</li>
-                <li>Understanding Context Clues</li>
-                <li>Making Inferences</li>
-                <li>Summarizing Techniques</li>
-                <li>Critical Reading</li>
-                <li>Reading Different Genres</li>
-                <li>Final Assessment</li>
-            </ul>
-        </div>
-    </div>
-
-    <!-- Advanced Reading Page -->
-    <div id="advanced-reading" class="content-section">
-        <a href="#" class="back-button" onclick="showMainPage()">
-            <i class="fas fa-arrow-left"></i> Back to Courses
-        </a>
-        <div class="page-content">
-            <h2>Advanced Reading</h2>
-            <p>Take your reading skills to the next level with our Advanced Reading course. This course is designed for those who already have a solid foundation in reading comprehension and want to develop more sophisticated analytical skills.</p>
-            <p>In this course, you'll learn advanced techniques for critical analysis, literary interpretation, and rhetorical analysis. We'll explore complex texts from various disciplines, including literature, philosophy, science, and more.</p>
-            <p>By the end of this course, you'll be able to engage with challenging texts confidently and develop nuanced interpretations.</p>
-            <h3>Course Modules:</h3>
-            <ul>
-                <li>Advanced Critical Analysis</li>
-                <li>Literary Theory and Interpretation</li>
-                <li>Rhetorical Analysis</li>
-                <li>Interdisciplinary Reading Approaches</li>
-                <li>Academic Reading and Research</li>
-                <li>Advanced Inference and Synthesis</li>
-                <li>Evaluating Arguments and Evidence</li>
-                <li>Final Project</li>
-            </ul>
-        </div>
-    </div>
-
-    <!-- Speed Reading Page -->
-    <div id="speed-reading" class="content-section">
-        <a href="#" class="back-button" onclick="showMainPage()">
-            <i class="fas fa-arrow-left"></i> Back to Courses
-        </a>
-        <div class="page-content">
-            <h2>Speed Reading</h2>
-            <p>Learn to read faster without sacrificing comprehension. Our Speed Reading course teaches you proven techniques to increase your reading speed while maintaining or even improving your understanding of the text.</p>
-            <p>This course covers various speed reading methods, including skimming, scanning, chunking, and minimizing subvocalization. You'll practice with a variety of texts and track your progress with regular speed and comprehension assessments.</p>
-            <p>By the end of this course, you'll be able to read significantly faster and process information more efficiently, saving time and improving your productivity.</p>
-            <h3>Course Modules:</h3>
-            <ul>
-                <li>Understanding Your Current Reading Habits</li>
-                <li>Breaking Limiting Reading Patterns</li>
-                <li>Eye Movement Training</li>
-                <li>Chunking and Pattern Recognition</li>
-                <li>Reducing Subvocalization</li>
-                <li>Skimming and Scanning Techniques</li>
-                <li>Memory and Retention Strategies</li>
-                <li>Speed Reading in Different Contexts</li>
-            </ul>
-        </div>
-    </div>
-
-    <script>
-        // Navigation functionality
-        document.addEventListener('DOMContentLoaded', function() {
-            // Category tabs navigation
-            const navItems = document.querySelectorAll('.nav-item');
+        
+        <!-- UI Design Page -->
+        <div id="ui-design" class="page">
+            <div class="header">
+                <button class="back-button" onclick="navigateToPage('main-page')">
+                    <i class="fas fa-arrow-left"></i>
+                </button>
+                <h1 class="page-title">UI Design</h1>
+                <button class="notification">
+                    <i class="fas fa-bell"></i>
+                    <span class="badge"></span>
+                </button>
+            </div>
             
-            navItems.forEach(item => {
-                item.addEventListener('click', function() {
-                    // Remove active class from all nav items
-                    navItems.forEach(nav => nav.classList.remove('active'));
-                    
-                    // Add active class to clicked item
-                    this.classList.add('active');
-                    
-                    // Update courses displayed (would be more dynamic in a real application)
-                    const section = this.getAttribute('data-section');
-                    console.log(`Showing ${section} courses`);
-                    // In a real app, this would filter or load courses based on the selected category
-                });
-            });
+            <div class="banner">
+                <div class="banner-icon">
+                    <i class="fas fa-layer-group" style="color: white; font-size: 30px;"></i>
+                </div>
+                <div class="banner-content">
+                    <h2>UI Design <span class="arrow">→</span></h2>
+                    <p>Education you can believe in</p>
+                </div>
+            </div>
             
-            // Course card navigation
-            const courseCards = document.querySelectorAll('.course-card');
+            <div class="section-header">
+                <h2 class="section-title">Course Content</h2>
+            </div>
             
-            courseCards.forEach(card => {
-                card.addEventListener('click', function() {
-                    const pageId = this.getAttribute('data-page');
-                    showPage(pageId);
-                });
-            });
-        });
-
-        // Function to show a specific page
-        function showPage(pageId) {
-         
+            <div style="background-color: white; padding: 20px; border-radius: 20px; box-shadow: var(--card-shadow);">
+                <h3 style="margin-bottom: 15px;">About this course</h3>
+                <p style="line-height: 1.6; margin-bottom: 20px;">
+                    Master the principles of UI Design with this comprehensive course. 
+                    Learn to create beautiful, intuitive interfaces that users will love. 
+                    From color theory to typography, from wireframing to prototyping, 
+                    this course covers everything you need to become a proficient UI designer.
+                </p>
+                
+                <h3 style="margin-bottom: 15px;">What you'll learn</h3>
+                <ul style="list-style: none; padding-left: 0;">
+                    <li style="margin-bottom: 10px; display: flex; align-items: center;">
+                        <i class="fas fa-check" style="color: green; margin-right: 10px;"></i>
+                        Design principles and color theory
+                    </li>
+                    <li style="margin-bottom: 10px; display: flex; align-items: center;">
+                        <i class="fas fa-check" style="color: green; margin-right: 10px;"></i>
+                        Typography and layout fundamentals
+                    </li>
+                    <li style="margin-bottom: 10px; display: flex; align-items: center;">
+                        <i class="fas fa-check" style="color: green; margin-right: 10px;"></i>
+                        Wireframing and prototyping
+                    </li>
+                    <li style="margin-bottom: 10px; display: flex; align-items: center;">
+                        <i class="fas fa-check" style="color: green; margin-right: 10px;"></i>
+                        User interface patterns and best practices
+                    </li>
+                </ul>
+                
+                <button style="background-color: var(--primary-color); color: white; border: none; border-radius: 10px; padding: 12px 24px; font-size: 16px; font-weight: 500; cursor: pointer; margin-top: 20px; width: 100%;">
+                    Enroll Now
+                </button>
+            </div>
+        </div>
+        
+        <!-- UX Design Page -->
+        <div id="ux-design" class="page">
+            <div class="header">
+                <button class="back-button" onclick="navigateToPage('main-page')">
+                    <i class="fas fa-arrow-left"></i>
+                </button>
+                <h1 class="page-title">UX Design</h1>
+                <button class="notification">
+                    <i class="fas fa-bell"></i>
+                    <span class="badge"></span>
+                </button>
+            </div>
+            
+            <div class="banner">
+                <div class="banner-icon">
+                    <i class="fas fa-users" style="color: white; font-size: 30px;"></i>
+                </div>
+                <div class="banner-content">
+                    <h2>UX Design <span class="arrow">→</span></h2>
+                    <p>Learning is empowerment.</p>
+                </div>
+            </div>
+            
+            <div class="section-header">
+                <h2 class="section-title">Course Content</h2>
+            </div>
+            
+            <div style="background-color: white; padding: 20px; border-radius: 20px; box-shadow: var(--card-shadow);">
+                <h3 style="margin-bottom: 15px;">About this course</h3>
+                <p style="line-height: 1.6; margin-bottom: 20px;">
+                    This comprehensive UX Design course will teach you how to create 
+                    products that provide meaningful and relevant experiences to users. 
+                    From user research to usability testing, you'll learn the complete 
+                    UX design process with practical exercises and real-world projects.
+                </p>
+                
+                <h3 style="margin-bottom: 15px;">What you'll learn</h3>
+                <ul style="list-style: none; padding-left: 0;">
+                    <li style="margin-bottom: 10px; display: flex; align-items: center;">
+                        <i class="fas fa-check" style="color: green; margin-right: 10px;"></i>
+                        User research and persona creation
+                    </li>
+                    <li style="margin-bottom: 10px; display: flex; align-items: center;">
+                        <i class="fas fa-check" style="color: green; margin-right: 10px;"></i>
+                        Information architecture and user flows
+                    </li>
+                    <li style="margin-bottom: 10px; display: flex; align-items: center;">
+                        <i class="fas fa-check" style="color: green; margin-right: 10px;"></i>
+                        Usability testing methods
+                    </li>
+                    <li style="margin-bottom: 10px; display: flex; align-items: center;">
+                        <i class="fas fa-check" style="color: green; margin-right: 10px;"></i>
+                        Interaction design principles
+                    </li>
+                </ul>
+                
+                <button style="background-color: var(--primary-color); color: white; border: none; border-radius: 10px; padding: 12px 24px; font-size: 16px; font-weight: 500; cursor: pointer; margin-top: 20px; width: 100%;">
+                    Enroll Now
+                </button>
+            </div>
+        </div>
+        
+        <!-- Graphic Design Page -->
+        <div id="graphic-design" class="page">
+            <div class="header">
+                <button class="back-button" onclick="navigateToPage('main-page')">
+                    <i class="fas fa-arrow-left"></i>
+                </button>
+                <h1 class="page-title">Graphic Design</h1>
+                <button class="notification">
+                    <i class
