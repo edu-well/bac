@@ -787,7 +787,115 @@
                 // For demo purposes, we're just logging the selected category
             });
         });
+// This file contains the JavaScript functionality that would typically be separate
+// In the HTML file above, the JS is included directly in the HTML for simplicity
 
+// Page Navigation Function
+function navigateToPage(pageId) {
+    // Hide all pages
+    const pages = document.querySelectorAll('.page');
+    pages.forEach(page => {
+        page.classList.remove('active');
+    });
+    
+    // Show selected page
+    const selectedPage = document.getElementById(pageId);
+    selectedPage.classList.add('active');
+    
+    // Add to browser history to enable back/forward navigation
+    window.history.pushState({page: pageId}, pageId, `#${pageId}`);
+}
+
+// Handle browser back/forward buttons
+window.addEventListener('popstate', function(event) {
+    if (event.state && event.state.page) {
+        navigateToPage(event.state.page);
+    } else {
+        // Default to main page if no state
+        navigateToPage('main-page');
+    }
+});
+
+// Initialize history state
+window.history.replaceState({page: 'main-page'}, 'main-page', '#main-page');
+
+// Tab Navigation
+document.addEventListener('DOMContentLoaded', function() {
+    const navTabs = document.querySelectorAll('.nav-tab');
+    
+    navTabs.forEach(tab => {
+        tab.addEventListener('click', function() {
+            // Remove active class from all tabs
+            navTabs.forEach(t => t.classList.remove('active'));
+            
+            // Add active class to clicked tab
+            this.classList.add('active');
+            
+            // Filter courses based on category
+            const category = this.getAttribute('data-category');
+            filterCoursesByCategory(category);
+        });
+    });
+    
+    // Back button functionality
+    const backButtons = document.querySelectorAll('.back-button');
+    backButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            window.history.back();
+        });
+    });
+    
+    // More button functionality (three dots)
+    const moreButtons = document.querySelectorAll('.more-button');
+    moreButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            // This would typically show a dropdown menu
+            alert('Options menu clicked');
+        });
+    });
+    
+    // View all link
+    const viewAllLink = document.querySelector('.view-all');
+    if (viewAllLink) {
+        viewAllLink.addEventListener('click', function(e) {
+            e.preventDefault();
+            alert('View all courses clicked');
+        });
+    }
+    
+    // Enroll buttons
+    const enrollButtons = document.querySelectorAll('button:contains("Enroll Now")');
+    if (enrollButtons.length > 0) {
+        enrollButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                alert('Enrollment successful!');
+            });
+        });
+    }
+});
+
+// Function to filter courses by category
+function filterCoursesByCategory(category) {
+    const allCourses = document.querySelectorAll('.course-card');
+    
+    // If "all" is selected or no category is selected, show all courses
+    if (category === 'all' || !category) {
+        allCourses.forEach(course => {
+            course.style.display = 'block';
+        });
+        return;
+    }
+    
+    // Otherwise, filter based on the selected category
+    allCourses.forEach(course => {
+        if (course.getAttribute('data-category') === category) {
+            course.style.display = 'block';
+            course.style.animation = 'fadeIn 0.5s ease';
+        } else {
+            course.style.display = 'none';
+        }
+    });
+}
     </script>
 </body>
 </html>
