@@ -3,483 +3,660 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Educational Website</title>
+    <title>Educational Wisdom | Premium Search</title>
+    <link href="https://fonts.googleapis.com/css2?family=Segoe+UI:wght@300;400;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
-            --primary: #3a86ff;
-            --secondary: #8338ec;
-            --accent: #ff006e;
-            --light: #f8f9fa;
-            --dark: #212529;
-            --success: #38b000;
+            --primary: #0078D4; /* Microsoft blue */
+            --primary-dark: #106EBE;
+            --primary-light: #EFF6FC;
+            --secondary: #FFFFFF;
+            --dark: #323130;
+            --light-gray: #F3F2F1;
+            --medium-gray: #E1DFDD;
+            --text-dark: #323130;
+            --text-light: #605E5C;
+            --accent: #FFB900; /* Microsoft yellow */
+            --shadow: 0 3.2px 7.2px 0 rgba(0,0,0,.132),0 .6px 1.8px 0 rgba(0,0,0,.108);
+            --shadow-hover: 0 6.4px 14.4px 0 rgba(0,0,0,.132),0 1.2px 3.6px 0 rgba(0,0,0,.108);
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
-        
-        body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            background-color: var(--light);
-            color: var(--dark);
+
+        * {
             margin: 0;
             padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+            background-color: var(--secondary);
+            color: var(--text-dark);
+            line-height: 1.5;
+            overflow-x: hidden;
             min-height: 100vh;
             display: flex;
             flex-direction: column;
             align-items: center;
-            overflow-x: hidden;
-            width: 100%;
-            box-sizing: border-box;
+            opacity: 0;
+            animation: fadeIn 0.8s 0.2s forwards;
         }
-        
+
+        @keyframes fadeIn {
+            to { opacity: 1; }
+        }
+
         .container {
             width: 100%;
-            max-width: 1000px;
-            margin: 0 auto;
-            padding: 0 20px;
+            max-width: 1200px;
+            padding: 40px 20px;
             display: flex;
             flex-direction: column;
             align-items: center;
-            box-sizing: border-box;
+            transform: translateY(20px);
+            animation: slideUp 0.6s 0.4s forwards;
         }
-        
+
+        @keyframes slideUp {
+            to { transform: translateY(0); }
+        }
+
+        /* Header Styles */
         header {
-            padding: 40px 0;
             text-align: center;
+            padding: 0 0 40px;
+            width: 100%;
         }
-        
+
+        .logo-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 24px;
+            transform: scale(0.9);
+            animation: scaleIn 0.6s 0.8s forwards;
+        }
+
+        @keyframes scaleIn {
+            to { transform: scale(1); }
+        }
+
         .logo {
-            font-size: 48px;
-            font-weight: 800;
+            font-family: 'Playfair Display', serif;
+            font-size: 56px;
+            font-weight: 700;
             color: var(--primary);
-            margin-bottom: 10px;
+            margin-bottom: 8px;
+            position: relative;
             display: inline-block;
-            padding: 10px 20px;
-            border-radius: 8px;
-            background: linear-gradient(135deg, rgba(58, 134, 255, 0.1), rgba(131, 56, 236, 0.1));
-            letter-spacing: -1px;
         }
-        
-        .logo span {
-            color: var(--secondary);
+
+        .logo::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            transform: scaleX(0);
+            transform-origin: left;
+            animation: lineExpand 0.8s 1.2s forwards;
         }
-        
+
+        @keyframes lineExpand {
+            to { transform: scaleX(1); }
+        }
+
         .tagline {
             font-size: 18px;
-            color: #555;
-            margin-bottom: 60px;
+            color: var(--text-light);
+            font-weight: 300;
+            letter-spacing: 0.5px;
         }
-        
+
+        /* Search Section */
         .search-section {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
             width: 100%;
-            padding: 20px 0;
-            min-height: 40vh;
-            justify-content: center;
-        }
-        
-        .search-container {
-            width: 100%;
-            max-width: 600px;
+            max-width: 720px;
             position: relative;
-            margin-bottom: 30px;
-            text-align: center;
+            margin-bottom: 40px;
         }
-        
+
+        .search-container {
+            position: relative;
+            width: 100%;
+        }
+
         .search-box {
             width: 100%;
-            padding: 20px 30px;
-            border-radius: 50px;
-            border: 2px solid rgba(0, 0, 0, 0.1);
+            height: 72px;
+            padding: 0 72px 0 28px;
             font-size: 18px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
-            transition: all 0.3s ease;
+            border: 1px solid var(--medium-gray);
+            border-radius: 4px;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            font-family: 'Segoe UI', sans-serif;
+            font-weight: 400;
+            color: var(--text-dark);
+            background-color: var(--secondary);
         }
-        
+
         .search-box:focus {
             outline: none;
             border-color: var(--primary);
-            box-shadow: 0 10px 30px rgba(58, 134, 255, 0.15);
+            box-shadow: 0 0 0 2px var(--primary-light), var(--shadow-hover);
         }
-        
-        .search-button {
+
+        .search-icon {
             position: absolute;
-            right: 5px;
-            top: 5px;
-            background-color: var(--primary);
-            color: white;
-            border: none;
-            border-radius: 50px;
-            padding: 15px 25px;
-            cursor: pointer;
-            font-weight: 600;
-            transition: all 0.3s ease;
-        }
-        
-        .search-button:hover {
-            background-color: var(--secondary);
-        }
-        
-        .results-container {
-            width: 100%;
-            max-width: 700px;
-            margin: 0 auto;
-            background-color: white;
-            border-radius: 12px;
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.08);
-            padding: 20px;
-            display: none;
-            overflow: hidden;
-            transition: all 0.3s ease;
-            text-align: left;
-        }
-        
-        .results-container.active {
-            display: block;
-            animation: fadeIn 0.5s ease;
-        }
-        
-        .result-item {
-            padding: 15px;
-            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
-            cursor: pointer;
-            transition: all 0.2s ease;
-        }
-        
-        .result-item:last-child {
-            border-bottom: none;
-        }
-        
-        .result-item:hover {
-            background-color: rgba(58, 134, 255, 0.05);
-        }
-        
-        .result-title {
-            font-size: 18px;
-            font-weight: 600;
+            right: 28px;
+            top: 50%;
+            transform: translateY(-50%);
             color: var(--primary);
-            margin-bottom: 5px;
+            font-size: 20px;
+            pointer-events: none;
         }
-        
+
+        .search-box:focus + .search-icon {
+            color: var(--primary-dark);
+        }
+
+        /* Results Container */
+        .results-container {
+            position: absolute;
+            top: calc(100% + 8px);
+            left: 0;
+            width: 100%;
+            max-height: min(480px, 60vh);
+            overflow-y: auto;
+            background-color: var(--secondary);
+            border-radius: 4px;
+            box-shadow: var(--shadow-hover);
+            z-index: 100;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: var(--transition);
+        }
+
+        .results-container.visible {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .result-item {
+            padding: 16px 28px;
+            border-bottom: 1px solid var(--light-gray);
+            cursor: pointer;
+            transition: background-color 0.15s ease;
+            display: flex;
+            align-items: center;
+        }
+
+        .result-item:hover {
+            background-color: var(--primary-light);
+        }
+
+        .result-icon {
+            margin-right: 16px;
+            color: var(--primary);
+            font-size: 18px;
+            flex-shrink: 0;
+        }
+
+        .result-content {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .result-title {
+            font-weight: 600;
+            font-size: 16px;
+            margin-bottom: 4px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
         .result-description {
             font-size: 14px;
-            color: #666;
-            line-height: 1.5;
+            color: var(--text-light);
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
         }
-        
-        .trending-section {
-            padding: 40px 0;
+
+        .no-results {
+            padding: 24px;
             text-align: center;
-            width: 100%;
+            color: var(--text-light);
         }
-        
-        .trending-container {
+
+        /* Popular Searches */
+        .popular-searches {
             width: 100%;
-            max-width: 700px;
-            margin: 0 auto;
-            background-color: white;
-            border-radius: 12px;
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
-            padding: 20px;
+            max-width: 720px;
+            background-color: var(--light-gray);
+            border-radius: 4px;
+            padding: 28px;
+            margin-top: 40px;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
         }
-        
-        .trending-title {
+
+        .popular-searches:hover {
+            box-shadow: var(--shadow-hover);
+        }
+
+        .popular-title {
             font-size: 18px;
             font-weight: 600;
-            color: var(--dark);
-            margin-bottom: 15px;
-            text-align: center;
-        }
-        
-        .trending-items {
+            margin-bottom: 20px;
+            color: var(--text-dark);
             display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            justify-content: flex-start;
+            align-items: center;
         }
-        
-        .trending-item {
-            background-color: rgba(58, 134, 255, 0.1);
+
+        .popular-title i {
+            margin-right: 12px;
             color: var(--primary);
-            padding: 8px 15px;
-            border-radius: 30px;
-            font-size: 14px;
-            font-weight: 500;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            display: inline-block;
         }
-        
-        .trending-item:hover {
+
+        .popular-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            gap: 12px;
+        }
+
+        .popular-item {
+            padding: 12px 16px;
+            background-color: var(--secondary);
+            border-radius: 4px;
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            border: 1px solid var(--medium-gray);
+        }
+
+        .popular-item:hover {
+            border-color: var(--primary);
+            background-color: var(--primary-light);
+            transform: translateY(-2px);
+        }
+
+        .popular-item i {
+            margin-right: 10px;
+            color: var(--accent);
+            font-size: 12px;
+        }
+
+        /* Modal Styles */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(4px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: var(--transition);
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal {
+            width: 90%;
+            max-width: 900px;
+            max-height: 85vh;
+            background-color: var(--secondary);
+            border-radius: 8px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 12px 28px 0 rgba(0,0,0,.3);
+            transform: translateY(20px) scale(0.98);
+            transition: var(--transition);
+        }
+
+        .modal-overlay.active .modal {
+            transform: translateY(0) scale(1);
+        }
+
+        .modal-header {
+            padding: 20px 24px;
+            border-bottom: 1px solid var(--light-gray);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
             background-color: var(--primary);
             color: white;
         }
-        
-        .modal {
+
+        .modal-title {
+            font-size: 20px;
+            font-weight: 600;
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: white;
+            transition: transform 0.2s ease;
+            padding: 4px;
+            border-radius: 4px;
+        }
+
+        .modal-close:hover {
+            transform: rotate(90deg);
+            background-color: rgba(255,255,255,0.1);
+        }
+
+        .modal-content {
+            display: flex;
+            flex: 1;
+            overflow: hidden;
+        }
+
+        .modal-preview {
+            flex: 0 0 60%;
+            padding: 0;
+            position: relative;
+            background-color: #f6f6f6;
+        }
+
+        .modal-preview iframe {
+            width: 100%;
+            height: 100%;
+            min-height: 400px;
+            border: none;
+        }
+
+        .modal-info {
+            flex: 0 0 40%;
+            padding: 24px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .modal-meta {
+            margin-bottom: 24px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid var(--light-gray);
+        }
+
+        .modal-author, .modal-date {
+            font-size: 14px;
+            color: var(--text-light);
+            margin-bottom: 6px;
+            display: flex;
+            align-items: center;
+        }
+
+        .modal-author i, .modal-date i {
+            margin-right: 8px;
+            width: 16px;
+            text-align: center;
+        }
+
+        .modal-abstract {
+            margin-bottom: 24px;
+            font-size: 15px;
+            line-height: 1.6;
+            color: var(--text-dark);
+        }
+
+        .modal-abstract-title {
+            font-weight: 600;
+            margin-bottom: 12px;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+        }
+
+        .modal-actions {
+            margin-top: auto;
+            display: flex;
+            gap: 12px;
+        }
+
+        .modal-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 10px 20px;
+            border-radius: 4px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: var(--transition);
+            font-size: 14px;
+        }
+
+        .modal-download {
+            background-color: var(--primary);
+            color: white;
+            border: 1px solid var(--primary);
+        }
+
+        .modal-download:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-2px);
+        }
+
+        .modal-secondary {
+            background-color: transparent;
+            color: var(--primary);
+            border: 1px solid var(--medium-gray);
+        }
+
+        .modal-secondary:hover {
+            background-color: var(--light-gray);
+            border-color: var(--primary-light);
+        }
+
+        .modal-btn i {
+            margin-right: 8px;
+        }
+
+        /* Loading Spinner */
+        .spinner {
             display: none;
+            position: absolute;
+            right: 60px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(0, 120, 212, 0.2);
+            border-radius: 50%;
+            border-top-color: var(--primary);
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: translateY(-50%) rotate(360deg); }
+        }
+
+        /* Floating Particles Animation */
+        .particles {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(0, 0, 0, 0.5);
-            z-index: 1000;
-            align-items: center;
-            justify-content: center;
+            pointer-events: none;
+            z-index: -1;
         }
-        
-        .modal.active {
-            display: flex;
-            animation: fadeIn 0.3s ease;
+
+        .particle {
+            position: absolute;
+            background-color: rgba(0, 120, 212, 0.1);
+            border-radius: 50%;
+            animation: float linear infinite;
         }
-        
-        .modal-content {
-            background-color: white;
-            width: 90%;
-            max-width: 800px;
-            border-radius: 12px;
-            overflow: hidden;
-            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.2);
-            position: relative;
+
+        @keyframes float {
+            to { transform: translateY(-100vh) rotate(360deg); }
         }
-        
-        .modal-header {
-            background-color: var(--primary);
-            color: white;
-            padding: 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        
-        .modal-title {
-            font-size: 20px;
-            font-weight: 600;
-        }
-        
-        .modal-close {
-            background: none;
-            border: none;
-            color: white;
-            font-size: 24px;
-            cursor: pointer;
-            padding: 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 30px;
-            height: 30px;
-        }
-        
-        .modal-body {
-            padding: 30px;
-        }
-        
-        .modal-body h2 {
-            margin-top: 0;
-            color: var(--dark);
-        }
-        
-        .modal-body p {
-            line-height: 1.6;
-            color: #555;
-        }
-        
-        .modal-footer {
-            padding: 20px;
-            border-top: 1px solid rgba(0, 0, 0, 0.1);
-            display: flex;
-            justify-content: flex-end;
-        }
-        
-        .modal-button {
-            background-color: var(--primary);
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 5px;
-            cursor: pointer;
-            font-weight: 500;
-            transition: all 0.2s ease;
-        }
-        
-        .modal-button:hover {
-            background-color: var(--secondary);
-        }
-        
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(10px);
+
+        /* Responsive Styles */
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px 16px;
             }
-            to {
-                opacity: 1;
-                transform: translateY(0);
+
+            .logo {
+                font-size: 42px;
             }
-        }
-        
-        footer {
-            margin-top: auto;
-            background-color: var(--dark);
-            color: white;
-            padding: 40px 0;
-            text-align: center;
-        }
-        
-        .footer-links {
-            display: flex;
-            justify-content: center;
-            gap: 30px;
-            margin-bottom: 20px;
-        }
-        
-        .footer-link {
-            color: rgba(255, 255, 255, 0.7);
-            text-decoration: none;
-            transition: color 0.2s ease;
-        }
-        
-        .footer-link:hover {
-            color: white;
-        }
-        
-        .copyright {
-            font-size: 14px;
-            color: rgba(255, 255, 255, 0.5);
+
+            .tagline {
+                font-size: 16px;
+            }
+
+            .search-box {
+                height: 60px;
+                font-size: 16px;
+                padding: 0 60px 0 20px;
+            }
+
+            .search-icon {
+                right: 20px;
+            }
+
+            .results-container {
+                max-height: 50vh;
+            }
+
+            .popular-list {
+                grid-template-columns: 1fr;
+            }
+
+            .modal-content {
+                flex-direction: column;
+            }
+
+            .modal-preview {
+                flex: 0 0 300px;
+                border-right: none;
+                border-bottom: 1px solid var(--light-gray);
+            }
+
+            .modal-info {
+                flex: 1;
+            }
         }
     </style>
 </head>
 <body>
+    <!-- Floating particles background -->
+    <div class="particles" id="particles"></div>
+
     <div class="container">
         <header>
-            <div class="logo">e<span>w</span></div>
-            <div class="tagline">Discover. Learn. Grow.</div>
+            <div class="logo-container">
+                <div class="logo">ew</div>
+                <div class="tagline">Discover educational excellence</div>
+            </div>
         </header>
-        
-        <section class="search-section">
+
+        <div class="search-section">
             <div class="search-container">
-                <input type="text" class="search-box" placeholder="What would you like to learn today?">
-                <button class="search-button">Search</button>
-            </div>
-            
-            <div class="results-container" id="results">
-                <div class="result-item" onclick="openModal('Advanced Mathematics', 'Explore advanced mathematical concepts including calculus, linear algebra, and statistics with expert instructors.')">
-                    <div class="result-title">Advanced Mathematics</div>
-                    <div class="result-description">Explore advanced mathematical concepts including calculus, linear algebra, and statistics with expert instructors.</div>
-                </div>
-                <div class="result-item" onclick="openModal('Introduction to Artificial Intelligence', 'Learn the fundamentals of AI, machine learning, and neural networks through interactive lessons and real-world applications.')">
-                    <div class="result-title">Introduction to Artificial Intelligence</div>
-                    <div class="result-description">Learn the fundamentals of AI, machine learning, and neural networks through interactive lessons and real-world applications.</div>
-                </div>
-                <div class="result-item" onclick="openModal('World History: Ancient Civilizations', 'Journey through the fascinating history of ancient civilizations from Mesopotamia to the Roman Empire.')">
-                    <div class="result-title">World History: Ancient Civilizations</div>
-                    <div class="result-description">Journey through the fascinating history of ancient civilizations from Mesopotamia to the Roman Empire.</div>
-                </div>
-                <div class="result-item" onclick="openModal('Fundamentals of Quantum Physics', 'Discover the mysterious world of quantum mechanics and how it challenges our understanding of reality.')">
-                    <div class="result-title">Fundamentals of Quantum Physics</div>
-                    <div class="result-description">Discover the mysterious world of quantum mechanics and how it challenges our understanding of reality.</div>
+                <input type="text" class="search-box" placeholder="Search courses, articles, and resources...">
+                <div class="search-icon"><i class="fas fa-search"></i></div>
+                <div class="spinner"></div>
+                
+                <div class="results-container" id="resultsContainer">
+                    <!-- Results will be dynamically inserted here -->
                 </div>
             </div>
-        </section>
-        
-        <section class="trending-section">
-            <div class="trending-container">
-                <div class="trending-title">Most Searched Topics</div>
-                <div class="trending-items">
-                    <div class="trending-item" onclick="simulateSearch('Coding for Beginners')">Coding for Beginners</div>
-                    <div class="trending-item" onclick="simulateSearch('Environmental Science')">Environmental Science</div>
-                    <div class="trending-item" onclick="simulateSearch('Digital Marketing')">Digital Marketing</div>
-                    <div class="trending-item" onclick="simulateSearch('Psychology')">Psychology</div>
-                    <div class="trending-item" onclick="simulateSearch('Creative Writing')">Creative Writing</div>
-                    <div class="trending-item" onclick="simulateSearch('Business Management')">Business Management</div>
-                </div>
+        </div>
+
+        <div class="popular-searches">
+            <div class="popular-title"><i class="fas fa-chart-line"></i> Trending searches</div>
+            <div class="popular-list">
+                <div class="popular-item"><i class="fas fa-arrow-up"></i> Data Science Fundamentals</div>
+                <div class="popular-item"><i class="fas fa-arrow-up"></i> Modern Web Development</div>
+                <div class="popular-item">Artificial Intelligence Ethics</div>
+                <div class="popular-item">Sustainable Architecture</div>
+                <div class="popular-item"><i class="fas fa-arrow-up"></i> Quantum Computing Basics</div>
+                <div class="popular-item">Neuroscience Research</div>
             </div>
-        </section>
+        </div>
     </div>
-    
-    <div class="modal" id="detailModal">
-        <div class="modal-content">
+
+    <!-- Modal Popup -->
+    <div class="modal-overlay" id="modalOverlay">
+        <div class="modal">
             <div class="modal-header">
-                <div class="modal-title" id="modalTitle">Course Title</div>
-                <button class="modal-close" onclick="closeModal()">&times;</button>
+                <div class="modal-title" id="modalTitle">Document Title</div>
+                <button class="modal-close" id="modalClose">&times;</button>
             </div>
-            <div class="modal-body" id="modalBody">
-                <h2>Course Details</h2>
-                <p>Course description will appear here.</p>
-                <p>This comprehensive course provides in-depth knowledge and practical skills that will help you master the subject. Our expert instructors guide you through carefully structured lessons designed to build your understanding progressively.</p>
-                <h3>What You'll Learn</h3>
-                <ul>
-                    <li>Fundamental concepts and principles</li>
-                    <li>Advanced techniques and methodologies</li>
-                    <li>Practical applications and real-world examples</li>
-                    <li>Problem-solving strategies and critical thinking</li>
-                </ul>
-                <h3>Course Structure</h3>
-                <p>24 video lessons, 4 assignments, 2 projects, and a final assessment</p>
-                <h3>Difficulty Level</h3>
-                <p>Intermediate</p>
-            </div>
-            <div class="modal-footer">
-                <button class="modal-button">View Full Course</button>
+            <div class="modal-content">
+                <div class="modal-preview">
+                    <iframe id="pdfPreview" src=""></iframe>
+                </div>
+                <div class="modal-info">
+                    <div class="modal-meta">
+                        <div class="modal-author"><i class="fas fa-user"></i> <span id="modalAuthor">Author: John Doe</span></div>
+                        <div class="modal-date"><i class="fas fa-calendar-alt"></i> <span id="modalDate">Published: January 15, 2023</span></div>
+                    </div>
+                    <div class="modal-abstract">
+                        <div class="modal-abstract-title"><i class="fas fa-align-left"></i> Abstract</div>
+                        <p id="modalAbstract">This is a detailed abstract of the document. It provides a comprehensive overview of the content you'll find in the PDF preview. The abstract summarizes the key points and main arguments presented in the document.</p>
+                    </div>
+                    <div class="modal-actions">
+                        <a href="#" class="modal-btn modal-download" id="downloadBtn"><i class="fas fa-download"></i> Download</a>
+                        <a href="#" class="modal-btn modal-secondary"><i class="fas fa-bookmark"></i> Save</a>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-    
-    <footer>
-        <div class="footer-links">
-            <a href="#" class="footer-link">About Us</a>
-            <a href="#" class="footer-link">Privacy Policy</a>
-            <a href="#" class="footer-link">Terms of Service</a>
-            <a href="#" class="footer-link">Contact</a>
-            <a href="#" class="footer-link">Help Center</a>
-        </div>
-        <div class="copyright">&copy; 2025 Educational Website. All rights reserved.</div>
-    </footer>
-    
+
     <script>
-        const searchButton = document.querySelector('.search-button');
-        const searchBox = document.querySelector('.search-box');
-        const resultsContainer = document.getElementById('results');
-        const modal = document.getElementById('detailModal');
-        const modalTitle = document.getElementById('modalTitle');
-        const modalBody = document.getElementById('modalBody');
-        
-        searchButton.addEventListener('click', function() {
-            if (searchBox.value.trim() !== '') {
-                resultsContainer.classList.add('active');
-                // In a real implementation, this would fetch actual search results
-                // For now, we just show the demo results
-            }
-        });
-        
-        searchBox.addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') {
-                searchButton.click();
-            }
-        });
-        
-        function openModal(title, description) {
-            modalTitle.textContent = title;
-            modalBody.querySelector('p').textContent = description;
-            modal.classList.add('active');
-            document.body.style.overflow = 'hidden';
-        }
-        
-        function closeModal() {
-            modal.classList.remove('active');
-            document.body.style.overflow = 'auto';
-        }
-        
-        function simulateSearch(query) {
-            searchBox.value = query;
-            searchButton.click();
-        }
-        
-        // Close modal when clicking outside
-        window.addEventListener('click', function(e) {
-            if (e.target === modal) {
-                closeModal();
-            }
-        });
-    </script>
-</body>
-</html>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Create floating particles
+            createParticles();
+
+            // DOM Elements
+            const searchBox = document.querySelector('.search-box');
+            const resultsContainer = document.getElementById('resultsContainer');
+            const spinner = document.querySelector('.spinner');
+            const popularItems = document.querySelectorAll('.popular-item');
+            const modalOverlay = document.getElementById('modalOverlay');
+            const modalClose = document.getElementById('modalClose');
+            const pdfPreview = document.getElementById('pdfPreview');
+            const modalTitle = document.getElementById('modalTitle');
+            const modalAuthor = document.getElementById('modalAuthor');
+            const modalDate = document.getElementById('modalDate');
+            const modalAbstract = document.getElementById('modalAbstract');
+            const downloadBtn = document.getElementById('downloadBtn');
+
+            // Sample data - in a real app, this would come from an API
+            const sampleResults = [
+                {
+                    id: 1,
+                    title: "Advanced Machine Learning: Theory and Practice",
+                    description: "Comprehensive textbook covering both theoretical foundations and practical applications of modern ML techniques",
+                    type: "book",
+                    author: "Dr. Sarah Johnson & Prof. Michael Chen",
+                    date: "2023-05-15",
+                    abstract: "This advanced textbook bridges the gap between machine learning theory and practice, covering everything from funda
