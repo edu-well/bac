@@ -1,0 +1,729 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Educational Website</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #6a5acd;
+            --secondary-color: #f8f9fa;
+            --text-color: #333;
+            --light-purple: #e6e4fd;
+            --card-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7fa;
+            color: var(--text-color);
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        /* Header Section */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+        }
+        
+        .back-button {
+            background: var(--secondary-color);
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            color: #555;
+        }
+        
+        .page-title {
+            font-size: 24px;
+            font-weight: 600;
+            color: #555;
+        }
+        
+        .notification {
+            background: var(--secondary-color);
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            cursor: pointer;
+        }
+        
+        .notification .badge {
+            position: absolute;
+            top: 0;
+            right: 0;
+            background-color: #ff4757;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+        }
+        
+        /* Banner Section */
+        .banner {
+            background-color: var(--primary-color);
+            border-radius: 20px;
+            padding: 20px;
+            margin: 20px 0;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            color: white;
+        }
+        
+        .banner-icon {
+            background: rgba(255, 255, 255, 0.2);
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .banner-icon img {
+            width: 50px;
+            height: auto;
+        }
+        
+        .banner-content h2 {
+            font-size: 26px;
+            font-weight: 500;
+        }
+        
+        .banner-content .arrow {
+            font-size: 20px;
+            margin-left: 5px;
+        }
+        
+        /* Navigation Tabs */
+        .nav-tabs {
+            display: flex;
+            gap: 10px;
+            margin: 20px 0;
+            overflow-x: auto;
+            padding-bottom: 5px;
+        }
+        
+        .nav-tab {
+            background-color: var(--secondary-color);
+            border: none;
+            border-radius: 15px;
+            padding: 10px 25px;
+            cursor: pointer;
+            white-space: nowrap;
+            font-size: 16px;
+            color: #888;
+        }
+        
+        .nav-tab.active {
+            background-color: var(--light-purple);
+            color: var(--primary-color);
+            font-weight: 500;
+        }
+        
+        /* Course Section */
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 20px 0;
+        }
+        
+        .section-title {
+            font-size: 22px;
+            font-weight: 500;
+            color: #555;
+        }
+        
+        .view-all {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 500;
+        }
+        
+        .courses-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+        }
+        
+        .course-card {
+            background-color: white;
+            border-radius: 20px;
+            padding: 20px;
+            box-shadow: var(--card-shadow);
+            position: relative;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .course-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        .category-tag {
+            position: absolute;
+            top: 20px;
+            right: 60px;
+            background-color: var(--light-purple);
+            color: var(--primary-color);
+            font-size: 12px;
+            padding: 4px 10px;
+            border-radius: 10px;
+            font-weight: 500;
+        }
+        
+        .course-icon {
+            background-color: var(--light-purple);
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 15px;
+        }
+        
+        .course-icon i {
+            color: var(--primary-color);
+            font-size: 24px;
+        }
+        
+        .course-title {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+        
+        .course-subtitle {
+            color: #888;
+            font-size: 14px;
+            margin-bottom: 15px;
+        }
+        
+        .course-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 20px;
+        }
+        
+        .duration {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            color: #888;
+            font-size: 14px;
+        }
+        
+        .rating {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            color: #ffd700;
+            font-size: 14px;
+        }
+        
+        .rating span {
+            color: #888;
+        }
+        
+        .more-button {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: #888;
+            font-size: 20px;
+        }
+        
+        .course-action {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            background-color: var(--light-purple);
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+        
+        .course-action i {
+            color: var(--primary-color);
+        }
+        
+        /* For page transitions */
+        .page {
+            display: none;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: none;
+        }
+        
+        .page.active {
+            display: block;
+            animation: slideIn 0.5s ease forwards;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        @keyframes slideIn {
+            from { 
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to { 
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Main Page -->
+        <div id="main-page" class="page active">
+            <!-- Header -->
+            <div class="header">
+                <button class="back-button">
+                    <i class="fas fa-arrow-left"></i>
+                </button>
+                <h1 class="page-title">Categories</h1>
+                <button class="notification">
+                    <i class="fas fa-bell"></i>
+                    <span class="badge"></span>
+                </button>
+            </div>
+            
+            <!-- Banner -->
+            <div class="banner">
+                <div class="banner-icon">
+                    <img src="/api/placeholder/100/100" alt="Books Icon">
+                </div>
+                <div class="banner-content">
+                    <h2>Education that inspires. <span class="arrow">→</span></h2>
+                </div>
+            </div>
+            
+            <!-- Navigation Tabs -->
+            <div class="nav-tabs">
+                <button class="nav-tab active" data-category="reading">Reading</button>
+                <button class="nav-tab" data-category="listening">Listening</button>
+                <button class="nav-tab" data-category="grammar">Grammar</button>
+                <button class="nav-tab" data-category="speaking">Speaking</button>
+            </div>
+            
+            
+                        <div class="rating">
+                            <i class="fas fa-star"></i>
+                            <span>4.9</span>
+                        </div>
+                    </div>
+                    <button class="course-action" onclick="navigateToPage('ui-design')">
+                        <i class="fas fa-arrow-right"></i>
+                    </button>
+                </div>
+                
+                <!-- UX Design Course -->
+                <div class="course-card">
+                    <button class="more-button">⋯</button>
+                    <div class="course-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <h3 class="course-title">UX Design</h3>
+                    <p class="course-subtitle">Learning is empowerment.</p>
+                    <div class="course-meta">
+                        <div class="duration">
+                            <i class="far fa-clock"></i>
+                            <span>5h 30min</span>
+                        </div>
+                        <div class="rating">
+                            <i class="fas fa-star"></i>
+                            <span>4.9</span>
+                        </div>
+                    </div>
+                    <button class="course-action" onclick="navigateToPage('ux-design')">
+                        <i class="fas fa-arrow-right"></i>
+                    </button>
+                </div>
+                
+                <!-- Graphic Design Course -->
+                <div class="course-card">
+                    <button class="more-button">⋯</button>
+                    <div class="course-icon">
+                        <i class="fas fa-bezier-curve"></i>
+                    </div>
+                    <h3 class="course-title">Graphic Design</h3>
+                    <p class="course-subtitle">A Journey to Excellence.</p>
+                    <div class="course-meta">
+                        <div class="duration">
+                            <i class="far fa-clock"></i>
+                            <span>5h 30min</span>
+                        </div>
+                        <div class="rating">
+                            <i class="fas fa-star"></i>
+                            <span>4.9</span>
+                        </div>
+                    </div>
+                    <button class="course-action" onclick="navigateToPage('graphic-design')">
+                        <i class="fas fa-arrow-right"></i>
+                    </button>
+                </div>
+                
+                <!-- Copywriter Course -->
+                <div class="course-card">
+                    <button class="more-button">⋯</button>
+                    <div class="course-icon">
+                        <i class="fas fa-pen-nib"></i>
+                    </div>
+                    <h3 class="course-title">Copywriter</h3>
+                    <p class="course-subtitle">A Journey to Excellence.</p>
+                    <div class="course-meta">
+                        <div class="duration">
+                            <i class="far fa-clock"></i>
+                            <span>5h 30min</span>
+                        </div>
+                        <div class="rating">
+                            <i class="fas fa-star"></i>
+                            <span>4.9</span>
+                        </div>
+                    </div>
+                    <button class="course-action" onclick="navigateToPage('copywriter')">
+                        <i class="fas fa-arrow-right"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- UI Design Page -->
+        <div id="ui-design" class="page">
+            <div class="header">
+                <button class="back-button">
+                    <i class="fas fa-arrow-left"></i>
+                </button>
+                <h1 class="page-title">UI Design</h1>
+                <button class="notification">
+                    <i class="fas fa-bell"></i>
+                    <span class="badge"></span>
+                </button>
+            </div>
+            
+            <div class="banner">
+                <div class="banner-icon">
+                    <i class="fas fa-layer-group" style="color: white; font-size: 30px;"></i>
+                </div>
+                <div class="banner-content">
+                    <h2>UI Design <span class="arrow">→</span></h2>
+                    <p>Education you can believe in</p>
+                </div>
+            </div>
+            
+            <div class="section-header">
+                <h2 class="section-title">Course Content</h2>
+            </div>
+            
+            <div style="background-color: white; padding: 20px; border-radius: 20px; box-shadow: var(--card-shadow);">
+                <h3 style="margin-bottom: 15px;">About this course</h3>
+                <p style="line-height: 1.6; margin-bottom: 20px;">
+                    Master the principles of UI Design with this comprehensive course. 
+                    Learn to create beautiful, intuitive interfaces that users will love. 
+                    From color theory to typography, from wireframing to prototyping, 
+                    this course covers everything you need to become a proficient UI designer.
+                </p>
+                
+                <h3 style="margin-bottom: 15px;">What you'll learn</h3>
+                <ul style="list-style: none; padding-left: 0;">
+                    <li style="margin-bottom: 10px; display: flex; align-items: center;">
+                        <i class="fas fa-check" style="color: green; margin-right: 10px;"></i>
+                        Design principles and color theory
+                    </li>
+                    <li style="margin-bottom: 10px; display: flex; align-items: center;">
+                        <i class="fas fa-check" style="color: green; margin-right: 10px;"></i>
+                        Typography and layout fundamentals
+                    </li>
+                    <li style="margin-bottom: 10px; display: flex; align-items: center;">
+                        <i class="fas fa-check" style="color: green; margin-right: 10px;"></i>
+                        Wireframing and prototyping
+                    </li>
+                    <li style="margin-bottom: 10px; display: flex; align-items: center;">
+                        <i class="fas fa-check" style="color: green; margin-right: 10px;"></i>
+                        User interface patterns and best practices
+                    </li>
+                </ul>
+                
+                <button style="background-color: var(--primary-color); color: white; border: none; border-radius: 10px; padding: 12px 24px; font-size: 16px; font-weight: 500; cursor: pointer; margin-top: 20px; width: 100%;">
+                    Enroll Now
+                </button>
+            </div>
+        </div>
+        
+        <!-- UX Design Page -->
+        <div id="ux-design" class="page">
+            <div class="header">
+                <button class="back-button">
+                    <i class="fas fa-arrow-left"></i>
+                </button>
+                <h1 class="page-title">UX Design</h1>
+                <button class="notification">
+                    <i class="fas fa-bell"></i>
+                    <span class="badge"></span>
+                </button>
+            </div>
+            
+            <div class="banner">
+                <div class="banner-icon">
+                    <i class="fas fa-users" style="color: white; font-size: 30px;"></i>
+                </div>
+                <div class="banner-content">
+                    <h2>UX Design <span class="arrow">→</span></h2>
+                    <p>Learning is empowerment.</p>
+                </div>
+            </div>
+            
+            <div class="section-header">
+                <h2 class="section-title">Course Content</h2>
+            </div>
+            
+            <div style="background-color: white; padding: 20px; border-radius: 20px; box-shadow: var(--card-shadow);">
+                <h3 style="margin-bottom: 15px;">About this course</h3>
+                <p style="line-height: 1.6; margin-bottom: 20px;">
+                    This comprehensive UX Design course will teach you how to create 
+                    products that provide meaningful and relevant experiences to users. 
+                    From user research to usability testing, you'll learn the complete 
+                    UX design process with practical exercises and real-world projects.
+                </p>
+                
+                <h3 style="margin-bottom: 15px;">What you'll learn</h3>
+                <ul style="list-style: none; padding-left: 0;">
+                    <li style="margin-bottom: 10px; display: flex; align-items: center;">
+                        <i class="fas fa-check" style="color: green; margin-right: 10px;"></i>
+                        User research and persona creation
+                    </li>
+                    <li style="margin-bottom: 10px; display: flex; align-items: center;">
+                        <i class="fas fa-check" style="color: green; margin-right: 10px;"></i>
+                        Information architecture and user flows
+                    </li>
+                    <li style="margin-bottom: 10px; display: flex; align-items: center;">
+                        <i class="fas fa-check" style="color: green; margin-right: 10px;"></i>
+                        Usability testing methods
+                    </li>
+                    <li style="margin-bottom: 10px; display: flex; align-items: center;">
+                        <i class="fas fa-check" style="color: green; margin-right: 10px;"></i>
+                        Interaction design principles
+                    </li>
+                </ul>
+                
+                <button style="background-color: var(--primary-color); color: white; border: none; border-radius: 10px; padding: 12px 24px; font-size: 16px; font-weight: 500; cursor: pointer; margin-top: 20px; width: 100%;">
+                    Enroll Now
+                </button>
+            </div>
+        </div>
+        
+        <!-- Graphic Design Page -->
+        <div id="graphic-design" class="page">
+            <div class="header">
+                <button class="back-button">
+                    <i class="fas fa-arrow-left"></i>
+                </button>
+                <h1 class="page-title">Graphic Design</h1>
+                <button class="notification">
+                    <i class="fas fa-bell"></i>
+                    <span class="badge"></span>
+                </button>
+   
+</div>
+            
+            <div class="banner">
+                <div class="banner-icon">
+                    <i class="fas fa-pen-nib" style="color: white; font-size: 30px;"></i>
+                </div>
+                <div class="banner-content">
+                    <h2>Copywriter <span class="arrow">→</span></h2>
+                    <p>A Journey to Excellence.</p>
+                </div>
+            </div>
+            
+            <div class="section-header">
+                <h2 class="section-title">Course Content</h2>
+            </div>
+            
+            <div style="background-color: white; padding: 20px; border-radius: 20px; box-shadow: var(--card-shadow);">
+                <h3 style="margin-bottom: 15px;">About this course</h3>
+                <p style="line-height: 1.6; margin-bottom: 20px;">
+                    Master the art of persuasive writing with this comprehensive copywriting course. 
+                    Learn how to craft compelling headlines, engaging content, and persuasive calls-to-action 
+                    that drive results. Whether you're writing for digital or print media, this course will 
+                    give you the skills to create copy that converts.
+                </p>
+                
+                <h3 style="margin-bottom: 15px;">What you'll learn</h3>
+                <ul style="list-style: none; padding-left: 0;">
+                    <li style="margin-bottom: 10px; display: flex; align-items: center;">
+                        <i class="fas fa-check" style="color: green; margin-right: 10px;"></i>
+                        Persuasive writing techniques
+                    </li>
+                    <li style="margin-bottom: 10px; display: flex; align-items: center;">
+                        <i class="fas fa-check" style="color: green; margin-right: 10px;"></i>
+                        Headline and content creation
+                    </li>
+                    <li style="margin-bottom: 10px; display: flex; align-items: center;">
+                        <i class="fas fa-check" style="color: green; margin-right: 10px;"></i>
+                        SEO copywriting
+                    </li>
+                    <li style="margin-bottom: 10px; display: flex; align-items: center;">
+                        <i class="fas fa-check" style="color: green; margin-right: 10px;"></i>
+                        Email marketing and sales copy
+                    </li>
+                </ul>
+                
+                <button style="background-color: var(--primary-color); color: white; border: none; border-radius: 10px; padding: 12px 24px; font-size: 16px; font-weight: 500; cursor: pointer; margin-top: 20px; width: 100%;">
+                    Enroll Now
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // JavaScript for page navigation with animation
+        function navigateToPage(pageId) {
+            // Hide all pages
+            const pages = document.querySelectorAll('.page');
+            pages.forEach(page => {
+                if (page.classList.contains('active')) {
+                    // Add exit animation
+                    page.style.animation = 'fadeOut 0.3s ease forwards';
+                    
+                    // Wait for animation to complete
+                    setTimeout(() => {
+                        page.classList.remove('active');
+                        // Show selected page
+                        const selectedPage = document.getElementById(pageId);
+                        selectedPage.classList.add('active');
+                        selectedPage.style.animation = 'slideIn 0.5s ease forwards';
+                    }, 300);
+                } else {
+                    page.classList.remove('active');
+                }
+            });
+            
+            // In case no page was active (initial load)
+            if (!document.querySelector('.page.active')) {
+                const selectedPage = document.getElementById(pageId);
+                selectedPage.classList.add('active');
+            }
+        }
+        
+        // JavaScript for tab navigation and filtering
+        document.addEventListener('DOMContentLoaded', () => {
+            const navTabs = document.querySelectorAll('.nav-tab');
+            const courseCards = document.querySelectorAll('.course-card');
+            
+            // Initial filter - show Reading by default
+            filterCourses('reading');
+            
+            navTabs.forEach(tab => {
+                tab.addEventListener('click', function() {
+                    // Remove active class from all tabs
+                    navTabs.forEach(t => t.classList.remove('active'));
+                    
+                    // Add active class to clicked tab
+                    this.classList.add('active');
+                    
+                    // Filter content based on the selected category
+                    const category = this.getAttribute('data-category');
+                    filterCourses(category);
+                });
+            });
+            
+            // Back buttons functionality
+            const backButtons = document.querySelectorAll('.back-button');
+            backButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    navigateToPage('main-page');
+                });
+            });
+            
+            // Function to filter courses
+            function filterCourses(category) {
+                // If 'all' is selected, show all courses
+                if (category === 'all') {
+                    courseCards.forEach(card => {
+                        card.style.display = 'block';
+                        // Add animation
+                        setTimeout(() => {
+                            card.style.opacity = '1';
+                            card.style.transform = 'translateY(0)';
+                        }, 10);
+                    });
+                    return;
+                }
+                
+                // Otherwise, filter by category
+                courseCards.forEach(card => {
+                    if (card.getAttribute('data-category') === category) {
+                        card.style.display = 'block';
+                        // Add animation
+                        setTimeout(() => {
+                            card.style.opacity = '1';
+                            card.style.transform = 'translateY(0)';
+                        }, 10);
+                    } else {
+                        card.style.opacity = '0';
+                        card.style.transform = 'translateY(20px)';
+                        setTimeout(() => {
+                            card.style.display = 'none';
+                        }, 300);
+                    }
+                });
+            }
+        });
+        
+        // Add animation for course cards
+        const courseCards = document.querySelectorAll('.course-card');
+        courseCards.forEach(card => {
+            card.addEventListener('mouseenter', () => {
+                card.style.transform = 'translateY(-5px)';
+                card.style.boxShadow = '0 10px 20px rgba(0, 0, 0, 0.1)';
+            });
+            
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = 'translateY(0)';
+                card.style.boxShadow = 'var(--card-shadow)';
+            });
+        });
+    </script>
+</body>
+</html>
