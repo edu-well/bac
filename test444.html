@@ -121,7 +121,7 @@
             pointer-events: none;
         }
 
-        /* Results Container - Now positioned below search box */
+        /* Results Container */
         .search-results {
             width: 100%;
             max-width: 800px;
@@ -130,13 +130,13 @@
             border-radius: var(--radius-md);
             box-shadow: var(--shadow-md);
             border: 1px solid var(--medium-gray);
-            display: none; /* Initially hidden */
+            display: none;
             max-height: 500px;
             overflow-y: auto;
         }
 
         .search-results.visible {
-            display: block; /* Show when there are results */
+            display: block;
         }
 
         .result-item {
@@ -264,6 +264,141 @@
             to { transform: translateY(-50%) rotate(360deg); }
         }
 
+        /* PDF Viewer Modal */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(5px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: var(--transition);
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal {
+            width: 90%;
+            max-width: 900px;
+            max-height: 90vh;
+            background-color: var(--secondary);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            box-shadow: var(--shadow-lg);
+            transform: translateY(20px);
+            transition: var(--transition);
+        }
+
+        .modal-overlay.active .modal {
+            transform: translateY(0);
+        }
+
+        .modal-header {
+            padding: 20px 24px;
+            border-bottom: 1px solid var(--light-gray);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .modal-title {
+            font-size: 20px;
+            font-weight: 600;
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: white;
+            transition: var(--transition);
+            padding: 4px;
+            border-radius: 4px;
+        }
+
+        .modal-close:hover {
+            transform: rotate(90deg);
+            background-color: rgba(255,255,255,0.1);
+        }
+
+        .modal-content {
+            padding: 24px;
+            overflow-y: auto;
+            max-height: calc(90vh - 70px);
+        }
+
+        .pdf-container {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .pdf-box {
+            border: 1px solid var(--medium-gray);
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .pdf-header {
+            padding: 12px 16px;
+            background-color: var(--light-gray);
+            border-bottom: 1px solid var(--medium-gray);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .pdf-title {
+            font-weight: 600;
+            font-size: 15px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .pdf-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .pdf-btn {
+            padding: 6px 12px;
+            border-radius: var(--radius-sm);
+            background-color: var(--secondary);
+            border: 1px solid var(--medium-gray);
+            cursor: pointer;
+            font-size: 13px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: var(--transition);
+        }
+
+        .pdf-btn:hover {
+            background-color: var(--primary-light);
+            border-color: var(--primary);
+        }
+
+        .pdf-viewer {
+            width: 100%;
+            height: 500px;
+            border: none;
+        }
+
         /* Responsive Styles */
         @media (max-width: 768px) {
             .container {
@@ -288,6 +423,14 @@
             .popular-list {
                 grid-template-columns: 1fr;
             }
+
+            .modal {
+                width: 95%;
+            }
+
+            .pdf-viewer {
+                height: 300px;
+            }
         }
     </style>
 </head>
@@ -305,7 +448,6 @@
                 <div class="spinner" id="spinner"></div>
             </div>
             
-            <!-- Results container positioned below search box -->
             <div class="search-results" id="searchResults">
                 <!-- Results will be inserted here -->
             </div>
@@ -322,6 +464,21 @@
         </div>
     </div>
 
+    <!-- PDF Viewer Modal -->
+    <div class="modal-overlay" id="modalOverlay">
+        <div class="modal">
+            <div class="modal-header">
+                <div class="modal-title" id="modalTitle">Document Viewer</div>
+                <button class="modal-close" id="modalClose">&times;</button>
+            </div>
+            <div class="modal-content">
+                <div class="pdf-container" id="pdfContainer">
+                    <!-- PDF boxes will be inserted here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             // DOM Elements
@@ -329,8 +486,12 @@
             const searchResults = document.getElementById('searchResults');
             const spinner = document.getElementById('spinner');
             const popularItems = document.querySelectorAll('.popular-item');
+            const modalOverlay = document.getElementById('modalOverlay');
+            const modalClose = document.getElementById('modalClose');
+            const modalTitle = document.getElementById('modalTitle');
+            const pdfContainer = document.getElementById('pdfContainer');
 
-            // Sample educational resources data
+            // Sample educational resources data with PDFs
             const educationalResources = [
                 {
                     id: 1,
@@ -338,7 +499,21 @@
                     description: "Comprehensive course covering fundamental ML concepts and algorithms",
                     type: "course",
                     author: "Prof. Sarah Johnson",
-                    date: "2023-05-15"
+                    date: "2023-05-15",
+                    pdfs: [
+                        {
+                            title: "Lecture 1: Fundamentals of ML",
+                            url: "https://drive.google.com/file/d/1d9z3x8P2m7b0c1v2f3g4h5j6k7l8m9n0/preview"
+                        },
+                        {
+                            title: "Lecture 2: Supervised Learning",
+                            url: "https://drive.google.com/file/d/2e8y7x6P5m4b3c2v1f0g9h8j7k6l5m4n3/preview"
+                        },
+                        {
+                            title: "Lecture 3: Neural Networks",
+                            url: "https://drive.google.com/file/d/3f7x6y5P4m3b2c1v0f9g8h7j6k5l4m3n2/preview"
+                        }
+                    ]
                 },
                 {
                     id: 2,
@@ -346,7 +521,17 @@
                     description: "Complete guide to organic chemistry principles and reactions",
                     type: "textbook",
                     author: "Dr. Michael Chen",
-                    date: "2022-11-30"
+                    date: "2022-11-30",
+                    pdfs: [
+                        {
+                            title: "Chapter 1: Basic Concepts",
+                            url: "https://drive.google.com/file/d/4g8y7x6P5m4b3c2v1f0g9h8j7k6l5m4n3/preview"
+                        },
+                        {
+                            title: "Chapter 2: Chemical Bonding",
+                            url: "https://drive.google.com/file/d/5h9x8y7P6m5b4c3v2f1g0h9j8k7l6m5n4/preview"
+                        }
+                    ]
                 },
                 {
                     id: 3,
@@ -354,23 +539,13 @@
                     description: "Video lectures on advanced calculus methods and applications",
                     type: "video",
                     author: "Dr. Emily Wilson",
-                    date: "2023-01-10"
-                },
-                {
-                    id: 4,
-                    title: "Genetics and Molecular Biology",
-                    description: "Interactive textbook with 3D models and animations",
-                    type: "interactive",
-                    author: "Prof. Robert Green",
-                    date: "2023-04-22"
-                },
-                {
-                    id: 5,
-                    title: "Research Methods in Psychology",
-                    description: "Practical guide to psychological research methodologies",
-                    type: "guide",
-                    author: "Dr. Anna Kowalski",
-                    date: "2023-02-18"
+                    date: "2023-01-10",
+                    pdfs: [
+                        {
+                            title: "Differential Equations",
+                            url: "https://drive.google.com/file/d/6i0x9y8P7m6b5c4v3f2g1h0j9k8l7m6n5/preview"
+                        }
+                    ]
                 }
             ];
 
@@ -387,7 +562,6 @@
                 
                 showLoading();
                 
-                // Simulate API delay
                 searchTimeout = setTimeout(() => {
                     performSearch(query);
                     hideLoading();
@@ -426,6 +600,7 @@
                 results.forEach(result => {
                     const resultItem = document.createElement('div');
                     resultItem.className = 'result-item';
+                    resultItem.dataset.id = result.id;
                     
                     const typeIcon = getTypeIcon(result.type);
                     
@@ -441,6 +616,7 @@
                         </div>
                     `;
                     
+                    resultItem.addEventListener('click', () => openModal(result));
                     searchResults.appendChild(resultItem);
                 });
                 
@@ -451,39 +627,4 @@
                 const icons = {
                     'course': '<i class="fas fa-graduation-cap"></i>',
                     'textbook': '<i class="fas fa-book"></i>',
-                    'video': '<i class="fas fa-play-circle"></i>',
-                    'interactive': '<i class="fas fa-laptop-code"></i>',
-                    'guide': '<i class="fas fa-file-alt"></i>'
-                };
-                return icons[type] || '<i class="fas fa-file"></i>';
-            }
-
-            function showLoading() {
-                spinner.style.display = 'block';
-            }
-
-            function hideLoading() {
-                spinner.style.display = 'none';
-            }
-
-            function showResults() {
-                searchResults.classList.add('visible');
-            }
-
-            function hideResults() {
-                searchResults.classList.remove('visible');
-            }
-
-            // Popular searches functionality
-            popularItems.forEach(item => {
-                item.addEventListener('click', function() {
-                    const searchText = this.textContent.replace(/^[^a-zA-Z]+/, '');
-                    searchInput.value = searchText;
-                    searchInput.focus();
-                    searchInput.dispatchEvent(new Event('input'));
-                });
-            });
-        });
-    </script>
-</body>
-</html>
+                    'video': '<i
