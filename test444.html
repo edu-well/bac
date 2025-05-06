@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Educational Website</title>
+    <style>
+        :root {
+            --primary: #3a86ff;
+            --secondary: #8338ec;
+            --accent: #ff006e;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --success: #38b000;
+        }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background-color: var(--light);
+            color: var(--dark);
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            overflow-x: hidden;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            box-sizing: border-box;
+        }
+        
+        header {
+            padding: 40px 0;
+            text-align: center;
+        }
+        
+        .logo {
+            font-size: 48px;
+            font-weight: 800;
+            color: var(--primary);
+            margin-bottom: 10px;
+            display: inline-block;
+            padding: 10px 20px;
+            border-radius: 8px;
+            background: linear-gradient(135deg, rgba(58, 134, 255, 0.1), rgba(131, 56, 236, 0.1));
+            letter-spacing: -1px;
+        }
+        
+        .logo span {
+            color: var(--secondary);
+        }
+        
+        .tagline {
+            font-size: 18px;
+            color: #555;
+            margin-bottom: 60px;
+        }
+        
+        .search-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+            padding: 20px 0;
+            min-height: 40vh;
+            justify-content: center;
+        }
+        
+        .search-container {
+            width: 100%;
+            max-width: 600px;
+            position: relative;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        
+        .search-box {
+            width: 100%;
+            padding: 20px 30px;
+            border-radius: 50px;
+            border: 2px solid rgba(0, 0, 0, 0.1);
+            font-size: 18px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+        }
+        
+        .search-box:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 10px 30px rgba(58, 134, 255, 0.15);
+        }
+        
+        .search-button {
+            position: absolute;
+            right: 5px;
+            top: 5px;
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            padding: 15px 25px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .search-button:hover {
+            background-color: var(--secondary);
+        }
+        
+        .results-container {
+            width: 100%;
+            max-width: 700px;
+            margin: 0 auto;
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.08);
+            padding: 20px;
+            display: none;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            text-align: left;
+        }
+        
+        .results-container.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        .result-item {
+            padding: 15px;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .result-item:last-child {
+            border-bottom: none;
+        }
+        
+        .result-item:hover {
+            background-color: rgba(58, 134, 255, 0.05);
+        }
+        
+        .result-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 5px;
+        }
+        
+        .result-description {
+            font-size: 14px;
+            color: #666;
+            line-height: 1.5;
+        }
+        
+        .trending-section {
+            padding: 40px 0;
+            text-align: center;
+            width: 100%;
+        }
+        
+        .trending-container {
+            width: 100%;
+            max-width: 700px;
+            margin: 0 auto;
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
+            padding: 20px;
+        }
+        
+        .trending-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--dark);
+            margin-bottom: 15px;
+            text-align: center;
+        }
+        
+        .trending-items {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: flex-start;
+        }
+        
+        .trending-item {
+            background-color: rgba(58, 134, 255, 0.1);
+            color: var(--primary);
+            padding: 8px 15px;
+            border-radius: 30px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: inline-block;
+        }
+        
+        .trending-item:hover {
+            background-color: var(--primary);
+            color: white;
+        }
+        
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .modal.active {
+            display: flex;
+            animation: fadeIn 0.3s ease;
+        }
+        
+        .modal-content {
+            background-color: white;
+            width: 90%;
+            max-width: 800px;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.2);
+            position: relative;
+        }
+        
+        .modal-header {
+            background-color: var(--primary);
+            color: white;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .modal-title {
+            font-size: 20px;
+            font-weight: 600;
+        }
+        
+        .modal-close {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+            padding: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 30px;
+            height: 30px;
+        }
+        
+        .modal-body {
+            padding: 30px;
+        }
+        
+        .modal-body h2 {
+            margin-top: 0;
+            color: var(--dark);
+        }
+        
+        .modal-body p {
+            line-height: 1.6;
+            color: #555;
+        }
+        
+        .modal-footer {
+            padding: 20px;
+            border-top: 1px solid rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: flex-end;
+        }
+        
+        .modal-button {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.2s ease;
+        }
+        
+        .modal-button:hover {
+            background-color: var(--secondary);
+        }
+        
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        footer {
+            margin-top: auto;
+            background-color: var(--dark);
+            color: white;
+            padding: 40px 0;
+            text-align: center;
+        }
+        
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-bottom: 20px;
+        }
+        
+        .footer-link {
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+        
+        .footer-link:hover {
+            color: white;
+        }
+        
+        .copyright {
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.5);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">e<span>w</span></div>
+            <div class="tagline">Discover. Learn. Grow.</div>
+        </header>
+        
+        <section class="search-section">
+            <div class="search-container">
+                <input type="text" class="search-box" placeholder="What would you like to learn today?">
+                <button class="search-button">Search</button>
+            </div>
+            
+            <div class="results-container" id="results">
+                <div class="result-item" onclick="openModal('Advanced Mathematics', 'Explore advanced mathematical concepts including calculus, linear algebra, and statistics with expert instructors.')">
+                    <div class="result-title">Advanced Mathematics</div>
+                    <div class="result-description">Explore advanced mathematical concepts including calculus, linear algebra, and statistics with expert instructors.</div>
+                </div>
+                <div class="result-item" onclick="openModal('Introduction to Artificial Intelligence', 'Learn the fundamentals of AI, machine learning, and neural networks through interactive lessons and real-world applications.')">
+                    <div class="result-title">Introduction to Artificial Intelligence</div>
+                    <div class="result-description">Learn the fundamentals of AI, machine learning, and neural networks through interactive lessons and real-world applications.</div>
+                </div>
+                <div class="result-item" onclick="openModal('World History: Ancient Civilizations', 'Journey through the fascinating history of ancient civilizations from Mesopotamia to the Roman Empire.')">
+                    <div class="result-title">World History: Ancient Civilizations</div>
+                    <div class="result-description">Journey through the fascinating history of ancient civilizations from Mesopotamia to the Roman Empire.</div>
+                </div>
+                <div class="result-item" onclick="openModal('Fundamentals of Quantum Physics', 'Discover the mysterious world of quantum mechanics and how it challenges our understanding of reality.')">
+                    <div class="result-title">Fundamentals of Quantum Physics</div>
+                    <div class="result-description">Discover the mysterious world of quantum mechanics and how it challenges our understanding of reality.</div>
+                </div>
+            </div>
+        </section>
+        
+        <section class="trending-section">
+            <div class="trending-container">
+                <div class="trending-title">Most Searched Topics</div>
+                <div class="trending-items">
+                    <div class="trending-item" onclick="simulateSearch('Coding for Beginners')">Coding for Beginners</div>
+                    <div class="trending-item" onclick="simulateSearch('Environmental Science')">Environmental Science</div>
+                    <div class="trending-item" onclick="simulateSearch('Digital Marketing')">Digital Marketing</div>
+                    <div class="trending-item" onclick="simulateSearch('Psychology')">Psychology</div>
+                    <div class="trending-item" onclick="simulateSearch('Creative Writing')">Creative Writing</div>
+                    <div class="trending-item" onclick="simulateSearch('Business Management')">Business Management</div>
+                </div>
+            </div>
+        </section>
+    </div>
+    
+    <div class="modal" id="detailModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-title" id="modalTitle">Course Title</div>
+                <button class="modal-close" onclick="closeModal()">&times;</button>
+            </div>
+            <div class="modal-body" id="modalBody">
+                <h2>Course Details</h2>
+                <p>Course description will appear here.</p>
+                <p>This comprehensive course provides in-depth knowledge and practical skills that will help you master the subject. Our expert instructors guide you through carefully structured lessons designed to build your understanding progressively.</p>
+                <h3>What You'll Learn</h3>
+                <ul>
+                    <li>Fundamental concepts and principles</li>
+                    <li>Advanced techniques and methodologies</li>
+                    <li>Practical applications and real-world examples</li>
+                    <li>Problem-solving strategies and critical thinking</li>
+                </ul>
+                <h3>Course Structure</h3>
+                <p>24 video lessons, 4 assignments, 2 projects, and a final assessment</p>
+                <h3>Difficulty Level</h3>
+                <p>Intermediate</p>
+            </div>
+            <div class="modal-footer">
+                <button class="modal-button">View Full Course</button>
+            </div>
+        </div>
+    </div>
+    
+    <footer>
+        <div class="footer-links">
+            <a href="#" class="footer-link">About Us</a>
+            <a href="#" class="footer-link">Privacy Policy</a>
+            <a href="#" class="footer-link">Terms of Service</a>
+            <a href="#" class="footer-link">Contact</a>
+            <a href="#" class="footer-link">Help Center</a>
+        </div>
+        <div class="copyright">&copy; 2025 Educational Website. All rights reserved.</div>
+    </footer>
+    
+    <script>
+        const searchButton = document.querySelector('.search-button');
+        const searchBox = document.querySelector('.search-box');
+        const resultsContainer = document.getElementById('results');
+        const modal = document.getElementById('detailModal');
+        const modalTitle = document.getElementById('modalTitle');
+        const modalBody = document.getElementById('modalBody');
+        
+        searchButton.addEventListener('click', function() {
+            if (searchBox.value.trim() !== '') {
+                resultsContainer.classList.add('active');
+                // In a real implementation, this would fetch actual search results
+                // For now, we just show the demo results
+            }
+        });
+        
+        searchBox.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                searchButton.click();
+            }
+        });
+        
+        function openModal(title, description) {
+            modalTitle.textContent = title;
+            modalBody.querySelector('p').textContent = description;
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+        
+        function closeModal() {
+            modal.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+        
+        function simulateSearch(query) {
+            searchBox.value = query;
+            searchButton.click();
+        }
+        
+        // Close modal when clicking outside
+        window.addEventListener('click', function(e) {
+            if (e.target === modal) {
+                closeModal();
+            }
+        });
+    </script>
+</body>
+</html>
