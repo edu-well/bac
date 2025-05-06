@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -627,4 +628,100 @@
                 const icons = {
                     'course': '<i class="fas fa-graduation-cap"></i>',
                     'textbook': '<i class="fas fa-book"></i>',
-                    'video': '<i
+                    'video': '<i class="fas fa-play-circle"></i>',
+                    'interactive': '<i class="fas fa-laptop-code"></i>',
+                    'guide': '<i class="fas fa-file-alt"></i>'
+                };
+                return icons[type] || '<i class="fas fa-file"></i>';
+            }
+
+            function showLoading() {
+                spinner.style.display = 'block';
+            }
+
+            function hideLoading() {
+                spinner.style.display = 'none';
+            }
+
+            function showResults() {
+                searchResults.classList.add('visible');
+            }
+
+            function hideResults() {
+                searchResults.classList.remove('visible');
+            }
+
+            // Popular searches functionality
+            popularItems.forEach(item => {
+                item.addEventListener('click', function() {
+                    const searchText = this.textContent.replace(/^[^a-zA-Z]+/, '');
+                    searchInput.value = searchText;
+                    searchInput.focus();
+                    searchInput.dispatchEvent(new Event('input'));
+                });
+            });
+
+            // Modal functionality
+            function openModal(resource) {
+                modalTitle.textContent = resource.title;
+                pdfContainer.innerHTML = '';
+                
+                resource.pdfs.forEach((pdf, index) => {
+                    const pdfBox = document.createElement('div');
+                    pdfBox.className = 'pdf-box';
+                    
+                    pdfBox.innerHTML = `
+                        <div class="pdf-header">
+                            <div class="pdf-title">
+                                <i class="fas fa-file-pdf" style="color: #E53E3E;"></i>
+                                ${pdf.title}
+                            </div>
+                            <div class="pdf-actions">
+                                <button class="pdf-btn download-btn" data-url="${pdf.url.replace('/preview', '')}">
+                                    <i class="fas fa-download"></i> Download
+                                </button>
+                                <button class="pdf-btn">
+                                    <i class="fas fa-share"></i> Share
+                                </button>
+                            </div>
+                        </div>
+                        <iframe class="pdf-viewer" src="${pdf.url}"></iframe>
+                    `;
+                    
+                    pdfContainer.appendChild(pdfBox);
+                });
+                
+                // Add download functionality
+                document.querySelectorAll('.download-btn').forEach(btn => {
+                    btn.addEventListener('click', function(e) {
+                        e.stopPropagation();
+                        window.open(this.dataset.url, '_blank');
+                    });
+                });
+                
+                modalOverlay.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            }
+
+            modalClose.addEventListener('click', closeModal);
+            modalOverlay.addEventListener('click', function(e) {
+                if (e.target === modalOverlay) {
+                    closeModal();
+                }
+            });
+
+            function closeModal() {
+                modalOverlay.classList.remove('active');
+                document.body.style.overflow = 'auto';
+            }
+
+            // Close modal with ESC key
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape' && modalOverlay.classList.contains('active')) {
+                    closeModal();
+                }
+            });
+        });
+    </script>
+</body>
+</html>
