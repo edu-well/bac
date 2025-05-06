@@ -3,24 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Educational Wisdom | Premium Search</title>
-    <link href="https://fonts.googleapis.com/css2?family=Segoe+UI:wght@300;400;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <title>EduSearch | Premium Educational Platform</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
-            --primary: #0078D4; /* Microsoft blue */
-            --primary-dark: #106EBE;
-            --primary-light: #EFF6FC;
+            --primary: #2563EB; /* Vibrant blue */
+            --primary-dark: #1D4ED8;
+            --primary-light: #DBEAFE;
             --secondary: #FFFFFF;
-            --dark: #323130;
-            --light-gray: #F3F2F1;
-            --medium-gray: #E1DFDD;
-            --text-dark: #323130;
-            --text-light: #605E5C;
-            --accent: #FFB900; /* Microsoft yellow */
-            --shadow: 0 3.2px 7.2px 0 rgba(0,0,0,.132),0 .6px 1.8px 0 rgba(0,0,0,.108);
-            --shadow-hover: 0 6.4px 14.4px 0 rgba(0,0,0,.132),0 1.2px 3.6px 0 rgba(0,0,0,.108);
+            --dark: #1F2937;
+            --light-gray: #F9FAFB;
+            --medium-gray: #E5E7EB;
+            --text-dark: #111827;
+            --text-light: #6B7280;
+            --accent: #F59E0B; /* Amber */
+            --success: #10B981; /* Emerald */
+            --shadow-sm: 0 1px 3px 0 rgba(0,0,0,0.1), 0 1px 2px -1px rgba(0,0,0,0.1);
+            --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -2px rgba(0,0,0,0.1);
+            --shadow-lg: 0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -4px rgba(0,0,0,0.1);
             --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --radius-sm: 6px;
+            --radius-md: 8px;
+            --radius-lg: 12px;
         }
 
         * {
@@ -30,15 +35,16 @@
         }
 
         body {
-            font-family: 'Segoe UI', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+            font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
             background-color: var(--secondary);
             color: var(--text-dark);
             line-height: 1.5;
-            overflow-x: hidden;
             min-height: 100vh;
             display: flex;
             flex-direction: column;
             align-items: center;
+            padding: 0;
+            margin: 0;
             opacity: 0;
             animation: fadeIn 0.8s 0.2s forwards;
         }
@@ -50,7 +56,7 @@
         .container {
             width: 100%;
             max-width: 1200px;
-            padding: 40px 20px;
+            padding: 60px 24px;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -65,8 +71,9 @@
         /* Header Styles */
         header {
             text-align: center;
-            padding: 0 0 40px;
+            padding: 0 0 48px;
             width: 100%;
+            position: relative;
         }
 
         .logo-container {
@@ -84,25 +91,27 @@
 
         .logo {
             font-family: 'Playfair Display', serif;
-            font-size: 56px;
+            font-size: 64px;
             font-weight: 700;
             color: var(--primary);
-            margin-bottom: 8px;
+            margin-bottom: 12px;
             position: relative;
             display: inline-block;
+            letter-spacing: -1.5px;
         }
 
         .logo::after {
             content: '';
             position: absolute;
-            bottom: -4px;
+            bottom: -8px;
             left: 0;
             width: 100%;
-            height: 3px;
+            height: 4px;
             background: linear-gradient(90deg, var(--primary), var(--accent));
             transform: scaleX(0);
             transform-origin: left;
             animation: lineExpand 0.8s 1.2s forwards;
+            border-radius: 2px;
         }
 
         @keyframes lineExpand {
@@ -110,16 +119,18 @@
         }
 
         .tagline {
-            font-size: 18px;
+            font-size: 20px;
             color: var(--text-light);
             font-weight: 300;
-            letter-spacing: 0.5px;
+            letter-spacing: 0.2px;
+            max-width: 600px;
+            margin: 0 auto;
         }
 
         /* Search Section */
         .search-section {
             width: 100%;
-            max-width: 720px;
+            max-width: 800px;
             position: relative;
             margin-bottom: 40px;
         }
@@ -127,41 +138,50 @@
         .search-container {
             position: relative;
             width: 100%;
+            box-shadow: var(--shadow-lg);
+            border-radius: var(--radius-md);
+            transition: var(--transition);
+        }
+
+        .search-container:focus-within {
+            box-shadow: 0 0 0 4px var(--primary-light), var(--shadow-lg);
+            transform: translateY(-2px);
         }
 
         .search-box {
             width: 100%;
-            height: 72px;
-            padding: 0 72px 0 28px;
+            height: 80px;
+            padding: 0 80px 0 32px;
             font-size: 18px;
-            border: 1px solid var(--medium-gray);
-            border-radius: 4px;
-            box-shadow: var(--shadow);
+            border: 2px solid var(--medium-gray);
+            border-radius: var(--radius-md);
             transition: var(--transition);
-            font-family: 'Segoe UI', sans-serif;
+            font-family: 'Inter', sans-serif;
             font-weight: 400;
             color: var(--text-dark);
             background-color: var(--secondary);
+            caret-color: var(--primary);
         }
 
         .search-box:focus {
             outline: none;
             border-color: var(--primary);
-            box-shadow: 0 0 0 2px var(--primary-light), var(--shadow-hover);
         }
 
         .search-icon {
             position: absolute;
-            right: 28px;
+            right: 32px;
             top: 50%;
             transform: translateY(-50%);
             color: var(--primary);
-            font-size: 20px;
+            font-size: 22px;
             pointer-events: none;
+            transition: var(--transition);
         }
 
         .search-box:focus + .search-icon {
             color: var(--primary-dark);
+            transform: translateY(-50%) scale(1.1);
         }
 
         /* Results Container */
@@ -170,16 +190,17 @@
             top: calc(100% + 8px);
             left: 0;
             width: 100%;
-            max-height: min(480px, 60vh);
+            max-height: min(500px, 60vh);
             overflow-y: auto;
             background-color: var(--secondary);
-            border-radius: 4px;
-            box-shadow: var(--shadow-hover);
+            border-radius: var(--radius-md);
+            box-shadow: var(--shadow-lg);
             z-index: 100;
             opacity: 0;
             visibility: hidden;
             transform: translateY(-10px);
             transition: var(--transition);
+            border: 1px solid var(--medium-gray);
         }
 
         .results-container.visible {
@@ -189,12 +210,17 @@
         }
 
         .result-item {
-            padding: 16px 28px;
+            padding: 20px 32px;
             border-bottom: 1px solid var(--light-gray);
             cursor: pointer;
-            transition: background-color 0.15s ease;
+            transition: var(--transition);
             display: flex;
             align-items: center;
+            gap: 16px;
+        }
+
+        .result-item:last-child {
+            border-bottom: none;
         }
 
         .result-item:hover {
@@ -202,8 +228,14 @@
         }
 
         .result-icon {
-            margin-right: 16px;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: var(--primary-light);
             color: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
             font-size: 18px;
             flex-shrink: 0;
         }
@@ -216,10 +248,11 @@
         .result-title {
             font-weight: 600;
             font-size: 16px;
-            margin-bottom: 4px;
+            margin-bottom: 6px;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
+            color: var(--dark);
         }
 
         .result-description {
@@ -231,26 +264,59 @@
             overflow: hidden;
         }
 
+        .result-meta {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-top: 8px;
+            font-size: 12px;
+            color: var(--text-light);
+        }
+
+        .result-meta span {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
         .no-results {
-            padding: 24px;
+            padding: 32px;
             text-align: center;
+            color: var(--text-light);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .no-results-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background-color: var(--light-gray);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
             color: var(--text-light);
         }
 
         /* Popular Searches */
         .popular-searches {
             width: 100%;
-            max-width: 720px;
+            max-width: 800px;
             background-color: var(--light-gray);
-            border-radius: 4px;
-            padding: 28px;
-            margin-top: 40px;
-            box-shadow: var(--shadow);
+            border-radius: var(--radius-md);
+            padding: 32px;
+            margin-top: 48px;
+            box-shadow: var(--shadow-sm);
             transition: var(--transition);
+            border: 1px solid var(--medium-gray);
         }
 
         .popular-searches:hover {
-            box-shadow: var(--shadow-hover);
+            box-shadow: var(--shadow-md);
+            transform: translateY(-2px);
         }
 
         .popular-title {
@@ -260,10 +326,10 @@
             color: var(--text-dark);
             display: flex;
             align-items: center;
+            gap: 12px;
         }
 
         .popular-title i {
-            margin-right: 12px;
             color: var(--primary);
         }
 
@@ -276,25 +342,36 @@
         .popular-item {
             padding: 12px 16px;
             background-color: var(--secondary);
-            border-radius: 4px;
+            border-radius: var(--radius-sm);
             cursor: pointer;
             transition: var(--transition);
             font-size: 14px;
             display: flex;
             align-items: center;
+            gap: 10px;
             border: 1px solid var(--medium-gray);
+            box-shadow: var(--shadow-sm);
         }
 
         .popular-item:hover {
             border-color: var(--primary);
             background-color: var(--primary-light);
             transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
         }
 
         .popular-item i {
-            margin-right: 10px;
             color: var(--accent);
             font-size: 12px;
+        }
+
+        .trending-item {
+            background-color: rgba(245, 158, 11, 0.1);
+            border-color: rgba(245, 158, 11, 0.3);
+        }
+
+        .trending-item:hover {
+            background-color: rgba(245, 158, 11, 0.2);
         }
 
         /* Modal Styles */
@@ -304,8 +381,8 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background-color: rgba(0, 0, 0, 0.5);
-            backdrop-filter: blur(4px);
+            background-color: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(8px);
             display: flex;
             justify-content: center;
             align-items: center;
@@ -322,14 +399,14 @@
 
         .modal {
             width: 90%;
-            max-width: 900px;
+            max-width: 1000px;
             max-height: 85vh;
             background-color: var(--secondary);
-            border-radius: 8px;
+            border-radius: var(--radius-lg);
             overflow: hidden;
             display: flex;
             flex-direction: column;
-            box-shadow: 0 12px 28px 0 rgba(0,0,0,.3);
+            box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1), 0 10px 10px -5px rgba(0,0,0,0.04);
             transform: translateY(20px) scale(0.98);
             transition: var(--transition);
         }
@@ -339,7 +416,7 @@
         }
 
         .modal-header {
-            padding: 20px 24px;
+            padding: 20px 28px;
             border-bottom: 1px solid var(--light-gray);
             display: flex;
             justify-content: space-between;
@@ -359,9 +436,14 @@
             font-size: 24px;
             cursor: pointer;
             color: white;
-            transition: transform 0.2s ease;
-            padding: 4px;
-            border-radius: 4px;
+            transition: var(--transition);
+            padding: 6px;
+            border-radius: 50%;
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         .modal-close:hover {
@@ -380,18 +462,19 @@
             padding: 0;
             position: relative;
             background-color: #f6f6f6;
+            border-right: 1px solid var(--light-gray);
         }
 
         .modal-preview iframe {
             width: 100%;
             height: 100%;
-            min-height: 400px;
+            min-height: 500px;
             border: none;
         }
 
         .modal-info {
             flex: 0 0 40%;
-            padding: 24px;
+            padding: 28px;
             overflow-y: auto;
             display: flex;
             flex-direction: column;
@@ -406,22 +489,20 @@
         .modal-author, .modal-date {
             font-size: 14px;
             color: var(--text-light);
-            margin-bottom: 6px;
+            margin-bottom: 8px;
             display: flex;
             align-items: center;
+            gap: 8px;
         }
 
         .modal-author i, .modal-date i {
-            margin-right: 8px;
             width: 16px;
             text-align: center;
+            color: var(--primary);
         }
 
         .modal-abstract {
             margin-bottom: 24px;
-            font-size: 15px;
-            line-height: 1.6;
-            color: var(--text-dark);
         }
 
         .modal-abstract-title {
@@ -430,12 +511,21 @@
             color: var(--primary);
             display: flex;
             align-items: center;
+            gap: 8px;
+        }
+
+        .modal-abstract-text {
+            font-size: 15px;
+            line-height: 1.6;
+            color: var(--text-dark);
         }
 
         .modal-actions {
             margin-top: auto;
             display: flex;
             gap: 12px;
+            padding-top: 20px;
+            border-top: 1px solid var(--light-gray);
         }
 
         .modal-btn {
@@ -443,11 +533,12 @@
             align-items: center;
             justify-content: center;
             padding: 10px 20px;
-            border-radius: 4px;
+            border-radius: var(--radius-sm);
             text-decoration: none;
-            font-weight: 600;
+            font-weight: 500;
             transition: var(--transition);
             font-size: 14px;
+            gap: 8px;
         }
 
         .modal-download {
@@ -459,6 +550,7 @@
         .modal-download:hover {
             background-color: var(--primary-dark);
             transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
         }
 
         .modal-secondary {
@@ -470,25 +562,24 @@
         .modal-secondary:hover {
             background-color: var(--light-gray);
             border-color: var(--primary-light);
-        }
-
-        .modal-btn i {
-            margin-right: 8px;
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-sm);
         }
 
         /* Loading Spinner */
         .spinner {
             display: none;
             position: absolute;
-            right: 60px;
+            right: 72px;
             top: 50%;
             transform: translateY(-50%);
             width: 20px;
             height: 20px;
-            border: 3px solid rgba(0, 120, 212, 0.2);
+            border: 3px solid rgba(37, 99, 235, 0.2);
             border-radius: 50%;
             border-top-color: var(--primary);
             animation: spin 1s linear infinite;
+            z-index: 10;
         }
 
         @keyframes spin {
@@ -504,13 +595,15 @@
             height: 100%;
             pointer-events: none;
             z-index: -1;
+            overflow: hidden;
         }
 
         .particle {
             position: absolute;
-            background-color: rgba(0, 120, 212, 0.1);
+            background-color: rgba(37, 99, 235, 0.08);
             border-radius: 50%;
             animation: float linear infinite;
+            filter: blur(1px);
         }
 
         @keyframes float {
@@ -520,11 +613,11 @@
         /* Responsive Styles */
         @media (max-width: 768px) {
             .container {
-                padding: 20px 16px;
+                padding: 40px 16px;
             }
 
             .logo {
-                font-size: 42px;
+                font-size: 48px;
             }
 
             .tagline {
@@ -532,17 +625,26 @@
             }
 
             .search-box {
-                height: 60px;
+                height: 64px;
                 font-size: 16px;
-                padding: 0 60px 0 20px;
+                padding: 0 64px 0 24px;
             }
 
             .search-icon {
-                right: 20px;
+                right: 24px;
+                font-size: 20px;
+            }
+
+            .spinner {
+                right: 60px;
             }
 
             .results-container {
                 max-height: 50vh;
+            }
+
+            .result-item {
+                padding: 16px 24px;
             }
 
             .popular-list {
@@ -563,6 +665,34 @@
                 flex: 1;
             }
         }
+
+        @media (max-width: 480px) {
+            .logo {
+                font-size: 40px;
+            }
+
+            .search-box {
+                height: 56px;
+                padding: 0 56px 0 20px;
+            }
+
+            .modal-header {
+                padding: 16px 20px;
+            }
+
+            .modal-info {
+                padding: 20px;
+            }
+
+            .modal-actions {
+                flex-direction: column;
+                gap: 8px;
+            }
+
+            .modal-btn {
+                width: 100%;
+            }
+        }
     </style>
 </head>
 <body>
@@ -573,15 +703,15 @@
         <header>
             <div class="logo-container">
                 <div class="logo">ew</div>
-                <div class="tagline">Discover educational excellence</div>
+                <div class="tagline">Discover the world's premier educational resources</div>
             </div>
         </header>
 
         <div class="search-section">
             <div class="search-container">
-                <input type="text" class="search-box" placeholder="Search courses, articles, and resources...">
+                <input type="text" class="search-box" placeholder="Search courses, research papers, and educational materials..." id="searchInput">
                 <div class="search-icon"><i class="fas fa-search"></i></div>
-                <div class="spinner"></div>
+                <div class="spinner" id="spinner"></div>
                 
                 <div class="results-container" id="resultsContainer">
                     <!-- Results will be dynamically inserted here -->
@@ -592,71 +722,6 @@
         <div class="popular-searches">
             <div class="popular-title"><i class="fas fa-chart-line"></i> Trending searches</div>
             <div class="popular-list">
-                <div class="popular-item"><i class="fas fa-arrow-up"></i> Data Science Fundamentals</div>
-                <div class="popular-item"><i class="fas fa-arrow-up"></i> Modern Web Development</div>
-                <div class="popular-item">Artificial Intelligence Ethics</div>
-                <div class="popular-item">Sustainable Architecture</div>
-                <div class="popular-item"><i class="fas fa-arrow-up"></i> Quantum Computing Basics</div>
-                <div class="popular-item">Neuroscience Research</div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Modal Popup -->
-    <div class="modal-overlay" id="modalOverlay">
-        <div class="modal">
-            <div class="modal-header">
-                <div class="modal-title" id="modalTitle">Document Title</div>
-                <button class="modal-close" id="modalClose">&times;</button>
-            </div>
-            <div class="modal-content">
-                <div class="modal-preview">
-                    <iframe id="pdfPreview" src=""></iframe>
-                </div>
-                <div class="modal-info">
-                    <div class="modal-meta">
-                        <div class="modal-author"><i class="fas fa-user"></i> <span id="modalAuthor">Author: John Doe</span></div>
-                        <div class="modal-date"><i class="fas fa-calendar-alt"></i> <span id="modalDate">Published: January 15, 2023</span></div>
-                    </div>
-                    <div class="modal-abstract">
-                        <div class="modal-abstract-title"><i class="fas fa-align-left"></i> Abstract</div>
-                        <p id="modalAbstract">This is a detailed abstract of the document. It provides a comprehensive overview of the content you'll find in the PDF preview. The abstract summarizes the key points and main arguments presented in the document.</p>
-                    </div>
-                    <div class="modal-actions">
-                        <a href="#" class="modal-btn modal-download" id="downloadBtn"><i class="fas fa-download"></i> Download</a>
-                        <a href="#" class="modal-btn modal-secondary"><i class="fas fa-bookmark"></i> Save</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // Create floating particles
-            createParticles();
-
-            // DOM Elements
-            const searchBox = document.querySelector('.search-box');
-            const resultsContainer = document.getElementById('resultsContainer');
-            const spinner = document.querySelector('.spinner');
-            const popularItems = document.querySelectorAll('.popular-item');
-            const modalOverlay = document.getElementById('modalOverlay');
-            const modalClose = document.getElementById('modalClose');
-            const pdfPreview = document.getElementById('pdfPreview');
-            const modalTitle = document.getElementById('modalTitle');
-            const modalAuthor = document.getElementById('modalAuthor');
-            const modalDate = document.getElementById('modalDate');
-            const modalAbstract = document.getElementById('modalAbstract');
-            const downloadBtn = document.getElementById('downloadBtn');
-
-            // Sample data - in a real app, this would come from an API
-            const sampleResults = [
-                {
-                    id: 1,
-                    title: "Advanced Machine Learning: Theory and Practice",
-                    description: "Comprehensive textbook covering both theoretical foundations and practical applications of modern ML techniques",
-                    type: "book",
-                    author: "Dr. Sarah Johnson & Prof. Michael Chen",
-                    date: "2023-05-15",
-                    abstract: "This advanced textbook bridges the gap between machine learning theory and practice, covering everything from funda
+                <div class="popular-item trending-item"><i class="fas fa-arrow-up"></i> Data Science Fundamentals</div>
+                <div class="popular-item trending-item"><i class="fas fa-arrow-up"></i> Modern Web Development</div>
+                <div class="popular-item">Artificial 
