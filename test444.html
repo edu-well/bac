@@ -3,26 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EduSearch | Premium Educational Platform</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <title>EduSearch | Academic Resource Finder</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
-            --primary: #2563EB; /* Vibrant blue */
-            --primary-dark: #1D4ED8;
-            --primary-light: #DBEAFE;
+            --primary: #4361EE; /* Academic blue */
+            --primary-light: #E0E7FF;
+            --primary-dark: #3A56D5;
             --secondary: #FFFFFF;
-            --dark: #1F2937;
-            --light-gray: #F9FAFB;
-            --medium-gray: #E5E7EB;
-            --text-dark: #111827;
-            --text-light: #6B7280;
-            --accent: #F59E0B; /* Amber */
-            --success: #10B981; /* Emerald */
-            --shadow-sm: 0 1px 3px 0 rgba(0,0,0,0.1), 0 1px 2px -1px rgba(0,0,0,0.1);
-            --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -2px rgba(0,0,0,0.1);
-            --shadow-lg: 0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -4px rgba(0,0,0,0.1);
-            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --dark: #1E293B;
+            --light-gray: #F8FAFC;
+            --medium-gray: #E2E8F0;
+            --text-dark: #1E293B;
+            --text-light: #64748B;
+            --accent: #F59E0B; /* Gold accent */
+            --success: #10B981;
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.1);
+            --shadow-md: 0 4px 6px rgba(0,0,0,0.1);
+            --shadow-lg: 0 10px 15px rgba(0,0,0,0.1);
+            --transition: all 0.3s ease;
             --radius-sm: 6px;
             --radius-md: 8px;
             --radius-lg: 12px;
@@ -35,7 +35,7 @@
         }
 
         body {
-            font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+            font-family: 'Inter', sans-serif;
             background-color: var(--secondary);
             color: var(--text-dark);
             line-height: 1.5;
@@ -45,12 +45,6 @@
             align-items: center;
             padding: 0;
             margin: 0;
-            opacity: 0;
-            animation: fadeIn 0.8s 0.2s forwards;
-        }
-
-        @keyframes fadeIn {
-            to { opacity: 1; }
         }
 
         .container {
@@ -60,12 +54,6 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            transform: translateY(20px);
-            animation: slideUp 0.6s 0.4s forwards;
-        }
-
-        @keyframes slideUp {
-            to { transform: translateY(0); }
         }
 
         /* Header Styles */
@@ -73,56 +61,19 @@
             text-align: center;
             padding: 0 0 48px;
             width: 100%;
-            position: relative;
-        }
-
-        .logo-container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            margin-bottom: 24px;
-            transform: scale(0.9);
-            animation: scaleIn 0.6s 0.8s forwards;
-        }
-
-        @keyframes scaleIn {
-            to { transform: scale(1); }
         }
 
         .logo {
-            font-family: 'Playfair Display', serif;
-            font-size: 64px;
+            font-size: 48px;
             font-weight: 700;
             color: var(--primary);
-            margin-bottom: 12px;
-            position: relative;
-            display: inline-block;
-            letter-spacing: -1.5px;
-        }
-
-        .logo::after {
-            content: '';
-            position: absolute;
-            bottom: -8px;
-            left: 0;
-            width: 100%;
-            height: 4px;
-            background: linear-gradient(90deg, var(--primary), var(--accent));
-            transform: scaleX(0);
-            transform-origin: left;
-            animation: lineExpand 0.8s 1.2s forwards;
-            border-radius: 2px;
-        }
-
-        @keyframes lineExpand {
-            to { transform: scaleX(1); }
+            margin-bottom: 16px;
         }
 
         .tagline {
-            font-size: 20px;
+            font-size: 18px;
             color: var(--text-light);
-            font-weight: 300;
-            letter-spacing: 0.2px;
+            font-weight: 400;
             max-width: 600px;
             margin: 0 auto;
         }
@@ -131,27 +82,18 @@
         .search-section {
             width: 100%;
             max-width: 800px;
-            position: relative;
-            margin-bottom: 40px;
+            margin-bottom: 24px;
         }
 
         .search-container {
             position: relative;
             width: 100%;
-            box-shadow: var(--shadow-lg);
-            border-radius: var(--radius-md);
-            transition: var(--transition);
-        }
-
-        .search-container:focus-within {
-            box-shadow: 0 0 0 4px var(--primary-light), var(--shadow-lg);
-            transform: translateY(-2px);
         }
 
         .search-box {
             width: 100%;
-            height: 80px;
-            padding: 0 80px 0 32px;
+            height: 72px;
+            padding: 0 72px 0 28px;
             font-size: 18px;
             border: 2px solid var(--medium-gray);
             border-radius: var(--radius-md);
@@ -160,67 +102,50 @@
             font-weight: 400;
             color: var(--text-dark);
             background-color: var(--secondary);
-            caret-color: var(--primary);
+            box-shadow: var(--shadow-sm);
         }
 
         .search-box:focus {
             outline: none;
             border-color: var(--primary);
+            box-shadow: 0 0 0 3px var(--primary-light), var(--shadow-md);
         }
 
         .search-icon {
             position: absolute;
-            right: 32px;
+            right: 28px;
             top: 50%;
             transform: translateY(-50%);
             color: var(--primary);
             font-size: 22px;
             pointer-events: none;
-            transition: var(--transition);
         }
 
-        .search-box:focus + .search-icon {
-            color: var(--primary-dark);
-            transform: translateY(-50%) scale(1.1);
-        }
-
-        /* Results Container */
-        .results-container {
-            position: absolute;
-            top: calc(100% + 8px);
-            left: 0;
+        /* Results Container - Now positioned below search box */
+        .search-results {
             width: 100%;
-            max-height: min(500px, 60vh);
-            overflow-y: auto;
+            max-width: 800px;
+            margin-top: 16px;
             background-color: var(--secondary);
             border-radius: var(--radius-md);
-            box-shadow: var(--shadow-lg);
-            z-index: 100;
-            opacity: 0;
-            visibility: hidden;
-            transform: translateY(-10px);
-            transition: var(--transition);
+            box-shadow: var(--shadow-md);
             border: 1px solid var(--medium-gray);
+            display: none; /* Initially hidden */
+            max-height: 500px;
+            overflow-y: auto;
         }
 
-        .results-container.visible {
-            opacity: 1;
-            visibility: visible;
-            transform: translateY(0);
+        .search-results.visible {
+            display: block; /* Show when there are results */
         }
 
         .result-item {
-            padding: 20px 32px;
+            padding: 20px 28px;
             border-bottom: 1px solid var(--light-gray);
             cursor: pointer;
             transition: var(--transition);
             display: flex;
-            align-items: center;
             gap: 16px;
-        }
-
-        .result-item:last-child {
-            border-bottom: none;
         }
 
         .result-item:hover {
@@ -242,62 +167,31 @@
 
         .result-content {
             flex: 1;
-            min-width: 0;
         }
 
         .result-title {
             font-weight: 600;
             font-size: 16px;
             margin-bottom: 6px;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
             color: var(--dark);
         }
 
         .result-description {
             font-size: 14px;
             color: var(--text-light);
-            display: -webkit-box;
-            -webkit-line-clamp: 2;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
         }
 
         .result-meta {
             display: flex;
-            align-items: center;
-            gap: 12px;
+            gap: 16px;
             margin-top: 8px;
-            font-size: 12px;
+            font-size: 13px;
             color: var(--text-light);
-        }
-
-        .result-meta span {
-            display: flex;
-            align-items: center;
-            gap: 4px;
         }
 
         .no-results {
             padding: 32px;
             text-align: center;
-            color: var(--text-light);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .no-results-icon {
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            background-color: var(--light-gray);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 24px;
             color: var(--text-light);
         }
 
@@ -308,15 +202,9 @@
             background-color: var(--light-gray);
             border-radius: var(--radius-md);
             padding: 32px;
-            margin-top: 48px;
+            margin-top: 40px;
             box-shadow: var(--shadow-sm);
-            transition: var(--transition);
             border: 1px solid var(--medium-gray);
-        }
-
-        .popular-searches:hover {
-            box-shadow: var(--shadow-md);
-            transform: translateY(-2px);
         }
 
         .popular-title {
@@ -350,220 +238,11 @@
             align-items: center;
             gap: 10px;
             border: 1px solid var(--medium-gray);
-            box-shadow: var(--shadow-sm);
         }
 
         .popular-item:hover {
             border-color: var(--primary);
             background-color: var(--primary-light);
-            transform: translateY(-2px);
-            box-shadow: var(--shadow-md);
-        }
-
-        .popular-item i {
-            color: var(--accent);
-            font-size: 12px;
-        }
-
-        .trending-item {
-            background-color: rgba(245, 158, 11, 0.1);
-            border-color: rgba(245, 158, 11, 0.3);
-        }
-
-        .trending-item:hover {
-            background-color: rgba(245, 158, 11, 0.2);
-        }
-
-        /* Modal Styles */
-        .modal-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-color: rgba(0, 0, 0, 0.7);
-            backdrop-filter: blur(8px);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
-            opacity: 0;
-            visibility: hidden;
-            transition: var(--transition);
-        }
-
-        .modal-overlay.active {
-            opacity: 1;
-            visibility: visible;
-        }
-
-        .modal {
-            width: 90%;
-            max-width: 1000px;
-            max-height: 85vh;
-            background-color: var(--secondary);
-            border-radius: var(--radius-lg);
-            overflow: hidden;
-            display: flex;
-            flex-direction: column;
-            box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1), 0 10px 10px -5px rgba(0,0,0,0.04);
-            transform: translateY(20px) scale(0.98);
-            transition: var(--transition);
-        }
-
-        .modal-overlay.active .modal {
-            transform: translateY(0) scale(1);
-        }
-
-        .modal-header {
-            padding: 20px 28px;
-            border-bottom: 1px solid var(--light-gray);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background-color: var(--primary);
-            color: white;
-        }
-
-        .modal-title {
-            font-size: 20px;
-            font-weight: 600;
-        }
-
-        .modal-close {
-            background: none;
-            border: none;
-            font-size: 24px;
-            cursor: pointer;
-            color: white;
-            transition: var(--transition);
-            padding: 6px;
-            border-radius: 50%;
-            width: 36px;
-            height: 36px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .modal-close:hover {
-            transform: rotate(90deg);
-            background-color: rgba(255,255,255,0.1);
-        }
-
-        .modal-content {
-            display: flex;
-            flex: 1;
-            overflow: hidden;
-        }
-
-        .modal-preview {
-            flex: 0 0 60%;
-            padding: 0;
-            position: relative;
-            background-color: #f6f6f6;
-            border-right: 1px solid var(--light-gray);
-        }
-
-        .modal-preview iframe {
-            width: 100%;
-            height: 100%;
-            min-height: 500px;
-            border: none;
-        }
-
-        .modal-info {
-            flex: 0 0 40%;
-            padding: 28px;
-            overflow-y: auto;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .modal-meta {
-            margin-bottom: 24px;
-            padding-bottom: 16px;
-            border-bottom: 1px solid var(--light-gray);
-        }
-
-        .modal-author, .modal-date {
-            font-size: 14px;
-            color: var(--text-light);
-            margin-bottom: 8px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .modal-author i, .modal-date i {
-            width: 16px;
-            text-align: center;
-            color: var(--primary);
-        }
-
-        .modal-abstract {
-            margin-bottom: 24px;
-        }
-
-        .modal-abstract-title {
-            font-weight: 600;
-            margin-bottom: 12px;
-            color: var(--primary);
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .modal-abstract-text {
-            font-size: 15px;
-            line-height: 1.6;
-            color: var(--text-dark);
-        }
-
-        .modal-actions {
-            margin-top: auto;
-            display: flex;
-            gap: 12px;
-            padding-top: 20px;
-            border-top: 1px solid var(--light-gray);
-        }
-
-        .modal-btn {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            padding: 10px 20px;
-            border-radius: var(--radius-sm);
-            text-decoration: none;
-            font-weight: 500;
-            transition: var(--transition);
-            font-size: 14px;
-            gap: 8px;
-        }
-
-        .modal-download {
-            background-color: var(--primary);
-            color: white;
-            border: 1px solid var(--primary);
-        }
-
-        .modal-download:hover {
-            background-color: var(--primary-dark);
-            transform: translateY(-2px);
-            box-shadow: var(--shadow-md);
-        }
-
-        .modal-secondary {
-            background-color: transparent;
-            color: var(--primary);
-            border: 1px solid var(--medium-gray);
-        }
-
-        .modal-secondary:hover {
-            background-color: var(--light-gray);
-            border-color: var(--primary-light);
-            transform: translateY(-2px);
-            box-shadow: var(--shadow-sm);
         }
 
         /* Loading Spinner */
@@ -575,39 +254,14 @@
             transform: translateY(-50%);
             width: 20px;
             height: 20px;
-            border: 3px solid rgba(37, 99, 235, 0.2);
+            border: 3px solid rgba(67, 97, 238, 0.2);
             border-radius: 50%;
             border-top-color: var(--primary);
             animation: spin 1s linear infinite;
-            z-index: 10;
         }
 
         @keyframes spin {
             to { transform: translateY(-50%) rotate(360deg); }
-        }
-
-        /* Floating Particles Animation */
-        .particles {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: -1;
-            overflow: hidden;
-        }
-
-        .particle {
-            position: absolute;
-            background-color: rgba(37, 99, 235, 0.08);
-            border-radius: 50%;
-            animation: float linear infinite;
-            filter: blur(1px);
-        }
-
-        @keyframes float {
-            to { transform: translateY(-100vh) rotate(360deg); }
         }
 
         /* Responsive Styles */
@@ -617,111 +271,219 @@
             }
 
             .logo {
-                font-size: 48px;
-            }
-
-            .tagline {
-                font-size: 16px;
+                font-size: 36px;
             }
 
             .search-box {
-                height: 64px;
+                height: 60px;
+                padding: 0 60px 0 20px;
                 font-size: 16px;
-                padding: 0 64px 0 24px;
             }
 
             .search-icon {
-                right: 24px;
+                right: 20px;
                 font-size: 20px;
-            }
-
-            .spinner {
-                right: 60px;
-            }
-
-            .results-container {
-                max-height: 50vh;
-            }
-
-            .result-item {
-                padding: 16px 24px;
             }
 
             .popular-list {
                 grid-template-columns: 1fr;
             }
-
-            .modal-content {
-                flex-direction: column;
-            }
-
-            .modal-preview {
-                flex: 0 0 300px;
-                border-right: none;
-                border-bottom: 1px solid var(--light-gray);
-            }
-
-            .modal-info {
-                flex: 1;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .logo {
-                font-size: 40px;
-            }
-
-            .search-box {
-                height: 56px;
-                padding: 0 56px 0 20px;
-            }
-
-            .modal-header {
-                padding: 16px 20px;
-            }
-
-            .modal-info {
-                padding: 20px;
-            }
-
-            .modal-actions {
-                flex-direction: column;
-                gap: 8px;
-            }
-
-            .modal-btn {
-                width: 100%;
-            }
         }
     </style>
 </head>
 <body>
-    <!-- Floating particles background -->
-    <div class="particles" id="particles"></div>
-
     <div class="container">
         <header>
-            <div class="logo-container">
-                <div class="logo">ew</div>
-                <div class="tagline">Discover the world's premier educational resources</div>
-            </div>
+            <div class="logo">ew</div>
+            <div class="tagline">Find the best academic resources for your studies</div>
         </header>
 
         <div class="search-section">
             <div class="search-container">
-                <input type="text" class="search-box" placeholder="Search courses, research papers, and educational materials..." id="searchInput">
+                <input type="text" class="search-box" placeholder="Search for courses, papers, and study materials..." id="searchInput">
                 <div class="search-icon"><i class="fas fa-search"></i></div>
                 <div class="spinner" id="spinner"></div>
-                
-                <div class="results-container" id="resultsContainer">
-                    <!-- Results will be dynamically inserted here -->
-                </div>
+            </div>
+            
+            <!-- Results container positioned below search box -->
+            <div class="search-results" id="searchResults">
+                <!-- Results will be inserted here -->
             </div>
         </div>
 
         <div class="popular-searches">
-            <div class="popular-title"><i class="fas fa-chart-line"></i> Trending searches</div>
+            <div class="popular-title"><i class="fas fa-chart-line"></i> Popular searches</div>
             <div class="popular-list">
-                <div class="popular-item trending-item"><i class="fas fa-arrow-up"></i> Data Science Fundamentals</div>
-                <div class="popular-item trending-item"><i class="fas fa-arrow-up"></i> Modern Web Development</div>
-                <div class="popular-item">Artificial 
+                <div class="popular-item"><i class="fas fa-book"></i> Machine Learning</div>
+                <div class="popular-item"><i class="fas fa-flask"></i> Chemistry Basics</div>
+                <div class="popular-item"><i class="fas fa-calculator"></i> Advanced Calculus</div>
+                <div class="popular-item"><i class="fas fa-dna"></i> Genetics 101</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // DOM Elements
+            const searchInput = document.getElementById('searchInput');
+            const searchResults = document.getElementById('searchResults');
+            const spinner = document.getElementById('spinner');
+            const popularItems = document.querySelectorAll('.popular-item');
+
+            // Sample educational resources data
+            const educationalResources = [
+                {
+                    id: 1,
+                    title: "Introduction to Machine Learning",
+                    description: "Comprehensive course covering fundamental ML concepts and algorithms",
+                    type: "course",
+                    author: "Prof. Sarah Johnson",
+                    date: "2023-05-15"
+                },
+                {
+                    id: 2,
+                    title: "Organic Chemistry Fundamentals",
+                    description: "Complete guide to organic chemistry principles and reactions",
+                    type: "textbook",
+                    author: "Dr. Michael Chen",
+                    date: "2022-11-30"
+                },
+                {
+                    id: 3,
+                    title: "Calculus: Advanced Techniques",
+                    description: "Video lectures on advanced calculus methods and applications",
+                    type: "video",
+                    author: "Dr. Emily Wilson",
+                    date: "2023-01-10"
+                },
+                {
+                    id: 4,
+                    title: "Genetics and Molecular Biology",
+                    description: "Interactive textbook with 3D models and animations",
+                    type: "interactive",
+                    author: "Prof. Robert Green",
+                    date: "2023-04-22"
+                },
+                {
+                    id: 5,
+                    title: "Research Methods in Psychology",
+                    description: "Practical guide to psychological research methodologies",
+                    type: "guide",
+                    author: "Dr. Anna Kowalski",
+                    date: "2023-02-18"
+                }
+            ];
+
+            // Search functionality
+            let searchTimeout;
+            searchInput.addEventListener('input', function() {
+                clearTimeout(searchTimeout);
+                const query = this.value.trim();
+                
+                if (query.length === 0) {
+                    hideResults();
+                    return;
+                }
+                
+                showLoading();
+                
+                // Simulate API delay
+                searchTimeout = setTimeout(() => {
+                    performSearch(query);
+                    hideLoading();
+                }, 600);
+            });
+
+            function performSearch(query) {
+                if (query.length === 0) {
+                    hideResults();
+                    return;
+                }
+                
+                const filteredResults = educationalResources.filter(resource => 
+                    resource.title.toLowerCase().includes(query.toLowerCase()) || 
+                    resource.description.toLowerCase().includes(query.toLowerCase())
+                );
+                
+                displayResults(filteredResults, query);
+            }
+
+            function displayResults(results, query) {
+                searchResults.innerHTML = '';
+                
+                if (results.length === 0) {
+                    searchResults.innerHTML = `
+                        <div class="no-results">
+                            <i class="fas fa-search" style="font-size: 24px; margin-bottom: 12px;"></i>
+                            <div>No results found for "${query}"</div>
+                            <div style="font-size: 13px; margin-top: 8px;">Try different keywords</div>
+                        </div>
+                    `;
+                    showResults();
+                    return;
+                }
+                
+                results.forEach(result => {
+                    const resultItem = document.createElement('div');
+                    resultItem.className = 'result-item';
+                    
+                    const typeIcon = getTypeIcon(result.type);
+                    
+                    resultItem.innerHTML = `
+                        <div class="result-icon">${typeIcon}</div>
+                        <div class="result-content">
+                            <div class="result-title">${result.title}</div>
+                            <div class="result-description">${result.description}</div>
+                            <div class="result-meta">
+                                <span><i class="fas fa-user"></i> ${result.author}</span>
+                                <span><i class="fas fa-calendar-alt"></i> ${new Date(result.date).toLocaleDateString()}</span>
+                            </div>
+                        </div>
+                    `;
+                    
+                    searchResults.appendChild(resultItem);
+                });
+                
+                showResults();
+            }
+
+            function getTypeIcon(type) {
+                const icons = {
+                    'course': '<i class="fas fa-graduation-cap"></i>',
+                    'textbook': '<i class="fas fa-book"></i>',
+                    'video': '<i class="fas fa-play-circle"></i>',
+                    'interactive': '<i class="fas fa-laptop-code"></i>',
+                    'guide': '<i class="fas fa-file-alt"></i>'
+                };
+                return icons[type] || '<i class="fas fa-file"></i>';
+            }
+
+            function showLoading() {
+                spinner.style.display = 'block';
+            }
+
+            function hideLoading() {
+                spinner.style.display = 'none';
+            }
+
+            function showResults() {
+                searchResults.classList.add('visible');
+            }
+
+            function hideResults() {
+                searchResults.classList.remove('visible');
+            }
+
+            // Popular searches functionality
+            popularItems.forEach(item => {
+                item.addEventListener('click', function() {
+                    const searchText = this.textContent.replace(/^[^a-zA-Z]+/, '');
+                    searchInput.value = searchText;
+                    searchInput.focus();
+                    searchInput.dispatchEvent(new Event('input'));
+                });
+            });
+        });
+    </script>
+</body>
+</html>
