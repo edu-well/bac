@@ -4,15 +4,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Edulite - Fun Learning</title>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Poppins:wght@700&display=swap" rel="stylesheet">
     <style>
         :root {
             --primary: #5E5CE6;
             --primary-light: #7D7AFF;
             --secondary: #FF375F;
+            --secondary-light: #FF6B81;
             --white: #FFFFFF;
             --black: #1C1C1E;
             --gray: #8E8E93;
+            --dark-gray: #2C2C2E;
         }
         
         * {
@@ -28,6 +30,7 @@
             height: 100vh;
             overflow: hidden;
             position: relative;
+            perspective: 1000px;
         }
         
         /* Main Page Styles */
@@ -39,17 +42,19 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            transition: transform 1s cubic-bezier(0.86, 0, 0.07, 1);
+            transition: all 1.2s cubic-bezier(0.16, 1, 0.3, 1);
             z-index: 10;
             background-color: var(--white);
+            transform-style: preserve-3d;
         }
         
         .main-page.hidden {
-            transform: translateY(-100%);
+            transform: translateY(-100%) rotateX(15deg);
+            opacity: 0;
         }
         
         .logo {
-            font-size: 4.5rem;
+            font-size: 5rem;
             font-weight: 700;
             margin-bottom: 1.5rem;
             background: linear-gradient(135deg, var(--primary), var(--secondary));
@@ -59,10 +64,27 @@
             opacity: 0;
             transform: translateY(30px);
             animation: fadeInUp 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+            font-family: 'Poppins', sans-serif;
+            text-shadow: 0 4px 20px rgba(94, 92, 230, 0.2);
+            position: relative;
+        }
+        
+        .logo::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            border-radius: 2px;
+            animation: expandLine 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) 0.4s forwards;
+            opacity: 0;
         }
         
         .tagline {
-            font-size: 1.8rem;
+            font-size: 2rem;
             font-weight: 600;
             margin-bottom: 1rem;
             color: var(--black);
@@ -72,7 +94,7 @@
         }
         
         .sub-tagline {
-            font-size: 1.2rem;
+            font-size: 1.3rem;
             color: var(--gray);
             margin-bottom: 3rem;
             max-width: 500px;
@@ -86,7 +108,7 @@
         .btn {
             position: relative;
             display: inline-block;
-            padding: 16px 48px;
+            padding: 18px 54px;
             background: linear-gradient(135deg, var(--primary), var(--primary-light));
             color: var(--white);
             text-decoration: none;
@@ -98,13 +120,14 @@
             opacity: 0;
             transform: scale(0.9);
             animation: fadeInScale 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) 0.6s forwards;
-            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
             border: none;
             cursor: pointer;
+            z-index: 1;
         }
         
         .btn:hover {
-            transform: scale(1.05) translateY(-3px);
+            transform: scale(1.05) translateY(-5px);
             box-shadow: 0 15px 40px rgba(94, 92, 230, 0.4);
         }
         
@@ -112,19 +135,20 @@
             transform: scale(0.98) translateY(0);
         }
         
-        .btn::after {
+        .btn::before {
             content: '';
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: linear-gradient(135deg, var(--primary-light), var(--primary));
+            background: linear-gradient(135deg, var(--primary-light), var(--secondary-light));
             opacity: 0;
-            transition: opacity 0.3s ease;
+            transition: opacity 0.4s ease;
+            z-index: -1;
         }
         
-        .btn:hover::after {
+        .btn:hover::before {
             opacity: 1;
         }
         
@@ -133,23 +157,60 @@
             z-index: 1;
         }
         
-        /* Floating Elements - Pixar Style */
-        .floating-elements {
+        /* Pixar Lamp Animation */
+        .pixar-lamp {
             position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: -1;
+            top: 20px;
+            right: 20px;
+            width: 60px;
+            height: 80px;
+            opacity: 0;
+            animation: fadeIn 1s ease-out 1s forwards;
         }
         
-        .floating-element {
+        .lamp-base {
+            width: 30px;
+            height: 10px;
+            background: var(--black);
+            border-radius: 5px;
             position: absolute;
-            border-radius: 50%;
-            background: linear-gradient(135deg, rgba(94, 92, 230, 0.1), rgba(255, 55, 95, 0.1));
-            filter: blur(10px);
-            animation: float 15s infinite ease-in-out;
+            bottom: 0;
+            left: 15px;
+        }
+        
+        .lamp-neck {
+            width: 8px;
+            height: 40px;
+            background: var(--black);
+            position: absolute;
+            bottom: 10px;
+            left: 26px;
+            transform-origin: bottom center;
+            animation: lampTilt 6s infinite ease-in-out;
+        }
+        
+        .lamp-head {
+            width: 40px;
+            height: 20px;
+            background: var(--secondary);
+            border-radius: 20px 20px 0 0;
+            position: absolute;
+            top: 0;
+            left: 10px;
+            transform-origin: bottom center;
+            animation: lampTilt 6s infinite ease-in-out;
+        }
+        
+        .lamp-light {
+            width: 30px;
+            height: 100px;
+            background: linear-gradient(to bottom, rgba(255, 235, 59, 0.8), rgba(255, 235, 59, 0));
+            position: absolute;
+            top: 20px;
+            left: 15px;
+            clip-path: polygon(0 0, 100% 0, 50% 100%);
+            transform-origin: top center;
+            animation: lampLight 6s infinite ease-in-out;
         }
         
         /* Subjects Page Styles */
@@ -162,48 +223,67 @@
             justify-content: center;
             align-items: center;
             background-color: var(--white);
-            transform: translateY(100%);
-            transition: transform 1s cubic-bezier(0.86, 0, 0.07, 1);
+            transform: translateY(100%) rotateX(-15deg);
+            opacity: 0;
+            transition: all 1.2s cubic-bezier(0.16, 1, 0.3, 1);
             z-index: 5;
+            transform-style: preserve-3d;
         }
         
         .subjects-page.visible {
-            transform: translateY(0);
+            transform: translateY(0) rotateX(0deg);
+            opacity: 1;
         }
         
         .subjects-title {
-            font-size: 2.5rem;
+            font-size: 2.8rem;
             font-weight: 700;
-            margin-bottom: 3rem;
+            margin-bottom: 4rem;
             color: var(--black);
             opacity: 0;
             transform: translateY(20px);
+            font-family: 'Poppins', sans-serif;
+            text-align: center;
         }
         
         .subjects-container {
             display: flex;
             justify-content: center;
-            gap: 2rem;
+            gap: 3rem;
             width: 100%;
-            max-width: 900px;
+            max-width: 1000px;
             padding: 0 2rem;
+            perspective: 1000px;
         }
         
         .subject-card {
             flex: 1;
-            min-height: 300px;
-            border-radius: 24px;
+            min-height: 350px;
+            border-radius: 28px;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            padding: 2rem;
+            padding: 2.5rem;
             cursor: pointer;
-            transition: all 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
+            transition: all 0.6s cubic-bezier(0.25, 0.8, 0.25, 1);
             position: relative;
             overflow: hidden;
             opacity: 0;
-            transform: translateY(30px);
+            transform: translateY(30px) rotateY(20deg);
+            transform-style: preserve-3d;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+        
+        .subject-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, transparent 0%, rgba(255,255,255,0.1) 100%);
+            z-index: 1;
         }
         
         .subject-card.math {
@@ -215,28 +295,60 @@
         }
         
         .subject-card:hover {
-            transform: translateY(-10px) scale(1.02);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+            transform: translateY(-15px) scale(1.03) rotateY(0deg);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.2);
+        }
+        
+        .subject-card:active {
+            transform: translateY(-5px) scale(1.01);
         }
         
         .subject-icon {
-            font-size: 4rem;
-            margin-bottom: 1.5rem;
+            font-size: 5rem;
+            margin-bottom: 2rem;
             color: var(--white);
+            text-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            transition: all 0.4s ease;
+        }
+        
+        .subject-card:hover .subject-icon {
+            transform: scale(1.1) translateY(-10px);
         }
         
         .subject-name {
-            font-size: 2rem;
+            font-size: 2.2rem;
             font-weight: 700;
             color: var(--white);
-            margin-bottom: 1rem;
+            margin-bottom: 1.5rem;
+            font-family: 'Poppins', sans-serif;
+            text-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            transition: all 0.4s ease;
+        }
+        
+        .subject-card:hover .subject-name {
+            transform: translateY(-5px);
         }
         
         .subject-desc {
-            font-size: 1rem;
+            font-size: 1.1rem;
             color: rgba(255, 255, 255, 0.9);
             text-align: center;
             line-height: 1.6;
+            transition: all 0.4s ease;
+            transform: translateZ(20px);
+        }
+        
+        .subject-card:hover .subject-desc {
+            transform: translateZ(30px);
+        }
+        
+        /* Confetti */
+        .confetti {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background-color: #f00;
+            opacity: 0;
         }
         
         /* Animations */
@@ -254,6 +366,17 @@
             }
         }
         
+        @keyframes expandLine {
+            0% {
+                width: 0;
+                opacity: 0;
+            }
+            100% {
+                width: 80px;
+                opacity: 1;
+            }
+        }
+        
         @keyframes float {
             0%, 100% {
                 transform: translateY(0) rotate(0deg);
@@ -263,36 +386,94 @@
             }
         }
         
+        @keyframes fadeIn {
+            to {
+                opacity: 0.8;
+            }
+        }
+        
+        @keyframes lampTilt {
+            0%, 100% {
+                transform: rotate(-5deg);
+            }
+            50% {
+                transform: rotate(5deg);
+            }
+        }
+        
+        @keyframes lampLight {
+            0%, 100% {
+                opacity: 0.7;
+                transform: rotate(-5deg) scaleY(1);
+            }
+            50% {
+                opacity: 0.9;
+                transform: rotate(5deg) scaleY(1.2);
+            }
+        }
+        
+        @keyframes confettiFall {
+            0% {
+                transform: translateY(-100px) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+        
         /* Responsive Design */
         @media (max-width: 768px) {
             .logo {
-                font-size: 3rem;
+                font-size: 3.5rem;
             }
             
             .tagline {
-                font-size: 1.4rem;
+                font-size: 1.5rem;
             }
             
             .sub-tagline {
-                font-size: 1rem;
-                padding: 0 1rem;
+                font-size: 1.1rem;
+                padding: 0 1.5rem;
+            }
+            
+            .btn {
+                padding: 16px 40px;
             }
             
             .subjects-container {
                 flex-direction: column;
                 align-items: center;
+                gap: 2rem;
             }
             
             .subject-card {
                 width: 100%;
                 max-width: 400px;
+                min-height: 280px;
+            }
+            
+            .subjects-title {
+                font-size: 2.2rem;
+                margin-bottom: 3rem;
+            }
+            
+            .pixar-lamp {
+                width: 40px;
+                height: 60px;
             }
         }
     </style>
 </head>
 <body>
-    <!-- Floating Background Elements -->
-    <div class="floating-elements" id="floatingElements"></div>
+    <!-- Pixar Lamp -->
+    <div class="pixar-lamp">
+        <div class="lamp-base"></div>
+        <div class="lamp-neck"></div>
+        <div class="lamp-head"></div>
+        <div class="lamp-light"></div>
+    </div>
     
     <!-- Main Page -->
     <div class="main-page" id="mainPage">
@@ -309,50 +490,18 @@
             <div class="subject-card math" id="mathCard">
                 <div class="subject-icon">🧮</div>
                 <h3 class="subject-name">Math</h3>
-                <p class="subject-desc">Explore the world of numbers, equations, and problem solving</p>
+                <p class="subject-desc">Explore the magical world of numbers, equations, and problem solving through interactive lessons</p>
             </div>
             <div class="subject-card science" id="scienceCard">
                 <div class="subject-icon">🔬</div>
                 <h3 class="subject-name">Science</h3>
-                <p class="subject-desc">Discover the wonders of physics, chemistry, and biology</p>
+                <p class="subject-desc">Discover the wonders of physics, chemistry, and biology with exciting experiments</p>
             </div>
         </div>
     </div>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // Create floating elements (Pixar-style)
-            const floatingElements = document.getElementById('floatingElements');
-            const colors = [
-                'rgba(94, 92, 230, 0.1)',
-                'rgba(255, 55, 95, 0.1)',
-                'rgba(125, 122, 255, 0.1)'
-            ];
-            
-            for (let i = 0; i < 12; i++) {
-                const element = document.createElement('div');
-                element.classList.add('floating-element');
-                
-                // Random size between 100px and 300px
-                const size = Math.random() * 200 + 100;
-                element.style.width = `${size}px`;
-                element.style.height = `${size}px`;
-                
-                // Random position
-                element.style.left = `${Math.random() * 100}%`;
-                element.style.top = `${Math.random() * 100}%`;
-                
-                // Random color
-                element.style.background = colors[Math.floor(Math.random() * colors.length)];
-                
-                // Random animation duration and delay
-                const duration = Math.random() * 15 + 10;
-                const delay = Math.random() * 5;
-                element.style.animation = `float ${duration}s infinite ${delay}s ease-in-out`;
-                
-                floatingElements.appendChild(element);
-            }
-            
             // Button click to show subjects page
             const mainBtn = document.getElementById('mainBtn');
             const mainPage = document.getElementById('mainPage');
@@ -382,19 +531,78 @@
                 }, 800);
             });
             
-            // Subject card interactions
+            // Subject card interactions with confetti
             const mathCard = document.getElementById('mathCard');
             const scienceCard = document.getElementById('scienceCard');
             
+            function createConfetti(color, x, y) {
+                const confetti = document.createElement('div');
+                confetti.className = 'confetti';
+                confetti.style.backgroundColor = color;
+                confetti.style.left = `${x}px`;
+                confetti.style.top = `${y}px`;
+                confetti.style.width = `${Math.random() * 10 + 5}px`;
+                confetti.style.height = `${Math.random() * 10 + 5}px`;
+                confetti.style.borderRadius = `${Math.random() > 0.5 ? '50%' : '0'}`;
+                confetti.style.opacity = '1';
+                
+                const angle = Math.random() * 360;
+                const velocity = Math.random() * 10 + 5;
+                const rotation = Math.random() * 720 - 360;
+                
+                confetti.style.animation = `confettiFall ${Math.random() * 2 + 1}s linear forwards`;
+                confetti.style.transform = `rotate(${angle}deg)`;
+                
+                document.body.appendChild(confetti);
+                
+                setTimeout(() => {
+                    confetti.remove();
+                }, 1000);
+            }
+            
+            function celebrateSelection(color) {
+                for (let i = 0; i < 100; i++) {
+                    setTimeout(() => {
+                        const x = Math.random() * window.innerWidth;
+                        const y = -10;
+                        createConfetti(color, x, y);
+                    }, i * 20);
+                }
+            }
+            
             mathCard.addEventListener('click', function() {
-                alert('Math selected!');
-                // You would typically navigate to a math page here
+                celebrateSelection('#5E5CE6');
+                setTimeout(() => {
+                    alert('Welcome to Math Adventures!');
+                    // You would typically navigate to a math page here
+                }, 800);
             });
             
             scienceCard.addEventListener('click', function() {
-                alert('Science selected!');
-                // You would typically navigate to a science page here
+                celebrateSelection('#FF375F');
+                setTimeout(() => {
+                    alert('Welcome to Science Explorations!');
+                    // You would typically navigate to a science page here
+                }, 800);
             });
+            
+            // Add subtle hover sound effects (commented out as they require audio files)
+            /*
+            const hoverSound = new Audio('hover-sound.mp3');
+            const clickSound = new Audio('click-sound.mp3');
+            
+            [mathCard, scienceCard, mainBtn].forEach(element => {
+                element.addEventListener('mouseenter', () => {
+                    hoverSound.currentTime = 0;
+                    hoverSound.play();
+                });
+                
+                element.addEventListener('click', () => {
+                    clickSound.currentTime = 0;
+                    clickSound.play();
+                });
+            });
+            */
         });
     </script>
 </body>
