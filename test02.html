@@ -3,421 +3,398 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Edulite - Learn with Fun!</title>
+    <title>Edulite - Fun Learning</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
+        :root {
+            --primary: #5E5CE6;
+            --primary-light: #7D7AFF;
+            --secondary: #FF375F;
+            --white: #FFFFFF;
+            --black: #1C1C1E;
+            --gray: #8E8E93;
+        }
+        
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Arial', sans-serif;
+            font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, sans-serif;
         }
         
         body {
-            background-color: #f5f7fa;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            background-color: var(--white);
+            color: var(--black);
             height: 100vh;
             overflow: hidden;
-        }
-        
-        .app-container {
             position: relative;
-            width: 360px;
-            height: 700px;
-            background: linear-gradient(135deg, #e6eeff 0%, #f5f7fa 100%);
-            border-radius: 40px;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
-            overflow: hidden;
         }
         
-        .header {
-            padding: 20px;
+        /* Main Page Styles */
+        .main-page {
+            position: absolute;
+            width: 100%;
+            height: 100%;
             display: flex;
+            flex-direction: column;
+            justify-content: center;
             align-items: center;
+            transition: transform 1s cubic-bezier(0.86, 0, 0.07, 1);
+            z-index: 10;
+            background-color: var(--white);
+        }
+        
+        .main-page.hidden {
+            transform: translateY(-100%);
         }
         
         .logo {
-            display: flex;
-            align-items: center;
-            animation: fadeIn 1s ease-out;
+            font-size: 4.5rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
         }
         
-        .logo-icon {
-            position: relative;
+        .tagline {
+            font-size: 1.8rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--black);
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) 0.2s forwards;
         }
         
-        .puzzle-main {
-            width: 40px;
-            height: 40px;
-            background-color: #8e9aeb;
-            border-radius: 5px;
-        }
-        
-        .puzzle-piece {
-            position: absolute;
-            top: -10px;
-            left: 20px;
-            width: 25px;
-            height: 25px;
-            background-color: #f8a0a0;
-            border-radius: 50%;
-            animation: wiggle 3s infinite ease-in-out;
-        }
-        
-        .logo-text {
-            font-size: 32px;
-            font-weight: bold;
-            margin-left: 10px;
-            color: #333;
-        }
-        
-        .content {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: calc(100% - 80px);
-            padding: 20px;
-        }
-        
-        .character {
-            width: 250px;
-            height: 250px;
-            position: relative;
-            margin-bottom: 30px;
-            animation: float 4s ease-in-out infinite;
-        }
-        
-        .puzzle-body {
-            width: 100%;
-            height: 100%;
-            background-color: #8e9aeb;
-            border-radius: 30px;
-            position: relative;
-        }
-        
-        .eye {
-            position: absolute;
-            width: 40px;
-            height: 40px;
-            background-color: white;
-            border-radius: 50%;
-            top: 100px;
-        }
-        
-        .eye-left {
-            left: 70px;
-        }
-        
-        .eye-right {
-            right: 70px;
-        }
-        
-        .pupil {
-            position: absolute;
-            width: 20px;
-            height: 20px;
-            background-color: black;
-            border-radius: 50%;
-            top: 10px;
-            left: 5px;
-            animation: lookAround 5s infinite alternate;
-        }
-        
-        .cheek {
-            position: absolute;
-            width: 35px;
-            height: 35px;
-            background-color: #f8a0a0;
-            border-radius: 50%;
-            top: 120px;
-        }
-        
-        .cheek-left {
-            left: 50px;
-        }
-        
-        .cheek-right {
-            right: 50px;
-        }
-        
-        .mouth {
-            position: absolute;
-            width: 80px;
-            height: 50px;
-            background-color: black;
-            border-radius: 0 0 40px 40px;
-            top: 150px;
-            left: 50%;
-            transform: translateX(-50%);
-        }
-        
-        .tooth {
-            position: absolute;
-            width: 20px;
-            height: 20px;
-            background-color: white;
-            top: 0;
-            left: 30px;
-        }
-        
-        .shine {
-            position: absolute;
-            width: 20px;
-            height: 35px;
-            background-color: white;
-            border-radius: 50%;
-            opacity: 0.4;
-            top: 20px;
-            right: 40px;
-            transform: rotate(30deg);
-            animation: shine 3s infinite ease-in-out;
-        }
-        
-        .shine-small {
-            position: absolute;
-            width: 15px;
-            height: 20px;
-            background-color: white;
-            border-radius: 50%;
-            opacity: 0.3;
-            top: 10px;
-            right: 70px;
-            transform: rotate(45deg);
-            animation: shine 3s infinite ease-in-out 0.5s;
-        }
-        
-        .text-container {
+        .sub-tagline {
+            font-size: 1.2rem;
+            color: var(--gray);
+            margin-bottom: 3rem;
+            max-width: 500px;
             text-align: center;
-            animation: slideUp 1s ease-out;
-        }
-        
-        h1 {
-            font-size: 36px;
-            color: white;
-            margin-bottom: 10px;
-            line-height: 1.2;
-        }
-        
-        p {
-            font-size: 18px;
-            color: white;
-            opacity: 0.9;
-            margin-bottom: 40px;
+            line-height: 1.6;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) 0.4s forwards;
         }
         
         .btn {
-            background-color: #333;
-            color: white;
+            position: relative;
+            display: inline-block;
+            padding: 16px 48px;
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+            color: var(--white);
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 1.2rem;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(94, 92, 230, 0.3);
+            opacity: 0;
+            transform: scale(0.9);
+            animation: fadeInScale 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) 0.6s forwards;
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
             border: none;
-            padding: 15px 0;
-            width: 90%;
-            border-radius: 25px;
-            font-size: 18px;
-            font-weight: bold;
             cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-            animation: pulse 2s infinite;
         }
         
         .btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 7px 15px rgba(0, 0, 0, 0.2);
+            transform: scale(1.05) translateY(-3px);
+            box-shadow: 0 15px 40px rgba(94, 92, 230, 0.4);
+        }
+        
+        .btn:active {
+            transform: scale(0.98) translateY(0);
+        }
+        
+        .btn::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, var(--primary-light), var(--primary));
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .btn:hover::after {
+            opacity: 1;
+        }
+        
+        .btn-text {
+            position: relative;
+            z-index: 1;
+        }
+        
+        /* Floating Elements - Pixar Style */
+        .floating-elements {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+        
+        .floating-element {
+            position: absolute;
+            border-radius: 50%;
+            background: linear-gradient(135deg, rgba(94, 92, 230, 0.1), rgba(255, 55, 95, 0.1));
+            filter: blur(10px);
+            animation: float 15s infinite ease-in-out;
+        }
+        
+        /* Subjects Page Styles */
+        .subjects-page {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background-color: var(--white);
+            transform: translateY(100%);
+            transition: transform 1s cubic-bezier(0.86, 0, 0.07, 1);
+            z-index: 5;
+        }
+        
+        .subjects-page.visible {
+            transform: translateY(0);
+        }
+        
+        .subjects-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 3rem;
+            color: var(--black);
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        
+        .subjects-container {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            width: 100%;
+            max-width: 900px;
+            padding: 0 2rem;
+        }
+        
+        .subject-card {
+            flex: 1;
+            min-height: 300px;
+            border-radius: 24px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem;
+            cursor: pointer;
+            transition: all 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
+            position: relative;
+            overflow: hidden;
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        
+        .subject-card.math {
+            background: linear-gradient(135deg, #5E5CE6, #7D7AFF);
+        }
+        
+        .subject-card.science {
+            background: linear-gradient(135deg, #FF375F, #FF6B81);
+        }
+        
+        .subject-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+        }
+        
+        .subject-icon {
+            font-size: 4rem;
+            margin-bottom: 1.5rem;
+            color: var(--white);
+        }
+        
+        .subject-name {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--white);
+            margin-bottom: 1rem;
+        }
+        
+        .subject-desc {
+            font-size: 1rem;
+            color: rgba(255, 255, 255, 0.9);
+            text-align: center;
+            line-height: 1.6;
         }
         
         /* Animations */
-        @keyframes float {
-            0%, 100% {
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
                 transform: translateY(0);
             }
-            50% {
-                transform: translateY(-15px);
-            }
         }
         
-        @keyframes wiggle {
-            0%, 100% {
-                transform: rotate(0);
-            }
-            25% {
-                transform: rotate(10deg);
-            }
-            75% {
-                transform: rotate(-10deg);
-            }
-        }
-        
-        @keyframes lookAround {
-            0%, 100% {
-                transform: translate(0, 0);
-            }
-            25% {
-                transform: translate(8px, 0);
-            }
-            50% {
-                transform: translate(8px, 5px);
-            }
-            75% {
-                transform: translate(0, 5px);
-            }
-        }
-        
-        @keyframes shine {
-            0%, 100% {
-                opacity: 0.2;
-            }
-            50% {
-                opacity: 0.5;
-            }
-        }
-        
-        @keyframes pulse {
-            0%, 100% {
+        @keyframes fadeInScale {
+            to {
+                opacity: 1;
                 transform: scale(1);
             }
+        }
+        
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0) rotate(0deg);
+            }
             50% {
-                transform: scale(1.03);
+                transform: translateY(-50px) rotate(5deg);
             }
         }
         
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .logo {
+                font-size: 3rem;
             }
-            to {
-                opacity: 1;
+            
+            .tagline {
+                font-size: 1.4rem;
             }
-        }
-        
-        @keyframes slideUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
+            
+            .sub-tagline {
+                font-size: 1rem;
+                padding: 0 1rem;
             }
-            to {
-                opacity: 1;
-                transform: translateY(0);
+            
+            .subjects-container {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .subject-card {
+                width: 100%;
+                max-width: 400px;
             }
         }
     </style>
 </head>
 <body>
-    <div class="app-container">
-        <div class="header">
-            <div class="logo">
-                <div class="logo-icon">
-                    <div class="puzzle-main"></div>
-                    <div class="puzzle-piece"></div>
-                </div>
-                <div class="logo-text"></div>
+    <!-- Floating Background Elements -->
+    <div class="floating-elements" id="floatingElements"></div>
+    
+    <!-- Main Page -->
+    <div class="main-page" id="mainPage">
+        <h1 class="logo">Edulite</h1>
+        <p class="tagline">Let's learn with lots of fun!</p>
+        <p class="sub-tagline">Learning with us will be fun and make you happy.</p>
+        <button class="btn" id="mainBtn"><span class="btn-text">Get Started</span></button>
+    </div>
+    
+    <!-- Subjects Page -->
+    <div class="subjects-page" id="subjectsPage">
+        <h2 class="subjects-title">Choose Your Subject</h2>
+        <div class="subjects-container">
+            <div class="subject-card math" id="mathCard">
+                <div class="subject-icon">🧮</div>
+                <h3 class="subject-name">Math</h3>
+                <p class="subject-desc">Explore the world of numbers, equations, and problem solving</p>
             </div>
-        </div>
-        
-        <div class="content">
-            <div class="character">
-                <div class="puzzle-body">
-                    <div class="eye eye-left">
-                        <div class="pupil"></div>
-                    </div>
-                    <div class="eye eye-right">
-                        <div class="pupil"></div>
-                    </div>
-                    <div class="cheek cheek-left"></div>
-                    <div class="cheek cheek-right"></div>
-                    <div class="mouth">
-                        <div class="tooth"></div>
-                    </div>
-                    <div class="shine"></div>
-                    <div class="shine-small"></div>
-                </div>
+            <div class="subject-card science" id="scienceCard">
+                <div class="subject-icon">🔬</div>
+                <h3 class="subject-name">Science</h3>
+                <p class="subject-desc">Discover the wonders of physics, chemistry, and biology</p>
             </div>
-            
-            <div class="text-container">
-                <h1>Let's learn with lots of fun!</h1>
-                <p>Learning with us will be fun and make you happy.</p>
-            </div>
-            
-            <button class="btn" id="getStartedBtn">Get Started</button>
         </div>
     </div>
 
     <script>
-        // Add interactive animations
         document.addEventListener('DOMContentLoaded', function() {
-            const character = document.querySelector('.character');
-            const pupils = document.querySelectorAll('.pupil');
-            const getStartedBtn = document.getElementById('getStartedBtn');
+            // Create floating elements (Pixar-style)
+            const floatingElements = document.getElementById('floatingElements');
+            const colors = [
+                'rgba(94, 92, 230, 0.1)',
+                'rgba(255, 55, 95, 0.1)',
+                'rgba(125, 122, 255, 0.1)'
+            ];
             
-            // Mouse move event to make pupils follow cursor
-            document.addEventListener('mousemove', function(e) {
-                const mouseX = e.clientX;
-                const mouseY = e.clientY;
+            for (let i = 0; i < 12; i++) {
+                const element = document.createElement('div');
+                element.classList.add('floating-element');
                 
-                pupils.forEach(pupil => {
-                    const rect = pupil.getBoundingClientRect();
-                    const centerX = rect.left + rect.width / 2;
-                    const centerY = rect.top + rect.height / 2;
+                // Random size between 100px and 300px
+                const size = Math.random() * 200 + 100;
+                element.style.width = `${size}px`;
+                element.style.height = `${size}px`;
+                
+                // Random position
+                element.style.left = `${Math.random() * 100}%`;
+                element.style.top = `${Math.random() * 100}%`;
+                
+                // Random color
+                element.style.background = colors[Math.floor(Math.random() * colors.length)];
+                
+                // Random animation duration and delay
+                const duration = Math.random() * 15 + 10;
+                const delay = Math.random() * 5;
+                element.style.animation = `float ${duration}s infinite ${delay}s ease-in-out`;
+                
+                floatingElements.appendChild(element);
+            }
+            
+            // Button click to show subjects page
+            const mainBtn = document.getElementById('mainBtn');
+            const mainPage = document.getElementById('mainPage');
+            const subjectsPage = document.getElementById('subjectsPage');
+            
+            mainBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                // Hide main page with animation
+                mainPage.classList.add('hidden');
+                
+                // Show subjects page with animation
+                setTimeout(() => {
+                    subjectsPage.classList.add('visible');
                     
-                    const deltaX = mouseX - centerX;
-                    const deltaY = mouseY - centerY;
+                    // Animate in subject cards
+                    const title = document.querySelector('.subjects-title');
+                    const cards = document.querySelectorAll('.subject-card');
                     
-                    const angle = Math.atan2(deltaY, deltaX);
-                    const distance = Math.min(5, Math.sqrt(deltaX * deltaX + deltaY * deltaY) / 30);
-                    
-                    const moveX = Math.cos(angle) * distance;
-                    const moveY = Math.sin(angle) * distance;
-                    
-                    pupil.style.transform = `translate(${moveX}px, ${moveY}px)`;
-                });
+                    setTimeout(() => {
+                        title.style.animation = 'fadeInUp 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards';
+                        
+                        cards.forEach((card, index) => {
+                            card.style.animation = `fadeInUp 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) ${index * 0.1 + 0.2}s forwards`;
+                        });
+                    }, 100);
+                }, 800);
             });
             
-            // Button animation on click
-            getStartedBtn.addEventListener('click', function() {
-                this.style.transform = 'scale(0.95)';
-                
-                // Add a bounce animation to the character
-                character.style.animation = 'none';
-                setTimeout(() => {
-                    character.style.animation = 'float 4s ease-in-out infinite, bounce 0.5s ease-out';
-                }, 10);
-                
-                // Create a flash effect
-                const flash = document.createElement('div');
-                flash.style.position = 'absolute';
-                flash.style.top = '0';
-                flash.style.left = '0';
-                flash.style.width = '100%';
-                flash.style.height = '100%';
-                flash.style.backgroundColor = 'white';
-                flash.style.opacity = '0.3';
-                flash.style.zIndex = '10';
-                flash.style.borderRadius = '40px';
-                flash.style.animation = 'flashOut 0.5s forwards';
-                
-                document.querySelector('.app-container').appendChild(flash);
-                
-                setTimeout(() => {
-                    this.style.transform = '';
-                    flash.remove();
-                }, 500);
+            // Subject card interactions
+            const mathCard = document.getElementById('mathCard');
+            const scienceCard = document.getElementById('scienceCard');
+            
+            mathCard.addEventListener('click', function() {
+                alert('Math selected!');
+                // You would typically navigate to a math page here
             });
             
-            // Add keyframes for the bounce and flash animations
-            const style = document.createElement('style');
-            style.innerHTML = `
-                @keyframes bounce {
-                    0%, 100% { transform: translateY(0); }
-                    50% { transform: translateY(-25px); }
-                }
-                
-                @keyframes flashOut {
-                    from { opacity: 0.3; }
-                    to { opacity: 0; }
-                }
-            `;
-            document.head.appendChild(style);
+            scienceCard.addEventListener('click', function() {
+                alert('Science selected!');
+                // You would typically navigate to a science page here
+            });
         });
     </script>
 </body>
