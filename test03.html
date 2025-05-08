@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edulite - Fun Learning</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Poppins:wght@700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #5E5CE6;
+            --primary-light: #7D7AFF;
+            --secondary: #FF375F;
+            --secondary-light: #FF6B81;
+            --white: #FFFFFF;
+            --black: #1C1C1E;
+            --gray: #8E8E93;
+            --dark-gray: #2C2C2E;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+        
+        body {
+            background-color: var(--white);
+            color: var(--black);
+            height: 100vh;
+            overflow: hidden;
+            position: relative;
+            perspective: 1000px;
+        }
+        
+        /* Page Transition Styles */
+        .page {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            transition: all 1s cubic-bezier(0.16, 1, 0.3, 1);
+            z-index: 10;
+            background-color: var(--white);
+            transform-style: preserve-3d;
+            padding: 2rem;
+            overflow-y: auto;
+        }
+        
+        .page.hidden {
+            transform: translateY(-100%) rotateX(15deg);
+            opacity: 0;
+            pointer-events: none;
+        }
+        
+        /* Main Page Styles */
+        .main-page .logo {
+            font-size: 5rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+            font-family: 'Poppins', sans-serif;
+            text-shadow: 0 4px 20px rgba(94, 92, 230, 0.2);
+            position: relative;
+        }
+        
+        .main-page .logo::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            border-radius: 2px;
+            animation: expandLine 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) 0.4s forwards;
+            opacity: 0;
+        }
+        
+        /* Back Button */
+        .back-btn {
+            position: absolute;
+            top: 30px;
+            left: 30px;
+            background: none;
+            border: none;
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--gray);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+            z-index: 100;
+        }
+        
+        .back-btn:hover {
+            color: var(--primary);
+            transform: translateX(-5px);
+        }
+        
+        .back-btn::before {
+            content: '←';
+            font-size: 1.4rem;
+        }
+        
+        /* Level Selection Pages */
+        .levels-title {
+            font-size: 2.8rem;
+            font-weight: 700;
+            margin-bottom: 4rem;
+            color: var(--black);
+            font-family: 'Poppins', sans-serif;
+            text-align: center;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+        }
+        
+        .levels-container {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem;
+            width: 100%;
+            max-width: 800px;
+            perspective: 1000px;
+        }
+        
+        .level-card {
+            height: 200px;
+            border-radius: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: all 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
+            position: relative;
+            overflow: hidden;
+            opacity: 0;
+            transform: translateY(30px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+        }
+        
+        .level-card:nth-child(1) { animation: fadeInUp 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) 0.2s forwards; }
+        .level-card:nth-child(2) { animation: fadeInUp 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) 0.3s forwards; }
+        .level-card:nth-child(3) { animation: fadeInUp 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) 0.4s forwards; }
+        .level-card:nth-child(4) { animation: fadeInUp 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) 0.5s forwards; }
+        
+        .science-page .level-card {
+            background: linear-gradient(135deg, var(--secondary), var(--secondary-light));
+        }
+        
+        .level-card:hover {
+            transform: translateY(-10px) scale(1.03);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+        }
+        
+        .level-number {
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--white);
+            margin-bottom: 1rem;
+            font-family: 'Poppins', sans-serif;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        }
+        
+        .level-name {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--white);
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+        }
+        
+        /* Subjects Page Styles */
+        .subjects-page .subjects-title {
+            font-size: 2.8rem;
+            font-weight: 700;
+            margin-bottom: 4rem;
+            color: var(--black);
+            font-family: 'Poppins', sans-serif;
+            text-align: center;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+        }
+        
+        .subjects-container {
+            display: flex;
+            justify-content: center;
+            gap: 3rem;
+            width: 100%;
+            max-width: 1000px;
+            perspective: 1000px;
+        }
+        
+        .subject-card {
+            flex: 1;
+            min-height: 350px;
+            border-radius: 28px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 2.5rem;
+            cursor: pointer;
+            transition: all 0.6s cubic-bezier(0.25, 0.8, 0.25, 1);
+            position: relative;
+            overflow: hidden;
+            opacity: 0;
+            transform: translateY(30px) rotateY(20deg);
+            transform-style: preserve-3d;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+        
+        .subject-card:nth-child(1) { animation: fadeInUp 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) 0.2s forwards; }
+        .subject-card:nth-child(2) { animation: fadeInUp 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) 0.3s forwards; }
+        
+        .subject-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, transparent 0%, rgba(255,255,255,0.1) 100%);
+            z-index: 1;
+        }
+        
+        .subject-card.math {
+            background: linear-gradient(135deg, #5E5CE6, #7D7AFF);
+        }
+        
+        .subject-card.science {
+            background: linear-gradient(135deg, #FF375F, #FF6B81);
+        }
+        
+        .subject-card:hover {
+            transform: translateY(-15px) scale(1.03) rotateY(0deg);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.2);
+        }
+        
+        .subject-icon {
+            font-size: 5rem;
+            margin-bottom: 2rem;
+            color: var(--white);
+            text-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            transition: all 0.4s ease;
+        }
+        
+        .subject-card:hover .subject-icon {
+            transform: scale(1.1) translateY(-10px);
+        }
+        
+        .subject-name {
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: var(--white);
+            margin-bottom: 1.5rem;
+            font-family: 'Poppins', sans-serif;
+            text-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+        
+        .subject-desc {
+            font-size: 1.1rem;
+            color: rgba(255, 255, 255, 0.9);
+            text-align: center;
+            line-height: 1.6;
+        }
+        
+        /* Button Styles */
+        .btn {
+            position: relative;
+            display: inline-block;
+            padding: 18px 54px;
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+            color: var(--white);
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 1.2rem;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(94, 92, 230, 0.3);
+            opacity: 0;
+            transform: scale(0.9);
+            animation: fadeInScale 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) 0.6s forwards;
+            transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+            border: none;
+            cursor: pointer;
+            z-index: 1;
+        }
+        
+        .btn:hover {
+            transform: scale(1.05) translateY(-5px);
+            box-shadow: 0 15px 40px rgba(94, 92, 230, 0.4);
+        }
+        
+        /* Animations */
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0) rotateY(0deg);
+            }
+        }
+        
+        @keyframes fadeInScale {
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+        
+        @keyframes expandLine {
+            0% {
+                width: 0;
+                opacity: 0;
+            }
+            100% {
+                width: 80px;
+                opacity: 1;
+            }
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .main-page .logo {
+                font-size: 3.5rem;
+            }
+            
+            .levels-container {
+                grid-template-columns: 1fr;
+                max-width: 400px;
+            }
+            
+            .subjects-container {
+                flex-direction: column;
+                align-items: center;
+                gap: 2rem;
+            }
+            
+            .subject-card {
+                width: 100%;
+                max-width: 400px;
+                min-height: 280px;
+            }
+            
+            .levels-title, .subjects-title {
+                font-size: 2.2rem;
+                margin-bottom: 3rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Main Page -->
+    <div class="page main-page" id="mainPage">
+        <h1 class="logo">Edulite</h1>
+        <p class="tagline">Let's learn with lots of fun!</p>
+        <p class="sub-tagline">Learning with us will be fun and make you happy.</p>
+        <button class="btn" id="mainBtn"><span class="btn-text">Get Started</span></button>
+    </div>
+    
+    <!-- Subjects Page -->
+    <div class="page subjects-page hidden" id="subjectsPage">
+        <button class="back-btn" onclick="goBackToMain()">Back</button>
+        <h2 class="subjects-title">Choose Your Subject</h2>
+        <div class="subjects-container">
+            <div class="subject-card math" id="mathCard">
+                <div class="subject-icon">🧮</div>
+                <h3 class="subject-name">Math</h3>
+                <p class="subject-desc">Explore the magical world of numbers, equations, and problem solving</p>
+            </div>
+            <div class="subject-card science" id="scienceCard">
+                <div class="subject-icon">🔬</div>
+                <h3 class="subject-name">Science</h3>
+                <p class="subject-desc">Discover the wonders of physics, chemistry, and biology</p>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Math Levels Page -->
+    <div class="page math-page hidden" id="mathPage">
+        <button class="back-btn" onclick="goBackToSubjects()">Back to Subjects</button>
+        <h2 class="levels-title">Math Levels</h2>
+        <div class="levels-container">
+            <div class="level-card" onclick="selectLevel('Math', 1)">
+                <div class="level-number">1</div>
+                <div class="level-name">Level 1</div>
+            </div>
+            <div class="level-card" onclick="selectLevel('Math', 2)">
+                <div class="level-number">2</div>
+                <div class="level-name">Level 2</div>
+            </div>
+            <div class="level-card" onclick="selectLevel('Math', 3)">
+                <div class="level-number">3</div>
+                <div class="level-name">Level 3</div>
+            </div>
+            <div class="level-card" onclick="selectLevel('Math', 4)">
+                <div class="level-number">4</div>
+                <div class="level-name">Level 4</div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Science Courses Page -->
+    <div class="page science-page hidden" id="sciencePage">
+        <button class="back-btn" onclick="goBackToSubjects()">Back to Subjects</button>
+        <h2 class="levels-title">Science Courses</h2>
+        <div class="levels-container">
+            <div class="level-card" onclick="selectCourse('Science', 1)">
+                <div class="level-number">1</div>
+                <div class="level-name">Course 1</div>
+            </div>
+            <div class="level-card" onclick="selectCourse('Science', 2)">
+                <div class="level-number">2</div>
+                <div class="level-name">Course 2</div>
+            </div>
+            <div class="level-card" onclick="selectCourse('Science', 3)">
+                <div class="level-number">3</div>
+                <div class="level-name">Course 3</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Page navigation functions
+        function showPage(pageId) {
+            document.querySelectorAll('.page').forEach(page => {
+                page.classList.add('hidden');
+            });
+            document.getElementById(pageId).classList.remove('hidden');
+        }
+        
+        function goBackToMain() {
+            showPage('mainPage');
+        }
+        
+        function goBackToSubjects() {
+            showPage('subjectsPage');
+        }
+        
+        function selectLevel(subject, level) {
+            alert(`Starting ${subject} Level ${level}`);
+            // Here you would typically load the content for the selected level
+        }
+        
+        function selectCourse(subject, course) {
+            alert(`Starting ${subject} Course ${course}`);
+            // Here you would typically load the content for the selected course
+        }
+        
+        // Initialize the page
+        document.addEventListener('DOMContentLoaded', function() {
+            // Main button click to show subjects
+            document.getElementById('mainBtn').addEventListener('click', function(e) {
+                e.preventDefault();
+                showPage('subjectsPage');
+            });
+            
+            // Math card click to show math levels
+            document.getElementById('mathCard').addEventListener('click', function() {
+                showPage('mathPage');
+            });
+            
+            // Science card click to show science courses
+            document.getElementById('scienceCard').addEventListener('click', function() {
+                showPage('sciencePage');
+            });
+        });
+    </script>
+</body>
+</html>
