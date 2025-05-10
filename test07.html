@@ -1,16 +1,12 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ew - Animated Creative Space</title>
+    <title>ew - Creative Space</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
-    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/gsap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/ScrollTrigger.min.js"></script>
     <style>
         :root {
             --primary-color: #5dade2;
@@ -57,11 +53,9 @@
             z-index: 1000;
             font-weight: 600;
             transition: var(--transition);
-            opacity: 0;
-            transform: translateX(-30px);
             font-size: 1rem;
-            backdrop-filter: blur(5px);
             border: 1px solid rgba(255, 255, 255, 0.2);
+            animation: fadeInLeft 0.8s ease-out 0.2s both;
         }
 
         .back-button:hover {
@@ -102,15 +96,18 @@
             z-index: 2;
         }
 
+        .logo-container {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 3rem;
+            animation: fadeInDown 1s ease-out 0.3s both;
+        }
+
         .logo {
             font-size: 5rem;
             font-weight: 700;
             color: var(--primary-color);
-            margin-bottom: 3rem;
             text-shadow: 0 5px 15px rgba(93, 173, 226, 0.3);
-            opacity: 0;
-            transform: translateY(30px);
-            text-align: center;
             position: relative;
             display: inline-block;
         }
@@ -133,7 +130,7 @@
             width: 100%;
             max-width: 1000px;
             margin: 3rem auto;
-            perspective: 1200px;
+            animation: scaleUp 1.2s cubic-bezier(0.22, 1, 0.36, 1) 0.6s both;
         }
 
         .hero-image {
@@ -141,16 +138,11 @@
             height: auto;
             border-radius: 25px;
             box-shadow: 0 30px 60px -15px rgba(0, 0, 0, 0.2);
-            margin: 2rem 0;
-            transform: scale(0.95) rotateY(10deg) rotateX(5deg);
-            opacity: 0;
-            transition: transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
-            will-change: transform;
-            filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.1));
+            transition: var(--transition);
         }
 
         .hero-image:hover {
-            transform: scale(1) rotateY(0) rotateX(0);
+            transform: scale(1.02);
         }
 
         .intro {
@@ -160,24 +152,10 @@
             background: rgba(255, 255, 255, 0.9);
             border-radius: 25px;
             box-shadow: var(--shadow);
-            opacity: 0;
-            transform: translateY(30px);
             margin: 0 auto;
             position: relative;
-            backdrop-filter: blur(10px);
             border: 1px solid rgba(255, 255, 255, 0.3);
-            overflow: hidden;
-        }
-
-        .intro::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(135deg, rgba(93, 173, 226, 0.1) 0%, rgba(255, 159, 67, 0.1) 100%);
-            z-index: -1;
+            animation: fadeInUp 1s ease-out 0.9s both;
         }
 
         .intro h1 {
@@ -207,27 +185,16 @@
 
         section {
             margin-bottom: 8rem;
-            opacity: 0;
-            transform: translateY(40px);
-            transition: var(--transition);
             background: rgba(255, 255, 255, 0.95);
             padding: 4rem;
             border-radius: 25px;
             box-shadow: var(--soft-shadow);
             position: relative;
             overflow: hidden;
-            backdrop-filter: blur(5px);
             border: 1px solid rgba(255, 255, 255, 0.3);
-        }
-
-        section::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 8px;
-            height: 100%;
-            background: linear-gradient(to bottom, var(--primary-color), var(--accent-color));
+            opacity: 0;
+            transform: translateY(40px);
+            transition: var(--transition);
         }
 
         section.visible {
@@ -238,6 +205,16 @@
         section:hover {
             transform: translateY(-5px);
             box-shadow: var(--shadow);
+        }
+
+        section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 8px;
+            height: 100%;
+            background: linear-gradient(to bottom, var(--primary-color), var(--accent-color));
         }
 
         h2 {
@@ -286,7 +263,6 @@
             transition: var(--transition);
             z-index: 1000;
             font-size: 0;
-            backdrop-filter: blur(5px);
             border: 1px solid rgba(255, 255, 255, 0.3);
         }
 
@@ -315,7 +291,6 @@
             opacity: 0.1;
             z-index: 1;
             filter: blur(30px);
-            mix-blend-mode: overlay;
         }
 
         .shape-1 {
@@ -336,31 +311,13 @@
             animation: float 18s ease-in-out infinite reverse;
         }
 
-        .shape-3 {
-            width: 250px;
-            height: 250px;
-            background-color: var(--primary-light);
-            top: 50%;
-            left: 10%;
-            animation: float 12s ease-in-out infinite 2s;
-        }
-
-        /* Animated Bubbles */
-        .bubble {
-            position: absolute;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.6);
-            z-index: 1;
-            animation: float 8s ease-in-out infinite;
-        }
-
         /* Animations */
         @keyframes float {
             0%, 100% {
-                transform: translateY(0) rotate(0deg);
+                transform: translateY(0);
             }
             50% {
-                transform: translateY(-20px) rotate(5deg);
+                transform: translateY(-20px);
             }
         }
 
@@ -368,6 +325,17 @@
             from {
                 opacity: 0;
                 transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
             }
             to {
                 opacity: 1;
@@ -386,14 +354,14 @@
             }
         }
 
-        @keyframes heroEntrance {
-            0% {
+        @keyframes scaleUp {
+            from {
                 opacity: 0;
-                transform: scale(0.9) rotateY(15deg) rotateX(5deg);
+                transform: scale(0.95);
             }
-            100% {
+            to {
                 opacity: 1;
-                transform: scale(1) rotateY(0) rotateX(0);
+                transform: scale(1);
             }
         }
 
@@ -502,41 +470,36 @@
     <header>
         <div class="floating-shape shape-1"></div>
         <div class="floating-shape shape-2"></div>
-        <div class="floating-shape shape-3"></div>
-        
-        <!-- Animated bubbles -->
-        <div class="bubble" style="width: 40px; height: 40px; top: 20%; left: 15%; animation-delay: 0s;"></div>
-        <div class="bubble" style="width: 60px; height: 60px; top: 70%; left: 80%; animation-delay: 1s;"></div>
-        <div class="bubble" style="width: 30px; height: 30px; top: 40%; left: 70%; animation-delay: 2s;"></div>
-        <div class="bubble" style="width: 50px; height: 50px; top: 80%; left: 20%; animation-delay: 3s;"></div>
         
         <div class="header-content">
-            <div class="logo" id="mainLogo">ew</div>
-            <div class="hero-container">
-                <img src="https://source.unsplash.com/random/1600x900/?creative,design,art,animation" alt="Creative Illustration" class="hero-image" id="heroImage">
+            <div class="logo-container">
+                <div class="logo">ew</div>
             </div>
-            <div class="intro" id="introSection">
-                <h1>Welcome to My Animated Creative Space</h1>
-                <p>Hello! I'm a passionate creator exploring the intersection of design, technology, and storytelling. This is my digital playground where ideas come to life through motion and interaction.</p>
-                <p>Join me on this journey of creativity and innovation as we explore new possibilities together in this Pixar-inspired digital experience.</p>
+            <div class="hero-container">
+                <img src="https://source.unsplash.com/random/1600x900/?creative,design,art" alt="Creative Illustration" class="hero-image">
+            </div>
+            <div class="intro">
+                <h1>Welcome to My Creative Space</h1>
+                <p>Hello! I'm a passionate creator exploring the intersection of design, technology, and storytelling. This is my digital playground where ideas come to life.</p>
+                <p>Join me on this journey of creativity and innovation as we explore new possibilities together.</p>
             </div>
         </div>
     </header>
 
     <main>
-        <section id="about" class="content-section">
+        <section id="about">
             <h2>About This Space</h2>
-            <p>This platform serves as a canvas for my thoughts, projects, and creative experiments. Inspired by the playful yet professional aesthetic of Pixar, I've designed this space to be welcoming and inspiring with rich animations that respond to your presence.</p>
+            <p>This platform serves as a canvas for my thoughts, projects, and creative experiments. Inspired by the playful yet professional aesthetic of Pixar, I've designed this space to be welcoming and inspiring.</p>
             <p>Every element here is crafted with attention to detail, from the soft shadows to the smooth animations that bring the page to life. The subtle 3D effects and depth cues create an immersive experience while maintaining clarity and focus.</p>
         </section>
 
-        <section id="philosophy" class="content-section">
+        <section id="philosophy">
             <h2>Creative Philosophy</h2>
             <p>I believe that creativity thrives at the intersection of discipline and play. By maintaining professional standards while embracing a playful approach, we can create work that is both impactful and joyful.</p>
-            <p>The animations and interactions on this site are designed to create moments of delight without distracting from the content. Notice how elements respond to your presence, with gentle movements and transitions that guide your journey through the space.</p>
+            <p>The subtle animations and interactions on this site are designed to create moments of delight without distracting from the content. Notice how elements respond to your presence, with gentle movements and transitions that guide your journey through the space.</p>
         </section>
 
-        <section id="connect" class="content-section">
+        <section id="connect">
             <h2>Let's Connect</h2>
             <p>If you'd like to collaborate, share ideas, or just say hello, I'd love to hear from you. Creative connections often lead to the most unexpected and wonderful outcomes.</p>
             <p>Feel free to reach out through any of your preferred platforms or channels. The back button at the top-left corner will always be there to guide you back, just like in a well-designed interactive experience.</p>
@@ -549,109 +512,13 @@
         </svg>
     </button>
 
-    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
-        // Initialize AOS animation library
-        AOS.init({
-            duration: 1200,
-            easing: 'ease-out-quart',
-            once: true,
-            mirror: false
-        });
-
-        // GSAP Animations
-        document.addEventListener('DOMContentLoaded', () => {
-            // Animate back button
-            gsap.to('.back-button', {
-                x: 0,
-                opacity: 1,
-                duration: 1,
-                ease: 'elastic.out(1, 0.5)',
-                delay: 0.5
-            });
-
-            // Logo animation
-            gsap.from('#mainLogo', {
-                y: 50,
-                opacity: 0,
-                duration: 1.2,
-                ease: 'back.out(1.7)',
-                delay: 0.3
-            });
-
-            // Hero image animation
-            gsap.to('#heroImage', {
-                opacity: 1,
-                scale: 1,
-                rotationY: 0,
-                rotationX: 0,
-                duration: 1.5,
-                ease: 'power3.out',
-                delay: 0.8
-            });
-
-            // Intro section animation
-            gsap.to('#introSection', {
-                y: 0,
-                opacity: 1,
-                duration: 1.2,
-                ease: 'power2.out',
-                delay: 1.2
-            });
-
-            // Floating shapes animation
-            gsap.to('.floating-shape', {
-                y: 20,
-                duration: 15,
-                repeat: -1,
-                yoyo: true,
-                ease: 'sine.inOut'
-            });
-
-            // Bubbles animation
-            gsap.to('.bubble', {
-                y: -20,
-                duration: 8,
-                repeat: -1,
-                yoyo: true,
-                ease: 'sine.inOut'
-            });
-        });
-
-        // ScrollTrigger animations for sections
-        gsap.registerPlugin(ScrollTrigger);
-        
-        document.querySelectorAll('.content-section').forEach(section => {
-            gsap.from(section, {
-                scrollTrigger: {
-                    trigger: section,
-                    start: "top 80%",
-                    toggleActions: "play none none none"
-                },
-                y: 50,
-                opacity: 0,
-                duration: 1,
-                ease: "power2.out"
-            });
-        });
-
         // Back button functionality
         const backButton = document.getElementById('backButton');
         backButton.addEventListener('click', () => {
-            // Animate button click
-            gsap.to(backButton, {
-                scale: 0.9,
-                duration: 0.2,
-                yoyo: true,
-                repeat: 1,
-                ease: "power2.inOut",
-                onComplete: () => {
-                    // In a real implementation, this would navigate back
-                    window.scrollTo({
-                        top: 0,
-                        behavior: 'smooth'
-                    });
-                }
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
             });
         });
 
@@ -666,83 +533,40 @@
             }
         });
 
-        // Smooth scroll to top with animation
+        // Smooth scroll to top when button is clicked
         backToTopButton.addEventListener('click', () => {
-            gsap.to(window, {
-                scrollTo: 0,
-                duration: 1.2,
-                ease: "power2.inOut"
-            });
-            
-            // Button click animation
-            gsap.to(backToTopButton, {
-                scale: 0.8,
-                duration: 0.3,
-                yoyo: true,
-                repeat: 1,
-                ease: "power2.inOut"
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
             });
         });
 
-        // Hero image parallax effect
-        gsap.to('.hero-image', {
-            scrollTrigger: {
-                scrub: 0.5
-            },
-            y: 100,
-            scale: 0.98,
-            rotationY: 5,
-            ease: "none"
-        });
-
-        // Cursor follower (Pixar-style interactive element)
-        const cursorFollower = document.createElement('div');
-        cursorFollower.style.position = 'fixed';
-        cursorFollower.style.width = '20px';
-        cursorFollower.style.height = '20px';
-        cursorFollower.style.backgroundColor = 'rgba(255, 159, 67, 0.5)';
-        cursorFollower.style.borderRadius = '50%';
-        cursorFollower.style.pointerEvents = 'none';
-        cursorFollower.style.zIndex = '9999';
-        cursorFollower.style.transform = 'translate(-50%, -50%)';
-        cursorFollower.style.filter = 'blur(5px)';
-        cursorFollower.style.mixBlendMode = 'overlay';
-        cursorFollower.style.display = 'none';
-        document.body.appendChild(cursorFollower);
-
-        // Show cursor follower only on desktop
-        if (window.innerWidth > 768) {
-            cursorFollower.style.display = 'block';
-            
-            document.addEventListener('mousemove', (e) => {
-                gsap.to(cursorFollower, {
-                    x: e.clientX,
-                    y: e.clientY,
-                    duration: 0.3,
-                    ease: "power2.out"
-                });
-            });
-
-            // Scale up when hovering interactive elements
-            const interactiveElements = document.querySelectorAll('button, a, .hero-image, section');
-            interactiveElements.forEach(el => {
-                el.addEventListener('mouseenter', () => {
-                    gsap.to(cursorFollower, {
-                        scale: 2,
-                        backgroundColor: 'rgba(93, 173, 226, 0.7)',
-                        duration: 0.3
-                    });
-                });
+        // Scroll reveal animation for sections
+        const sections = document.querySelectorAll('section');
+        
+        const checkSectionVisibility = () => {
+            sections.forEach(section => {
+                const sectionTop = section.getBoundingClientRect().top;
+                const windowHeight = window.innerHeight;
                 
-                el.addEventListener('mouseleave', () => {
-                    gsap.to(cursorFollower, {
-                        scale: 1,
-                        backgroundColor: 'rgba(255, 159, 67, 0.5)',
-                        duration: 0.3
-                    });
-                });
+                if (sectionTop < windowHeight * 0.75) {
+                    section.classList.add('visible');
+                }
             });
-        }
+        };
+
+        // Check on initial load
+        window.addEventListener('load', checkSectionVisibility);
+        
+        // Check on scroll
+        window.addEventListener('scroll', checkSectionVisibility);
+
+        // Add subtle parallax effect to hero image
+        const heroImage = document.querySelector('.hero-image');
+        window.addEventListener('scroll', () => {
+            const scrollPosition = window.pageYOffset;
+            heroImage.style.transform = `scale(${1 - scrollPosition * 0.0002})`;
+        });
     </script>
 </body>
 </html>
