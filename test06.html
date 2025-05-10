@@ -15,6 +15,7 @@
             --accent-color: #ff9f43;
             --text-color: #34495e;
             --shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            --soft-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
         }
 
         * {
@@ -32,6 +33,40 @@
             scroll-behavior: smooth;
         }
 
+        /* Navigation Button */
+        .back-button {
+            position: fixed;
+            top: 2rem;
+            left: 2rem;
+            padding: 0.8rem 1.5rem;
+            background-color: white;
+            color: var(--primary-color);
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: var(--soft-shadow);
+            z-index: 100;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            opacity: 0;
+            transform: translateX(-20px);
+            animation: fadeInLeft 0.8s ease-out 0.2s forwards;
+        }
+
+        .back-button:hover {
+            background-color: var(--primary-color);
+            color: white;
+            transform: translateX(0) scale(1.05);
+            box-shadow: var(--shadow);
+        }
+
+        .back-button svg {
+            margin-right: 8px;
+        }
+
         /* Header Styles */
         header {
             min-height: 100vh;
@@ -45,6 +80,13 @@
             background: linear-gradient(135deg, #f5f7fa 0%, #e4e8eb 100%);
         }
 
+        .header-content {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            position: relative;
+        }
+
         .logo {
             font-size: 4rem;
             font-weight: 700;
@@ -54,55 +96,90 @@
             opacity: 0;
             transform: translateY(20px);
             animation: fadeInUp 1s ease-out 0.3s forwards;
+            text-align: center;
+        }
+
+        .hero-container {
+            position: relative;
+            width: 100%;
+            max-width: 900px;
+            margin: 0 auto;
+            perspective: 1000px;
         }
 
         .hero-image {
             width: 100%;
-            max-width: 800px;
             height: auto;
-            border-radius: 16px;
-            box-shadow: var(--shadow);
+            border-radius: 20px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15);
             margin: 2rem 0;
-            transform: scale(0.9);
+            transform: scale(0.9) rotateY(5deg);
             opacity: 0;
-            animation: scaleUp 1s ease-out 0.6s forwards;
+            animation: heroEntrance 1.2s cubic-bezier(0.22, 1, 0.36, 1) 0.6s forwards;
+            transition: transform 0.5s ease;
+            will-change: transform;
+        }
+
+        .hero-image:hover {
+            transform: scale(1) rotateY(0);
         }
 
         .intro {
             max-width: 800px;
             text-align: center;
-            padding: 2rem;
+            padding: 3rem;
             background: white;
-            border-radius: 16px;
+            border-radius: 20px;
             box-shadow: var(--shadow);
             opacity: 0;
             transform: translateY(20px);
             animation: fadeInUp 1s ease-out 0.9s forwards;
+            margin: 0 auto;
+            position: relative;
+            z-index: 2;
         }
 
         .intro h1 {
-            font-size: 2rem;
-            margin-bottom: 1rem;
+            font-size: 2.2rem;
+            margin-bottom: 1.5rem;
             color: var(--primary-color);
+            line-height: 1.3;
         }
 
         .intro p {
             font-size: 1.1rem;
-            margin-bottom: 1rem;
+            margin-bottom: 1.5rem;
+            color: var(--text-color);
         }
 
         /* Main Content */
         main {
-            padding: 4rem 2rem;
+            padding: 6rem 2rem;
             max-width: 1200px;
             margin: 0 auto;
         }
 
         section {
-            margin-bottom: 4rem;
+            margin-bottom: 6rem;
             opacity: 0;
             transform: translateY(20px);
             transition: all 0.6s ease-out;
+            background: white;
+            padding: 3rem;
+            border-radius: 20px;
+            box-shadow: var(--soft-shadow);
+            position: relative;
+            overflow: hidden;
+        }
+
+        section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 5px;
+            height: 100%;
+            background: linear-gradient(to bottom, var(--primary-color), var(--accent-color));
         }
 
         section.visible {
@@ -111,8 +188,8 @@
         }
 
         h2 {
-            font-size: 2rem;
-            margin-bottom: 1.5rem;
+            font-size: 2.2rem;
+            margin-bottom: 2rem;
             color: var(--primary-color);
             position: relative;
             display: inline-block;
@@ -132,6 +209,7 @@
         p {
             margin-bottom: 1.5rem;
             font-size: 1.1rem;
+            color: var(--text-color);
         }
 
         /* Back to Top Button */
@@ -139,8 +217,8 @@
             position: fixed;
             bottom: 2rem;
             right: 2rem;
-            width: 50px;
-            height: 50px;
+            width: 60px;
+            height: 60px;
             background-color: var(--primary-color);
             color: white;
             border: none;
@@ -163,7 +241,7 @@
 
         .back-to-top:hover {
             background-color: var(--accent-color);
-            transform: translateY(-5px);
+            transform: translateY(-5px) scale(1.1);
         }
 
         /* Animations */
@@ -178,21 +256,94 @@
             }
         }
 
-        @keyframes scaleUp {
+        @keyframes fadeInLeft {
             from {
                 opacity: 0;
-                transform: scale(0.9);
+                transform: translateX(-20px);
             }
             to {
                 opacity: 1;
-                transform: scale(1);
+                transform: translateX(0);
             }
+        }
+
+        @keyframes heroEntrance {
+            0% {
+                opacity: 0;
+                transform: scale(0.9) rotateY(5deg);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1) rotateY(0);
+            }
+        }
+
+        /* Floating Elements */
+        .floating-shape {
+            position: absolute;
+            border-radius: 50%;
+            opacity: 0.1;
+            z-index: 0;
+        }
+
+        .shape-1 {
+            width: 300px;
+            height: 300px;
+            background-color: var(--primary-color);
+            top: -150px;
+            right: -150px;
+        }
+
+        .shape-2 {
+            width: 200px;
+            height: 200px;
+            background-color: var(--accent-color);
+            bottom: -100px;
+            left: -100px;
         }
 
         /* Responsive Design */
         @media (max-width: 768px) {
             .logo {
                 font-size: 3rem;
+            }
+
+            .intro {
+                padding: 2rem;
+            }
+
+            .intro h1 {
+                font-size: 1.8rem;
+            }
+
+            section {
+                padding: 2rem;
+            }
+
+            h2 {
+                font-size: 1.8rem;
+            }
+
+            .back-button {
+                top: 1.5rem;
+                left: 1.5rem;
+                padding: 0.6rem 1.2rem;
+                font-size: 0.9rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            header {
+                padding: 1rem;
+            }
+
+            .logo {
+                font-size: 2.5rem;
+                margin-bottom: 1.5rem;
+            }
+
+            .intro {
+                padding: 1.5rem;
             }
 
             .intro h1 {
@@ -203,6 +354,15 @@
                 font-size: 1rem;
             }
 
+            main {
+                padding: 3rem 1rem;
+            }
+
+            section {
+                padding: 1.5rem;
+                margin-bottom: 3rem;
+            }
+
             h2 {
                 font-size: 1.5rem;
             }
@@ -210,13 +370,26 @@
     </style>
 </head>
 <body>
+    <button class="back-button" id="backButton">
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M19 12H5M12 19l-7-7 7-7"/>
+        </svg>
+        Back
+    </button>
+
     <header>
-        <div class="logo" data-aos="fade-down">ew</div>
-        <img src="https://source.unsplash.com/random/800x500/?creative,design" alt="Creative Illustration" class="hero-image" data-aos="zoom-in">
-        <div class="intro" data-aos="fade-up">
-            <h1>Welcome to My Creative Space</h1>
-            <p>Hello! I'm a passionate creator exploring the intersection of design, technology, and storytelling. This is my digital playground where ideas come to life.</p>
-            <p>Join me on this journey of creativity and innovation as we explore new possibilities together.</p>
+        <div class="floating-shape shape-1"></div>
+        <div class="floating-shape shape-2"></div>
+        <div class="header-content">
+            <div class="logo" data-aos="fade-down">ew</div>
+            <div class="hero-container">
+                <img src="https://source.unsplash.com/random/1600x900/?creative,design,art" alt="Creative Illustration" class="hero-image" data-aos="zoom-in">
+            </div>
+            <div class="intro" data-aos="fade-up">
+                <h1>Welcome to My Creative Space</h1>
+                <p>Hello! I'm a passionate creator exploring the intersection of design, technology, and storytelling. This is my digital playground where ideas come to life.</p>
+                <p>Join me on this journey of creativity and innovation as we explore new possibilities together.</p>
+            </div>
         </div>
     </header>
 
@@ -224,19 +397,19 @@
         <section id="about">
             <h2>About This Space</h2>
             <p>This platform serves as a canvas for my thoughts, projects, and creative experiments. Inspired by the playful yet professional aesthetic of Pixar, I've designed this space to be welcoming and inspiring.</p>
-            <p>Every element here is crafted with attention to detail, from the soft shadows to the smooth animations that bring the page to life.</p>
+            <p>Every element here is crafted with attention to detail, from the soft shadows to the smooth animations that bring the page to life. The subtle 3D effects and depth cues create an immersive experience while maintaining clarity and focus.</p>
         </section>
 
         <section id="philosophy">
             <h2>Creative Philosophy</h2>
             <p>I believe that creativity thrives at the intersection of discipline and play. By maintaining professional standards while embracing a playful approach, we can create work that is both impactful and joyful.</p>
-            <p>The subtle animations and interactions on this site are designed to create moments of delight without distracting from the content.</p>
+            <p>The subtle animations and interactions on this site are designed to create moments of delight without distracting from the content. Notice how elements respond to your presence, with gentle movements and transitions that guide your journey through the space.</p>
         </section>
 
         <section id="connect">
             <h2>Let's Connect</h2>
             <p>If you'd like to collaborate, share ideas, or just say hello, I'd love to hear from you. Creative connections often lead to the most unexpected and wonderful outcomes.</p>
-            <p>Feel free to reach out through any of your preferred platforms or channels.</p>
+            <p>Feel free to reach out through any of your preferred platforms or channels. The back button at the top-left corner will always be there to guide you back, just like in a well-designed interactive experience.</p>
         </section>
     </main>
 
@@ -250,9 +423,21 @@
     <script>
         // Initialize AOS animation library
         AOS.init({
-            duration: 800,
-            easing: 'ease-out-quad',
-            once: true
+            duration: 1000,
+            easing: 'ease-out-quart',
+            once: true,
+            mirror: false
+        });
+
+        // Back button functionality
+        const backButton = document.getElementById('backButton');
+        backButton.addEventListener('click', () => {
+            // In a real implementation, this would navigate back
+            // For demo purposes, we'll just scroll to top
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
         });
 
         // Show/hide back to top button based on scroll position
@@ -293,6 +478,13 @@
         
         // Check on scroll
         window.addEventListener('scroll', checkSectionVisibility);
+
+        // Add subtle parallax effect to hero image
+        const heroImage = document.querySelector('.hero-image');
+        window.addEventListener('scroll', () => {
+            const scrollPosition = window.pageYOffset;
+            heroImage.style.transform = `scale(${1 - scrollPosition * 0.0002})`;
+        });
     </script>
 </body>
 </html>
