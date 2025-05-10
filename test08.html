@@ -1,1446 +1,808 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Book Haven - Your Online Bookstore</title>
+    <title>Bookish Haven - Your Online Bookstore</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
     <style>
-        /* Reset and Base Styles */
+        :root {
+            --primary: #1a237e;
+            --primary-light: #534bae;
+            --primary-dark: #000051;
+            --secondary: #ff6f00;
+            --secondary-light: #ffa040;
+            --secondary-dark: #c43e00;
+            --text-on-primary: #ffffff;
+            --text-on-secondary: #000000;
+            --background: #f5f5f5;
+            --surface: #ffffff;
+            --error: #B00020;
+            --success: #00C853;
+            --font-main: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+            --shadow-md: 0 4px 6px rgba(0,0,0,0.1);
+            --shadow-lg: 0 10px 15px rgba(0,0,0,0.1);
+            --transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+        }
+
+        .dark-mode {
+            --primary: #3949ab;
+            --primary-light: #6f74dd;
+            --primary-dark: #00227b;
+            --secondary: #ff9800;
+            --secondary-light: #ffc947;
+            --secondary-dark: #c66900;
+            --text-on-primary: #ffffff;
+            --text-on-secondary: #000000;
+            --background: #121212;
+            --surface: #1e1e1e;
+            --font-main: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
 
         body {
-            background-color: #f9f9f7;
+            font-family: var(--font-main);
+            background-color: var(--background);
             color: #333;
+            transition: var(--transition);
             line-height: 1.6;
-            transition: all 0.3s ease;
         }
 
         body.dark-mode {
-            background-color: #121212;
-            color: #f0f0f0;
+            color: #e0e0e0;
         }
 
-        /* Header Styles */
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header styles */
         header {
-            background-color: #2c3e50;
-            color: white;
-            padding: 1rem 2rem;
+            background-color: var(--surface);
+            box-shadow: var(--shadow-sm);
             position: sticky;
             top: 0;
             z-index: 100;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            transition: var(--transition);
         }
 
-        .dark-mode header {
-            background-color: #1a1a1a;
-        }
-
-        .header-container {
+        .header-top {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            max-width: 1200px;
-            margin: 0 auto;
+            padding: 15px 0;
         }
 
         .logo {
-            font-size: 1.8rem;
-            font-weight: bold;
-            color: #f8f8f8;
-            text-decoration: none;
-        }
-
-        .logo span {
-            color: #e74c3c;
-        }
-
-        nav ul {
             display: flex;
-            list-style: none;
-        }
-
-        nav ul li {
-            margin-left: 1.5rem;
-        }
-
-        nav ul li a {
-            color: white;
+            align-items: center;
             text-decoration: none;
-            font-weight: 500;
-            transition: color 0.3s;
+            color: var(--primary);
+            font-size: 1.5rem;
+            font-weight: bold;
         }
 
-        nav ul li a:hover {
-            color: #e74c3c;
+        .logo i {
+            margin-right: 10px;
+            font-size: 1.8rem;
         }
 
-        .search-cart {
+        .header-actions {
             display: flex;
             align-items: center;
         }
 
-        .search-bar {
-            position: relative;
-            margin-right: 1rem;
+        .search-form {
+            display: flex;
+            margin-right: 20px;
         }
 
-        .search-bar input {
-            padding: 0.5rem 1rem;
-            border-radius: 20px;
-            border: none;
-            width: 200px;
+        .search-form input {
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px 0 0 4px;
+            min-width: 250px;
             outline: none;
+            transition: var(--transition);
         }
 
-        .dark-mode .search-bar input {
-            background-color: #333;
-            color: white;
+        .search-form button {
+            background-color: var(--primary);
+            color: var(--text-on-primary);
+            border: none;
+            padding: 8px 15px;
+            cursor: pointer;
+            border-radius: 0 4px 4px 0;
+            transition: var(--transition);
+        }
+
+        .search-form button:hover {
+            background-color: var(--primary-dark);
+        }
+
+        .user-actions a {
+            color: var(--primary);
+            text-decoration: none;
+            margin-left: 15px;
+            font-size: 1.1rem;
+            transition: var(--transition);
+        }
+
+        .user-actions a:hover {
+            color: var(--secondary);
         }
 
         .cart-icon {
-            color: white;
-            font-size: 1.3rem;
             position: relative;
-            cursor: pointer;
         }
 
         .cart-count {
             position: absolute;
-            top: -10px;
-            right: -10px;
-            background-color: #e74c3c;
-            color: white;
+            top: -8px;
+            right: -8px;
+            background-color: var(--secondary);
+            color: var(--text-on-secondary);
+            font-size: 0.7rem;
             border-radius: 50%;
-            width: 20px;
-            height: 20px;
+            width: 18px;
+            height: 18px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 0.8rem;
         }
 
-        .theme-toggle {
+        /* Navigation */
+        nav {
+            background-color: var(--primary);
+            padding: 12px 0;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style-type: none;
+        }
+
+        .nav-menu li {
+            margin-right: 25px;
+        }
+
+        .nav-menu a {
+            color: var(--text-on-primary);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 1rem;
+            transition: var(--transition);
+            padding: 5px 0;
+            position: relative;
+        }
+
+        .nav-menu a:after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            display: block;
+            margin-top: 5px;
+            right: 0;
+            background: var(--secondary);
+            transition: width .3s ease;
+        }
+
+        .nav-menu a:hover:after {
+            width: 100%;
+            left: 0;
+        }
+
+        .mobile-menu-btn {
+            display: none;
             background: none;
             border: none;
-            color: white;
-            font-size: 1.2rem;
-            margin-left: 1rem;
+            color: var(--text-on-primary);
+            font-size: 1.5rem;
             cursor: pointer;
         }
 
-        /* Main Content Styles */
-        main {
-            max-width: 1200px;
-            margin: 2rem auto;
-            padding: 0 2rem;
-        }
-
-        .page {
-            display: none;
-        }
-
-        .page.active {
-            display: block;
-            animation: fadeIn 0.5s ease;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-
-        /* Home Page Styles */
+        /* Hero Section */
         .hero {
-            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('https://images.unsplash.com/photo-1507842217343-583bb7270b66?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
+            background-image: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('/api/placeholder/1200/400');
             background-size: cover;
             background-position: center;
             height: 400px;
             display: flex;
             align-items: center;
-            justify-content: center;
-            text-align: center;
             color: white;
-            border-radius: 8px;
-            margin-bottom: 2rem;
+            margin-bottom: 40px;
         }
 
-        .dark-mode .hero {
-            background: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url('https://images.unsplash.com/photo-1507842217343-583bb7270b66?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
+        .hero-content {
+            max-width: 600px;
         }
 
-        .hero-content h1 {
+        .hero h1 {
             font-size: 2.5rem;
-            margin-bottom: 1rem;
+            margin-bottom: 20px;
         }
 
-        .hero-content p {
-            font-size: 1.2rem;
-            margin-bottom: 1.5rem;
+        .hero p {
+            margin-bottom: 30px;
+            font-size: 1.1rem;
         }
 
         .btn {
             display: inline-block;
-            background-color: #e74c3c;
-            color: white;
-            padding: 0.7rem 1.5rem;
-            border-radius: 5px;
+            background-color: var(--secondary);
+            color: var(--text-on-secondary);
+            padding: 10px 20px;
+            border-radius: 4px;
             text-decoration: none;
-            font-weight: bold;
-            transition: background-color 0.3s;
+            font-weight: 500;
+            transition: var(--transition);
+            border: none;
+            cursor: pointer;
         }
 
         .btn:hover {
-            background-color: #c0392b;
+            background-color: var(--secondary-dark);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
         }
 
+        .btn-outline {
+            background-color: transparent;
+            border: 2px solid var(--secondary);
+            color: white;
+            margin-left: 15px;
+        }
+
+        .btn-outline:hover {
+            background-color: var(--secondary);
+            color: var(--text-on-secondary);
+        }
+
+        /* Featured Books */
         .section-title {
-            font-size: 1.8rem;
-            margin-bottom: 1.5rem;
-            position: relative;
-            padding-bottom: 0.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--primary-light);
         }
 
-        .section-title::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 60px;
-            height: 3px;
-            background-color: #e74c3c;
+        .section-title h2 {
+            color: var(--primary);
+            font-size: 1.5rem;
         }
 
-        .dark-mode .section-title::after {
-            background-color: #e74c3c;
+        .section-title a {
+            color: var(--secondary);
+            text-decoration: none;
+            font-weight: 500;
         }
 
-        .featured-books {
-            margin-bottom: 3rem;
-        }
-
-        .books-grid {
+        .book-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-            gap: 2rem;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
         }
 
         .book-card {
-            background-color: white;
+            background-color: var(--surface);
             border-radius: 8px;
             overflow: hidden;
-            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s, box-shadow 0.3s;
-        }
-
-        .dark-mode .book-card {
-            background-color: #1e1e1e;
-            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);
+            box-shadow: var(--shadow-sm);
+            transition: var(--transition);
         }
 
         .book-card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            box-shadow: var(--shadow-lg);
         }
 
-        .book-cover {
-            height: 250px;
-            overflow: hidden;
-        }
-
-        .book-cover img {
+        .book-img {
+            height: 280px;
             width: 100%;
-            height: 100%;
             object-fit: cover;
-            transition: transform 0.5s;
-        }
-
-        .book-card:hover .book-cover img {
-            transform: scale(1.05);
         }
 
         .book-info {
-            padding: 1rem;
+            padding: 15px;
         }
 
         .book-title {
-            font-size: 1.1rem;
-            margin-bottom: 0.5rem;
-            font-weight: bold;
+            font-size: 1rem;
+            margin-bottom: 5px;
+            color: var(--primary);
         }
 
         .book-author {
             color: #666;
             font-size: 0.9rem;
-            margin-bottom: 0.5rem;
-        }
-
-        .dark-mode .book-author {
-            color: #aaa;
+            margin-bottom: 10px;
         }
 
         .book-price {
             font-weight: bold;
-            color: #e74c3c;
-            margin-bottom: 0.5rem;
+            color: var(--secondary-dark);
+            margin-bottom: 10px;
         }
 
         .book-actions {
             display: flex;
             justify-content: space-between;
-            margin-top: 1rem;
         }
 
-        .btn-small {
-            padding: 0.5rem 1rem;
-            font-size: 0.8rem;
+        .book-actions .btn {
+            padding: 6px 12px;
+            font-size: 0.85rem;
         }
 
-        .btn-outline {
-            background-color: transparent;
-            border: 1px solid #e74c3c;
-            color: #e74c3c;
-        }
-
-        .dark-mode .btn-outline {
-            color: #e74c3c;
-            border-color: #e74c3c;
-        }
-
-        .btn-outline:hover {
-            background-color: #e74c3c;
-            color: white;
-        }
-
-        /* Book Detail Page Styles */
-        .book-detail {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 2rem;
-            margin-bottom: 3rem;
-        }
-
-        .book-detail-cover {
-            flex: 1;
-            min-width: 300px;
-        }
-
-        .book-detail-cover img {
-            width: 100%;
-            max-width: 400px;
-            border-radius: 8px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-        }
-
-        .dark-mode .book-detail-cover img {
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-        }
-
-        .book-detail-info {
-            flex: 2;
-            min-width: 300px;
-        }
-
-        .book-detail-title {
-            font-size: 2rem;
-            margin-bottom: 0.5rem;
-        }
-
-        .book-detail-author {
-            font-size: 1.2rem;
-            color: #666;
-            margin-bottom: 1rem;
-        }
-
-        .dark-mode .book-detail-author {
-            color: #aaa;
-        }
-
-        .book-detail-meta {
-            display: flex;
-            gap: 1rem;
-            margin-bottom: 1rem;
-        }
-
-        .book-detail-genre, .book-detail-availability {
-            background-color: #f0f0f0;
-            padding: 0.3rem 0.8rem;
-            border-radius: 20px;
-            font-size: 0.9rem;
-        }
-
-        .dark-mode .book-detail-genre, 
-        .dark-mode .book-detail-availability {
-            background-color: #333;
-        }
-
-        .book-detail-price {
-            font-size: 1.8rem;
-            font-weight: bold;
-            color: #e74c3c;
-            margin: 1rem 0;
-        }
-
-        .book-detail-summary {
-            margin-bottom: 2rem;
-            line-height: 1.7;
-        }
-
-        .book-detail-actions {
-            display: flex;
-            gap: 1rem;
-            margin-bottom: 2rem;
-        }
-
-        /* Page Viewer Styles */
-        .page-viewer-container {
-            margin: 2rem 0;
-        }
-
-        .page-viewer-toolbar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 1rem;
-        }
-
-        .zoom-controls button {
-            background-color: #f0f0f0;
-            border: none;
-            padding: 0.5rem 1rem;
-            margin-right: 0.5rem;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-
-        .dark-mode .zoom-controls button {
-            background-color: #333;
-            color: white;
-        }
-
-        .page-viewer {
-            width: 100%;
-            height: 600px;
-            background-color: #f9f9f7;
-            border: 1px solid #ddd;
-            overflow: auto;
+        /* Carousel */
+        .carousel {
             position: relative;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            margin-bottom: 40px;
+            box-shadow: var(--shadow-md);
+            border-radius: 8px;
         }
 
-        .dark-mode .page-viewer {
-            background-color: #1e1e1e;
-            border-color: #444;
-        }
-
-        .page-content {
-            padding: 2rem;
-            font-size: 1.1rem;
-            line-height: 1.8;
-        }
-
-        .dark-mode .page-content {
-            color: #f0f0f0;
-        }
-
-        .page-navigation {
+        .carousel-inner {
             display: flex;
-            justify-content: space-between;
-            margin-top: 1rem;
+            transition: transform 0.5s ease;
         }
 
-        /* Summary Section Styles */
-        .summary-section {
-            margin: 3rem 0;
-        }
-
-        .summary-box {
-            background-color: white;
-            border-radius: 8px;
-            padding: 2rem;
-            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
-        }
-
-        .dark-mode .summary-box {
-            background-color: #1e1e1e;
-            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);
-        }
-
-        .summary-title {
-            font-size: 1.5rem;
-            margin-bottom: 1rem;
-            color: #e74c3c;
-        }
-
-        .summary-item {
-            margin-bottom: 1.5rem;
-        }
-
-        .summary-item h3 {
-            margin-bottom: 0.5rem;
-            font-size: 1.1rem;
-        }
-
-        /* Login/Register Page Styles */
-        .auth-container {
-            max-width: 500px;
-            margin: 2rem auto;
-            background-color: white;
-            border-radius: 8px;
-            padding: 2rem;
-            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
-        }
-
-        .dark-mode .auth-container {
-            background-color: #1e1e1e;
-            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);
-        }
-
-        .auth-title {
-            font-size: 1.8rem;
-            margin-bottom: 1.5rem;
-            text-align: center;
-        }
-
-        .auth-form .form-group {
-            margin-bottom: 1.5rem;
-        }
-
-        .auth-form label {
-            display: block;
-            margin-bottom: 0.5rem;
-            font-weight: 500;
-        }
-
-        .auth-form input {
-            width: 100%;
-            padding: 0.8rem;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            font-size: 1rem;
-        }
-
-        .dark-mode .auth-form input {
-            background-color: #333;
-            border-color: #444;
+        .carousel-item {
+            min-width: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 30px 20px;
+            background: linear-gradient(to right, var(--primary-dark), var(--primary));
             color: white;
-        }
-
-        .auth-form button {
-            width: 100%;
-            padding: 0.8rem;
-            font-size: 1rem;
-        }
-
-        .auth-switch {
             text-align: center;
-            margin-top: 1.5rem;
         }
 
-        .auth-switch-btn {
-            background: none;
-            border: none;
-            color: #e74c3c;
-            cursor: pointer;
-            text-decoration: underline;
-        }
-
-        /* Cart Page Styles */
-        .cart-container {
-            background-color: white;
-            border-radius: 8px;
-            padding: 2rem;
-            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
-        }
-
-        .dark-mode .cart-container {
-            background-color: #1e1e1e;
-            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);
-        }
-
-        .cart-items {
-            margin-bottom: 2rem;
-        }
-
-        .cart-item {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 1.5rem;
-            padding: 1.5rem 0;
-            border-bottom: 1px solid #eee;
-        }
-
-        .dark-mode .cart-item {
-            border-bottom-color: #444;
-        }
-
-        .cart-item-cover {
-            width: 100px;
-        }
-
-        .cart-item-cover img {
-            width: 100%;
+        .carousel-img {
+            width: 150px;
+            height: auto;
+            margin-bottom: 20px;
             border-radius: 4px;
+            box-shadow: var(--shadow-md);
         }
 
-        .cart-item-info {
-            flex: 1;
-            min-width: 200px;
+        .carousel-content h3 {
+            font-size: 1.8rem;
+            margin-bottom: 10px;
         }
 
-        .cart-item-title {
-            font-weight: bold;
-            margin-bottom: 0.5rem;
+        .carousel-content p {
+            margin-bottom: 20px;
         }
 
-        .cart-item-author {
-            color: #666;
-            font-size: 0.9rem;
-            margin-bottom: 0.5rem;
-        }
-
-        .dark-mode .cart-item-author {
-            color: #aaa;
-        }
-
-        .cart-item-price {
-            font-weight: bold;
-            color: #e74c3c;
-        }
-
-        .cart-item-actions {
+        .carousel-nav {
             display: flex;
-            align-items: center;
-            gap: 1rem;
+            justify-content: center;
+            margin-top: 15px;
         }
 
-        .quantity-control {
-            display: flex;
-            align-items: center;
-        }
-
-        .quantity-btn {
-            background-color: #f0f0f0;
+        .carousel-nav button {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
             border: none;
-            width: 30px;
-            height: 30px;
+            background-color: rgba(255, 255, 255, 0.5);
+            margin: 0 5px;
+            cursor: pointer;
+        }
+
+        .carousel-nav button.active {
+            background-color: white;
+        }
+
+        .carousel-prev, .carousel-next {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255, 255, 255, 0.5);
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
             display: flex;
             align-items: center;
             justify-content: center;
             cursor: pointer;
-            font-size: 1rem;
-        }
-
-        .dark-mode .quantity-btn {
-            background-color: #333;
-            color: white;
-        }
-
-        .quantity-input {
-            width: 50px;
-            text-align: center;
-            margin: 0 0.5rem;
-            padding: 0.3rem;
-        }
-
-        .dark-mode .quantity-input {
-            background-color: #333;
-            color: white;
-            border: 1px solid #444;
-        }
-
-        .remove-item {
-            color: #e74c3c;
-            cursor: pointer;
             font-size: 1.2rem;
+            z-index: 10;
+            transition: var(--transition);
         }
 
-        .cart-summary {
-            background-color: #f9f9f9;
-            padding: 1.5rem;
-            border-radius: 8px;
+        .carousel-prev:hover, .carousel-next:hover {
+            background: rgba(255, 255, 255, 0.8);
         }
 
-        .dark-mode .cart-summary {
-            background-color: #252525;
+        .carousel-prev {
+            left: 20px;
         }
 
-        .cart-summary-title {
-            font-size: 1.3rem;
-            margin-bottom: 1rem;
+        .carousel-next {
+            right: 20px;
         }
 
-        .cart-summary-row {
+        /* Categories */
+        .categories {
+            margin-bottom: 40px;
+        }
+
+        .category-list {
             display: flex;
-            justify-content: space-between;
-            margin-bottom: 0.8rem;
+            flex-wrap: wrap;
+            gap: 15px;
         }
 
-        .cart-summary-total {
-            font-weight: bold;
-            font-size: 1.2rem;
-            margin: 1.5rem 0;
-            padding-top: 1rem;
-            border-top: 1px solid #ddd;
+        .category-item {
+            background-color: var(--surface);
+            border-radius: 8px;
+            padding: 15px;
+            flex: 1 1 200px;
+            box-shadow: var(--shadow-sm);
+            text-align: center;
+            transition: var(--transition);
         }
 
-        .dark-mode .cart-summary-total {
-            border-top-color: #444;
+        .category-item:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-md);
+            background-color: var(--primary-light);
+            color: var(--text-on-primary);
         }
 
-        .checkout-btn {
-            width: 100%;
-            padding: 1rem;
+        .category-item i {
+            font-size: 2rem;
+            margin-bottom: 10px;
+            color: var(--primary);
+        }
+
+        .category-item:hover i {
+            color: var(--text-on-primary);
+        }
+
+        .category-item h3 {
             font-size: 1.1rem;
+            margin-bottom: 5px;
         }
 
-        /* Footer Styles */
+        .category-item p {
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        .category-item:hover p {
+            color: var(--text-on-primary);
+        }
+
+        /* Footer */
         footer {
-            background-color: #2c3e50;
-            color: white;
-            padding: 3rem 2rem 1rem;
-            margin-top: 3rem;
+            background-color: var(--primary-dark);
+            color: var(--text-on-primary);
+            padding: 40px 0 20px;
         }
 
-        .dark-mode footer {
-            background-color: #1a1a1a;
-        }
-
-        .footer-container {
-            max-width: 1200px;
-            margin: 0 auto;
+        .footer-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 2rem;
-            margin-bottom: 2rem;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-bottom: 30px;
         }
 
         .footer-column h3 {
             font-size: 1.2rem;
-            margin-bottom: 1.5rem;
+            margin-bottom: 20px;
             position: relative;
-            padding-bottom: 0.5rem;
+            padding-bottom: 10px;
         }
 
-        .footer-column h3::after {
+        .footer-column h3:after {
             content: '';
             position: absolute;
+            width: 50px;
+            height: 2px;
+            background-color: var(--secondary);
             bottom: 0;
             left: 0;
-            width: 40px;
-            height: 2px;
-            background-color: #e74c3c;
         }
 
-        .footer-column ul {
-            list-style: none;
+        .footer-links {
+            list-style-type: none;
         }
 
-        .footer-column ul li {
-            margin-bottom: 0.8rem;
+        .footer-links li {
+            margin-bottom: 10px;
         }
 
-        .footer-column ul li a {
-            color: #ddd;
+        .footer-links a {
+            color: #ccc;
             text-decoration: none;
-            transition: color 0.3s;
+            transition: var(--transition);
         }
 
-        .footer-column ul li a:hover {
-            color: #e74c3c;
-        }
-
-        .newsletter-form input {
-            width: 100%;
-            padding: 0.8rem;
-            margin-bottom: 1rem;
-            border: none;
-            border-radius: 4px;
-        }
-
-        .dark-mode .newsletter-form input {
-            background-color: #333;
-            color: white;
+        .footer-links a:hover {
+            color: var(--secondary);
+            padding-left: 5px;
         }
 
         .social-links {
             display: flex;
-            gap: 1rem;
-            margin-top: 1rem;
+            gap: 15px;
+            margin-top: 20px;
         }
 
         .social-links a {
-            color: white;
-            font-size: 1.5rem;
-            transition: color 0.3s;
+            color: var(--text-on-primary);
+            background-color: rgba(255, 255, 255, 0.1);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition);
         }
 
         .social-links a:hover {
-            color: #e74c3c;
+            background-color: var(--secondary);
+            transform: translateY(-3px);
+        }
+
+        .newsletter-form {
+            display: flex;
+            margin-top: 15px;
+        }
+
+        .newsletter-form input {
+            flex: 1;
+            padding: 10px;
+            border: none;
+            border-radius: 4px 0 0 4px;
+        }
+
+        .newsletter-form button {
+            background-color: var(--secondary);
+            color: var(--text-on-secondary);
+            border: none;
+            padding: 10px 15px;
+            border-radius: 0 4px 4px 0;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .newsletter-form button:hover {
+            background-color: var(--secondary-dark);
         }
 
         .footer-bottom {
             text-align: center;
-            padding-top: 2rem;
+            padding-top: 20px;
             border-top: 1px solid rgba(255, 255, 255, 0.1);
             font-size: 0.9rem;
-            color: #aaa;
         }
 
-        /* Responsive Styles */
+        /* Modal */
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .modal.open {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal-content {
+            background-color: var(--surface);
+            border-radius: 8px;
+            width: 90%;
+            max-width: 500px;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: var(--shadow-lg);
+            transform: translateY(-50px);
+            transition: all 0.3s ease;
+        }
+
+        .modal.open .modal-content {
+            transform: translateY(0);
+        }
+
+        .modal-header {
+            padding: 15px 20px;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-title {
+            font-size: 1.2rem;
+            color: var(--primary);
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #666;
+        }
+
+        .modal-body {
+            padding: 20px;
+        }
+
+        .login-form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .form-group label {
+            font-weight: 500;
+        }
+
+        .form-group input {
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 1rem;
+        }
+
+        .form-options {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.9rem;
+        }
+
+        .form-remember {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .forgot-password {
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        .modal-footer {
+            border-top: 1px solid #eee;
+            padding: 15px 20px;
+            text-align: center;
+        }
+
+        .switch-form {
+            font-size: 0.9rem;
+        }
+
+        .switch-form a {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        /* Dark mode toggle */
+        .dark-mode-toggle {
+            background: none;
+            border: none;
+            color: var(--primary);
+            font-size: 1.3rem;
+            cursor: pointer;
+            margin-left: 15px;
+            transition: var(--transition);
+        }
+
+        .dark-mode-toggle:hover {
+            color: var(--secondary);
+        }
+
+        /* Responsive styles */
+        @media (max-width: 992px) {
+            .hero {
+                height: 350px;
+            }
+            
+            .hero h1 {
+                font-size: 2.2rem;
+            }
+        }
+
         @media (max-width: 768px) {
-            .header-container {
+            .header-top {
                 flex-direction: column;
-                align-items: stretch;
+                gap: 15px;
             }
-
-            nav ul {
-                margin-top: 1rem;
-                justify-content: center;
+            
+            .search-form {
+                width: 100%;
+                margin-right: 0;
+                margin-bottom: 10px;
             }
-
-            .search-cart {
-                margin-top: 1rem;
-                justify-content: center;
+            
+            .search-form input {
+                min-width: auto;
+                flex: 1;
             }
-
+            
+            .nav-menu {
+                display: none;
+                flex-direction: column;
+                width: 100%;
+            }
+            
+            .nav-menu.active {
+                display: flex;
+            }
+            
+            .nav-menu li {
+                margin-right: 0;
+                margin-bottom: 10px;
+            }
+            
+            .mobile-menu-btn {
+                display: block;
+                margin-left: auto;
+            }
+            
             .hero {
                 height: 300px;
-            }
-
-            .hero-content h1 {
-                font-size: 2rem;
-            }
-
-            .book-detail {
-                flex-direction: column;
-            }
-
-            .book-detail-cover {
                 text-align: center;
             }
-
-            .page-viewer {
-                height: 400px;
+            
+            .hero-content {
+                margin: 0 auto;
             }
-        }
-
-        @media (max-width: 480px) {
-            nav ul {
-                flex-wrap: wrap;
-                justify-content: center;
-            }
-
-            nav ul li {
-                margin: 0.5rem;
-            }
-
-            .search-bar input {
-                width: 150px;
-            }
-
-            .hero {
-                height: 250px;
-            }
-
-            .hero-content h1 {
+            
+            .hero h1 {
                 font-size: 1.8rem;
             }
-
-            .books-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .page-viewer {
-                height: 300px;
-            }
-        }
-    </style>
-</head>
-<body>
-    <!-- Header -->
-    <header>
-        <div class="header-container">
-            <a href="#" class="logo" onclick="showPage('home')">Book<span>Haven</span></a>
-            <nav>
-                <ul>
-                    <li><a href="#" onclick="showPage('home')">Home</a></li>
-                    <li><a href="#" onclick="showPage('categories')">Categories</a></li>
-                    <li><a href="#" onclick="showPage('about')">About Us</a></li>
-                    <li><a href="#" onclick="showPage('contact')">Contact</a></li>
-                </ul>
-            </nav>
-            <div class="search-cart">
-                <div class="search-bar">
-                    <input type="text" placeholder="Search books...">
-                </div>
-                <div class="cart-icon" onclick="showPage('cart')">
-                    🛒 <span class="cart-count">0</span>
-                </div>
-                <button class="theme-toggle" onclick="toggleDarkMode()">🌓</button>
-            </div>
-        </div>
-    </header>
-
-    <!-- Main Content -->
-    <main>
-        <!-- Home Page -->
-        <div id="home" class="page active">
-            <div class="hero">
-                <div class="hero-content">
-                    <h1>Discover Your Next Favorite Book</h1>
-                    <p>Explore our vast collection of books across all genres</p>
-                    <a href="#" class="btn" onclick="showPage('categories')">Browse Collection</a>
-                </div>
-            </div>
-
-            <section class="featured-books">
-                <h2 class="section-title">Featured Books</h2>
-                <div class="books-grid">
-                    <!-- Book 1 -->
-                    <div class="book-card" onclick="showBookDetail('book1')">
-                        <div class="book-cover">
-                            <img src="https://m.media-amazon.com/images/I/91BdP1dClLL._AC_UF1000,1000_QL80_.jpg" alt="The Silent Patient">
-                        </div>
-                        <div class="book-info">
-                            <h3 class="book-title">The Silent Patient</h3>
-                            <p class="book-author">Alex Michaelides</p>
-                            <p class="book-price">$12.99</p>
-                            <div class="book-actions">
-                                <button class="btn-small btn-outline" onclick="event.stopPropagation(); showPageViewer('book1')">Read Sample</button>
-                                <button class="btn-small" onclick="event.stopPropagation(); addToCart('book1')">Add to Cart</button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Book 2 -->
-                    <div class="book-card" onclick="showBookDetail('book2')">
-                        <div class="book-cover">
-                            <img src="https://m.media-amazon.com/images/I/81bsw6fnUiL._AC_UF1000,1000_QL80_.jpg" alt="Where the Crawdads Sing">
-                        </div>
-                        <div class="book-info">
-                            <h3 class="book-title">Where the Crawdads Sing</h3>
-                            <p class="book-author">Delia Owens</p>
-                            <p class="book-price">$14.99</p>
-                            <div class="book-actions">
-                                <button class="btn-small btn-outline" onclick="event.stopPropagation(); showPageViewer('book2')">Read Sample</button>
-                                <button class="btn-small" onclick="event.stopPropagation(); addToCart('book2')">Add to Cart</button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Book 3 -->
-                    <div class="book-card" onclick="showBookDetail('book3')">
-                        <div class="book-cover">
-                            <img src="https://m.media-amazon.com/images/I/71X1p4TGlxL._AC_UF1000,1000_QL80_.jpg" alt="Educated">
-                        </div>
-                        <div class="book-info">
-                            <h3 class="book-title">Educated</h3>
-                            <p class="book-author">Tara Westover</p>
-                            <p class="book-price">$13.49</p>
-                            <div class="book-actions">
-                                <button class="btn-small btn-outline" onclick="event.stopPropagation(); showPageViewer('book3')">Read Sample</button>
-                                <button class="btn-small" onclick="event.stopPropagation(); addToCart('book3')">Add to Cart</button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Book 4 -->
-                    <div class="book-card" onclick="showBookDetail('book4')">
-                        <div class="book-cover">
-                            <img src="https://m.media-amazon.com/images/I/71PNGYHykrL._AC_UF1000,1000_QL80_.jpg" alt="Atomic Habits">
-                        </div>
-                        <div class="book-info">
-                            <h3 class="book-title">Atomic Habits</h3>
-                            <p class="book-author">James Clear</p>
-                            <p class="book-price">$11.99</p>
-                            <div class="book-actions">
-                                <button class="btn-small btn-outline" onclick="event.stopPropagation(); showPageViewer('book4')">Read Sample</button>
-                                <button class="btn-small" onclick="event.stopPropagation(); addToCart('book4')">Add to Cart</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-        </div>
-
-        <!-- Book Detail Page -->
-        <div id="book-detail" class="page">
-            <div class="book-detail">
-                <div class="book-detail-cover">
-                    <img id="detail-cover" src="" alt="Book Cover">
-                </div>
-                <div class="book-detail-info">
-                    <h1 id="detail-title" class="book-detail-title">Book Title</h1>
-                    <p id="detail-author" class="book-detail-author">Author Name</p>
-                    <div class="book-detail-meta">
-                        <span id="detail-genre" class="book-detail-genre">Fiction</span>
-                        <span id="detail-availability" class="book-detail-availability">In Stock</span>
-                    </div>
-                    <p id="detail-price" class="book-detail-price">$0.00</p>
-                    <p id="detail-summary" class="book-detail-summary">
-                        Book summary goes here. This is a placeholder for the detailed description of the book.
-                    </p>
-                    <div class="book-detail-actions">
-                        <button class="btn btn-outline" onclick="showPageViewer(currentBookId)">Read Sample</button>
-                        <button class="btn" onclick="addToCart(currentBookId)">Add to Cart</button>
-                    </div>
-                </div>
-            </div>
-
-            <div class="summary-section">
-                <div class="summary-box">
-                    <h2 class="summary-title">Book Résumé</h2>
-                    <div class="summary-item">
-                        <h3>Key Themes</h3>
-                        <p id="detail-themes">Themes content will be loaded here</p>
-                    </div>
-                    <div class="summary-item">
-                        <h3>Author Background</h3>
-                        <p id="detail-author-bio">Author bio will be loaded here</p>
-                    </div>
-                    <div class="summary-item">
-                        <h3>Why Read This Book?</h3>
-                        <p id="detail-review">Review content will be loaded here</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Page Viewer -->
-        <div id="page-viewer" class="page">
-            <div class="page-viewer-container">
-                <div class="page-viewer-toolbar">
-                    <button class="btn" onclick="showBookDetail(currentBookId)">Back to Book</button>
-                    <div class="zoom-controls">
-                        <button onclick="zoomOut()">-</button>
-                        <button onclick="resetZoom()">Reset</button>
-                        <button onclick="zoomIn()">+</button>
-                    </div>
-                </div>
-                <div class="page-viewer">
-                    <div id="page-content" class="page-content">
-                        <h2>Sample Pages</h2>
-                        <p>This is a sample page from the book. In a real implementation, this would show actual book content.</p>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam auctor, nisl eget ultricies tincidunt, nisl nisl aliquam nisl, eget ultricies nisl nisl eget nisl. Nullam auctor, nisl eget ultricies tincidunt, nisl nisl aliquam nisl, eget ultricies nisl nisl eget nisl.</p>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam auctor, nisl eget ultricies tincidunt, nisl nisl aliquam nisl, eget ultricies nisl nisl eget nisl. Nullam auctor, nisl eget ultricies tincidunt, nisl nisl aliquam nisl, eget ultricies nisl nisl eget nisl.</p>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam auctor, nisl eget ultricies tincidunt, nisl nisl aliquam nisl, eget ultricies nisl nisl eget nisl. Nullam auctor, nisl eget ultricies tincidunt, nisl nisl aliquam nisl, eget ultricies nisl nisl eget nisl.</p>
-                    </div>
-                </div>
-                <div class="page-navigation">
-                    <button class="btn" onclick="prevPage()">Previous Page</button>
-                    <span>Page <span id="current-page">1</span> of 5</span>
-                    <button class="btn" onclick="nextPage()">Next Page</button>
-                </div>
-            </div>
-        </div>
-
-        <!-- Login/Register Page -->
-        <div id="login" class="page">
-            <div class="auth-container">
-                <h2 class="auth-title" id="auth-title">Login</h2>
-                <form id="auth-form" class="auth-form">
-                    <div class="form-group">
-                        <label for="email">Email</label>
-                        <input type="email" id="email" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="password">Password</label>
-                        <input type="password" id="password" required>
-                    </div>
-                    <div id="register-fields" style="display: none;">
-                        <div class="form-group">
-                            <label for="name">Full Name</label>
-                            <input type="text" id="name">
-                        </div>
-                        <div class="form-group">
-                            <label for="confirm-password">Confirm Password</label>
-                            <input type="password" id="confirm-password">
-                        </div>
-                    </div>
-                    <button type="button" class="btn" onclick="authSubmit()">Submit</button>
-                </form>
-                <div class="auth-switch">
-                    <button class="auth-switch-btn" id="auth-switch-btn" onclick="toggleAuthForm()">Create an account</button>
-                </div>
-            </div>
-        </div>
-
-        <!-- Cart Page -->
-        <div id="cart" class="page">
-            <div class="cart-container">
-                <h2 class="section-title">Your Shopping Cart</h2>
-                <div class="cart-items" id="cart-items">
-                    <!-- Cart items will be added here dynamically -->
-                    <p>Your cart is empty</p>
-                </div>
-                <div class="cart-summary">
-                    <h3 class="cart-summary-title">Order Summary</h3>
-                    <div class="cart-summary-row">
-                        <span>Subtotal</span>
-                        <span id="cart-subtotal">$0.00</span>
-                    </div>
-                    <div class="cart-summary-row">
-                        <span>Shipping</span>
-                        <span id="cart-shipping">$0.00</span>
-                    </div>
-                    <div class="cart-summary-row cart-summary-total">
-                        <span>Total</span>
-                        <span id="cart-total">$0.00</span>
-                    </div>
-                    <button class="btn checkout-btn">Proceed to Checkout</button>
-                </div>
-            </div>
-        </div>
-
-        <!-- Other Pages (Placeholders) -->
-        <div id="categories" class="page">
-            <h2 class="section-title">Categories</h2>
-            <p>Categories page content would go here.</p>
-        </div>
-
-        <div id="about" class="page">
-            <h2 class="section-title">About Us</h2>
-            <p>About page content would go here.</p>
-        </div>
-
-        <div id="contact" class="page">
-            <h2 class="section-title">Contact Us</h2>
-            <p>Contact page content would go here.</p>
-        </div>
-    </main>
-
-    <!-- Footer -->
-    <footer>
-        <div class="footer-container">
-            <div class="footer-column">
-                <h3>Book Haven</h3>
-                <p>Your one-stop shop for all your reading needs. We offer a wide selection of books across all genres.</p>
-                <div class="social-links">
-                    <a href="#">📘</a>
-                    <a href="#">📸</a>
-                    <a href="#">🐦</a>
-                    <a href="#">📱</a>
-                </div>
-            </div>
-            <div class="footer-column">
-                <h3>Quick Links</h3>
-                <ul>
-                    <li><a href="#" onclick="showPage('home')">Home</a></li>
-                    <li><a href="#" onclick="showPage('categories')">Categories</a></li>
-                    <li><a href="#" onclick="showPage('about')">About Us</a></li>
-                    <li><a href="#" onclick="showPage('contact')">Contact</a></li>
-                </ul>
-            </div>
-            <div class="footer-column">
-                <h3>Customer Service</h3>
-                <ul>
-                    <li><a href="#">FAQs</a></li>
-                    <li><a href="#">Shipping Policy</a></li>
-                    <li><a href="#">Returns & Refunds</a></li>
-                    <li><a href="#">Track Order</a></li>
-                </ul>
-            </div>
-            <div class="footer-column">
-                <h3>Newsletter</h3>
-                <p>Subscribe to our newsletter for the latest updates and offers.</p>
-                <form class="newsletter-form">
-                    <input type="email" placeholder="Your email address">
-                    <button type="button" class="btn">Subscribe</button>
-                </form>
-            </div>
-        </div>
-        <div class="footer-bottom">
-            <p>&copy; 2023 Book Haven. All rights reserved. | <a href="#">Privacy Policy</a> | <a href="#">Terms of Service</a></p>
-        </div>
-    </footer>
-
-    <script>
-        // Book data
-        const books = {
-            'book1': {
-                id: 'book1',
-                title: 'The Silent Patient',
-                author: 'Alex Michaelides',
-                genre: 'Psychological Thriller',
-                price: 12.99,
-                availability: 'In Stock',
-                cover: 'https://m.media-amazon.com/images/I/91BdP1dClLL._AC_UF1000,1000_QL80_.jpg',
-                summary: 'Alicia Berenson\'s life is seemingly perfect. A famous painter married to an in-demand fashion photographer, she lives in a grand house with big windows overlooking a park in one of London\'s most desirable areas. One evening her husband Gabriel returns home late from a fashion shoot, and Alicia shoots him five times in the face, and then never speaks another word.',
-                themes: 'The novel explores themes of trauma, silence, and the complexities of the human psyche. It delves into how past experiences shape our present and the lengths people go to protect themselves from painful truths.',
-                authorBio: 'Alex Michaelides is a British-Cypriot author and screenwriter. Born in Cyprus to a Greek-Cypriot father and English mother, Michaelides studied English literature at Cambridge University and received an MA in screenwriting from the American Film Institute in Los Angeles.',
-                review: 'The Silent Patient is a shocking psychological thriller of a woman\'s act of violence against her husband—and of the therapist obsessed with uncovering her motive. This is an outstanding debut that will linger in your mind long after the final page.'
-            },
-            'book2': {
-                id: 'book2',
-                title: 'Where the Crawdads Sing',
-                author: 'Delia Owens',
-                genre: 'Literary Fiction',
-                price: 14.99,
-                availability: 'In Stock',
-                cover: 'https://m.media-amazon.com/images/I/81bsw6fnUiL._AC_UF1000,1000_QL80_.jpg',
-                summary: 'For years, rumors of the "Marsh Girl" have haunted Barkley Cove, a quiet town on the North Carolina coast. So in late 1969, when handsome Chase Andrews is found dead, the locals immediately suspect Kya Clark, the so-called Marsh Girl. But Kya is not what they say. Sensitive and intelligent, she has survived for years alone in the marsh that she calls home, finding friends in the gulls and lessons in the sand.',
-                themes: 'The novel explores themes of isolation, nature versus nurture, prejudice, and resilience. It examines how society treats those who are different and the healing power of nature.',
-                authorBio: 'Delia Owens is an American author and zoologist. She has spent most of her life in or near true wilderness, much of it in Africa, and has written about nature and conservation for decades.',
-                review: 'A painfully beautiful first novel that is at once a murder mystery, a coming-of-age narrative and a celebration of nature. Owens reminds us that we are forever shaped by the children we once were, and that we are all subject to the beautiful and violent secrets that nature keeps.'
-            },
-            'book3': {
-                id: 'book3',
-                title: 'Educated',
-                author: 'Tara Westover',
-                genre: 'Memoir',
-                price: 13.49,
-                availability: 'In Stock',
-                cover: 'https://m.media-amazon.com/images/I/71X1p4TGlxL._AC_UF1000,1000_QL80_.jpg',
-                summary: 'Tara Westover was seventeen the first time she set foot in a classroom. Born to survivalists in the mountains of Idaho, she prepared for the end of the world by stockpiling home-canned peaches and sleeping with her "head-for-the-hills bag". In the summer she stewed herbs for her mother, a midwife and healer, and in the winter she salvaged in her father\'s junkyard.',
-                themes: 'This memoir explores themes of family loyalty, the pursuit of knowledge, self-invention, and the tension between love and truth. It examines how education can both liberate and alienate.',
-                authorBio: 'Tara Westover is an American memoirist, essayist and historian. She earned her PhD in history from Trinity College, Cambridge in 2014. Educated is her first book.',
-                review: 'An amazing story, and truly inspiring. It\'s even more heartbreaking and inspiring than you\'d think. Westover\'s journey from a remote mountain in Idaho to the halls of Cambridge University is a testament to the resilience of the human spirit and the transformative power of education.'
-            },
-            'book4': {
-                id: 'book4',
-                title: 'Atomic Habits',
-                author: 'James Clear',
-                genre: 'Self-Help',
-                price: 11.99,
-                availability: 'In Stock',
-                cover: 'https://m.media-amazon.com/images/I/71PNGYHykrL._AC_UF1000,1000_QL80_.jpg',
-                summary: 'No matter your goals, Atomic Habits offers a proven framework for improving--every day. James Clear, one of the world\'s leading experts on habit formation, reveals practical strategies that will teach you exactly how to form good habits, break bad ones, and master the tiny behaviors that lead to remarkable results.',
-                themes: 'The book explores the power of small changes, the science of habit formation, and how to build systems rather than focus on goals. It emphasizes the compound effects of small, consistent actions.',
-                authorBio: 'James Clear is a writer and speaker focused on habits, decision making, and continuous improvement. He is the author of the #1 New York Times bestseller Atomic Habits. His work has appeared in the New York Times, Time, and Entrepreneur.',
-                review: 'Atomic Habits is the most comprehensive and practical guide on how to create good habits and break bad ones. It provides a clear framework for understanding how habits work and offers evidence-based strategies for making meaningful changes in your life.'
-            }
-        };
-
-        // Cart data
-        let cart = [];
-        let currentBookId = '';
-        let currentPage = 1;
-        let currentZoom = 1;
-        let isLoginForm = true;
-
-        // DOM Content Loaded
-        document.addEventListener('DOMContentLoaded', function() {
-            updateCartCount();
-            showPage('home');
-        });
-
-        // Show specific page
-        function showPage(pageId) {
-            document.querySelectorAll('.page').forEach(page => {
-                page.classList.remove('active');
-            });
-            document.getElementById(pageId).classList.add('active');
-        }
-
-        // Show book detail
-        function showBookDetail(bookId) {
-            currentBookId = bookId;
-            const book = books[bookId];
             
-            document.getElementById('detail-cover').src = book.cover;
-            document.getElementById('detail-title').textContent = book.title;
-            document.getElementById('detail-author').textContent = book.author;
-            document.getElementById('detail-genre').textContent = book.genre;
-            document.getElementById('detail-availability').textContent = book.availability;
-            document.getElementById('detail-price').textContent = `$${book.price.toFixed(2)}`;
-            document.getElementById('detail-summary').textContent = book.summary;
-            document.getElementById('detail-themes').textContent = book.themes;
-            document.getElementById('detail-author-bio').textContent = book.authorBio;
-            document.getElementById('detail-review').textContent = book.review;
+            .book-grid {
+                grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+            }
             
-            showPage('book-detail');
-        }
-
-        // Show page viewer
-        function showPageViewer(bookId) {
-            currentBookId = bookId;
-            currentPage = 1;
-            currentZoom = 1;
-            document.getElementById('current-page').textContent = currentPage;
-            document.getElementById('page-content').style.transform = `scale(${currentZoom})`;
-            showPage('page-viewer');
-        }
-
-        // Page navigation
-        function prevPage() {
-            if (currentPage > 1) {
-                currentPage--;
-                document.getElementById('current-page').textContent = currentPage;
-                // In a real implementation, you would load the actual previous page content
+            .carousel-content h3 {
+                font-size: 1.5rem;
             }
         }
 
-        function nextPage() {
-            if (currentPage < 5) { // Assuming 5 sample pages
-                currentPage++;
-                document.getElementById('current-page').textContent = currentPage;
-                // In a real implementation, you would load the actual next page content
-            }
-        }
-
-        // Zoom controls
-        function zoomIn() {
-            if (currentZoom < 2) {
-                currentZoom += 0.1;
-                document.getElementById('page-content').style.transform = `scale(${currentZoom})`;
-            }
-        }
-
-        function zoomOut() {
-            if (currentZoom > 0.5) {
-                currentZoom -= 0.1;
-                document.getElementById('page-content').style.transform = `scale(${currentZoom})`;
-            }
-        }
-
-        function resetZoom() {
-            currentZoom = 1;
-            document.getElementById('page-content').style.transform = `scale(${currentZoom})`;
-        }
-
-        // Cart functionality
-        function addToCart(bookId) {
-            const book = books[bookId];
-            const existingItem = cart.find(item => item.id === bookId);
-            
-            if (existingItem) {
-                existingItem.quantity++;
-            } else {
-                cart.push({
-                    id: bookId,
-                    title: book.title,
-                    author: book.author,
-                    price: book.price,
-                    cover: book.cover,
-                    quantity: 1
-                });
-            }
-            
-            updateCartCount();
-            updateCartDisplay();
-            
-            // Show a quick confirmation (in a real app, this would be more elegant)
-            alert(`${book.title} added to cart!`);
-        }
-
-        function updateCartCount() {
-            const totalItems = cart.reduce((total, item) => total + item.quantity, 0);
-            document.querySelector('.cart-count').textContent = totalItems;
-        }
-
-        function updateCartDisplay() {
-            const cartItemsContainer = document.getElementById('cart-items');
-            
-            if (cart.length === 0) {
-                cartItemsContainer.innerHTML = '<p>Your cart is empty</p>';
-                document.getElementById('cart-subtotal').textContent = '$0.00';
-                document.getElementById('cart-shipping').textContent = '$0.00';
-                document.getElementById('cart-total').textContent = '$0.00';
-                return;
-            }
-            
-            let html = '';
-            let subtotal = 0;
-            
-            cart.forEach(item => {
-                const itemTotal = item.price * item.quantity;
-                subtotal += itemTotal;
-                
-                html += `
-                    <div class="cart-item">
-                        <div class="cart-item-cover">
-                            <img src="${item.cover}" alt="${item.title}">
-                        </div>
-                        <div class="cart-item-info">
-                            <h3 class="cart-item-title">${item.title}</h3>
-                            <p class="cart-item-author">${item.author}</p>
-                            <p class="cart-item-price">$${item.price.toFixed(2)}</p>
-                        </div>
-                        <div class="cart-item-actions">
-                            <div class="quantity-control">
-                                <button class="quantity-btn" onclick="updateQuantity('${item.id}', ${item.quantity - 1})">-</button>
-                                <input type="number" class="quantity-input" value="${item.quantity}" min="1" onchange="updateQuantity('${item.id}', this.value)">
-                                <button class="quantity-btn" onclick="updateQuantity('${item.id}', ${item.quantity + 1})">+</button>
-                            </div>
-                            <span class="remove-item" onclick="removeFromCart('${item.id}')">🗑️</span>
-                        </div>
-                    </div>
-                `;
-            });
-            
-            const shipping = subtotal > 50 ? 0 : 5.99;
-            const total = subtotal + shipping;
-            
-            cartItemsContainer.innerHTML = html;
-            document.getElementById('cart-subtotal').textContent = `$${subtotal.toFixed(2)}`;
-            document.getElementById('cart-shipping').textContent = shipping === 0 ? 'FREE' : `$${shipping.toFixed(2)}`;
-            document.getElementById('cart-total').textContent = `$${total.toFixed(2)}`;
-        }
-
-        function updateQuantity(bookId, newQuantity) {
-            newQuantity = parseInt(newQuantity);
-            if (newQuantity < 1) newQuantity = 1;
-            
-            const item = cart.find(item => item.id === bookId);
-            if (item) {
-                item.quantity = newQuantity;
-                updateCartCount();
-                updateCartDisplay();
-            }
-        }
-
-        function removeFromCart(bookId) {
-            cart = cart.filter(item => item.id !== bookId);
-            updateCartCount();
-            updateCartDisplay();
-        }
-
-        // Auth functionality
-        function toggleAuthForm() {
-            isLoginForm = !isLoginForm;
-            
-            if (isLoginForm) {
-                document.getElementById('auth-title').textContent = 'Login';
-                document.getElementById('auth-switch-btn').textContent = 'Create an account';
-                document.getElementById('register-fields').style.display = 'none';
-            } else {
-                document.getElementById('auth-title').textContent = 'Register';
-                document.getElementById('auth-switch-btn').textContent = 'Already have an account?';
-                document.getElementById('register-fields').style.display = 'block';
-            }
-        }
-
-        function authSubmit() {
-            const email = document.getElementById('email').value;
-            const password = document.getElementById('password').value;
-            
-            if (isLoginForm) {
-                // Login logic
-                alert(`Login attempt with email: ${email}`);
-            } else {
-                // Register logic
-                const name = document.getElementById('name').value;
-                const confirmPassword = document.getElementById('confirm-password').value;
-                
-                if (password !== confirmPassword) {
-                    alert('Passwords do not match!');
-                    return;
-                }
-                
-                alert(`Registration attempt for ${name} with email: ${email}`);
-            }
-        }
-
-        // Dark mode toggle
-        function toggleDarkMode() {
-            document.body.classList.toggle('dark-mode');
-        }
-    </script>
-</body>
-</html>
+        @media (max-width: 576px) {
+            .hero {
+                height
