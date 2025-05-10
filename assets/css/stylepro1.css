@@ -15,7 +15,9 @@
   #CUSTOM PROPERTY
 \*-----------------------------------*/
 :root {
-  /* gradients */
+  /**
+   * gradients
+   */
   --bg-gradient-onyx: linear-gradient(
     to bottom right, 
     hsl(210, 80%, 65%) 3%, 
@@ -57,7 +59,9 @@
   --light-gray-70: hsla(210, 20%, 95%, 0.7);
   --bittersweet-shimmer: hsl(0, 80%, 65%);
 
-  /* typography */
+  /**
+   * typography
+   */
   --ff-poppins: 'Poppins', sans-serif;
   --fs-1: 24px;
   --fs-2: 18px;
@@ -71,30 +75,6 @@
   --fw-400: 400;
   --fw-500: 500;
   --fw-600: 600;
-
-  /* spacing */
-  --section-padding: 60px;
-
-  /* shadow */
-  --shadow-1: 0 5px 20px 0 hsla(210, 40%, 50%, 0.15);
-  --shadow-2: 0 16px 30px hsla(210, 40%, 50%, 0.15);
-  --shadow-3: 0 10px 30px hsla(210, 40%, 50%, 0.2);
-
-  /* border radius */
-  --radius-12: 12px;
-  --radius-24: 24px;
-
-  /* transition */
-  --transition-1: 0.25s ease;
-  --transition-2: 0.5s ease;
-}
-  /**
-   * transition
-   */
-
-  --transition-1: 0.25s ease;
-  --transition-2: 0.5s ease-in-out;
-
 }
 
 
