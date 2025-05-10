@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -639,4 +640,109 @@
         backButton.addEventListener('click', () => {
             // Animate button click
             gsap.to(backButton, {
-                scale: 0
+                scale: 0.9,
+                duration: 0.2,
+                yoyo: true,
+                repeat: 1,
+                ease: "power2.inOut",
+                onComplete: () => {
+                    // In a real implementation, this would navigate back
+                    window.scrollTo({
+                        top: 0,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+
+        // Show/hide back to top button based on scroll position
+        const backToTopButton = document.getElementById('topButton');
+        
+        window.addEventListener('scroll', () => {
+            if (window.pageYOffset > 300) {
+                backToTopButton.classList.add('visible');
+            } else {
+                backToTopButton.classList.remove('visible');
+            }
+        });
+
+        // Smooth scroll to top with animation
+        backToTopButton.addEventListener('click', () => {
+            gsap.to(window, {
+                scrollTo: 0,
+                duration: 1.2,
+                ease: "power2.inOut"
+            });
+            
+            // Button click animation
+            gsap.to(backToTopButton, {
+                scale: 0.8,
+                duration: 0.3,
+                yoyo: true,
+                repeat: 1,
+                ease: "power2.inOut"
+            });
+        });
+
+        // Hero image parallax effect
+        gsap.to('.hero-image', {
+            scrollTrigger: {
+                scrub: 0.5
+            },
+            y: 100,
+            scale: 0.98,
+            rotationY: 5,
+            ease: "none"
+        });
+
+        // Cursor follower (Pixar-style interactive element)
+        const cursorFollower = document.createElement('div');
+        cursorFollower.style.position = 'fixed';
+        cursorFollower.style.width = '20px';
+        cursorFollower.style.height = '20px';
+        cursorFollower.style.backgroundColor = 'rgba(255, 159, 67, 0.5)';
+        cursorFollower.style.borderRadius = '50%';
+        cursorFollower.style.pointerEvents = 'none';
+        cursorFollower.style.zIndex = '9999';
+        cursorFollower.style.transform = 'translate(-50%, -50%)';
+        cursorFollower.style.filter = 'blur(5px)';
+        cursorFollower.style.mixBlendMode = 'overlay';
+        cursorFollower.style.display = 'none';
+        document.body.appendChild(cursorFollower);
+
+        // Show cursor follower only on desktop
+        if (window.innerWidth > 768) {
+            cursorFollower.style.display = 'block';
+            
+            document.addEventListener('mousemove', (e) => {
+                gsap.to(cursorFollower, {
+                    x: e.clientX,
+                    y: e.clientY,
+                    duration: 0.3,
+                    ease: "power2.out"
+                });
+            });
+
+            // Scale up when hovering interactive elements
+            const interactiveElements = document.querySelectorAll('button, a, .hero-image, section');
+            interactiveElements.forEach(el => {
+                el.addEventListener('mouseenter', () => {
+                    gsap.to(cursorFollower, {
+                        scale: 2,
+                        backgroundColor: 'rgba(93, 173, 226, 0.7)',
+                        duration: 0.3
+                    });
+                });
+                
+                el.addEventListener('mouseleave', () => {
+                    gsap.to(cursorFollower, {
+                        scale: 1,
+                        backgroundColor: 'rgba(255, 159, 67, 0.5)',
+                        duration: 0.3
+                    });
+                });
+            });
+        }
+    </script>
+</body>
+</html>
