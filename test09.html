@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Stunning Store</title>
+    <style>
+        /* --- Global Styles --- */
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            margin: 0;
+            padding: 0;
+            line-height: 1.7;
+            background-color: #f4f4f4; /* Light gray background */
+            color: #333;
+            overflow-x: hidden; /* Prevent horizontal scrollbar */
+            scroll-behavior: smooth; /* Enable smooth scrolling */
+        }
+
+        /* --- Header & Navigation --- */
+        header {
+            background-color: rgba(255, 255, 255, 0.9); /* Semi-transparent white */
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+            padding: 1.5rem 2rem;
+            position: fixed; /* Fixed header */
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #2c3e50; /* Dark blue-gray logo */
+        }
+
+        nav ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+        }
+
+        nav ul li {
+            margin-left: 2rem;
+        }
+
+        nav ul li a {
+            text-decoration: none;
+            color: #555;
+            font-size: 1.1rem;
+            transition: color 0.3s ease;
+        }
+
+        nav ul li a:hover {
+            color: #e74c3c; /* Vibrant red hover */
+        }
+
+        .cart {
+            font-weight: 600;
+        }
+
+        /* --- Main Sections --- */
+        main {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding-top: 80px; /* Adjust for fixed header */
+        }
+
+        section {
+            padding: 6rem 2rem;
+            text-align: center;
+        }
+
+        section:nth-child(even) {
+            background-color: #fff; /* Alternate background color */
+        }
+
+        /* --- Hero Section --- */
+        #home {
+            background: linear-gradient(135deg, #a1c4fd 0%, #c2e9fb 100%); /* Soft blue gradient */
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 80vh;
+        }
+
+        .hero-content {
+            max-width: 600px;
+            padding: 2rem;
+        }
+
+        .hero-content h1 {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            color: #2c3e50; /* Dark blue-gray text */
+        }
+
+        .hero-content p {
+            font-size: 1.2rem;
+            color: #555;
+            margin-bottom: 2.5rem;
+        }
+
+        .hero-button {
+            display: inline-block;
+            background-color: #e74c3c; /* Vibrant red button */
+            color: #fff;
+            padding: 1rem 2rem;
+            text-decoration: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            transition: background-color 0.3s ease;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .hero-button:hover {
+            background-color: #c0392b; /* Darker red hover */
+        }
+
+        .hero-image-container {
+            flex: 1;
+            text-align: right;
+            padding-right: 2rem;
+        }
+
+        .hero-image {
+            max-width: 400px;
+            border-radius: 12px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+        }
+
+        /* --- Featured Products Section --- */
+        #products {
+            background-color: #fff;
+        }
+
+        #products h2 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #2c3e50;
+            margin-bottom: 2rem;
+        }
+
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 3rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .product-card {
+            background-color: #f9f9f9;
+            border-radius: 12px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 2rem;
+            text-align: center;
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .product-card img {
+            max-width: 100%;
+            height: auto;
+            margin-bottom: 1.5rem;
+            border-radius: 8px;
+        }
+
+        .product-card h3 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 0.8rem;
+        }
+
+        .product-card p {
+            color: #777;
+            margin-bottom: 1.2rem;
+        }
+
+        .product-button {
+            display: inline-block;
+            background-color: #3498db; /* Blue button */
+            color: #fff;
+            padding: 0.8rem 1.5rem;
+            text-decoration: none;
+            border-radius: 6px;
+            font-size: 1rem;
+            font-weight: 500;
+            transition: background-color 0.3s ease;
+        }
+
+        .product-button:hover {
+            background-color: #2980b9; /* Darker blue hover */
+        }
+
+        /* --- About Us Section --- */
+        #about {
+            background-color: #f9f9f9;
+        }
+
+        .about-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .about-content h2 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #2c3e50;
+            margin-bottom: 2rem;
+        }
+
+        .about-content p {
+            font-size: 1.1rem;
+            color: #555;
+            line-height: 1.8;
+            margin-bottom: 1.5rem;
+            text-align: left;
+        }
+
+        /* --- Contact Section --- */
+        #contact {
+            background: linear-gradient(135deg, #f6d365 0%, #fda085 100%); /* Warm gradient */
+            color: #fff;
+        }
+
+        .contact-content {
+            max-width: 700px;
+            margin: 0 auto;
+            padding: 3rem;
+            border-radius: 12px;
+            background-color: rgba(255, 255, 255, 0.15); /* Slightly transparent background */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .contact-content h2 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .contact-content p {
+            font-size: 1.1rem;
+            color: #eee;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        .contact-form {
+            display: grid;
+            grid-gap: 1.5rem;
+        }
+
+        .contact-form input[type="text"],
+        .contact-form input[type="email"],
+        .contact-form textarea {
+            padding: 1rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            color: #333;
+        }
+
+        .contact-form textarea {
+            min-height: 150px;
+        }
+
+        .contact-button {
+            background-color: #27ae60; /* Green button */
+            color: #fff;
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .contact-button:hover {
+            background-color: #219653; /* Darker green hover */
+        }
+
+        /* --- Footer --- */
+        footer {
+            text-align: center;
+            padding: 2rem 0;
+            background-color: #2c3e50; /* Dark blue-gray footer */
+            color: #fff;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">Your Awesome Store</div>
+            <ul>
+                <li><a href="#home">Home</a></li>
+                <li><a href="#products">Products</a></li>
+                <li><a href="#about">About Us</a></li>
+                <li><a href="#contact">Contact</a></li>
+                <li><a href="#" class="cart">Cart (0)</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section id="home">
+            <div class="hero-content">
+                <h1>Discover Unique Products</h1>
+                <p>Experience quality and style like never before. Browse our curated collection and find something special.</p>
+                <a href="#products" class="hero-button">Explore Products</a>
+            </div>
+            <div class="hero-image-container">
+                <img src="placeholder-hero.jpg" alt="Featured Product" class="hero-image">
+            </div>
+        </section>
+
+        <section id="products">
+            <h2>Our Featured Collection</h2>
+            <div class="product-grid">
+                <div class="product-card">
+                    <img src="placeholder-product1.jpg" alt="Product 1">
+                    <h3>Elegant Gadget</h3>
+                    <p>A sleek and powerful device for your everyday needs.</p>
+                    <a href="#" class="product-button">View Details</a>
+                </div>
+                <div class="product-card">
+                    <img src="placeholder-product2.jpg" alt="Product 2">
+                    <h3>Stylish Accessory</h3>
+                    <p>Add a touch of sophistication to your look with this beautiful accessory.</p>
+                    <a href="#" class="product-button">View Details</a>
+                </div>
+                <div class="product-card">
+                    <img src="placeholder-product3.jpg" alt="Product 3">
+                    <h3>Comfortable Apparel</h3>
+                    <p>Experience ultimate comfort and style with our premium apparel.</p>
+                    <a href="#" class="product-button">View Details</a>
+                </div>
+                <div class="product-card">
+                    <img src="placeholder-product4.jpg" alt="Product 4">
+                    <h3>Innovative Tool</h3>
+                    <p>Boost your productivity with this smart and innovative tool.</p>
+                    <a href="#" class="product-button">View Details</a>
+                </div>
+                <div class="product-card">
+                    <img src="placeholder-product5.jpg" alt="Product 5">
+                    <h3>Unique Decor</h3>
+                    <p>Enhance your living space with our unique and eye-catching decor.</p>
+                    <a href="#" class="product-button">View Details</a>
+                </div>
+                <div class="product-card">
+                    <img src="placeholder-product6.jpg" alt="Product 6">
+                    <h3>Premium Item</h3>
+                    <p>Indulge in the luxury and quality of our premium selection.</p>
+                    <a href="#" class="product-button">View Details</a>
+                </div>
+            </div>
+        </section>
+
+        <section id="about">
+            <div class="about-content">
+                <h2>About Our Story</h2>
+                <p>Welcome to Your Awesome Store, where passion meets quality. Founded with a vision to bring unique and exceptional products to your doorstep, we believe in the power of thoughtful design and enduring craftsmanship. Our journey began with a simple idea: to curate a collection of items that not only serve a purpose but also inspire and delight.</p>
+                <p>We are committed to sourcing the finest materials and working with skilled artisans to create products that stand the test of time. Our values are rooted in integrity, customer satisfaction, and a relentless pursuit of excellence. We strive to create a seamless shopping experience, from browsing our carefully selected items to the moment your order arrives.</p>
+                <p>Thank you for being a part of the Your Awesome Store community. We are excited to continue growing and bringing you more exceptional products that you'll love.</p>
+            </div>
+        </section>
+
+        <section id="contact">
+            <div class="contact-content">
+                <h2>Get in Touch</h2>
+                <p>We'd love to hear from you! Whether you have a question, feedback, or just want to say hello, feel free to reach out.</p>
+                <form class="contact-form">
+                    <input type="text" placeholder="Your Name">
+                    <input type="email" placeholder="Your Email">
+                    <textarea placeholder="Your Message"></textarea>
+                    <button type="submit" class="contact-button">Send Message</button>
+                </form>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Your Awesome Store. All rights reserved.</p>
+    </footer>
+
+    <script>
+        console.log("Single-page design loaded!");
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const navLinks = document.querySelectorAll('header nav ul li a');
+            const sections = document.querySelectorAll('main > section');
+
+            function highlightNavLink() {
+                let currentSectionId = '';
+                sections.forEach(section => {
+                    const sectionTop = section.offsetTop - 100; // Adjust offset for header
+                    const sectionHeight = section.offsetHeight;
+                    if (window.pageYOffset >= sectionTop && window.pageYOffset < sectionTop + sectionHeight) {
+                        currentSectionId = section.getAttribute('id');
+                    }
+                });
+
+                navLinks.forEach(link => {
+                    link.classList.remove('active');
+                    if (link.getAttribute('href') === `#${currentSectionId}`) {
+                        link.classList.add('active');
+                    }
+                });
+            }
+
+            navLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href').substring(1);
+                    const targetElement = document.getElementById(targetId);
+                    if (targetElement) {
+                        window.scrollTo({
+                            top: targetElement.offsetTop - 70, // Adjust for fixed header height
+                            behavior: 'smooth'
+                        });
+                    }
+                });
+            });
+
+            // Initial highlight and scroll listener
+            highlightNavLink();
+            window.addEventListener('scroll', highlightNavLink);
+        });
+    </script>
+</body>
+</html>
