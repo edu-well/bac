@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Your Exquisite Store</title>
+    <title>Your Mobile-Ready Store</title>
     <style>
-        /* --- Global Styles --- */
+        /* --- Root Variables --- */
         :root {
             --primary-color: #2c3e50; /* Dark blue-gray */
             --secondary-color: #e74c3c; /* Vibrant red */
@@ -18,6 +18,7 @@
             --transition: all 0.3s ease-in-out;
         }
 
+        /* --- Global Styles --- */
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
             margin: 0;
@@ -35,24 +36,26 @@
             font-weight: 700;
             line-height: 1.2;
             margin-bottom: 1.5rem;
+            text-align: center; /* Center headings by default for better mobile flow */
         }
 
         h1 {
-            font-size: 3.5rem;
+            font-size: 3rem;
         }
 
         h2 {
-            font-size: 2.8rem;
+            font-size: 2.4rem;
         }
 
         h3 {
-            font-size: 1.8rem;
+            font-size: 1.6rem;
         }
 
         p {
-            font-size: 1.1rem;
+            font-size: 1rem;
             color: #555;
-            margin-bottom: 1.8rem;
+            margin-bottom: 1.5rem;
+            text-align: center; /* Center paragraphs for mobile */
         }
 
         a {
@@ -67,9 +70,9 @@
 
         /* --- Header & Navigation --- */
         header {
-            background-color: rgba(255, 255, 255, 0.95);
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-            padding: 1.5rem 3rem;
+            background-color: rgba(255, 255, 255, 0.98);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            padding: 1rem 2rem;
             position: fixed;
             top: 0;
             left: 0;
@@ -86,7 +89,7 @@
         }
 
         .logo {
-            font-size: 2rem;
+            font-size: 1.7rem;
             font-weight: 800;
             color: var(--primary-color);
         }
@@ -99,12 +102,12 @@
         }
 
         nav ul li {
-            margin-left: 2.5rem;
+            margin-left: 1.5rem;
         }
 
         nav ul li a {
             color: var(--primary-color);
-            font-size: 1.1rem;
+            font-size: 1rem;
             font-weight: 500;
             transition: color 0.3s ease;
         }
@@ -123,9 +126,9 @@
             display: inline-block;
             background-color: var(--accent-color);
             color: var(--text-light);
-            padding: 1rem 2.2rem;
+            padding: 0.8rem 1.8rem;
             border-radius: var(--border-radius);
-            font-size: 1.1rem;
+            font-size: 1rem;
             font-weight: 600;
             text-align: center;
             box-shadow: var(--box-shadow);
@@ -152,13 +155,13 @@
 
         /* --- Sections --- */
         main {
-            max-width: 1400px;
+            max-width: 100%; /* Full width for mobile */
             margin: 0 auto;
-            padding-top: 90px; /* Adjust for fixed header */
+            padding-top: 60px; /* Adjust for fixed header */
         }
 
         section {
-            padding: 7rem 3rem;
+            padding: 4rem 2rem;
             text-align: center;
         }
 
@@ -168,44 +171,43 @@
 
         /* --- Hero Section --- */
         #home {
-            background: linear-gradient(135deg, #e0f7fa 0%, #c5e1a5 100%); /* Calming pastel gradient */
+            background: linear-gradient(135deg, #e0f7fa 0%, #c5e1a5 100%);
             color: var(--primary-color);
             display: flex;
+            flex-direction: column; /* Stack content on mobile */
             align-items: center;
             justify-content: center;
-            min-height: 85vh;
+            min-height: 70vh;
+            padding: 2rem;
         }
 
         .hero-content {
-            max-width: 650px;
-            padding: 2rem;
-            text-align: left;
+            max-width: 100%;
+            padding: 1.5rem;
+            text-align: center;
+            margin-bottom: 2rem;
         }
 
         .hero-content h1 {
-            font-size: 4rem;
-            margin-bottom: 2rem;
-            color: var(--primary-color);
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
         }
 
         .hero-content p {
-            font-size: 1.2rem;
-            color: #666;
-            margin-bottom: 3rem;
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
         }
 
         .hero-buttons a {
-            margin-right: 1.5rem;
+            margin: 0 0.5rem;
         }
 
         .hero-image-container {
-            flex: 1;
-            text-align: right;
-            padding-right: 3rem;
+            text-align: center;
         }
 
         .hero-image {
-            max-width: 450px;
+            max-width: 80%;
             border-radius: var(--border-radius);
             box-shadow: var(--box-shadow);
         }
@@ -216,16 +218,14 @@
         }
 
         #products h2 {
-            text-align: center;
-            margin-bottom: 3rem;
-            color: var(--primary-color);
+            margin-bottom: 2rem;
         }
 
         .product-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 3rem;
-            max-width: 1200px;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            max-width: 95%;
             margin: 0 auto;
         }
 
@@ -233,36 +233,36 @@
             background-color: #fff;
             border-radius: var(--border-radius);
             box-shadow: var(--box-shadow);
-            padding: 2.5rem;
+            padding: 1.5rem;
             text-align: center;
             transition: transform 0.3s ease-in-out;
         }
 
         .product-card:hover {
-            transform: translateY(-8px);
+            transform: translateY(-5px);
         }
 
         .product-card img {
             max-width: 100%;
             height: auto;
-            margin-bottom: 1.8rem;
+            margin-bottom: 1.2rem;
             border-radius: 8px;
         }
 
         .product-card h3 {
-            font-size: 1.6rem;
-            margin-bottom: 1rem;
-            color: var(--primary-color);
+            font-size: 1.4rem;
+            margin-bottom: 0.8rem;
         }
 
         .product-card p {
-            color: #777;
-            margin-bottom: 1.5rem;
+            font-size: 0.95rem;
+            margin-bottom: 1rem;
         }
 
         .product-button {
-            @extend .button; /* Inherit button styles */
-            background-color: var(--accent-color);
+            @extend .button;
+            font-size: 0.9rem;
+            padding: 0.6rem 1.2rem;
         }
 
         /* --- About Us Section --- */
@@ -271,28 +271,27 @@
         }
 
         .about-content {
-            max-width: 900px;
+            max-width: 95%;
             margin: 0 auto;
             text-align: left;
         }
 
         .about-content h2 {
+            margin-bottom: 2rem;
             text-align: center;
-            margin-bottom: 3rem;
-            color: var(--primary-color);
         }
 
         .about-content p {
-            font-size: 1.15rem;
-            line-height: 1.9;
-            margin-bottom: 2rem;
+            font-size: 1.05rem;
+            line-height: 1.8;
+            margin-bottom: 1.5rem;
         }
 
         .about-image-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 2rem;
-            margin-top: 2.5rem;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
         }
 
         .about-image-grid img {
@@ -303,69 +302,143 @@
 
         /* --- Contact Section --- */
         #contact {
-            background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%); /* Warm and inviting gradient */
+            background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
             color: var(--primary-color);
         }
 
         .contact-content {
-            max-width: 750px;
+            max-width: 95%;
             margin: 0 auto;
-            padding: 4rem;
+            padding: 3rem;
             border-radius: var(--border-radius);
             background-color: rgba(255, 255, 255, 0.8);
             box-shadow: var(--box-shadow);
         }
 
         .contact-content h2 {
-            text-align: center;
-            margin-bottom: 2.5rem;
+            margin-bottom: 2rem;
         }
 
         .contact-content p {
-            font-size: 1.15rem;
+            font-size: 1rem;
             color: #666;
-            margin-bottom: 2rem;
-            text-align: center;
+            margin-bottom: 1.5rem;
         }
 
         .contact-form {
             display: grid;
-            grid-gap: 1.8rem;
+            grid-gap: 1.2rem;
         }
 
         .contact-form input[type="text"],
         .contact-form input[type="email"],
         .contact-form textarea {
-            padding: 1.2rem;
+            padding: 1rem;
             border: 1px solid #ddd;
             border-radius: 8px;
-            font-size: 1rem;
+            font-size: 0.95rem;
             color: var(--text-dark);
         }
 
         .contact-form textarea {
-            min-height: 180px;
+            min-height: 120px;
         }
 
         .contact-button {
             @extend .button;
-            background-color: var(--secondary-color);
+            font-size: 1rem;
+            padding: 0.8rem 1.5rem;
         }
 
         /* --- Footer --- */
         footer {
             text-align: center;
-            padding: 2.5rem 0;
+            padding: 2rem;
             background-color: var(--primary-color);
             color: var(--text-light);
-            font-size: 0.95rem;
+            font-size: 0.9rem;
+        }
+
+        /* --- Media Queries for Responsiveness --- */
+        @media (min-width: 768px) {
+            h1 {
+                font-size: 3.5rem;
+                text-align: left;
+            }
+
+            h2 {
+                font-size: 2.8rem;
+                text-align: center;
+            }
+
+            p {
+                font-size: 1.1rem;
+                text-align: left;
+            }
+
+            #home {
+                flex-direction: row;
+                justify-content: space-around;
+                padding: 6rem 3rem;
+                min-height: 80vh;
+            }
+
+            .hero-content {
+                max-width: 55%;
+                text-align: left;
+                margin-bottom: 0;
+            }
+
+            .hero-image-container {
+                text-align: right;
+            }
+
+            .product-grid {
+                grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+                max-width: 1200px;
+            }
+
+            #about .about-content {
+                text-align: left;
+            }
+
+            #contact .contact-content {
+                padding: 4rem;
+            }
+
+            .contact-content h2,
+            .about-content h2 {
+                text-align: center;
+            }
+        }
+
+        @media (min-width: 992px) {
+            nav ul li {
+                margin-left: 2rem;
+            }
+
+            .logo {
+                font-size: 2rem;
+            }
+
+            nav ul li a {
+                font-size: 1.1rem;
+            }
+
+            main {
+                padding-top: 90px;
+            }
+
+            section {
+                padding: 7rem 3rem;
+            }
         }
     </style>
 </head>
 <body>
     <header>
         <nav>
-            <div class="logo">Your Exquisite Store</div>
+            <div class="logo">Your Mobile-Ready Store</div>
             <ul>
                 <li><a href="#home">Home</a></li>
                 <li><a href="#products">Products</a></li>
@@ -379,97 +452,61 @@
     <main>
         <section id="home">
             <div class="hero-content">
-                <h1>Experience Exceptional Quality</h1>
-                <p>Discover a curated collection of premium products designed with passion and crafted with care. Elevate your everyday with our exquisite offerings.</p>
+                <h1>Experience Seamless Shopping on Any Device</h1>
+                <p>Our store is designed to look and function beautifully on your phone, tablet, and desktop. Discover our premium collection today!</p>
                 <div class="hero-buttons">
-                    <a href="#products" class="button">Explore Collection</a>
+                    <a href="#products" class="button">Browse Now</a>
                     <a href="#about" class="button secondary-button">Our Story</a>
                 </div>
             </div>
             <div class="hero-image-container">
-                <img src="placeholder-hero-refined.jpg" alt="Premium Product" class="hero-image">
+                <img src="placeholder-hero-mobile.jpg" alt="Mobile Shopping" class="hero-image">
             </div>
         </section>
 
         <section id="products">
-            <h2>Our Featured Selection</h2>
+            <h2>Explore Our Amazing Products</h2>
             <div class="product-grid">
                 <div class="product-card">
-                    <img src="placeholder-product-refined1.jpg" alt="Product 1">
-                    <h3>Artisan Crafted Item</h3>
-                    <p>Discover the beauty of handcrafted excellence. Each piece tells a unique story.</p>
+                    <img src="placeholder-product-mobile1.jpg" alt="Product 1">
+                    <h3>Smart Accessory</h3>
+                    <p>Enhance your mobile experience with our range of smart accessories.</p>
                     <a href="#" class="product-button">View Details</a>
                 </div>
                 <div class="product-card">
-                    <img src="placeholder-product-refined2.jpg" alt="Product 2">
-                    <h3>Modern Design Piece</h3>
-                    <p>Embrace contemporary style with our sleek and innovative designs.</p>
-                    <a href="#" class="product-button">View Details</a>
+                    <img src="placeholder-product-mobile2.jpg" alt="Product 2">
+                    <h3>Portable Gadget</h3>
+                    <p>Discover our compact and powerful gadgets designed for life on the go.</p>
+                    <a href="#" class="product-button">See More</a>
                 </div>
                 <div class="product-card">
-                    <img src="placeholder-product-refined3.jpg" alt="Product 3">
-                    <h3>Luxurious Essential</h3>
-                    <p>Indulge in the comfort and quality of our premium essential products.</p>
-                    <a href="#" class="product-button">View Details</a>
+                    <img src="placeholder-product-mobile3.jpg" alt="Product 3">
+                    <h3>Stylish Wearable</h3>
+                    <p>Stay connected in style with our collection of modern wearables.</p>
+                    <a href="#" class="product-button">Explore</a>
                 </div>
                 <div class="product-card">
-                    <img src="placeholder-product-refined4.jpg" alt="Product 4">
-                    <h3>Sustainable Choice</h3>
-                    <p>Make a conscious choice with our eco-friendly and sustainable products.</p>
+                    <img src="placeholder-product-mobile4.jpg" alt="Product 4">
+                    <h3>Essential Tool</h3>
+                    <p>Find the perfect tools to streamline your daily tasks, wherever you are.</p>
                     <a href="#" class="product-button">Learn More</a>
                 </div>
                 <div class="product-card">
-                    <img src="placeholder-product-refined5.jpg" alt="Product 5">
-                    <h3>Limited Edition Item</h3>
-                    <p>Own a piece of exclusivity with our rare and limited edition offerings.</p>
-                    <a href="#" class="product-button">Explore Now</a>
+                    <img src="placeholder-product-mobile5.jpg" alt="Product 5">
+                    <h3>Unique Find</h3>
+                    <p>Browse our selection of unique and innovative products you won't find anywhere else.</p>
+                    <a href="#" class="product-button">Discover</a>
                 </div>
                 <div class="product-card">
-                    <img src="placeholder-product-refined6.jpg" alt="Product 6">
-                    <h3>Curated Collection</h3>
-                    <p>Browse our hand-picked selection of exceptional and inspiring items.</p>
-                    <a href="#" class="product-button">See Collection</a>
+                    <img src="placeholder-product-mobile6.jpg" alt="Product 6">
+                    <h3>Top Seller</h3>
+                    <p>Check out our most popular products, loved by customers worldwide.</p>
+                    <a href="#" class="product-button">Shop Now</a>
                 </div>
             </div>
         </section>
 
         <section id="about">
             <div class="about-content">
-                <h2>Our Philosophy</h2>
-                <p>At Your Exquisite Store, we believe that true beauty lies in the details. Our journey began with a passion for sourcing and creating products that not only meet the highest standards of quality but also embody elegance and sophistication. We are driven by a commitment to craftsmanship, sustainability, and the art of thoughtful design.</p>
-                <p>We collaborate with talented artisans and designers who share our vision for excellence. From the initial concept to the final creation, every step of our process is infused with care and attention. We strive to offer a collection that reflects our dedication to timeless style and enduring value.</p>
-                <p>More than just a store, we aim to build a community of individuals who appreciate the finer things in life. We are committed to providing exceptional customer service and creating a shopping experience that is as delightful as our products. Thank you for joining us on this journey.</p>
-                <div class="about-image-grid">
-                    <img src="placeholder-about1.jpg" alt="Our Craftsmanship">
-                    <img src="placeholder-about2.jpg" alt="Our Vision">
-                    <img src="placeholder-about3.jpg" alt="Our Team">
-                </div>
-            </div>
-        </section>
-
-        <section id="contact">
-            <div class="contact-content">
-                <h2>Connect With Us</h2>
-                <p>We are here to assist you. Please feel free to reach out with any inquiries, feedback, or collaboration opportunities.</p>
-                <form class="contact-form">
-                    <input type="text" placeholder="Your Name">
-                    <input type="email" placeholder="Your Email">
-                    <textarea placeholder="Your Message"></textarea>
-                    <button type="submit" class="contact-button">Send Inquiry</button>
-                </form>
-            </div>
-        </section>
-    </main>
-
-    <footer>
-        <p>&copy; 2025 Your Exquisite Store. All rights reserved.</p>
-    </footer>
-
-    <script>
-        console.log("Refined single-page design loaded!");
-
-        document.addEventListener('DOMContentLoaded', function() {
-            const navLinks = document.querySelectorAll('header nav ul li a');
-            const sections = document.querySelectorAll('main > section');
-
-            function highlightNavLink() {
+                <h2>Our Commitment to Quality and Accessibility</h2>
+                <p>At Your Mobile-Ready Store, we believe that everyone should have access to high-quality products, regardless of the device they're using. That's why we've meticulously designed our website to provide a seamless and enjoyable experience on all screen sizes.</p>
