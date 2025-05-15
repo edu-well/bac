@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Your Mobile-Ready Store</title>
+    <title>Your Interactive Store</title>
     <style>
         /* --- Root Variables --- */
         :root {
-            --primary-color: #2c3e50; /* Dark blue-gray */
-            --secondary-color: #e74c3c; /* Vibrant red */
-            --accent-color: #3498db; /* Blue */
+            --primary-color: #2c3e50;
+            --secondary-color: #e74c3c;
+            --accent-color: #3498db;
             --background-light: #f4f4f4;
             --text-dark: #333;
             --text-light: #eee;
@@ -31,12 +31,12 @@
         }
 
         /* --- Typography --- */
-        h1, h2, h3 {
+        h1, h2, h3, h4 {
             color: var(--primary-color);
             font-weight: 700;
             line-height: 1.2;
             margin-bottom: 1.5rem;
-            text-align: center; /* Center headings by default for better mobile flow */
+            text-align: center;
         }
 
         h1 {
@@ -51,11 +51,15 @@
             font-size: 1.6rem;
         }
 
+        h4 {
+            font-size: 1.8rem; /* Style for product details title */
+        }
+
         p {
             font-size: 1rem;
             color: #555;
             margin-bottom: 1.5rem;
-            text-align: center; /* Center paragraphs for mobile */
+            text-align: center;
         }
 
         a {
@@ -155,9 +159,10 @@
 
         /* --- Sections --- */
         main {
-            max-width: 100%; /* Full width for mobile */
+            max-width: 100%;
             margin: 0 auto;
-            padding-top: 60px; /* Adjust for fixed header */
+            padding-top: 60px;
+            position: relative; /* For absolute positioning of details section */
         }
 
         section {
@@ -174,7 +179,7 @@
             background: linear-gradient(135deg, #e0f7fa 0%, #c5e1a5 100%);
             color: var(--primary-color);
             display: flex;
-            flex-direction: column; /* Stack content on mobile */
+            flex-direction: column;
             align-items: center;
             justify-content: center;
             min-height: 70vh;
@@ -259,10 +264,71 @@
             margin-bottom: 1rem;
         }
 
-        .product-button {
+        .view-details-button {
             @extend .button;
             font-size: 0.9rem;
             padding: 0.6rem 1.2rem;
+            background-color: var(--secondary-color); /* Distinct color */
+            cursor: pointer;
+        }
+
+        /* --- Product Details Section (Initially Hidden) --- */
+        #product-details {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8); /* Dark overlay */
+            color: var(--text-light);
+            display: none; /* Initially hidden */
+            justify-content: center;
+            align-items: center;
+            z-index: 1001; /* Above header */
+        }
+
+        .details-content {
+            background-color: #fff;
+            color: var(--text-dark);
+            padding: 2rem;
+            border-radius: var(--border-radius);
+            max-width: 80%;
+            text-align: left;
+            position: relative;
+        }
+
+        .details-content h4 {
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+            text-align: left;
+        }
+
+        .details-content p {
+            font-size: 1rem;
+            text-align: left;
+            margin-bottom: 1.2rem;
+        }
+
+        .close-button {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: none;
+            border: none;
+            color: #777;
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        .close-button:hover {
+            color: var(--secondary-color);
+        }
+
+        .details-image {
+            max-width: 100%;
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
         }
 
         /* --- About Us Section --- */
@@ -410,6 +476,10 @@
             .about-content h2 {
                 text-align: center;
             }
+
+            .details-content {
+                max-width: 60%;
+            }
         }
 
         @media (min-width: 992px) {
@@ -438,7 +508,7 @@
 <body>
     <header>
         <nav>
-            <div class="logo">Your Mobile-Ready Store</div>
+            <div class="logo">Your Interactive Store</div>
             <ul>
                 <li><a href="#home">Home</a></li>
                 <li><a href="#products">Products</a></li>
@@ -452,61 +522,19 @@
     <main>
         <section id="home">
             <div class="hero-content">
-                <h1>Experience Seamless Shopping on Any Device</h1>
-                <p>Our store is designed to look and function beautifully on your phone, tablet, and desktop. Discover our premium collection today!</p>
+                <h1>Explore Our Engaging Collection</h1>
+                <p>Discover interactive product experiences and detailed information at your fingertips.</p>
                 <div class="hero-buttons">
-                    <a href="#products" class="button">Browse Now</a>
+                    <a href="#products" class="button">Browse Products</a>
                     <a href="#about" class="button secondary-button">Our Story</a>
                 </div>
             </div>
             <div class="hero-image-container">
-                <img src="placeholder-hero-mobile.jpg" alt="Mobile Shopping" class="hero-image">
+                <img src="placeholder-hero-interactive.jpg" alt="Interactive Experience" class="hero-image">
             </div>
         </section>
 
         <section id="products">
-            <h2>Explore Our Amazing Products</h2>
+            <h2>Discover Our Products</h2>
             <div class="product-grid">
-                <div class="product-card">
-                    <img src="placeholder-product-mobile1.jpg" alt="Product 1">
-                    <h3>Smart Accessory</h3>
-                    <p>Enhance your mobile experience with our range of smart accessories.</p>
-                    <a href="#" class="product-button">View Details</a>
-                </div>
-                <div class="product-card">
-                    <img src="placeholder-product-mobile2.jpg" alt="Product 2">
-                    <h3>Portable Gadget</h3>
-                    <p>Discover our compact and powerful gadgets designed for life on the go.</p>
-                    <a href="#" class="product-button">See More</a>
-                </div>
-                <div class="product-card">
-                    <img src="placeholder-product-mobile3.jpg" alt="Product 3">
-                    <h3>Stylish Wearable</h3>
-                    <p>Stay connected in style with our collection of modern wearables.</p>
-                    <a href="#" class="product-button">Explore</a>
-                </div>
-                <div class="product-card">
-                    <img src="placeholder-product-mobile4.jpg" alt="Product 4">
-                    <h3>Essential Tool</h3>
-                    <p>Find the perfect tools to streamline your daily tasks, wherever you are.</p>
-                    <a href="#" class="product-button">Learn More</a>
-                </div>
-                <div class="product-card">
-                    <img src="placeholder-product-mobile5.jpg" alt="Product 5">
-                    <h3>Unique Find</h3>
-                    <p>Browse our selection of unique and innovative products you won't find anywhere else.</p>
-                    <a href="#" class="product-button">Discover</a>
-                </div>
-                <div class="product-card">
-                    <img src="placeholder-product-mobile6.jpg" alt="Product 6">
-                    <h3>Top Seller</h3>
-                    <p>Check out our most popular products, loved by customers worldwide.</p>
-                    <a href="#" class="product-button">Shop Now</a>
-                </div>
-            </div>
-        </section>
-
-        <section id="about">
-            <div class="about-content">
-                <h2>Our Commitment to Quality and Accessibility</h2>
-                <p>At Your Mobile-Ready Store, we believe that everyone should have access to high-quality products, regardless of the device they're using. That's why we've meticulously designed our website to provide a seamless and enjoyable experience on all screen sizes.</p>
+                <div class="product-card" data-
