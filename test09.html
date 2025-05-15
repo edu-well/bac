@@ -1,105 +1,240 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Contact Me</title>
-  <style>
-    * {
-      box-sizing: border-box;
-      font-family: 'Segoe UI', sans-serif;
-    }
-
-    body {
-      margin: 0;
-      padding: 0;
-      background: #f7f8fa;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-    }
-
-    .container {
-      background: white;
-      padding: 30px;
-      border-radius: 12px;
-      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
-      width: 100%;
-      max-width: 420px;
-    }
-
-    h2 {
-      text-align: center;
-      margin-bottom: 25px;
-      color: #333;
-    }
-
-    input, textarea, button {
-      width: 100%;
-      padding: 12px;
-      margin-bottom: 15px;
-      border: 1px solid #ccc;
-      border-radius: 6px;
-      font-size: 15px;
-    }
-
-    button {
-      background-color: #007bff;
-      color: white;
-      border: none;
-      cursor: pointer;
-      transition: background 0.3s ease;
-    }
-
-    button:hover {
-      background-color: #0056b3;
-    }
-
-    .message {
-      display: none;
-      margin-top: 10px;
-      text-align: center;
-      font-weight: bold;
-    }
-
-    .message.success {
-      color: green;
-    }
-
-    .message.error {
-      color: red;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Me</title>
+    <style>
+        :root {
+            --primary-color: #6c63ff;
+            --secondary-color: #4a42e8;
+            --light-color: #f8f9fa;
+            --dark-color: #343a40;
+            --success-color: #28a745;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 500px;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .header {
+            background: var(--primary-color);
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 1.8rem;
+            margin-bottom: 5px;
+        }
+        
+        .header p {
+            opacity: 0.9;
+            font-size: 0.9rem;
+        }
+        
+        .form-container {
+            padding: 30px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--dark-color);
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+        
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(108, 99, 255, 0.2);
+        }
+        
+        textarea.form-control {
+            min-height: 150px;
+            resize: vertical;
+        }
+        
+        .btn {
+            display: inline-block;
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 500;
+            transition: all 0.3s;
+            width: 100%;
+        }
+        
+        .btn:hover {
+            background: var(--secondary-color);
+            transform: translateY(-2px);
+        }
+        
+        .btn:active {
+            transform: translateY(0);
+        }
+        
+        .status {
+            text-align: center;
+            margin-top: 20px;
+            padding: 10px;
+            border-radius: 5px;
+            display: none;
+        }
+        
+        .status.success {
+            display: block;
+            background-color: rgba(40, 167, 69, 0.2);
+            color: var(--success-color);
+        }
+        
+        .status.error {
+            display: block;
+            background-color: rgba(220, 53, 69, 0.2);
+            color: #dc3545;
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 15px;
+            font-size: 0.8rem;
+            color: #6c757d;
+            border-top: 1px solid #eee;
+        }
+    </style>
 </head>
 <body>
+    <div class="container">
+        <div class="header">
+            <h1>Contact Me</h1>
+            <p>Send me a message and I'll get back to you soon</p>
+        </div>
+        
+        <div class="form-container">
+            <form id="contactForm">
+                <div class="form-group">
+                    <label for="name">Your Name</label>
+                    <input type="text" id="name" class="form-control" placeholder="Enter your name" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="email">Your Email</label>
+                    <input type="email" id="email" class="form-control" placeholder="Enter your email" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="message">Your Message</label>
+                    <textarea id="message" class="form-control" placeholder="Write your message here..." required></textarea>
+                </div>
+                
+                <button type="submit" class="btn">Send Message</button>
+                
+                <div id="status" class="status"></div>
+            </form>
+        </div>
+        
+        <div class="footer">
+            &copy; 2023 Contact Form. All rights reserved.
+        </div>
+    </div>
 
-  <div class="container">
-    <h2>Send a Message</h2>
-    <form id="contact-form" action="https://formsubmit.io/send/aminesgatni53@gmail.com" method="POST">
-      <input type="text" name="name" placeholder="Your Name" required />
-      <input type="email" name="email" placeholder="Your Email" required />
-      <textarea name="message" placeholder="Type your message..." rows="5" required></textarea>
-
-      <input type="hidden" name="_captcha" value="false" />
-      <input type="hidden" name="_next" value="https://thankyoupage.com" />
-
-      <button type="submit">Send</button>
-      <div class="message" id="form-message"></div>
-    </form>
-  </div>
-
-  <script>
-    const form = document.getElementById('contact-form');
-    const msg = document.getElementById('form-message');
-
-    form.addEventListener('submit', (e) => {
-      msg.style.display = 'block';
-      msg.classList.remove('error');
-      msg.classList.add('success');
-      msg.innerText = "Sending message... Please wait";
-    });
-  </script>
-
+    <script>
+        document.getElementById('contactForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Get form values
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const message = document.getElementById('message').value;
+            
+            // Show loading state
+            const btn = document.querySelector('.btn');
+            const originalBtnText = btn.textContent;
+            btn.textContent = 'Sending...';
+            btn.disabled = true;
+            
+            // Here you would typically send the data to a server
+            // For this example, we'll simulate an API call with setTimeout
+            setTimeout(() => {
+                // Simulate successful submission
+                const isSuccess = Math.random() > 0.2; // 80% chance of success
+                
+                if (isSuccess) {
+                    // Show success message
+                    const status = document.getElementById('status');
+                    status.textContent = 'Message sent successfully!';
+                    status.className = 'status success';
+                    
+                    // In a real application, you would send the data to your server
+                    // which would then forward the email to eduwelltn@gmail.com
+                    console.log('Message details:', { name, email, message });
+                    console.log('This would be sent to: eduwelltn@gmail.com');
+                    
+                    // Reset form
+                    document.getElementById('contactForm').reset();
+                } else {
+                    // Show error message
+                    const status = document.getElementById('status');
+                    status.textContent = 'Failed to send message. Please try again.';
+                    status.className = 'status error';
+                }
+                
+                // Reset button
+                btn.textContent = originalBtnText;
+                btn.disabled = false;
+                
+                // Hide status message after 5 seconds
+                setTimeout(() => {
+                    status.className = 'status';
+                    status.textContent = '';
+                }, 5000);
+            }, 1500);
+        });
+    </script>
 </body>
 </html>
