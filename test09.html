@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EduBuild - Educational Materials</title>
+    <title>EduBuilder - Educational Materials</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
@@ -12,21 +12,18 @@
             --primary-light: #818cf8;
             --primary-dark: #3730a3;
             --accent: #ec4899;
-            --accent-light: #f472b6;
             --light: #f8fafc;
             --dark: #0f172a;
             --gray: #64748b;
             --light-gray: #e2e8f0;
             --success: #10b981;
-            --warning: #f59e0b;
-            --error: #ef4444;
+            --radius-sm: 0.5rem;
+            --radius-md: 0.75rem;
+            --radius-lg: 1rem;
             --shadow-sm: 0 1px 2px rgba(0,0,0,0.05);
             --shadow-md: 0 4px 6px rgba(0,0,0,0.1);
             --shadow-lg: 0 10px 25px rgba(0,0,0,0.1);
             --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            --radius-sm: 0.5rem;
-            --radius-md: 0.75rem;
-            --radius-lg: 1rem;
         }
         
         * {
@@ -34,12 +31,6 @@
             padding: 0;
             box-sizing: border-box;
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-        }
-        
-        @supports (font-variation-settings: normal) {
-            * {
-                font-family: 'Inter var', -apple-system, BlinkMacSystemFont, sans-serif;
-            }
         }
         
         body {
@@ -59,20 +50,11 @@
             padding: 0 1.5rem;
         }
         
-        /* Header */
+        /* Simplified Header */
         header {
             background-color: white;
             box-shadow: var(--shadow-sm);
-            position: sticky;
-            top: 0;
-            z-index: 50;
             padding: 1rem 0;
-        }
-        
-        .navbar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
         }
         
         .logo {
@@ -89,85 +71,16 @@
             color: var(--accent);
         }
         
-        .nav-links {
-            display: flex;
-            gap: 1.5rem;
-        }
-        
-        .nav-link {
-            color: var(--gray);
-            text-decoration: none;
-            font-weight: 500;
-            transition: var(--transition);
-            position: relative;
-        }
-        
-        .nav-link:hover {
-            color: var(--primary);
-        }
-        
-        .nav-link::after {
-            content: '';
-            position: absolute;
-            bottom: -0.25rem;
-            left: 0;
-            width: 0;
-            height: 2px;
-            background-color: var(--primary);
-            transition: var(--transition);
-        }
-        
-        .nav-link:hover::after {
-            width: 100%;
-        }
-        
-        .cart-btn {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            color: var(--primary);
-            background-color: rgba(79, 70, 229, 0.1);
-            padding: 0.5rem 1rem;
-            border-radius: var(--radius-sm);
-            font-weight: 500;
-            text-decoration: none;
-            transition: var(--transition);
-        }
-        
-        .cart-btn:hover {
-            background-color: rgba(79, 70, 229, 0.2);
-        }
-        
-        .cart-count {
-            background-color: var(--primary);
-            color: white;
-            border-radius: 9999px;
-            width: 1.25rem;
-            height: 1.25rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 0.75rem;
-        }
-        
-        /* Main Content */
-        main {
-            flex: 1;
-            padding: 2rem 0;
-        }
-        
-        /* Product Section */
+        /* Product Section - Mobile First */
         .product-section {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            display: flex;
+            flex-direction: column;
             gap: 2rem;
-            margin-bottom: 3rem;
+            margin: 2rem 0;
         }
         
         .product-gallery {
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
+            order: 1;
         }
         
         .main-image {
@@ -179,7 +92,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 2rem;
+            padding: 1rem;
         }
         
         .main-image img {
@@ -190,21 +103,21 @@
         
         .thumbnail-container {
             display: flex;
-            gap: 1rem;
+            gap: 0.75rem;
+            margin-top: 0.75rem;
+            overflow-x: auto;
+            padding-bottom: 0.5rem;
         }
         
         .thumbnail {
-            width: 4rem;
-            height: 4rem;
+            min-width: 60px;
+            height: 60px;
             border-radius: var(--radius-sm);
             overflow: hidden;
             cursor: pointer;
             border: 2px solid transparent;
             transition: var(--transition);
-        }
-        
-        .thumbnail:hover {
-            border-color: var(--primary);
+            flex-shrink: 0;
         }
         
         .thumbnail.active {
@@ -218,33 +131,33 @@
         }
         
         .product-details {
-            display: flex;
-            flex-direction: column;
-            gap: 1.5rem;
+            order: 2;
         }
         
         .product-title {
-            font-size: 2rem;
+            font-size: 1.75rem;
             font-weight: 700;
-            color: var(--dark);
+            margin-bottom: 0.5rem;
         }
         
         .product-price {
-            font-size: 1.75rem;
+            font-size: 1.5rem;
             font-weight: 700;
             color: var(--primary);
+            margin-bottom: 1rem;
         }
         
         .product-description {
             color: var(--gray);
-            line-height: 1.7;
+            margin-bottom: 1.5rem;
         }
         
         .product-meta {
             display: flex;
             flex-wrap: wrap;
             gap: 1rem;
-            margin-top: 0.5rem;
+            margin-bottom: 1.5rem;
+            font-size: 0.875rem;
         }
         
         .meta-item {
@@ -252,7 +165,6 @@
             align-items: center;
             gap: 0.5rem;
             color: var(--gray);
-            font-size: 0.875rem;
         }
         
         .meta-icon {
@@ -263,56 +175,37 @@
         .order-form {
             background-color: white;
             border-radius: var(--radius-lg);
-            padding: 2rem;
+            padding: 1.5rem;
             box-shadow: var(--shadow-md);
-            margin-bottom: 3rem;
+            margin-bottom: 2rem;
         }
         
         .section-title {
             font-size: 1.25rem;
             font-weight: 600;
-            margin-bottom: 1.5rem;
+            margin-bottom: 1.25rem;
             color: var(--dark);
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-        }
-        
-        .section-title::before {
-            content: '';
-            display: block;
-            width: 0.5rem;
-            height: 1.5rem;
-            background-color: var(--primary);
-            border-radius: var(--radius-sm);
-        }
-        
-        .form-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 1.5rem;
-            margin-bottom: 1.5rem;
         }
         
         .form-group {
-            display: flex;
-            flex-direction: column;
-            gap: 0.5rem;
+            margin-bottom: 1.25rem;
         }
         
         .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
             font-weight: 500;
-            color: var(--dark);
         }
         
         .form-label.required::after {
             content: '*';
-            color: var(--error);
+            color: var(--accent);
             margin-left: 0.25rem;
         }
         
         .form-control {
-            padding: 0.75rem 1rem;
+            width: 100%;
+            padding: 0.75rem;
             border: 1px solid var(--light-gray);
             border-radius: var(--radius-sm);
             font-size: 1rem;
@@ -322,37 +215,26 @@
         .form-control:focus {
             outline: none;
             border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.2);
+            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
         }
         
         .error-message {
-            color: var(--error);
+            color: var(--accent);
             font-size: 0.875rem;
+            margin-top: 0.25rem;
             display: none;
-        }
-        
-        .select-wrapper {
-            position: relative;
-        }
-        
-        .select-wrapper::after {
-            content: '▼';
-            position: absolute;
-            top: 50%;
-            right: 1rem;
-            transform: translateY(-50%);
-            pointer-events: none;
-            color: var(--gray);
-            font-size: 0.75rem;
         }
         
         select.form-control {
             appearance: none;
-            padding-right: 2.5rem;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%2364748b' viewBox='0 0 16 16'%3E%3Cpath d='M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 0.75rem center;
+            background-size: 16px 12px;
         }
         
         textarea.form-control {
-            min-height: 8rem;
+            min-height: 120px;
             resize: vertical;
         }
         
@@ -360,37 +242,37 @@
         .summary {
             background-color: var(--light);
             border-radius: var(--radius-md);
-            padding: 1.5rem;
-            margin-top: 2rem;
+            padding: 1.25rem;
+            margin-top: 1.5rem;
         }
         
         .summary-item {
             display: flex;
             justify-content: space-between;
-            margin-bottom: 0.75rem;
+            margin-bottom: 0.5rem;
         }
         
         .summary-total {
             font-weight: 700;
             font-size: 1.125rem;
-            margin-top: 1rem;
-            padding-top: 1rem;
+            margin-top: 0.75rem;
+            padding-top: 0.75rem;
             border-top: 1px solid var(--light-gray);
         }
         
         /* Buttons */
         .btn-group {
             display: flex;
-            gap: 1rem;
-            margin-top: 2rem;
-            flex-wrap: wrap;
+            flex-direction: column;
+            gap: 0.75rem;
+            margin-top: 1.5rem;
         }
         
         .btn {
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            padding: 0.875rem 1.75rem;
+            padding: 0.875rem;
             border-radius: var(--radius-sm);
             font-weight: 500;
             cursor: pointer;
@@ -399,13 +281,12 @@
             gap: 0.5rem;
             border: none;
             font-size: 1rem;
+            width: 100%;
         }
         
         .btn-primary {
             background-color: var(--primary);
             color: white;
-            flex: 1;
-            min-width: 200px;
         }
         
         .btn-primary:hover {
@@ -418,14 +299,10 @@
             background-color: transparent;
             border: 1px solid var(--primary);
             color: var(--primary);
-            flex: 1;
-            min-width: 200px;
         }
         
         .btn-outline:hover {
             background-color: rgba(79, 70, 229, 0.1);
-            transform: translateY(-2px);
-            box-shadow: var(--shadow-md);
         }
         
         .btn-icon {
@@ -439,72 +316,60 @@
             align-items: center;
             justify-content: center;
             text-align: center;
-            min-height: 60vh;
-            padding: 2rem;
+            min-height: 70vh;
+            padding: 2rem 1.5rem;
         }
         
         .checkmark {
-            width: 6rem;
-            height: 6rem;
+            width: 5rem;
+            height: 5rem;
             border-radius: 50%;
             background-color: var(--success);
             display: flex;
             align-items: center;
             justify-content: center;
-            margin-bottom: 2rem;
+            margin-bottom: 1.5rem;
             animation: checkmarkScale 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55) both;
         }
         
         @keyframes checkmarkScale {
-            0% {
-                transform: scale(0);
-            }
-            80% {
-                transform: scale(1.1);
-            }
-            100% {
-                transform: scale(1);
-            }
+            0% { transform: scale(0); }
+            80% { transform: scale(1.1); }
+            100% { transform: scale(1); }
         }
         
         .checkmark-icon {
             color: white;
-            font-size: 3rem;
+            font-size: 2rem;
             animation: checkmarkDraw 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55) both;
             animation-delay: 0.3s;
         }
         
         @keyframes checkmarkDraw {
-            0% {
-                transform: scale(0);
-            }
-            100% {
-                transform: scale(1);
-            }
+            0% { transform: scale(0); }
+            100% { transform: scale(1); }
         }
         
         .thank-you-title {
-            font-size: 2rem;
+            font-size: 1.75rem;
             font-weight: 700;
             margin-bottom: 1rem;
-            color: var(--dark);
         }
         
         .thank-you-text {
             color: var(--gray);
-            max-width: 40rem;
-            margin-bottom: 2rem;
+            margin-bottom: 1.5rem;
             line-height: 1.7;
         }
         
         .order-details {
             background-color: white;
             border-radius: var(--radius-md);
-            padding: 2rem;
+            padding: 1.5rem;
             box-shadow: var(--shadow-sm);
             width: 100%;
-            max-width: 36rem;
-            margin-bottom: 2rem;
+            max-width: 400px;
+            margin-bottom: 1.5rem;
         }
         
         .order-number {
@@ -515,52 +380,36 @@
         
         .order-summary {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 1rem;
+            grid-template-columns: 1fr;
+            gap: 0.75rem;
             text-align: left;
         }
         
         .order-summary-item {
             display: flex;
-            flex-direction: column;
-            gap: 0.25rem;
+            justify-content: space-between;
         }
         
         .order-summary-label {
-            font-size: 0.875rem;
             color: var(--gray);
-        }
-        
-        .order-summary-value {
-            font-weight: 500;
         }
         
         /* Footer */
         footer {
             background-color: var(--dark);
             color: white;
-            padding: 3rem 0;
+            padding: 2rem 0;
+            text-align: center;
         }
         
         .footer-content {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 2rem;
-            margin-bottom: 2rem;
-        }
-        
-        .footer-column {
             display: flex;
             flex-direction: column;
-            gap: 1rem;
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
         }
         
-        .footer-title {
-            font-weight: 600;
-            margin-bottom: 0.5rem;
-        }
-        
-        .footer-links {
+        .footer-contact {
             display: flex;
             flex-direction: column;
             gap: 0.5rem;
@@ -578,28 +427,79 @@
         
         .footer-bottom {
             border-top: 1px solid rgba(255, 255, 255, 0.1);
-            padding-top: 2rem;
-            text-align: center;
-            color: var(--light-gray);
+            padding-top: 1.5rem;
             font-size: 0.875rem;
+            color: var(--light-gray);
         }
         
-        /* Responsive */
-        @media (max-width: 768px) {
-            .product-section {
-                grid-template-columns: 1fr;
+        /* Desktop Styles */
+        @media (min-width: 768px) {
+            .container {
+                padding: 0 2rem;
             }
             
-            .form-grid {
-                grid-template-columns: 1fr;
+            .product-section {
+                flex-direction: row;
+                gap: 3rem;
+                margin: 3rem 0;
+            }
+            
+            .product-gallery {
+                flex: 1;
+                order: 1;
+            }
+            
+            .product-details {
+                flex: 1;
+                order: 2;
+            }
+            
+            .product-title {
+                font-size: 2rem;
+            }
+            
+            .product-price {
+                font-size: 1.75rem;
+            }
+            
+            .order-form {
+                padding: 2rem;
             }
             
             .btn-group {
-                flex-direction: column;
+                flex-direction: row;
             }
             
             .btn {
-                width: 100%;
+                width: auto;
+                padding: 0.875rem 1.75rem;
+            }
+            
+            .thank-you {
+                min-height: 60vh;
+                padding: 3rem;
+            }
+            
+            .checkmark {
+                width: 6rem;
+                height: 6rem;
+            }
+            
+            .checkmark-icon {
+                font-size: 3rem;
+            }
+            
+            .thank-you-title {
+                font-size: 2rem;
+            }
+            
+            .order-summary {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .footer-content {
+                flex-direction: row;
+                justify-content: space-between;
             }
         }
     </style>
@@ -609,21 +509,10 @@
     <div id="productPage">
         <header>
             <div class="container">
-                <nav class="navbar">
-                    <a href="#" class="logo">
-                        <i class="fas fa-graduation-cap logo-icon"></i>
-                        EduBuild
-                    </a>
-                    <div class="nav-links">
-                        <a href="#" class="nav-link">Products</a>
-                        <a href="#" class="nav-link">Solutions</a>
-                        <a href="#" class="nav-link">Resources</a>
-                        <a href="#" class="cart-btn">
-                            <i class="fas fa-shopping-cart"></i>
-                            <span class="cart-count">0</span>
-                        </a>
-                    </div>
-                </nav>
+                <a href="#" class="logo">
+                    <i class="fas fa-graduation-cap logo-icon"></i>
+                    EduBuilder
+                </a>
             </div>
         </header>
         
@@ -648,7 +537,7 @@
                     </div>
                     
                     <div class="product-details">
-                        <h1 class="product-title">Custom Educational Materials Package</h1>
+                        <h1 class="product-title">Educational Materials Package</h1>
                         <div class="product-meta">
                             <span class="meta-item">
                                 <i class="fas fa-star meta-icon"></i>
@@ -661,10 +550,8 @@
                         </div>
                         <div class="product-price">16 DT</div>
                         <p class="product-description">
-                            Our premium educational materials package is designed to enhance learning experiences 
-                            for students of all levels. Carefully curated by education experts, this package 
-                            includes interactive materials, worksheets, and teaching aids tailored to your 
-                            specific needs.
+                            High-quality educational materials package designed for effective teaching 
+                            and learning. Includes comprehensive resources for various subjects.
                         </p>
                         
                         <div class="summary">
@@ -685,65 +572,51 @@
                 </section>
                 
                 <form id="orderForm" class="order-form">
-                    <h2 class="section-title">Complete Your Order</h2>
+                    <h2 class="section-title">Order Information</h2>
                     
-                    <div class="form-grid">
-                        <div class="form-group">
-                            <label for="name" class="form-label required">Full Name</label>
-                            <input type="text" id="name" name="name" class="form-control" placeholder="Your full name" required>
-                            <div class="error-message" id="nameError">Please enter your name</div>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="email" class="form-label required">Email Address</label>
-                            <input type="email" id="email" name="email" class="form-control" placeholder="your.email@example.com" required>
-                            <div class="error-message" id="emailError">Please enter a valid email</div>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="phone" class="form-label required">Phone Number</label>
-                            <input type="tel" id="phone" name="phone" class="form-control" placeholder="+216 12 345 678" required>
-                            <div class="error-message" id="phoneError">Please enter your phone number</div>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="institution" class="form-label">Institution/School</label>
-                            <input type="text" id="institution" name="institution" class="form-control" placeholder="School or organization name">
-                        </div>
+                    <div class="form-group">
+                        <label for="name" class="form-label required">Full Name</label>
+                        <input type="text" id="name" name="name" class="form-control" placeholder="Your name" required>
+                        <div class="error-message" id="nameError">Please enter your name</div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="email" class="form-label required">Email</label>
+                        <input type="email" id="email" name="email" class="form-control" placeholder="your@email.com" required>
+                        <div class="error-message" id="emailError">Please enter a valid email</div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="phone" class="form-label required">Phone</label>
+                        <input type="tel" id="phone" name="phone" class="form-control" placeholder="Phone number" required>
+                        <div class="error-message" id="phoneError">Please enter your phone number</div>
                     </div>
                     
                     <div class="form-group">
                         <label for="educationLevel" class="form-label required">Education Level</label>
-                        <div class="select-wrapper">
-                            <select id="educationLevel" name="educationLevel" class="form-control" required>
-                                <option value="">Select education level</option>
-                                <option value="primary">Primary School</option>
-                                <option value="middle">Middle School</option>
-                                <option value="high">High School</option>
-                                <option value="university">University</option>
-                                <option value="other">Other</option>
-                            </select>
-                        </div>
+                        <select id="educationLevel" name="educationLevel" class="form-control" required>
+                            <option value="">Select level</option>
+                            <option value="primary">Primary School</option>
+                            <option value="middle">Middle School</option>
+                            <option value="high">High School</option>
+                            <option value="university">University</option>
+                        </select>
                     </div>
                     
                     <div class="form-group">
-                        <label for="subjects" class="form-label required">Subjects Needed</label>
-                        <select id="subjects" name="subjects" class="form-control" multiple size="4" required>
+                        <label for="subjects" class="form-label">Subjects Needed</label>
+                        <select id="subjects" name="subjects" class="form-control" multiple size="4">
                             <option value="math">Mathematics</option>
                             <option value="science">Science</option>
                             <option value="history">History</option>
-                            <option value="language">Language Arts</option>
-                            <option value="art">Art</option>
-                            <option value="music">Music</option>
-                            <option value="physics">Physics</option>
-                            <option value="chemistry">Chemistry</option>
+                            <option value="language">Language</option>
                         </select>
-                        <small>Hold Ctrl/Cmd to select multiple subjects</small>
+                        <small style="color: var(--gray);">Hold Ctrl/Cmd to select multiple</small>
                     </div>
                     
                     <div class="form-group">
-                        <label for="notes" class="form-label">Special Instructions</label>
-                        <textarea id="notes" name="notes" class="form-control" placeholder="Any special requirements or notes about your order"></textarea>
+                        <label for="notes" class="form-label">Special Requests</label>
+                        <textarea id="notes" name="notes" class="form-control" placeholder="Any special instructions"></textarea>
                     </div>
                     
                     <div class="btn-group">
@@ -763,36 +636,15 @@
         <footer>
             <div class="container">
                 <div class="footer-content">
-                    <div class="footer-column">
-                        <h3 class="footer-title">EduBuild</h3>
-                        <p>Quality educational materials for institutions and educators.</p>
-                        <div class="footer-links">
-                            <a href="mailto:eduwellofficial@gmail.com" class="footer-link">
-                                <i class="fas fa-envelope"></i> eduwellofficial@gmail.com
-                            </a>
-                        </div>
-                    </div>
-                    <div class="footer-column">
-                        <h3 class="footer-title">Products</h3>
-                        <div class="footer-links">
-                            <a href="#" class="footer-link">Primary School</a>
-                            <a href="#" class="footer-link">Middle School</a>
-                            <a href="#" class="footer-link">High School</a>
-                            <a href="#" class="footer-link">University</a>
-                        </div>
-                    </div>
-                    <div class="footer-column">
-                        <h3 class="footer-title">Support</h3>
-                        <div class="footer-links">
-                            <a href="#" class="footer-link">Contact Us</a>
-                            <a href="#" class="footer-link">FAQs</a>
-                            <a href="#" class="footer-link">Shipping Policy</a>
-                            <a href="#" class="footer-link">Returns</a>
-                        </div>
+                    <div class="footer-contact">
+                        <p>© 2023 EduBuilder</p>
+                        <a href="mailto:eduwellofficial@gmail.com" class="footer-link">
+                            <i class="fas fa-envelope"></i> eduwellofficial@gmail.com
+                        </a>
                     </div>
                 </div>
                 <div class="footer-bottom">
-                    <p>&copy; 2023 EduBuild. All rights reserved.</p>
+                    <p>All rights reserved</p>
                 </div>
             </div>
         </footer>
@@ -802,12 +654,10 @@
     <div id="thankYouPage" style="display: none;">
         <header>
             <div class="container">
-                <nav class="navbar">
-                    <a href="#" class="logo">
-                        <i class="fas fa-graduation-cap logo-icon"></i>
-                        EduBuild
-                    </a>
-                </nav>
+                <a href="#" class="logo">
+                    <i class="fas fa-graduation-cap logo-icon"></i>
+                    EduBuilder
+                </a>
             </div>
         </header>
         
@@ -818,31 +668,27 @@
                 </div>
                 <h1 class="thank-you-title">Thank You for Your Order!</h1>
                 <p class="thank-you-text">
-                    Your order has been received and is being processed. We've sent a confirmation 
-                    to your email address. Our team will contact you shortly with the next steps.
+                    Your order has been received and will be processed shortly. 
+                    A confirmation has been sent to your email address.
                 </p>
                 
                 <div class="order-details">
                     <p class="order-number">Order #EB20230001</p>
                     <div class="order-summary">
                         <div class="order-summary-item">
-                            <span class="order-summary-label">Product</span>
-                            <span class="order-summary-value">Educational Materials Package</span>
+                            <span class="order-summary-label">Product:</span>
+                            <span>Educational Materials</span>
                         </div>
                         <div class="order-summary-item">
-                            <span class="order-summary-label">Amount Paid</span>
-                            <span class="order-summary-value">16 DT</span>
-                        </div>
-                        <div class="order-summary-item">
-                            <span class="order-summary-label">Payment Method</span>
-                            <span class="order-summary-value">Cash on Delivery</span>
+                            <span class="order-summary-label">Amount:</span>
+                            <span>16 DT</span>
                         </div>
                     </div>
                 </div>
                 
-                <a href="#" class="btn btn-primary" id="continueShoppingBtn">
+                <a href="#" class="btn btn-primary" id="continueBtn">
                     <i class="fas fa-arrow-left btn-icon"></i>
-                    Continue Shopping
+                    Return to Home
                 </a>
             </section>
         </main>
@@ -850,7 +696,7 @@
         <footer>
             <div class="container">
                 <div class="footer-bottom">
-                    <p>&copy; 2023 EduBuild. All rights reserved.</p>
+                    <p>© 2023 EduBuilder. All rights reserved.</p>
                 </div>
             </div>
         </footer>
@@ -872,38 +718,30 @@
             
             // Validate form
             let isValid = true;
-            const name = document.getElementById('name');
-            const email = document.getElementById('email');
-            const phone = document.getElementById('phone');
-            const educationLevel = document.getElementById('educationLevel');
+            const requiredFields = [
+                { id: 'name', error: 'nameError' },
+                { id: 'email', error: 'emailError' },
+                { id: 'phone', error: 'phoneError' },
+                { id: 'educationLevel', error: null }
+            ];
             
-            if (!name.value.trim()) {
-                document.getElementById('nameError').style.display = 'block';
-                isValid = false;
-            } else {
-                document.getElementById('nameError').style.display = 'none';
-            }
-            
-            if (!email.value.trim() || !email.value.includes('@')) {
-                document.getElementById('emailError').style.display = 'block';
-                isValid = false;
-            } else {
-                document.getElementById('emailError').style.display = 'none';
-            }
-            
-            if (!phone.value.trim()) {
-                document.getElementById('phoneError').style.display = 'block';
-                isValid = false;
-            } else {
-                document.getElementById('phoneError').style.display = 'none';
-            }
-            
-            if (!educationLevel.value) {
-                educationLevel.style.borderColor = 'var(--error)';
-                isValid = false;
-            } else {
-                educationLevel.style.borderColor = '';
-            }
+            requiredFields.forEach(field => {
+                const element = document.getElementById(field.id);
+                if (!element.value.trim()) {
+                    if (field.error) {
+                        document.getElementById(field.error).style.display = 'block';
+                    } else {
+                        element.style.borderColor = 'var(--accent)';
+                    }
+                    isValid = false;
+                } else {
+                    if (field.error) {
+                        document.getElementById(field.error).style.display = 'none';
+                    } else {
+                        element.style.borderColor = '';
+                    }
+                }
+            });
             
             if (!isValid) return;
             
@@ -932,27 +770,7 @@
                     data[key] = value;
                 });
                 
-                // In a real implementation, you would send this to your server
-                // For now, we'll simulate the submission
-                await new Promise(resolve => setTimeout(resolve, 1500));
-                
-                // Show thank you page
-                document.getElementById('productPage').style.display = 'none';
-                document.getElementById('thankYouPage').style.display = 'block';
-                
-                // Update order number on thank you page
-                document.querySelector('.order-number').textContent = `Order #${orderNumber}`;
-                
-                // Scroll to top
-                window.scrollTo(0, 0);
-                
-                // In a real implementation, you would:
-                // 1. Send the data to FormSubmit or your backend
-                // 2. Process the payment
-                // 3. Then show the thank you page
-                
-                // Example using FormSubmit (uncomment to use):
-                /*
+                // Send data to FormSubmit
                 const response = await fetch('https://formsubmit.co/ajax/eduwellofficial@gmail.com', {
                     method: 'POST',
                     headers: {
@@ -965,15 +783,16 @@
                 const result = await response.json();
                 
                 if (response.ok) {
+                    // Show thank you page
                     document.getElementById('productPage').style.display = 'none';
                     document.getElementById('thankYouPage').style.display = 'block';
                     document.querySelector('.order-number').textContent = `Order #${orderNumber}`;
+                    
+                    // Scroll to top
                     window.scrollTo(0, 0);
                 } else {
                     throw new Error(result.message || 'Failed to submit form');
                 }
-                */
-                
             } catch (error) {
                 console.error('Error:', error);
                 alert('There was an error processing your order. Please try again.');
@@ -986,17 +805,17 @@
         // Add to cart button
         document.getElementById('addToCartBtn').addEventListener('click', function() {
             alert('Product added to cart!');
-            const cartCount = document.querySelector('.cart-count');
-            cartCount.textContent = parseInt(cartCount.textContent) + 1;
         });
         
-        // Continue shopping button
-        document.getElementById('continueShoppingBtn').addEventListener('click', function(e) {
+        // Continue button
+        document.getElementById('continueBtn').addEventListener('click', function(e) {
             e.preventDefault();
             document.getElementById('thankYouPage').style.display = 'none';
             document.getElementById('productPage').style.display = 'block';
+            document.getElementById('orderForm').reset();
             window.scrollTo(0, 0);
         });
     </script>
 </body>
 </html>
+
