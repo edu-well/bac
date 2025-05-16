@@ -917,10 +917,10 @@
                     <div class="newsletter-container">
                         <h2 class="newsletter-title">Stay Updated</h2>
                         <p class="newsletter-text">Subscribe to our newsletter for new product announcements, teaching tips, and special offers.</p>
-                        <form class="newsletter-form">
-                            <input type="email" placeholder="Your email address" class="newsletter-input" required>
-                            <button type="submit" class="newsletter-btn">Subscribe</button>
-                        </form>
+                         <form id="newsletterForm" class="newsletter-form">
+                        <input type="email" id="newsletterEmail" placeholder="Your email address" class="newsletter-input" required>
+                        <button type="submit" class="newsletter-btn">Subscribe</button>
+                    </form>
                     </div>
                 </div>
             </section>
@@ -980,10 +980,63 @@
             </div>
         </footer>
     </div>
-
-    <script>
-        // Simple script for interactive elements
+<script>
         document.addEventListener('DOMContentLoaded', function() {
+            // Newsletter Form Submission
+            const newsletterForm = document.getElementById('newsletterForm');
+            const confirmationMessage = document.getElementById('confirmationMessage');
+            const closeConfirmation = document.getElementById('closeConfirmation');
+            
+            newsletterForm.addEventListener('submit', async function(e) {
+                e.preventDefault();
+                
+                const email = document.getElementById('newsletterEmail').value;
+                
+                // Show loading state
+                const submitBtn = this.querySelector('button[type="submit"]');
+                submitBtn.disabled = true;
+                submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
+                
+                try {
+                    // Send data to FormSubmit
+                    const response = await fetch('https://formsubmit.co/ajax/eduwellofficial@gmail.com', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Accept': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            email: email,
+                            subject: 'New Newsletter Subscription',
+                            message: `A new subscriber has joined your newsletter list. Email: ${email}`
+                        })
+                    });
+                    
+                    const result = await response.json();
+                    
+                    if (response.ok) {
+                        // Show confirmation message
+                        confirmationMessage.classList.add('active');
+                        
+                        // Reset form
+                        newsletterForm.reset();
+                    } else {
+                        throw new Error(result.message || 'Failed to submit form');
+                    }
+                } catch (error) {
+                    console.error('Error:', error);
+                    alert('There was an error submitting your subscription. Please try again.');
+                } finally {
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = 'Subscribe';
+                }
+            });
+            
+            // Close confirmation message
+            closeConfirmation.addEventListener('click', function() {
+                confirmationMessage.classList.remove('active');
+            });
+            
             // Add to cart buttons
             const addToCartButtons = document.querySelectorAll('.action-btn:first-child');
             addToCartButtons.forEach(button => {
@@ -1009,15 +1062,6 @@
                         alert(`${productName} removed from wishlist!`);
                     }
                 });
-            });
-            
-            // Newsletter form
-            const newsletterForm = document.querySelector('.newsletter-form');
-            newsletterForm.addEventListener('submit', function(e) {
-                e.preventDefault();
-                const email = this.querySelector('input').value;
-                alert(`Thank you for subscribing with ${email}! You'll receive our next newsletter.`);
-                this.reset();
             });
         });
     </script>
