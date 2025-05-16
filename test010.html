@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EduBuilder - Educational Resources</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #4f46e5;
+            --primary-light: #818cf8;
+            --primary-dark: #3730a3;
+            --accent: #ec4899;
+            --light: #f8fafc;
+            --dark: #0f172a;
+            --gray: #64748b;
+            --light-gray: #e2e8f0;
+            --success: #10b981;
+            --radius-sm: 0.5rem;
+            --radius-md: 0.75rem;
+            --radius-lg: 1rem;
+            --shadow-sm: 0 1px 2px rgba(0,0,0,0.05);
+            --shadow-md: 0 4px 6px rgba(0,0,0,0.1);
+            --shadow-lg: 0 10px 25px rgba(0,0,0,0.1);
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+        
+        body {
+            background-color: var(--light);
+            color: var(--dark);
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        /* Layout */
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+        }
+        
+        /* Simplified Header */
+        header {
+            background-color: white;
+            box-shadow: var(--shadow-sm);
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 50;
+        }
+        
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            text-decoration: none;
+        }
+        
+        .logo-icon {
+            color: var(--accent);
+        }
+        
+        /* Hero Section */
+        .hero {
+            width: 100%;
+            height: 60vh;
+            min-height: 400px;
+            max-height: 600px;
+            position: relative;
+            margin-bottom: 3rem;
+            overflow: hidden;
+            border-radius: 0 0 var(--radius-lg) var(--radius-lg);
+        }
+        
+        .hero-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .hero-content {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 2rem;
+            background: linear-gradient(to top, rgba(15, 23, 42, 0.9), transparent);
+            color: white;
+        }
+        
+        .hero-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            max-width: 800px;
+        }
+        
+        .hero-text {
+            font-size: 1.25rem;
+            max-width: 600px;
+            opacity: 0.9;
+        }
+        
+        /* Products Section */
+        .products-section {
+            padding: 2rem 0 4rem;
+        }
+        
+        .section-title {
+            font-size: 1.75rem;
+            font-weight: 700;
+            margin-bottom: 2rem;
+            color: var(--dark);
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .section-title::after {
+            content: '';
+            flex: 1;
+            height: 2px;
+            background-color: var(--light-gray);
+        }
+        
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+        
+        .product-card {
+            background-color: white;
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            box-shadow: var(--shadow-md);
+            transition: var(--transition);
+        }
+        
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .product-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+        
+        .product-info {
+            padding: 1.5rem;
+        }
+        
+        .product-name {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+        
+        .product-description {
+            color: var(--gray);
+            margin-bottom: 1rem;
+            font-size: 0.9375rem;
+        }
+        
+        .product-price {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+        }
+        
+        .product-meta {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.875rem;
+            color: var(--gray);
+        }
+        
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.75rem 1.5rem;
+            border-radius: var(--radius-sm);
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition);
+            text-decoration: none;
+            gap: 0.5rem;
+            border: none;
+            font-size: 1rem;
+            width: 100%;
+        }
+        
+        .btn-primary {
+            background-color: var(--primary);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+        
+        .btn-icon {
+            font-size: 1.25rem;
+        }
+        
+        /* Footer */
+        footer {
+            background-color: var(--dark);
+            color: white;
+            padding: 3rem 0;
+            margin-top: auto;
+        }
+        
+        .footer-content {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+        
+        .footer-contact {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+        
+        .footer-link {
+            color: var(--light-gray);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+        
+        .footer-link:hover {
+            color: white;
+        }
+        
+        .footer-bottom {
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 2rem;
+            margin-top: 2rem;
+            text-align: center;
+            font-size: 0.875rem;
+            color: var(--light-gray);
+        }
+        
+        /* Responsive Adjustments */
+        @media (max-width: 768px) {
+            .hero {
+                height: 50vh;
+                min-height: 300px;
+            }
+            
+            .hero-title {
+                font-size: 2rem;
+            }
+            
+            .hero-text {
+                font-size: 1rem;
+            }
+            
+            .section-title {
+                font-size: 1.5rem;
+            }
+        }
+        
+        @media (min-width: 992px) {
+            .hero-content {
+                padding: 3rem;
+            }
+            
+            .hero-title {
+                font-size: 3rem;
+            }
+            
+            .hero-text {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Homepage -->
+    <div id="homePage">
+        <header>
+            <div class="container">
+                <a href="#" class="logo">
+                    <i class="fas fa-graduation-cap logo-icon"></i>
+                    EduBuilder
+                </a>
+            </div>
+        </header>
+        
+        <main>
+            <!-- Hero Section -->
+            <section class="hero">
+                <img src="https://images.unsplash.com/photo-1523050854058-8df90110c9f1?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Students learning" class="hero-image">
+                <div class="hero-content">
+                    <div class="container">
+                        <h1 class="hero-title">Quality Educational Resources</h1>
+                        <p class="hero-text">Discover our comprehensive collection of teaching materials designed to enhance learning experiences</p>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Products Section -->
+            <section class="products-section">
+                <div class="container">
+                    <h2 class="section-title">
+                        <i class="fas fa-book-open"></i>
+                        Our Products
+                    </h2>
+                    
+                    <div class="products-grid">
+                        <!-- Product 1 -->
+                        <div class="product-card">
+                            <img src="https://images.unsplash.com/photo-1546410531-bb4caa6b424d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1471&q=80" alt="Primary School Materials" class="product-image">
+                            <div class="product-info">
+                                <h3 class="product-name">Primary School Package</h3>
+                                <p class="product-description">Comprehensive materials for elementary education with interactive learning tools</p>
+                                <div class="product-price">16 DT</div>
+                                <div class="product-meta">
+                                    <span><i class="fas fa-star"></i> 4.8 (124)</span>
+                                    <span><i class="fas fa-check-circle"></i> In Stock</span>
+                                </div>
+                                <a href="product.html" class="btn btn-primary" style="margin-top: 1rem;">
+                                    <i class="fas fa-shopping-cart btn-icon"></i>
+                                    View Details
+                                </a>
+                            </div>
+                        </div>
+                        
+                        <!-- Product 2 -->
+                        <div class="product-card">
+                            <img src="https://images.unsplash.com/photo-1588072432836-e10032774350?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1472&q=80" alt="Science Materials" class="product-image">
+                            <div class="product-info">
+                                <h3 class="product-name">Science Education Set</h3>
+                                <p class="product-description">Hands-on science materials for middle and high school students</p>
+                                <div class="product-price">24 DT</div>
+                                <div class="product-meta">
+                                    <span><i class="fas fa-star"></i> 4.9 (87)</span>
+                                    <span><i class="fas fa-check-circle"></i> In Stock</span>
+                                </div>
+                                <a href="product.html" class="btn btn-primary" style="margin-top: 1rem;">
+                                    <i class="fas fa-shopping-cart btn-icon"></i>
+                                    View Details
+                                </a>
+                            </div>
+                        </div>
+                        
+                        <!-- Product 3 -->
+                        <div class="product-card">
+                            <img src="https://images.unsplash.com/photo-1434030216411-0b793f4b4173?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Language Arts" class="product-image">
+                            <div class="product-info">
+                                <h3 class="product-name">Language Arts Collection</h3>
+                                <p class="product-description">Complete language learning resources for all education levels</p>
+                                <div class="product-price">18 DT</div>
+                                <div class="product-meta">
+                                    <span><i class="fas fa-star"></i> 4.7 (156)</span>
+                                    <span><i class="fas fa-check-circle"></i> In Stock</span>
+                                </div>
+                                <a href="product.html" class="btn btn-primary" style="margin-top: 1rem;">
+                                    <i class="fas fa-shopping-cart btn-icon"></i>
+                                    View Details
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+        
+        <footer>
+            <div class="container">
+                <div class="footer-content">
+                    <div class="footer-contact">
+                        <p>© 2023 EduBuilder</p>
+                        <a href="mailto:eduwellofficial@gmail.com" class="footer-link">
+                            <i class="fas fa-envelope"></i> eduwellofficial@gmail.com
+                        </a>
+                    </div>
+                </div>
+                <div class="footer-bottom">
+                    <p>All rights reserved</p>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        // Simple script to handle potential future interactions
+        document.addEventListener('DOMContentLoaded', function() {
+            // You can add any homepage-specific JavaScript here
+            console.log('Homepage loaded');
+        });
+    </script>
+</body>
+</html>
