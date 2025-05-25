@@ -281,7 +281,7 @@
             }
         }
         
-        // Function to send email via FormSubmit
+        // Function to send email via EmailJS
         async function sendEmail(response) {
             const yesBtn = document.getElementById('yesBtn');
             const noBtn = document.getElementById('noBtn');
@@ -298,27 +298,45 @@
             }
             
             try {
-                const formData = new FormData();
-                formData.append('_subject', 'Marriage Proposal Response');
-                formData.append('response', response);
-                formData.append('_captcha', 'false'); // Disable captcha
-                formData.append('_template', 'table'); // Better email formatting
+                // Using EmailJS service (you'll need to set this up)
+                const serviceID = 'default_service';
+                const templateID = 'template_marryme';
+                const userID = 'YOUR_USER_ID'; // You need to get this from EmailJS
                 
-                const response = await fetch('https://formsubmit.co/ajax/aminesgatni53@gmail.com', {
-                    method: 'POST',
-                    body: formData
-                });
+                await emailjs.send(serviceID, templateID, {
+                    to_email: 'aminesgatni53@gmail.com',
+                    subject: 'Marriage Proposal Response',
+                    message: `Eya responded: ${response}`
+                }, userID);
                 
-                const result = await response.json();
-                
-                if(result.success) {
-                    showConfirmation(response === 'YES' ? "Your 'YES' response has been sent! ❤️" : "Your 'NO' response has been sent.");
-                } else {
-                    throw new Error('Email failed to send');
-                }
+                showConfirmation(response === 'YES' ? "Your 'YES' response has been sent! ❤️" : "Your 'NO' response has been sent.");
             } catch (error) {
                 console.error('Error:', error);
-                showConfirmation("Failed to send response. Please try again later.");
+                
+                // Fallback to FormSubmit if EmailJS fails
+                try {
+                    const formData = new FormData();
+                    formData.append('_subject', 'Marriage Proposal Response');
+                    formData.append('response', response);
+                    formData.append('_captcha', 'false');
+                    formData.append('_template', 'table');
+                    
+                    const submitResponse = await fetch('https://formsubmit.co/ajax/aminesgatni53@gmail.com', {
+                        method: 'POST',
+                        body: formData
+                    });
+                    
+                    const result = await submitResponse.json();
+                    
+                    if(result.success) {
+                        showConfirmation(response === 'YES' ? "Your 'YES' response has been sent! ❤️" : "Your 'NO' response has been sent.");
+                    } else {
+                        throw new Error('Both email methods failed');
+                    }
+                } catch (fallbackError) {
+                    console.error('Fallback error:', fallbackError);
+                    showConfirmation("Failed to send response. Please try again later or contact me directly.");
+                }
             } finally {
                 // Restore original button states
                 yesBtn.textContent = originalYesText;
@@ -342,6 +360,9 @@
         // Initialize the page
         window.onload = function() {
             createHearts();
+            
+            // Initialize EmailJS (you need to add your user ID)
+            emailjs.init('YOUR_USER_ID');
             
             // Button event listeners
             const yesBtn = document.getElementById('yesBtn');
@@ -373,5 +394,7 @@
             });
         };
     </script>
+    <!-- Add EmailJS library -->
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
 </body>
 </html>
