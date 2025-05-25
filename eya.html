@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Marry Me</title>
+    <style>
+        /* Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #fff5f5, #fff);
+            min-height: 100vh;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+        
+        /* Floating Hearts Background */
+        .heart {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background-color: #ffb6c1;
+            transform: rotate(45deg);
+            opacity: 0.6;
+            animation: float 15s linear infinite;
+        }
+        
+        .heart:before, .heart:after {
+            content: '';
+            width: 20px;
+            height: 20px;
+            background-color: #ffb6c1;
+            border-radius: 50%;
+            position: absolute;
+        }
+        
+        .heart:before {
+            top: -10px;
+            left: 0;
+        }
+        
+        .heart:after {
+            top: 0;
+            left: -10px;
+        }
+        
+        @keyframes float {
+            0% {
+                transform: rotate(45deg) translateY(0) translateX(0);
+                opacity: 0;
+            }
+            50% {
+                opacity: 0.6;
+            }
+            100% {
+                transform: rotate(45deg) translateY(-100vh) translateX(100vw);
+                opacity: 0;
+            }
+        }
+        
+        /* Main Content */
+        .proposal {
+            text-align: center;
+            z-index: 10;
+            opacity: 0;
+            animation: fadeIn 3s forwards 1s;
+            padding: 20px;
+        }
+        
+        h1 {
+            font-family: 'Brush Script MT', cursive;
+            font-size: 5rem;
+            color: #d35d6e;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+            animation: pulse 3s infinite;
+        }
+        
+        .heart-emoji {
+            display: inline-block;
+            animation: beat 1.5s infinite;
+        }
+        
+        .flower-emoji {
+            display: inline-block;
+            animation: sway 3s infinite;
+        }
+        
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        
+        @keyframes beat {
+            0% { transform: scale(1); }
+            25% { transform: scale(1.2); }
+            40% { transform: scale(1); }
+            60% { transform: scale(1.3); }
+            100% { transform: scale(1); }
+        }
+        
+        @keyframes sway {
+            0% { transform: rotate(-5deg); }
+            50% { transform: rotate(5deg); }
+            100% { transform: rotate(-5deg); }
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 3.5rem;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 2.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="proposal">
+        <h1>
+            marry me <span class="heart-emoji">❤️</span> eya <span class="flower-emoji">🌹</span>
+        </h1>
+    </div>
+
+    <script>
+        // Create floating hearts
+        function createHearts() {
+            const numberOfHearts = 15;
+            
+            for (let i = 0; i < numberOfHearts; i++) {
+                const heart = document.createElement('div');
+                heart.classList.add('heart');
+                
+                // Random size
+                const size = Math.random() * 15 + 10;
+                heart.style.width = `${size}px`;
+                heart.style.height = `${size}px`;
+                
+                // Random position
+                heart.style.left = `${Math.random() * 100}vw`;
+                heart.style.top = `${Math.random() * 100}vh`;
+                
+                // Random animation duration
+                const duration = Math.random() * 10 + 10;
+                heart.style.animationDuration = `${duration}s`;
+                
+                // Random delay
+                heart.style.animationDelay = `${Math.random() * 5}s`;
+                
+                document.body.appendChild(heart);
+            }
+        }
+        
+        // Initialize the page
+        window.onload = function() {
+            createHearts();
+        };
+    </script>
+</body>
+</html>
