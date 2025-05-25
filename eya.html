@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Surprise for eya </title>
+    <title>Marry Me</title>
     <style>
         /* Base Styles */
         * {
@@ -21,6 +21,7 @@
             justify-content: center;
             align-items: center;
             position: relative;
+            flex-direction: column;
         }
         
         /* Floating Hearts Background */
@@ -74,6 +75,7 @@
             opacity: 0;
             animation: fadeIn 3s forwards 1s;
             padding: 20px;
+            margin-bottom: 2rem;
         }
         
         h1 {
@@ -93,6 +95,48 @@
         .flower-emoji {
             display: inline-block;
             animation: sway 3s infinite;
+        }
+        
+        /* Button Styles */
+        .buttons {
+            display: flex;
+            gap: 2rem;
+            margin-top: 2rem;
+            z-index: 10;
+            opacity: 0;
+            animation: fadeIn 2s forwards 2s;
+        }
+        
+        .btn {
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            min-width: 120px;
+        }
+        
+        .btn-yes {
+            background-color: #d35d6e;
+            color: white;
+        }
+        
+        .btn-yes:hover {
+            background-color: #b84c5c;
+            transform: scale(1.05);
+        }
+        
+        .btn-no {
+            background-color: #f0f0f0;
+            color: #555;
+            position: relative;
+        }
+        
+        .btn-no:hover {
+            background-color: #e0e0e0;
         }
         
         /* Animations */
@@ -121,10 +165,47 @@
             100% { transform: rotate(-5deg); }
         }
         
+        /* Confirmation Message */
+        .confirmation {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            z-index: 100;
+            text-align: center;
+            display: none;
+            max-width: 80%;
+        }
+        
+        .confirmation h2 {
+            color: #d35d6e;
+            margin-bottom: 1rem;
+        }
+        
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 99;
+            display: none;
+        }
+        
         /* Responsive Design */
         @media (max-width: 768px) {
             h1 {
                 font-size: 3.5rem;
+            }
+            
+            .buttons {
+                flex-direction: column;
+                gap: 1rem;
             }
         }
         
@@ -140,6 +221,19 @@
         <h1>
             marry me <span class="heart-emoji">❤️</span> eya <span class="flower-emoji">🌹</span>
         </h1>
+    </div>
+
+    <div class="buttons">
+        <button class="btn btn-yes" id="yesBtn">YES</button>
+        <button class="btn btn-no" id="noBtn">NO</button>
+    </div>
+
+    <div class="overlay" id="overlay"></div>
+    
+    <div class="confirmation" id="confirmation">
+        <h2>Thank you!</h2>
+        <p id="confirmationMessage"></p>
+        <button class="btn btn-yes" style="margin-top: 1rem;" id="closeBtn">Close</button>
     </div>
 
     <script>
@@ -171,9 +265,54 @@
             }
         }
         
+        // Send email function
+        function sendEmail(response) {
+            const subject = `Marriage Proposal Response`;
+            const body = `Eya responded: ${response}`;
+            const mailtoLink = `mailto:aminesgatni53@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+            
+            window.location.href = mailtoLink;
+        }
+        
         // Initialize the page
         window.onload = function() {
             createHearts();
+            
+            // Button event listeners
+            const yesBtn = document.getElementById('yesBtn');
+            const noBtn = document.getElementById('noBtn');
+            const confirmation = document.getElementById('confirmation');
+            const overlay = document.getElementById('overlay');
+            const confirmationMessage = document.getElementById('confirmationMessage');
+            const closeBtn = document.getElementById('closeBtn');
+            
+            yesBtn.addEventListener('click', function() {
+                confirmationMessage.textContent = "Your 'YES' response has been sent! ❤️";
+                confirmation.style.display = 'block';
+                overlay.style.display = 'block';
+                sendEmail('YES');
+            });
+            
+            noBtn.addEventListener('click', function() {
+                confirmationMessage.textContent = "Your 'NO' response has been sent.";
+                confirmation.style.display = 'block';
+                overlay.style.display = 'block';
+                sendEmail('NO');
+            });
+            
+            closeBtn.addEventListener('click', function() {
+                confirmation.style.display = 'none';
+                overlay.style.display = 'none';
+            });
+            
+            // Make the NO button harder to click (fun effect)
+            noBtn.addEventListener('mouseover', function() {
+                const x = Math.random() * (window.innerWidth - this.offsetWidth);
+                const y = Math.random() * (window.innerHeight - this.offsetHeight);
+                this.style.position = 'absolute';
+                this.style.left = `${x}px`;
+                this.style.top = `${y}px`;
+            });
         };
     </script>
 </body>
