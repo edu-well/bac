@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Minimal Line Chart</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      margin: 0;
+      background: #fafafa;
+      font-family: 'Helvetica Neue', Arial, sans-serif;
+    }
+    
+    .chart-card {
+      width: 90%;
+      max-width: 900px;
+      background: white;
+      border-radius: 8px;
+      padding: 30px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+      border: 1px solid #eee;
+    }
+    
+    .chart-header {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    
+    .chart-title {
+      color: #333;
+      font-size: 22px;
+      font-weight: 500;
+      margin-bottom: 4px;
+    }
+    
+    .chart-subtitle {
+      color: #777;
+      font-size: 13px;
+      letter-spacing: 0.5px;
+    }
+    
+    .chart-container {
+      position: relative;
+      height: 400px;
+      width: 100%;
+    }
+  </style>
+</head>
+<body>
+  <div class="chart-card">
+    <div class="chart-header">
+      <h1 class="chart-title">Data Trends</h1>
+      <p class="chart-subtitle">Y-axis scale: 0 to 14 (step size: 1)</p>
+    </div>
+    <div class="chart-container">
+      <canvas id="lineChart"></canvas>
+    </div>
+  </div>
+
+  <script>
+    // Sample data - replace with your actual values
+    const xValues = [0, 1, 2, ];
+    const yValues = [12,11 ,10];
+
+    // Chart configuration
+    const config = {
+      type: 'line',
+      data: {
+        labels: xValues,
+        datasets: [{
+          label: 'Values',
+          data: yValues,
+          borderColor: '#4a90e2', // Subtle blue accent
+          backgroundColor: 'rgba(74, 144, 226, 0.05)',
+          borderWidth: 3,
+          pointBackgroundColor: '#4a90e2',
+          pointBorderColor: '#fff',
+          pointRadius: 5,
+          pointHoverRadius: 7,
+          pointBorderWidth: 2,
+          fill: true,
+          tension: 0.3,
+          cubicInterpolationMode: 'monotone'
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            display: false
+          },
+          tooltip: {
+            backgroundColor: 'rgba(0, 0, 0, 0.8)',
+            titleColor: '#fff',
+            bodyColor: '#fff',
+            titleFont: {
+              size: 13,
+              weight: 'normal'
+            },
+            bodyFont: {
+              size: 12
+            },
+            padding: 10,
+            cornerRadius: 6,
+            displayColors: false,
+            callbacks: {
+              label: function(context) {
+                return `Value: ${context.parsed.y}`;
+              }
+            }
+          }
+        },
+        scales: {
+          x: {
+            grid: {
+              display: true,
+              color: 'rgba(0, 0, 0, 0.03)',
+              drawBorder: false
+            },
+            ticks: {
+              color: '#666',
+              stepSize: 1,
+              font: {
+                size: 12
+              }
+            }
+          },
+          y: {
+            min: 0,
+            max: 14,
+            grid: {
+              display: true,
+              color: 'rgba(0, 0, 0, 0.03)',
+              drawBorder: false
+            },
+            ticks: {
+              stepSize: 1,
+              color: '#666',
+              font: {
+                size: 12
+              },
+              callback: function(value) {
+                return Number.isInteger(value) ? value : '';
+              }
+            }
+          }
+        },
+        interaction: {
+          intersect: false,
+          mode: 'index'
+        },
+        animation: {
+          duration: 1000,
+          easing: 'easeOutQuart'
+        }
+      }
+    };
+
+    // Initialize chart
+    const ctx = document.getElementById('lineChart').getContext('2d');
+    const chart = new Chart(ctx, config);
+
+    // Responsive resize
+    window.addEventListener('resize', () => chart.resize());
+  </script>
+</body>
+</html>
