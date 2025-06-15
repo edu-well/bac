@@ -244,7 +244,7 @@
         .back-button {
             position: fixed;
             bottom: 30px;
-            right: 30px;
+            left: 30px;
             width: 50px;
             height: 50px;
             background-color: var(--primary-color);
@@ -257,13 +257,6 @@
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
             transition: var(--transition);
             z-index: 99;
-            opacity: 0;
-            transform: translateY(20px);
-        }
-
-        .back-button.visible {
-            opacity: 1;
-            transform: translateY(0);
         }
 
         .back-button:hover {
@@ -311,7 +304,7 @@
 
             .back-button {
                 bottom: 20px;
-                right: 20px;
+                left: 20px;
                 width: 45px;
                 height: 45px;
             }
@@ -440,13 +433,6 @@
                 document.querySelector('nav').style.boxShadow = '0 2px 10px rgba(0, 0, 0, 0.05)';
             } else {
                 document.querySelector('nav').style.boxShadow = 'none';
-            }
-
-            // Show/hide back button
-            if (window.scrollY > 300) {
-                document.getElementById('backButton').classList.add('visible');
-            } else {
-                document.getElementById('backButton').classList.remove('visible');
             }
         });
 
