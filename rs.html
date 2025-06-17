@@ -1,0 +1,1187 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EduSearch | Baccalauréat Resources</title>
+    <link href="https://fonts.googleapis.com/css2?family=SF+Pro+Display:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Modern Color Variables */
+        :root {
+            --primary: #2563EB; /* More professional blue */
+            --primary-light: rgba(37, 99, 235, 0.1);
+            --primary-dark: #1D4ED8;
+            --white: #FFFFFF;
+            --dark: #1F2937; /* Darker gray for better contrast */
+            --light-gray: #F9FAFB; /* Lighter background */
+            --medium-gray: #E5E7EB;
+            --text-dark: #111827;
+            --text-light: #6B7280;
+            --text-lighter: #9CA3AF;
+            --accent: #F59E0B;
+            --success: #10B981;
+            --error: #EF4444;
+            
+            --shadow-sm: 0 1px 2px rgba(0,0,0,0.05);
+            --shadow-md: 0 4px 6px rgba(0,0,0,0.1);
+            --shadow-lg: 0 10px 25px rgba(0,0,0,0.1);
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --radius-sm: 6px;
+            --radius-md: 10px;
+            --radius-lg: 16px;
+        }
+
+        /* Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        body {
+            font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background-color: var(--white);
+            color: var(--text-dark);
+            line-height: 1.5;
+            min-height: 100vh;
+        }
+
+        /* Loading Screen */
+        #loading-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #F9FAFB, #FFFFFF, #2563EB);
+            background-size: 400% 400%;
+            animation: gradient 8s ease infinite;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            transition: opacity 0.8s ease, visibility 0.8s ease;
+        }
+
+        @keyframes gradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .loading-content {
+            text-align: center;
+            max-width: 300px;
+            margin: 0 auto;
+        }
+
+        .loader-logo {
+            width: 100px;
+            height: 100px;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 22px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0 auto 30px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            animation: pulse 2s infinite ease-in-out;
+        }
+
+        .loader-logo-inner {
+            width: 80px;
+            height: 80px;
+            background: var(--primary);
+            border-radius: 18px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 32px;
+            color: white;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(0.98); opacity: 0.9; }
+            50% { transform: scale(1.03); opacity: 1; }
+            100% { transform: scale(0.98); opacity: 0.9; }
+        }
+
+        .loader-text {
+            color: var(--dark);
+            font-size: 18px;
+            margin: 20px 0;
+            font-weight: 500;
+            letter-spacing: -0.2px;
+        }
+
+        .progress-container {
+            width: 200px;
+            height: 4px;
+            background: rgba(37, 99, 235, 0.1);
+            border-radius: 2px;
+            margin: 20px auto;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 100%;
+            width: 0%;
+            background: var(--primary);
+            border-radius: 2px;
+            transition: width 0.4s ease;
+        }
+
+        /* Main App Container */
+        #app {
+            display: none;
+            opacity: 0;
+            transition: opacity 0.8s ease;
+            width: 100%;
+            min-height: 100vh;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 24px;
+        }
+
+        /* Header Styles */
+        header {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            margin-bottom: 48px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .logo-icon {
+            font-size: 42px;
+            color: var(--primary);
+        }
+
+        .logo-text {
+            font-size: 36px;
+            font-weight: 700;
+            color: var(--primary);
+            letter-spacing: -0.8px;
+        }
+
+        .tagline {
+            font-size: 18px;
+            color: var(--text-light);
+            max-width: 600px;
+            line-height: 1.6;
+            font-weight: 400;
+        }
+
+        /* Search Section */
+        .search-section {
+            width: 100%;
+            max-width: 800px;
+            margin: 0 auto 32px;
+        }
+
+        .search-container {
+            position: relative;
+            width: 100%;
+        }
+
+        .search-box {
+            width: 100%;
+            height: 64px;
+            padding: 0 64px 0 24px;
+            font-size: 17px;
+            border: 1px solid var(--medium-gray);
+            border-radius: var(--radius-md);
+            transition: var(--transition);
+            font-family: 'SF Pro Display', sans-serif;
+            font-weight: 400;
+            color: var(--text-dark);
+            background-color: var(--white);
+            box-shadow: var(--shadow-sm);
+            appearance: none;
+            -webkit-appearance: none;
+        }
+
+        .search-box:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 4px var(--primary-light), var(--shadow-md);
+        }
+
+        .search-box::placeholder {
+            color: var(--text-lighter);
+            font-weight: 400;
+        }
+
+        .search-icon {
+            position: absolute;
+            right: 24px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--primary);
+            font-size: 20px;
+            pointer-events: none;
+        }
+
+        .spinner {
+            display: none;
+            position: absolute;
+            right: 60px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(37, 99, 235, 0.1);
+            border-radius: 50%;
+            border-top-color: var(--primary);
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: translateY(-50%) rotate(360deg); }
+        }
+
+        /* Search Results */
+        .search-results {
+            width: 100%;
+            max-width: 800px;
+            margin: 12px auto 0;
+            background-color: var(--white);
+            border-radius: var(--radius-md);
+            box-shadow: var(--shadow-md);
+            border: 1px solid var(--medium-gray);
+            display: none;
+            max-height: 500px;
+            overflow-y: auto;
+            transform-origin: top;
+            animation: scaleIn 0.2s ease forwards;
+        }
+
+        @keyframes scaleIn {
+            from { transform: scale(0.98); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+
+        .search-results.visible {
+            display: block;
+        }
+
+        .result-item {
+            padding: 18px 24px;
+            border-bottom: 1px solid var(--light-gray);
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            gap: 16px;
+        }
+
+        .result-item:last-child {
+            border-bottom: none;
+        }
+
+        .result-item:hover {
+            background-color: var(--primary-light);
+        }
+
+        .result-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: var(--radius-sm);
+            background-color: var(--light-gray);
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            flex-shrink: 0;
+            transition: var(--transition);
+        }
+
+        .result-item:hover .result-icon {
+            background-color: var(--primary);
+            color: var(--white);
+        }
+
+        .result-content {
+            flex: 1;
+        }
+
+        .result-title {
+            font-weight: 600;
+            font-size: 16px;
+            margin-bottom: 6px;
+            color: var(--dark);
+            letter-spacing: -0.1px;
+        }
+
+        .result-description {
+            font-size: 14px;
+            color: var(--text-light);
+            line-height: 1.5;
+        }
+
+        .result-meta {
+            display: flex;
+            gap: 16px;
+            margin-top: 8px;
+            font-size: 13px;
+            color: var(--text-lighter);
+        }
+
+        .result-meta i {
+            width: 14px;
+            text-align: center;
+        }
+
+        .no-results {
+            padding: 32px;
+            text-align: center;
+            color: var(--text-light);
+        }
+
+        .no-results i {
+            font-size: 24px;
+            margin-bottom: 12px;
+            color: var(--medium-gray);
+        }
+
+        /* Popular Searches */
+        .popular-searches {
+            width: 100%;
+            max-width: 800px;
+            margin: 40px auto 0;
+            background-color: var(--light-gray);
+            border-radius: var(--radius-md);
+            padding: 28px;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid var(--medium-gray);
+            transition: var(--transition);
+        }
+
+        .popular-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: var(--text-dark);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            letter-spacing: -0.2px;
+        }
+
+        .popular-title i {
+            color: var(--primary);
+        }
+
+        .popular-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 12px;
+        }
+
+        .popular-item {
+            padding: 12px 16px;
+            background-color: var(--white);
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border: 1px solid var(--medium-gray);
+            color: var(--text-dark);
+        }
+
+        .popular-item:hover {
+            border-color: var(--primary);
+            background-color: var(--primary-light);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .popular-item i {
+            color: var(--primary);
+            font-size: 16px;
+        }
+
+        /* Modal Styles */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: var(--transition);
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal {
+            width: 90%;
+            max-width: 900px;
+            max-height: 90vh;
+            background-color: var(--white);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+            transform: translateY(20px);
+            transition: var(--transition);
+        }
+
+        .modal-overlay.active .modal {
+            transform: translateY(0);
+        }
+
+        .modal-header {
+            padding: 20px 24px;
+            border-bottom: 1px solid var(--light-gray);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .modal-title {
+            font-size: 20px;
+            font-weight: 600;
+            letter-spacing: -0.2px;
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: white;
+            transition: var(--transition);
+            padding: 4px;
+            border-radius: 4px;
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-close:hover {
+            background-color: rgba(255,255,255,0.1);
+        }
+
+        .modal-content {
+            padding: 24px;
+            overflow-y: auto;
+            max-height: calc(90vh - 70px);
+        }
+
+        .resource-container {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .resource-box {
+            border: 1px solid var(--medium-gray);
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
+            transition: var(--transition);
+        }
+
+        .resource-box:hover {
+            box-shadow: var(--shadow-md);
+            transform: translateY(-2px);
+        }
+
+        .resource-header {
+            padding: 14px 16px;
+            background-color: var(--light-gray);
+            border-bottom: 1px solid var(--medium-gray);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .resource-title {
+            font-weight: 600;
+            font-size: 15px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--text-dark);
+        }
+
+        .resource-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .resource-btn {
+            padding: 6px 12px;
+            border-radius: var(--radius-sm);
+            background-color: var(--white);
+            border: 1px solid var(--medium-gray);
+            cursor: pointer;
+            font-size: 13px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: var(--transition);
+            color: var(--text-dark);
+        }
+
+        .resource-btn:hover {
+            background-color: var(--primary-light);
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        .pdf-viewer {
+            width: 100%;
+            height: 500px;
+            border: none;
+        }
+
+        .video-container {
+            position: relative;
+            padding-bottom: 56.25%; /* 16:9 aspect ratio */
+            height: 0;
+            overflow: hidden;
+            background-color: #000;
+        }
+
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 768px) {
+            .container {
+                padding: 32px 16px;
+            }
+
+            .logo-text {
+                font-size: 28px;
+            }
+
+            .logo-icon {
+                font-size: 32px;
+            }
+
+            .tagline {
+                font-size: 16px;
+            }
+
+            .search-box {
+                height: 56px;
+                padding: 0 56px 0 20px;
+                font-size: 16px;
+            }
+
+            .search-icon {
+                right: 20px;
+                font-size: 18px;
+            }
+
+            .popular-list {
+                grid-template-columns: 1fr;
+            }
+
+            .modal {
+                width: 95%;
+                max-height: 95vh;
+            }
+
+            .pdf-viewer {
+                height: 300px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .result-item {
+                padding: 16px;
+                gap: 12px;
+            }
+
+            .result-meta {
+                flex-direction: column;
+                gap: 4px;
+            }
+            
+            .popular-searches {
+                padding: 20px;
+            }
+            
+            .modal-content {
+                padding: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Loading Screen -->
+    <div id="loading-screen">
+        <div class="loading-content">
+            <div class="loader-logo">
+                <div class="loader-logo-inner">
+                    <i class="fas fa-book" style="font-size: 36px;"></i>
+                </div>
+            </div>
+            <div class="loader-text">Chargement des ressources...</div>
+            <div class="progress-container">
+                <div class="progress-bar" id="progressBar"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main App Content -->
+    <div id="app">
+        <div class="container">
+            <header>
+                <div class="logo">
+                    <i class="fas fa-quote-left logo-icon"></i>
+                    <span class="logo-text">Eduwell Search</span>
+                    <i class="fas fa-quote-right logo-icon"></i>
+                </div>
+                <p class="tagline">La plateforme ultime de ressources éducatives pour le Baccalauréat</p>
+            </header>
+
+            <div class="search-section">
+                <div class="search-container">
+                    <input type="text" class="search-box" placeholder="Rechercher des cours, exercices, fiches de révision..." id="searchInput">
+                    <div class="search-icon"><i class="fas fa-search"></i></div>
+                    <div class="spinner" id="spinner"></div>
+                </div>
+
+                <div class="search-results" id="searchResults">
+                    <!-- Results will be inserted here -->
+                </div>
+            </div>
+
+            <div class="popular-searches">
+                <div class="popular-title"><i class="fas fa-chart-line"></i> Recherches Populaires</div>
+                <div class="popular-list">
+                    <div class="popular-item"><i class="fas fa-square-root-alt"></i> Nombres complexes</div>
+                    <div class="popular-item"><i class="fas fa-flask"></i> Acides et bases</div>
+                    <div class="popular-item"><i class="fas fa-calculator"></i> Calcul intégral</div>
+                    <div class="popular-item"><i class="fas fa-dna"></i> Génétique humaine</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Resource Viewer Modal -->
+    <div class="modal-overlay" id="modalOverlay">
+        <div class="modal">
+            <div class="modal-header">
+                <div class="modal-title" id="modalTitle">Document Viewer</div>
+                <button class="modal-close" id="modalClose">&times;</button>
+            </div>
+            <div class="modal-content">
+                <div class="resource-container" id="resourceContainer">
+                    <!-- Resource boxes will be inserted here -->
+                </div>
+            </div>
+        </div>
+        
+    </div>
+    <!-- Add this just before the closing </body> tag -->
+<footer style="
+    text-align: center;
+    padding: 20px;
+    background-color: var(--light-gray);
+    color: var(--text-light);
+    font-size: 14px;
+    border-top: 1px solid var(--medium-gray);
+    margin-top: 40px;
+">
+    &copy; 2025 EduWell. All Rights Reserved.
+</footer>
+
+    <script>
+        // Simulate loading progress
+        const progressBar = document.getElementById('progressBar');
+        const loadingScreen = document.getElementById('loading-screen');
+        const app = document.getElementById('app');
+        
+        let progress = 0;
+        const progressInterval = setInterval(() => {
+            progress += Math.random() * 15;
+            if (progress >= 100) {
+                progress = 100;
+                clearInterval(progressInterval);
+                
+                // Hide loading screen and show app
+                setTimeout(() => {
+                    loadingScreen.style.opacity = '0';
+                    loadingScreen.style.visibility = 'hidden';
+                    
+                    // Show app with fade-in animation
+                    app.style.display = 'block';
+                    setTimeout(() => {
+                        app.style.opacity = '1';
+                    }, 50);
+                }, 500);
+            }
+            progressBar.style.width = `${progress}%`;
+        }, 200);
+
+        // Initialize app functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            // DOM Elements
+            const searchInput = document.getElementById('searchInput');
+            const searchResults = document.getElementById('searchResults');
+            const spinner = document.getElementById('spinner');
+            const popularItems = document.querySelectorAll('.popular-item');
+            const modalOverlay = document.getElementById('modalOverlay');
+            const modalClose = document.getElementById('modalClose');
+            const modalTitle = document.getElementById('modalTitle');
+            const resourceContainer = document.getElementById('resourceContainer');
+
+            // Enhanced educational resources data with more fields for better search
+            const educationalResources = [
+                {
+                    id: 1,
+                    title: "Mathématiques: Nombres Complexes",
+                    description: "Cours complet sur les nombres complexes avec exercices corrigés. Ce chapitre couvre les bases des nombres complexes, leur représentation géométrique et leurs applications en physique.",
+                    type: "course",
+                    subject: "Mathématiques",
+                    author: "Prof. Jean Dupont",
+                    date: "2023-05-15",
+                    keywords: ["complexes", "maths", "algèbre", "géométrie"],
+                    resources: [
+                        {
+                            type: "pdf",
+                            title: "Chapitre 1: Introduction aux nombres complexes",
+                            url: "https://drive.google.com/file/d/1d9z3x8P2m7b0c1v2f3g4h5j6k7l8m9n0/preview"
+                        },
+                        {
+                            type: "pdf",
+                            title: "Chapitre 2: Forme algébrique et géométrique",
+                            url: "https://drive.google.com/file/d/2e8y7x6P5m4b3c2v1f0g9h8j7k6l5m4n3/preview"
+                        },
+                        {
+                            type: "video",
+                            title: "Vidéo explicative: Nombres complexes",
+                            url: "https://www.youtube.com/embed/VIDEO_ID_1"
+                        }
+                    ]
+                },
+                {
+                    id: 2,
+                    title: "Chimie: Acides et Bases",
+                    description: "Guide complet sur les réactions acide-base et calculs de pH. Ce manuel explique les théories de Brønsted-Lowry et d'Arrhenius, avec des exemples pratiques de calculs de pH.",
+                    type: "textbook",
+                    subject: "Chimie",
+                    author: "Dr. Marie Lambert",
+                    date: "2022-11-30",
+                    keywords: ["chimie", "acide", "base", "pH", "réaction"],
+                    resources: [
+                        {
+                            type: "pdf",
+                            title: "Partie 1: Théorie des acides et bases",
+                            url: "https://drive.google.com/file/d/4g8y7x6P5m4b3c2v1f0g9h8j7k6l5m4n3/preview"
+                        },
+                        {
+                            type: "video",
+                            title: "Cours vidéo: Les acides et bases",
+                            url: "https://www.youtube.com/embed/VIDEO_ID_2"
+                        }
+                    ]
+                },
+                {
+                    id: 3,
+                    title: "Calcul Intégral",
+                    description: "Méthodes et applications du calcul intégral avec exemples. Ce cours couvre les intégrales définies et indéfinies, le théorème fondamental du calcul et des applications en sciences.",
+                    type: "course",
+                    subject: "Mathématiques",
+                    author: "Prof. Sophie Martin",
+                    date: "2023-01-10",
+                    keywords: ["calcul", "intégral", "maths", "analyse"],
+                    resources: [
+                        {
+                            type: "pdf",
+                            title: "Fiche de synthèse: Calcul intégral",
+                            url: "https://drive.google.com/file/d/6i0x9y8P7m6b5c4v3f2g1h0j9k8l7m6n5/preview"
+                        },
+                        {
+                            type: "video",
+                            title: "Tutoriel: Calcul intégral",
+                            url: "https://www.youtube.com/embed/VIDEO_ID_3"
+                        }
+                    ]
+                },
+                {
+                    id: 4,
+                    title: "Génétique Humaine",
+                    description: "Cours approfondi sur la génétique humaine et les maladies héréditaires. Ce document couvre les lois de Mendel, les chromosomes et les maladies génétiques courantes.",
+                    type: "course",
+                    subject: "Biologie",
+                    author: "Dr. Pierre Genet",
+                    date: "2023-03-22",
+                    keywords: ["génétique", "biologie", "ADN", "chromosomes", "Mendel"],
+                    resources: [
+                        {
+                            type: "pdf",
+                            title: "Chapitre 1: Bases de la génétique",
+                            url: "https://drive.google.com/file/d/7j1x2y9P8m7b6c5v4f3g2h1j0k9l8m7n6/preview"
+                        },
+                        {
+                            type: "pdf",
+                            title: "Chapitre 2: Transmission des caractères",
+                            url: "https://drive.google.com/file/d/8k2x3y0P9m8b7c6v5f4g3h2j1k0l9m8n7/preview"
+                        },
+                        {
+                            type: "video",
+                            title: "Conférence: Génétique humaine",
+                            url: "https://www.youtube.com/embed/VIDEO_ID_4"
+                        }
+                    ]
+                },
+                {
+                    id: 5,
+                    title: "Physique: Mécanique Newtonienne",
+                    description: "Principes fondamentaux de la mécanique newtonienne avec exercices. Ce cours couvre les lois du mouvement de Newton, l'énergie et la quantité de mouvement.",
+                    type: "course",
+                    subject: "Physique",
+                    author: "Prof. Alain Newton",
+                    date: "2023-02-18",
+                    keywords: ["physique", "mécanique", "Newton", "cinématique"],
+                    resources: [
+                        {
+                            type: "pdf",
+                            title: "Lois du mouvement de Newton",
+                            url: "https://drive.google.com/file/d/9l2x3y0P9m8b7c6v5f4g3h2j1k0l9m8n7/preview"
+                        },
+                        {
+                            type: "video",
+                            title: "Démonstration: Lois de Newton",
+                            url: "https://www.youtube.com/embed/ts8H1-WLdiM?si=715wXYuRadYOLw6o"
+                        }
+                    ]
+                },
+                {
+                    id: 6,
+                    title: "Philosophie: Les Grands Courants",
+                    description: "Panorama des principaux courants philosophiques pour le Bac. Ce document couvre le rationalisme, l'empirisme, l'existentialisme et d'autres mouvements majeurs.",
+                    type: "guide",
+                    subject: "Philosophie",
+                    author: "Dr. Simone Philosophe",
+                    date: "2023-04-05",
+                    keywords: ["philosophie", "courants", "bac", "pensée"],
+                    resources: [
+                        {
+                            type: "pdf",
+                            title: "Fiche de révision: Courants philosophiques",
+                            url: "https://drive.google.com/file/d/0m1x2y9P8n7b6c5v4f3g2h1j0k9l8m7n6/preview"
+                        }
+                    ]
+                }
+            ];
+
+            // Improved search functionality with better matching
+            function performSearch(query) {
+                if (query.length === 0) {
+                    hideResults();
+                    return [];
+                }
+
+                // Normalize the query
+                const normalizedQuery = query.toLowerCase().trim();
+                
+                // Split into individual words
+                const queryWords = normalizedQuery.split(/\s+/);
+                
+                return educationalResources.map(resource => {
+                    // Create a searchable string that includes all relevant fields
+                    const searchableText = `
+                        ${resource.title.toLowerCase()}
+                        ${resource.description.toLowerCase()}
+                        ${resource.subject.toLowerCase()}
+                        ${resource.author.toLowerCase()}
+                        ${resource.keywords.join(' ')}
+                    `;
+                    
+                    // Calculate a score for this resource
+                    let score = 0;
+                    
+                    // Check for exact matches in title (highest weight)
+                    if (resource.title.toLowerCase().includes(normalizedQuery)) {
+                        score += 50;
+                    }
+                    
+                    // Check for exact matches in subject
+                    if (resource.subject.toLowerCase().includes(normalizedQuery)) {
+                        score += 30;
+                    }
+                    
+                    // Check for matches in description
+                    if (resource.description.toLowerCase().includes(normalizedQuery)) {
+                        score += 20;
+                    }
+                    
+                    // Check for matches in author
+                    if (resource.author.toLowerCase().includes(normalizedQuery)) {
+                        score += 15;
+                    }
+                    
+                    // Check for matches in keywords
+                    if (resource.keywords.some(keyword => keyword.toLowerCase().includes(normalizedQuery))) {
+                        score += 10;
+                    }
+                    
+                    // Check for individual word matches
+                    queryWords.forEach(word => {
+                        if (word.length < 3) return; // ignore very short words
+                        
+                        if (resource.title.toLowerCase().includes(word)) score += 10;
+                        if (resource.subject.toLowerCase().includes(word)) score += 8;
+                        if (resource.description.toLowerCase().includes(word)) score += 5;
+                        if (resource.keywords.some(keyword => keyword.toLowerCase().includes(word))) score += 3;
+                    });
+                    
+                    return {
+                        ...resource,
+                        score
+                    };
+                })
+                .filter(resource => resource.score > 0) // Only include resources with some match
+                .sort((a, b) => b.score - a.score); // Sort by score descending
+            }
+
+            // Search functionality
+            let searchTimeout;
+            searchInput.addEventListener('input', function() {
+                clearTimeout(searchTimeout);
+                const query = this.value.trim();
+
+                if (query.length === 0) {
+                    hideResults();
+                    return;
+                }
+
+                showLoading();
+
+                searchTimeout = setTimeout(() => {
+                    const results = performSearch(query);
+                    displayResults(results, query);
+                    hideLoading();
+                }, 400);
+            });
+
+            function displayResults(results, query) {
+                searchResults.innerHTML = '';
+
+                if (results.length === 0) {
+                    searchResults.innerHTML = `
+                        <div class="no-results">
+                            <i class="fas fa-search"></i>
+                            <div>Aucun résultat trouvé pour "${query}"</div>
+                            <div style="font-size: 13px; margin-top: 8px;">Essayez avec des mots-clés différents</div>
+                        </div>
+                    `;
+                    showResults();
+                    return;
+                }
+
+                results.forEach(result => {
+                    const resultItem = document.createElement('div');
+                    resultItem.className = 'result-item';
+                    resultItem.dataset.id = result.id;
+
+                    const typeIcon = getTypeIcon(result.type);
+
+                    resultItem.innerHTML = `
+                        <div class="result-icon">${typeIcon}</div>
+                        <div class="result-content">
+                            <div class="result-title">${highlightMatches(result.title, query)}</div>
+                            <div class="result-description">${highlightMatches(result.description, query)}</div>
+                            <div class="result-meta">
+                                <span><i class="fas fa-user"></i> ${result.author}</span>
+                                <span><i class="fas fa-calendar-alt"></i> ${new Date(result.date).toLocaleDateString('fr-FR')}</span>
+                                <span><i class="fas fa-tag"></i> ${result.subject}</span>
+                            </div>
+                        </div>
+                    `;
+
+                    resultItem.addEventListener('click', () => openModal(result));
+                    searchResults.appendChild(resultItem);
+                });
+
+                showResults();
+            }
+
+            // Highlight matching text in search results
+            function highlightMatches(text, query) {
+                if (!query) return text;
+                
+                const regex = new RegExp(`(${escapeRegExp(query)})`, 'gi');
+                return text.replace(regex, '<span style="background-color: var(--primary-light); color: var(--primary); padding: 0 2px; border-radius: 2px;">$1</span>');
+            }
+
+            function escapeRegExp(string) {
+                return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+            }
+
+            function getTypeIcon(type) {
+                const icons = {
+                    'course': '<i class="fas fa-graduation-cap"></i>',
+                    'textbook': '<i class="fas fa-book"></i>',
+                    'video': '<i class="fas fa-play-circle"></i>',
+                    'interactive': '<i class="fas fa-laptop-code"></i>',
+                    'guide': '<i class="fas fa-file-alt"></i>'
+                };
+                return icons[type] || '<i class="fas fa-file"></i>';
+            }
+
+            function showLoading() {
+                spinner.style.display = 'block';
+            }
+
+            function hideLoading() {
+                spinner.style.display = 'none';
+            }
+
+            function showResults() {
+                searchResults.classList.add('visible');
+            }
+
+            function hideResults() {
+                searchResults.classList.remove('visible');
+            }
+
+            // Popular searches functionality
+            popularItems.forEach(item => {
+                item.addEventListener('click', function() {
+                    const searchText = this.textContent.replace(/^[^a-zA-Z]+/, '').trim();
+                    searchInput.value = searchText;
+                    searchInput.focus();
+                    searchInput.dispatchEvent(new Event('input'));
+                });
+            });
+
+            // Modal functionality
+            function openModal(resource) {
+                modalTitle.textContent = resource.title;
+                resourceContainer.innerHTML = '';
+
+                resource.resources.forEach((item, index) => {
+                    const resourceBox = document.createElement('div');
+                    resourceBox.className = 'resource-box';
+
+                    if (item.type === 'pdf') {
+                        resourceBox.innerHTML = `
+                            <div class="resource-header">
+                                <div class="resource-title">
+                                    <i class="fas fa-file-pdf" style="color: #E53E3E;"></i>
+                                    ${item.title}
+                                </div>
+                                <div class="resource-actions">
+                         
+                                </div>
+                            </div>
+                            <iframe class="pdf-viewer" src="${item.url}"></iframe>
+                        `;
+                    } else if (item.type === 'video') {
+                        resourceBox.innerHTML = `
+                            <div class="resource-header">
+                                <div class="resource-title">
+                                    <i class="fas fa-video" style="color: #FF0000;"></i>
+                                    ${item.title}
+                                </div>
+                                <div class="resource-actions">
+                                
+                                </div>
+                            </div>
+                            <div class="video-container">
+                                <iframe src="${item.url}" frameborder="0" allowfullscreen></iframe>
+                            </div>
+                        `;
+                    }
+
+                    resourceContainer.appendChild(resourceBox);
+                });
+
+                // Add download functionality
+                document.querySelectorAll('.download-btn').forEach(btn => {
+                    btn.addEventListener('click', function(e) {
+                        e.stopPropagation();
+                        window.open(this.dataset.url, '_blank');
+                    });
+                });
+
+                // Add share functionality
+                document.querySelectorAll('.share-btn').forEach(btn => {
+                    btn.addEventListener('click', function(e) {
+                        e.stopPropagation();
+                        if (navigator.share) {
+                            navigator.share({
+                                title: resource.title,
+                                text: 'Regardez cette ressource éducative',
+                                url: window.location.href
+                            }).catch(err => {
+                                console.log('Error sharing:', err);
+                            });
+                        } else {
+                            alert('Fonction de partage non disponible. Copiez le lien manuellement.');
+                        }
+                    });
+                });
+
+                modalOverlay.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            }
+
+            modalClose.addEventListener('click', closeModal);
+            modalOverlay.addEventListener('click', function(e) {
+                if (e.target === modalOverlay) {
+                    closeModal();
+                }
+            });
+
+            function closeModal() {
+                modalOverlay.classList.remove('active');
+                document.body.style.overflow = 'auto';
+            }
+
+            // Close modal with ESC key
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape' && modalOverlay.classList.contains('active')) {
+                    closeModal();
+                }
+            });
+        });
+    </script>
+</body>
+</html>
