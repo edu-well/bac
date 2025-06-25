@@ -1,0 +1,746 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EliteBook - Premium Reading Experience</title>
+    <style>
+        :root {
+            --primary: #2c3e50;
+            --secondary: #3498db;
+            --accent: #e74c3c;
+            --light: #f8f9fa;
+            --dark: #2c3e50;
+            --gray: #95a5a6;
+            --light-gray: #dfe6e9;
+            --card-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            --card-shadow-hover: 0 15px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+
+        body {
+            background-color: var(--light);
+            color: var(--dark);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem 1.5rem;
+        }
+
+        header {
+            margin-bottom: 3rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--primary);
+            letter-spacing: -0.5px;
+            display: flex;
+            align-items: center;
+        }
+
+        .logo-icon {
+            margin-right: 0.5rem;
+            font-size: 1.5rem;
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--primary);
+            margin: 2.5rem 0 1.8rem;
+            position: relative;
+            padding-left: 1.2rem;
+        }
+
+        .section-title::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            height: 70%;
+            width: 5px;
+            background: var(--secondary);
+            border-radius: 3px;
+        }
+
+        .promo-banner {
+            background: linear-gradient(135deg, var(--secondary), var(--primary));
+            color: white;
+            border-radius: 14px;
+            padding: 2.2rem;
+            margin: 2.5rem 0 3.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 15px 35px rgba(52, 152, 219, 0.2);
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .promo-banner::before {
+            content: '';
+            position: absolute;
+            top: -20px;
+            right: -20px;
+            width: 120px;
+            height: 120px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            z-index: -1;
+        }
+
+        .promo-banner::after {
+            content: '';
+            position: absolute;
+            bottom: -30px;
+            left: -30px;
+            width: 100px;
+            height: 100px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 30px;
+            transform: rotate(45deg);
+            z-index: -1;
+        }
+
+        .promo-content h3 {
+            font-size: 1.7rem;
+            font-weight: 700;
+            margin-bottom: 0.7rem;
+            letter-spacing: -0.5px;
+        }
+
+        .promo-content p {
+            font-size: 1rem;
+            opacity: 0.9;
+            max-width: 75%;
+            margin-bottom: 1.5rem;
+        }
+
+        .discount-badge {
+            background-color: white;
+            color: var(--secondary);
+            padding: 0.9rem 1.8rem;
+            border-radius: 50px;
+            font-weight: 800;
+            font-size: 1.3rem;
+            box-shadow: var(--card-shadow);
+            margin-right: 1.5rem;
+        }
+
+        .btn {
+            border: none;
+            padding: 0.9rem 2rem;
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            font-size: 1rem;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .btn-primary {
+            background-color: var(--accent);
+            color: white;
+            box-shadow: 0 6px 15px rgba(231, 76, 60, 0.3);
+        }
+
+        .btn-primary:hover {
+            background-color: #c0392b;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(231, 76, 60, 0.4);
+        }
+
+        .btn-icon {
+            margin-left: 0.5rem;
+            font-size: 1.1rem;
+        }
+
+        .categories {
+            display: flex;
+            gap: 0.8rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .category-btn {
+            background-color: white;
+            border: 1px solid var(--light-gray);
+            padding: 0.7rem 1.5rem;
+            border-radius: 50px;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            color: var(--dark);
+            box-shadow: var(--card-shadow);
+        }
+
+        .category-btn.active, .category-btn:hover {
+            background-color: var(--secondary);
+            color: white;
+            border-color: var(--secondary);
+            box-shadow: 0 6px 15px rgba(52, 152, 219, 0.3);
+        }
+
+        .books-container {
+            margin-bottom: 3.5rem;
+        }
+
+        .books-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 2rem;
+        }
+
+        .book-card {
+            background-color: white;
+            border-radius: 14px;
+            overflow: hidden;
+            box-shadow: var(--card-shadow);
+            transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+            position: relative;
+        }
+
+        .book-card:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--card-shadow-hover);
+        }
+
+        .book-cover {
+            height: 280px;
+            background-color: #f1f3f4;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .book-cover img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.6s ease;
+        }
+
+        .book-card:hover .book-cover img {
+            transform: scale(1.08);
+        }
+
+        .book-info {
+            padding: 1.5rem;
+        }
+
+        .book-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 0.4rem;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .book-author {
+            font-size: 0.9rem;
+            color: var(--gray);
+            margin-bottom: 0.5rem;
+        }
+
+        .book-price {
+            font-weight: 700;
+            color: var(--primary);
+            font-size: 1.1rem;
+        }
+
+        .book-badge {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            background-color: var(--accent);
+            color: white;
+            padding: 0.3rem 0.8rem;
+            border-radius: 50px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            z-index: 2;
+        }
+
+        .authors-section {
+            margin-top: 4rem;
+        }
+
+        .authors-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+            gap: 2rem;
+        }
+
+        .author-card {
+            background-color: white;
+            border-radius: 14px;
+            padding: 1.8rem 1.5rem;
+            text-align: center;
+            box-shadow: var(--card-shadow);
+            transition: all 0.4s ease;
+        }
+
+        .author-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--card-shadow-hover);
+        }
+
+        .author-avatar {
+            width: 90px;
+            height: 90px;
+            border-radius: 50%;
+            background-color: #f1f3f4;
+            margin: 0 auto 1.2rem;
+            overflow: hidden;
+            border: 4px solid white;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+        }
+
+        .author-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .author-name {
+            font-weight: 700;
+            font-size: 1rem;
+            margin-bottom: 0.3rem;
+        }
+
+        .author-genre {
+            font-size: 0.85rem;
+            color: var(--gray);
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from { 
+                opacity: 0; 
+                transform: translateY(30px); 
+            }
+            to { 
+                opacity: 1; 
+                transform: translateY(0); 
+            }
+        }
+
+        .section-title, .promo-banner, .books-container, .authors-section {
+            animation: fadeInUp 0.8s ease forwards;
+        }
+
+        .books-container {
+            animation-delay: 0.15s;
+        }
+
+        .authors-section {
+            animation-delay: 0.3s;
+        }
+
+        /* Loading state */
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255,255,255,0.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 1s ease-in-out infinite;
+            margin-left: 10px;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Empty state */
+        .empty-state {
+            text-align: center;
+            padding: 3rem;
+            grid-column: 1 / -1;
+        }
+
+        .empty-state img {
+            width: 150px;
+            opacity: 0.7;
+            margin-bottom: 1.5rem;
+        }
+
+        .empty-state p {
+            color: var(--gray);
+            font-size: 1.1rem;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 992px) {
+            .books-grid {
+                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 1.8rem 1.2rem;
+            }
+
+            .promo-banner {
+                flex-direction: column;
+                align-items: flex-start;
+                padding: 1.8rem;
+            }
+
+            .promo-content p {
+                max-width: 100%;
+            }
+
+            .discount-badge {
+                margin: 1.5rem 0;
+                align-self: center;
+            }
+
+            .books-grid {
+                grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+                gap: 1.5rem;
+            }
+
+            .book-cover {
+                height: 240px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .books-grid {
+                grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+            }
+
+            .book-cover {
+                height: 200px;
+            }
+
+            .author-avatar {
+                width: 70px;
+                height: 70px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">
+                <span class="logo-icon">📚</span>
+                <span>EliteBook</span>
+            </div>
+        </header>
+
+        <h2 class="section-title">Bestseller Collection</h2>
+
+        <div class="promo-banner">
+            <div class="promo-content">
+                <h3>Exclusive Member Offer</h3>
+                <p>Limited time discount for our premium readers</p>
+                <button class="btn btn-primary">
+                    Claim Offer
+                    <span class="btn-icon">→</span>
+                </button>
+            </div>
+            <div class="discount-badge">46% OFF</div>
+        </div>
+
+        <div class="books-container">
+            <h2 class="section-title">Top Selling</h2>
+
+            <div class="categories" id="topCategories">
+                <button class="category-btn active" data-category="all">All</button>
+                <button class="category-btn" data-category="fiction">Fiction</button>
+                <button class="category-btn" data-category="business">Business</button>
+                <button class="category-btn" data-category="biography">Biography</button>
+                <button class="category-btn" data-category="science">Science</button>
+            </div>
+
+            <div class="books-grid" id="topBooksGrid">
+                <!-- Books will be inserted here by JavaScript -->
+            </div>
+        </div>
+
+        <div class="books-container">
+            <h2 class="section-title">New Releases</h2>
+
+            <div class="categories" id="newCategories">
+                <button class="category-btn active" data-category="all">All</button>
+                <button class="category-btn" data-category="novels">Novels</button>
+                <button class="category-btn" data-category="self-help">Self-Help</button>
+                <button class="category-btn" data-category="technology">Technology</button>
+            </div>
+
+            <div class="books-grid" id="newBooksGrid">
+                <!-- Books will be inserted here by JavaScript -->
+            </div>
+        </div>
+
+        <div class="authors-section">
+            <h2 class="section-title">Featured Authors</h2>
+            <div class="authors-grid">
+                <div class="author-card">
+                    <div class="author-avatar">
+                        <img src="https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="James Clear">
+                    </div>
+                    <div class="author-name">James Clear</div>
+                    <div class="author-genre">Self-Help</div>
+                </div>
+                <div class="author-card">
+                    <div class="author-avatar">
+                        <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Yuval Harari">
+                    </div>
+                    <div class="author-name">Yuval Harari</div>
+                    <div class="author-genre">History</div>
+                </div>
+                <div class="author-card">
+                    <div class="author-avatar">
+                        <img src="https://images.unsplash.com/photo-1580489944761-15a19d654956?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Michelle Obama">
+                    </div>
+                    <div class="author-name">Michelle Obama</div>
+                    <div class="author-genre">Memoir</div>
+                </div>
+                <div class="author-card">
+                    <div class="author-avatar">
+                        <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Malcolm Gladwell">
+                    </div>
+                    <div class="author-name">Malcolm Gladwell</div>
+                    <div class="author-genre">Psychology</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Book data
+        const booksData = {
+            topSelling: [
+                {
+                    id: 1,
+                    title: "The Silent Patient",
+                    author: "Alex Michaelides",
+                    category: "fiction",
+                    price: "$18.99",
+                    image: "https://images.unsplash.com/photo-1544947950-fa07a98d237f?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80",
+                    badge: "Bestseller"
+                },
+                {
+                    id: 2,
+                    title: "Atomic Habits",
+                    author: "James Clear",
+                    category: "self-help",
+                    price: "$16.49",
+                    image: "https://images.unsplash.com/photo-1589998059171-988d887df646?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80",
+                    badge: "Popular"
+                },
+                {
+                    id: 3,
+                    title: "The Midnight Library",
+                    author: "Matt Haig",
+                    category: "fiction",
+                    price: "$15.29",
+                    image: "https://images.unsplash.com/photo-1541963463532-d68292c34b19?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80"
+                },
+                {
+                    id: 4,
+                    title: "Educated",
+                    author: "Tara Westover",
+                    category: "biography",
+                    price: "$14.99",
+                    image: "https://images.unsplash.com/photo-1531346878377-a5be20888e57?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80",
+                    badge: "Editor's Pick"
+                },
+                {
+                    id: 5,
+                    title: "Thinking, Fast and Slow",
+                    author: "Daniel Kahneman",
+                    category: "science",
+                    price: "$19.99",
+                    image: "https://images.unsplash.com/photo-1544717305-2782549b5136?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80"
+                },
+                {
+                    id: 6,
+                    title: "The Psychology of Money",
+                    author: "Morgan Housel",
+                    category: "business",
+                    price: "$17.49",
+                    image: "https://images.unsplash.com/photo-1589998059171-988d887df646?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80",
+                    badge: "New"
+                }
+            ],
+            newReleases: [
+                {
+                    id: 7,
+                    title: "Project Hail Mary",
+                    author: "Andy Weir",
+                    category: "novels",
+                    price: "$20.99",
+                    image: "https://images.unsplash.com/photo-1532012197267-da84d127e765?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80",
+                    badge: "New Release"
+                },
+                {
+                    id: 8,
+                    title: "The Anthropocene Reviewed",
+                    author: "John Green",
+                    category: "novels",
+                    price: "$18.99",
+                    image: "https://images.unsplash.com/photo-1621351183012-e2f9972dd9bf?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80"
+                },
+                {
+                    id: 9,
+                    title: "Klara and the Sun",
+                    author: "Kazuo Ishiguro",
+                    category: "novels",
+                    price: "$16.99",
+                    image: "https://images.unsplash.com/photo-1510172951991-856a62a9e395?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80"
+                },
+                {
+                    id: 10,
+                    title: "No Rules Rules",
+                    author: "Reed Hastings",
+                    category: "business",
+                    price: "$21.49",
+                    image: "https://images.unsplash.com/photo-1544947950-fa07a98d237f?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80",
+                    badge: "Hot"
+                },
+                {
+                    id: 11,
+                    title: "The Code Breaker",
+                    author: "Walter Isaacson",
+                    category: "technology",
+                    price: "$22.99",
+                    image: "https://images.unsplash.com/photo-1531346878377-a5be20888e57?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80"
+                },
+                {
+                    id: 12,
+                    title: "Four Thousand Weeks",
+                    author: "Oliver Burkeman",
+                    category: "self-help",
+                    price: "$15.99",
+                    image: "https://images.unsplash.com/photo-1544717305-2782549b5136?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80",
+                    badge: "Trending"
+                }
+            ]
+        };
+
+        // DOM elements
+        const topBooksGrid = document.getElementById('topBooksGrid');
+        const newBooksGrid = document.getElementById('newBooksGrid');
+        const topCategories = document.getElementById('topCategories');
+        const newCategories = document.getElementById('newCategories');
+
+        // Render books function
+        function renderBooks(books, container) {
+            container.innerHTML = '';
+            
+            if (books.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <img src="https://cdn-icons-png.flaticon.com/512/4076/4076478.png" alt="No books">
+                        <p>No books found in this category</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            books.forEach(book => {
+                const badge = book.badge ? `<div class="book-badge">${book.badge}</div>` : '';
+                const bookCard = document.createElement('div');
+                bookCard.className = 'book-card';
+                bookCard.innerHTML = `
+                    ${badge}
+                    <div class="book-cover">
+                        <img src="${book.image}" alt="${book.title}">
+                    </div>
+                    <div class="book-info">
+                        <div class="book-title">${book.title}</div>
+                        <div class="book-author">${book.author}</div>
+                        <div class="book-price">${book.price}</div>
+                    </div>
+                `;
+                container.appendChild(bookCard);
+            });
+        }
+
+        // Initialize books
+        renderBooks(booksData.topSelling, topBooksGrid);
+        renderBooks(booksData.newReleases, newBooksGrid);
+
+        // Category filter function
+        function setupCategoryFilter(categoryContainer, booksData, booksGrid) {
+            const categoryButtons = categoryContainer.querySelectorAll('.category-btn');
+            
+            categoryButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    // Update active state
+                    categoryButtons.forEach(btn => btn.classList.remove('active'));
+                    button.classList.add('active');
+                    
+                    // Get selected category
+                    const category = button.dataset.category;
+                    
+                    // Filter books
+                    let filteredBooks = [];
+                    if (category === 'all') {
+                        filteredBooks = [...booksData];
+                    } else {
+                        filteredBooks = booksData.filter(book => book.category === category);
+                    }
+                    
+                    // Render filtered books
+                    renderBooks(filteredBooks, booksGrid);
+                });
+            });
+        }
+
+        // Set up category filters
+        setupCategoryFilter(topCategories, booksData.topSelling, topBooksGrid);
+        setupCategoryFilter(newCategories, booksData.newReleases, newBooksGrid);
+
+        // Book card click handler
+        document.addEventListener('click', (e) => {
+            const bookCard = e.target.closest('.book-card');
+            if (bookCard) {
+                const title = bookCard.querySelector('.book-title').textContent;
+                console.log(`Selected book: ${title}`);
+                // In a real app, navigate to book detail page
+            }
+            
+            // Promo button click
+            if (e.target.closest('.btn-primary')) {
+                const btn = e.target.closest('.btn-primary');
+                btn.innerHTML = 'Processing <span class="loading"></span>';
+                
+                // Simulate API call
+                setTimeout(() => {
+                    btn.innerHTML = 'Offer Claimed!';
+                    setTimeout(() => {
+                        btn.innerHTML = 'Claim Offer <span class="btn-icon">→</span>';
+                    }, 2000);
+                }, 1500);
+            }
+        });
+    </script>
+</body>
+</html>
