@@ -1,0 +1,1086 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SpeakWell | EduWell</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            /* Modern color palette */
+            --primary-blue: #2563eb;
+            --primary-blue-hover: #1d4ed8;
+            --primary-blue-light: #dbeafe;
+            --success-green: #16a34a;
+            --success-green-light: #dcfce7;
+            --error-red: #dc2626;
+            --error-red-light: #fee2e2;
+            --warning-orange: #ea580c;
+            --warning-orange-light: #ffedd5;
+            
+            /* Neutrals */
+            --text-primary: #1f2937;
+            --text-secondary: #6b7280;
+            --text-tertiary: #9ca3af;
+            --background-primary: #ffffff;
+            --background-secondary: #f9fafb;
+            --background-tertiary: #f3f4f6;
+            --border-color: #e5e7eb;
+            --border-color-hover: #d1d5db;
+            
+            /* Shadows */
+            --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            
+            /* Typography */
+            --font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            --font-size-xs: 0.75rem;
+            --font-size-sm: 0.875rem;
+            --font-size-base: 1rem;
+            --font-size-lg: 1.125rem;
+            --font-size-xl: 1.25rem;
+            --font-size-2xl: 1.5rem;
+            --font-size-3xl: 1.875rem;
+            --font-size-4xl: 2.25rem;
+            
+            /* Spacing */
+            --space-1: 0.25rem;
+            --space-2: 0.5rem;
+            --space-3: 0.75rem;
+            --space-4: 1rem;
+            --space-5: 1.25rem;
+            --space-6: 1.5rem;
+            --space-8: 2rem;
+            --space-10: 2.5rem;
+            --space-12: 3rem;
+            --space-16: 4rem;
+            
+            /* Border radius */
+            --radius-sm: 0.375rem;
+            --radius-md: 0.5rem;
+            --radius-lg: 0.75rem;
+            --radius-xl: 1rem;
+            --radius-2xl: 1.5rem;
+            --radius-full: 9999px;
+            
+            /* Transitions */
+            --transition-all: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            --transition-colors: color 0.2s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.2s cubic-bezier(0.4, 0, 0.2, 1), border-color 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            --transition-transform: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-family);
+            font-size: var(--font-size-base);
+            line-height: 1.6;
+            color: var(--text-primary);
+            background-color: var(--background-primary);
+            min-height: 100vh;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        @supports (font-variation-settings: normal) {
+            body {
+                font-family: 'Inter var', var(--font-family);
+            }
+        }
+
+        /* Loading Screen */
+        #loading-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--background-primary);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 0.5s ease-out;
+        }
+
+        .loading-content {
+            text-align: center;
+            color: var(--text-primary);
+            max-width: 300px;
+            margin: 0 auto;
+        }
+
+        .loading-spinner {
+            width: 50px;
+            height: 50px;
+            border: 3px solid var(--primary-blue-light);
+            border-radius: 50%;
+            border-top-color: var(--primary-blue);
+            animation: spin 1s linear infinite;
+            margin-bottom: var(--space-6);
+        }
+
+        .loading-text {
+            font-size: var(--font-size-lg);
+            font-weight: 500;
+            margin-bottom: var(--space-4);
+            color: var(--text-primary);
+        }
+
+        .loading-progress {
+            width: 200px;
+            height: 4px;
+            background: var(--background-tertiary);
+            border-radius: var(--radius-full);
+            overflow: hidden;
+        }
+
+        .loading-progress-bar {
+            height: 100%;
+            background: var(--primary-blue);
+            border-radius: var(--radius-full);
+            animation: progress 2s ease-in-out forwards;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        @keyframes progress {
+            from { width: 0; }
+            to { width: 100%; }
+        }
+
+        /* Main Container */
+        .app-container {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: var(--space-4);
+            background-color: var(--background-primary);
+        }
+
+        .quiz-wrapper {
+            width: 100%;
+            max-width: 800px;
+            background: var(--background-primary);
+            border-radius: var(--radius-xl);
+            box-shadow: var(--shadow-lg);
+            overflow: hidden;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 0.8s ease-out 0.5s forwards;
+            border: 1px solid var(--border-color);
+        }
+
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Header - Simplified */
+        .quiz-header {
+            background: var(--background-primary);
+            padding: var(--space-6) var(--space-6) var(--space-4);
+            text-align: center;
+            position: relative;
+        }
+
+        .quiz-title {
+            font-size: var(--font-size-2xl);
+            font-weight: 700;
+            margin-bottom: var(--space-1);
+            color: var(--text-primary);
+            position: relative;
+            display: inline-block;
+        }
+
+        .quiz-title::after {
+            content: '';
+            position: absolute;
+            bottom: -6px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 40px;
+            height: 3px;
+            background: var(--primary-blue);
+            border-radius: var(--radius-full);
+        }
+
+        .quiz-subtitle {
+            font-size: var(--font-size-base);
+            color: var(--text-secondary);
+            font-weight: 400;
+            margin-top: var(--space-2);
+        }
+
+        /* Progress Bar */
+        .progress-container {
+            padding: var(--space-6) var(--space-6) 0;
+        }
+
+        .progress-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: var(--space-4);
+        }
+
+        .progress-text {
+            font-size: var(--font-size-sm);
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        .score-display {
+            font-size: var(--font-size-sm);
+            color: var(--primary-blue);
+            font-weight: 600;
+            background: var(--primary-blue-light);
+            padding: var(--space-1) var(--space-3);
+            border-radius: var(--radius-full);
+        }
+
+        .progress-bar {
+            height: 6px;
+            background: var(--background-tertiary);
+            border-radius: var(--radius-full);
+            overflow: hidden;
+            position: relative;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: var(--primary-blue);
+            border-radius: var(--radius-full);
+            transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+        }
+
+        /* Question Container */
+        .question-container {
+            padding: var(--space-6) var(--space-6);
+        }
+
+        .question-number {
+            font-size: var(--font-size-xs);
+            color: var(--text-tertiary);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: var(--space-3);
+        }
+
+        .question-text {
+            font-size: var(--font-size-xl);
+            font-weight: 600;
+            color: var(--text-primary);
+            line-height: 1.4;
+            margin-bottom: var(--space-6);
+        }
+
+        /* Options */
+        .options-container {
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-3);
+            margin-bottom: var(--space-6);
+        }
+
+        .option {
+            display: flex;
+            align-items: center;
+            padding: var(--space-4) var(--space-4);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            cursor: pointer;
+            transition: var(--transition-all);
+            background: var(--background-primary);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .option:hover {
+            border-color: var(--primary-blue);
+            transform: translateY(-1px);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .option.selected {
+            border-color: var(--primary-blue);
+            background: var(--primary-blue-light);
+        }
+
+        .option.correct {
+            border-color: var(--success-green);
+            background: var(--success-green-light);
+        }
+
+        .option.incorrect {
+            border-color: var(--error-red);
+            background: var(--error-red-light);
+        }
+
+        .option-radio {
+            width: 18px;
+            height: 18px;
+            border: 2px solid var(--border-color-hover);
+            border-radius: 50%;
+            margin-right: var(--space-3);
+            position: relative;
+            transition: var(--transition-colors);
+            flex-shrink: 0;
+        }
+
+        .option:hover .option-radio {
+            border-color: var(--primary-blue);
+        }
+
+        .option.selected .option-radio {
+            border-color: var(--primary-blue);
+            background: var(--primary-blue);
+        }
+
+        .option.selected .option-radio::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 6px;
+            height: 6px;
+            background: white;
+            border-radius: 50%;
+        }
+
+        .option.correct .option-radio {
+            border-color: var(--success-green);
+            background: var(--success-green);
+        }
+
+        .option.correct .option-radio::after {
+            content: '✓';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            font-size: 9px;
+            font-weight: bold;
+        }
+
+        .option.incorrect .option-radio {
+            border-color: var(--error-red);
+            background: var(--error-red);
+        }
+
+        .option.incorrect .option-radio::after {
+            content: '✕';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            font-size: 9px;
+            font-weight: bold;
+        }
+
+        .option-text {
+            font-size: var(--font-size-base);
+            color: var(--text-primary);
+            font-weight: 500;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: var(--space-3) var(--space-4);
+            border: none;
+            border-radius: var(--radius-md);
+            font-size: var(--font-size-base);
+            font-weight: 600;
+            text-decoration: none;
+            cursor: pointer;
+            transition: var(--transition-all);
+            position: relative;
+            overflow: hidden;
+            min-height: 44px;
+        }
+
+        .btn-primary {
+            background: var(--primary-blue);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-blue-hover);
+            transform: translateY(-1px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .btn-secondary {
+            background: var(--background-primary);
+            color: var(--text-primary);
+            border: 1px solid var(--border-color);
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--primary-blue);
+            color: var(--primary-blue);
+            transform: translateY(-1px);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none !important;
+            box-shadow: none !important;
+        }
+
+        .btn-full {
+            width: 100%;
+        }
+
+        /* Navigation */
+        .navigation {
+            display: flex;
+            justify-content: space-between;
+            gap: var(--space-3);
+            margin-top: var(--space-6);
+        }
+
+        .navigation .btn {
+            flex: 1;
+        }
+
+        /* Explanation */
+        .explanation {
+            background: var(--background-secondary);
+            border-radius: var(--radius-md);
+            padding: var(--space-4);
+            margin-top: var(--space-4);
+            border-left: 3px solid var(--primary-blue);
+            display: none;
+            animation: slideIn 0.3s ease-out;
+        }
+
+        .explanation.show {
+            display: block;
+        }
+
+        .explanation-title {
+            font-size: var(--font-size-base);
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: var(--space-2);
+            display: flex;
+            align-items: center;
+        }
+
+        .explanation-title::before {
+            content: '💡';
+            margin-right: var(--space-2);
+        }
+
+        .explanation-text {
+            font-size: var(--font-size-sm);
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Results */
+        .results-container {
+            display: none;
+            text-align: center;
+            padding: var(--space-8) var(--space-6);
+        }
+
+        .results-icon {
+            font-size: var(--font-size-3xl);
+            margin-bottom: var(--space-4);
+            color: var(--primary-blue);
+        }
+
+        .results-title {
+            font-size: var(--font-size-2xl);
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: var(--space-3);
+        }
+
+        .results-score {
+            font-size: var(--font-size-3xl);
+            font-weight: 800;
+            color: var(--primary-blue);
+            margin-bottom: var(--space-4);
+        }
+
+        .results-message {
+            font-size: var(--font-size-base);
+            color: var(--text-secondary);
+            margin-bottom: var(--space-6);
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+            line-height: 1.6;
+        }
+
+        .results-progress {
+            width: 100%;
+            height: 6px;
+            background: var(--background-tertiary);
+            border-radius: var(--radius-full);
+            overflow: hidden;
+            margin-bottom: var(--space-6);
+        }
+
+        .results-progress-fill {
+            height: 100%;
+            background: var(--primary-blue);
+            border-radius: var(--radius-full);
+            transition: width 1s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* Back Button */
+        .back-btn {
+            position: fixed;
+            top: var(--space-4);
+            left: var(--space-4);
+            width: 40px;
+            height: 40px;
+            background: var(--background-primary);
+            border: 1px solid var(--border-color);
+            color: var(--text-primary);
+            font-size: var(--font-size-base);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition-all);
+            z-index: 1000;
+            box-shadow: var(--shadow-sm);
+            border-radius: var(--radius-full);
+        }
+
+        .back-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: var(--shadow-md);
+            border-color: var(--primary-blue);
+            color: var(--primary-blue);
+        }
+
+        /* Footer - Simplified */
+        .footer {
+            text-align: center;
+            padding: var(--space-4);
+            border-top: 1px solid var(--border-color);
+            background: var(--background-secondary);
+        }
+
+        .footer-logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: var(--space-2);
+        }
+
+        .logo-text {
+            font-size: var(--font-size-lg);
+            font-weight: 700;
+            color: var(--primary-blue);
+        }
+
+        .logo-subtext {
+            font-size: var(--font-size-sm);
+            color: var(--text-secondary);
+            font-weight: 400;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .app-container {
+                padding: var(--space-2);
+            }
+
+            .quiz-header {
+                padding: var(--space-4) var(--space-4) var(--space-3);
+            }
+
+            .quiz-title {
+                font-size: var(--font-size-xl);
+            }
+
+            .question-container {
+                padding: var(--space-4);
+            }
+
+            .question-text {
+                font-size: var(--font-size-lg);
+            }
+
+            .option {
+                padding: var(--space-3);
+            }
+
+            .navigation {
+                flex-direction: column;
+            }
+
+            .back-btn {
+                top: var(--space-2);
+                left: var(--space-2);
+                width: 36px;
+                height: 36px;
+            }
+
+            .results-container {
+                padding: var(--space-6) var(--space-4);
+            }
+
+            .results-score {
+                font-size: var(--font-size-2xl);
+            }
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Loading Screen -->
+    <div id="loading-screen">
+        <div class="loading-content">
+            <div class="loading-spinner"></div>
+            <div class="loading-text">Mistakes build champions. Keep going</div>
+            <div class="loading-progress">
+                <div class="loading-progress-bar"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Back Button -->
+    <button class="back-btn" onclick="window.history.back()">
+        <i class="fas fa-arrow-left"></i>
+    </button>
+
+    <!-- Main App Container -->
+    <div class="app-container">
+        <div class="quiz-wrapper">
+            <!-- Header - Simplified -->
+            <header class="quiz-header">
+                <h1 class="quiz-title">Grammar Quiz</h1>
+                <p class="quiz-subtitle">Test your English skills</p>
+            </header>
+
+            <!-- Progress Section -->
+            <div class="progress-container">
+                <div class="progress-info">
+                    <span class="progress-text">Question <span id="current-question">1</span> of <span id="total-questions">10</span></span>
+                    <span class="score-display">Score: <span id="score">0</span></span>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progress-fill" style="width: 10%"></div>
+                </div>
+            </div>
+
+            <!-- Quiz Content -->
+            <div class="question-container" id="quiz-container">
+                <div class="question-number">Question <span id="question-number">1</span></div>
+                <h2 class="question-text" id="question-text">Loading question...</h2>
+                
+                <div class="options-container" id="options-container">
+                    <!-- Options will be populated by JavaScript -->
+                </div>
+
+                <button class="btn btn-primary btn-full" id="submit-btn" disabled>
+                    Submit Answer
+                </button>
+
+                <div class="explanation" id="explanation">
+                    <div class="explanation-title">Explanation</div>
+                    <div class="explanation-text" id="explanation-text">
+                        <!-- Explanation will be populated by JavaScript -->
+                    </div>
+                </div>
+
+                <div class="navigation">
+                    <button class="btn btn-secondary" id="prev-btn" disabled>
+                        <i class="fas fa-chevron-left"></i> Previous
+                    </button>
+                    <button class="btn btn-secondary" id="next-btn" disabled>
+                        Next <i class="fas fa-chevron-right"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Results Container -->
+            <div class="results-container" id="results-container">
+                <div class="results-icon" id="results-icon">🎉</div>
+                <h2 class="results-title">Quiz Complete!</h2>
+                <div class="results-score" id="final-score">0/10</div>
+                <p class="results-message" id="results-message">Great job on completing the quiz!</p>
+                <div class="results-progress">
+                    <div class="results-progress-fill" id="results-progress-fill"></div>
+                </div>
+                <button class="btn btn-primary btn-full" id="restart-btn">
+                    <i class="fas fa-refresh"></i> Take Quiz Again
+                </button>
+            </div>
+
+            <!-- Footer - Simplified -->
+            <footer class="footer">
+                <div class="footer-logo">
+                    <span class="logo-text">SpeakWell</span>
+                    <span class="logo-subtext">by EduWell</span>
+                </div>
+            </footer>
+        </div>
+    </div>
+
+    <script>
+        // Quiz data
+        const quizData = [
+            {
+                question: "She usually ___ (to get) up at 7 a.m.",
+                options: ["get", "gets", "is getting"],
+                correctAnswer: 1,
+                explanation: "The keyword 'usually' indicates a habitual action, which requires the Present Simple tense. With third-person singular subjects (he/she/it), we add -s to the base form of the verb."
+            },
+            {
+                question: "Right now, they ___ (to watch) a movie.",
+                options: ["watch", "watches", "are watching"],
+                correctAnswer: 2,
+                explanation: "'Right now' indicates an action happening at the moment of speaking, which requires the Present Continuous tense (subject + am/is/are + verb + -ing)."
+            },
+            {
+                question: "The sun ___ (to rise) in the east.",
+                options: ["rise", "rises", "is rising"],
+                correctAnswer: 1,
+                explanation: "This is a general truth or fact, which always uses the Present Simple tense. The sun is a third-person singular subject, so the verb takes -s."
+            },
+            {
+                question: "Listen! The birds ___ (to sing) beautifully.",
+                options: ["sing", "sings", "are singing"],
+                correctAnswer: 2,
+                explanation: "The command 'Listen!' indicates that the action is happening right now, requiring the Present Continuous tense."
+            },
+            {
+                question: "She ___ (to study) English every day.",
+                options: ["study", "studies", "is studying"],
+                correctAnswer: 1,
+                explanation: "'Every day' indicates a routine or habitual action, which requires the Present Simple tense. With third-person singular subjects, we add -s to the verb."
+            },
+            {
+                question: "I ___ (to work) on a new project at the moment.",
+                options: ["am working", "work", "works"],
+                correctAnswer: 0,
+                explanation: "'At the moment' indicates an action happening now, which requires the Present Continuous tense."
+            },
+            {
+                question: "My friends ___ (to play) football every weekend.",
+                options: ["play", "plays", "are playing"],
+                correctAnswer: 0,
+                explanation: "'Every weekend' indicates a habitual action, requiring the Present Simple tense. 'My friends' is a plural subject, so we use the base form of the verb."
+            },
+            {
+                question: "Right now, he ___ (to fix) his bike.",
+                options: ["fix", "fixes", "is fixing"],
+                correctAnswer: 2,
+                explanation: "'Right now' indicates an action in progress, requiring the Present Continuous tense."
+            },
+            {
+                question: "Water ___ (to freeze) at 0 degrees Celsius.",
+                options: ["is freezing", "freezes", "freeze"],
+                correctAnswer: 1,
+                explanation: "This is a scientific fact, which always uses the Present Simple tense. 'Water' is uncountable and treated as singular, so the verb takes -s."
+            },
+            {
+                question: "We ___ (to plan) a trip this summer.",
+                options: ["plan", "plans", "are planning"],
+                correctAnswer: 2,
+                explanation: "'This summer' indicates a temporary situation (not a permanent one), which typically uses the Present Continuous tense for future plans."
+            }
+        ];
+
+        // DOM elements
+        const quizContainer = document.getElementById('quiz-container');
+        const resultsContainer = document.getElementById('results-container');
+        const questionText = document.getElementById('question-text');
+        const optionsContainer = document.getElementById('options-container');
+        const submitButton = document.getElementById('submit-btn');
+        const explanationContainer = document.getElementById('explanation');
+        const explanationText = document.getElementById('explanation-text');
+        const currentQuestionDisplay = document.getElementById('current-question');
+        const totalQuestionsDisplay = document.getElementById('total-questions');
+        const questionNumber = document.getElementById('question-number');
+        const scoreDisplay = document.getElementById('score');
+        const prevButton = document.getElementById('prev-btn');
+        const nextButton = document.getElementById('next-btn');
+        const finalScoreDisplay = document.getElementById('final-score');
+        const resultsMessage = document.getElementById('results-message');
+        const progressFill = document.getElementById('progress-fill');
+        const resultsProgressFill = document.getElementById('results-progress-fill');
+        const restartButton = document.getElementById('restart-btn');
+        const loadingScreen = document.getElementById('loading-screen');
+
+        // Quiz state
+        let currentQuestionIndex = 0;
+        let score = 0;
+        let userAnswers = Array(quizData.length).fill(null);
+        let quizCompleted = false;
+
+        // Initialize quiz
+        function initQuiz() {
+            totalQuestionsDisplay.textContent = quizData.length;
+            loadQuestion(currentQuestionIndex);
+        }
+
+        // Load question
+        function loadQuestion(index) {
+            if (index < 0 || index >= quizData.length) return;
+
+            currentQuestionIndex = index;
+            const question = quizData[index];
+
+            // Reset UI state
+            explanationContainer.classList.remove('show');
+            submitButton.textContent = 'Submit Answer';
+            submitButton.disabled = true;
+
+            // Update question info
+            questionText.textContent = question.question;
+            questionNumber.textContent = index + 1;
+            currentQuestionDisplay.textContent = index + 1;
+            explanationText.textContent = question.explanation;
+
+            // Update progress
+            const progressPercent = ((index + 1) / quizData.length) * 100;
+            progressFill.style.width = `${progressPercent}%`;
+
+            // Clear options
+            optionsContainer.innerHTML = '';
+
+            // Add options
+            question.options.forEach((option, i) => {
+                const optionElement = document.createElement('div');
+                optionElement.classList.add('option');
+                
+                // If already answered, show correct/incorrect states
+                if (userAnswers[index] !== null) {
+                    if (i === userAnswers[index]) {
+                        optionElement.classList.add(userAnswers[index] === question.correctAnswer ? 'correct' : 'incorrect');
+                    } else if (i === question.correctAnswer) {
+                        optionElement.classList.add('correct');
+                    }
+                    optionElement.style.cursor = 'default';
+                } else {
+                    optionElement.addEventListener('click', () => selectOption(i));
+                }
+
+                optionElement.innerHTML = `
+                    <div class="option-radio"></div>
+                    <div class="option-text">${option}</div>
+                `;
+
+                optionsContainer.appendChild(optionElement);
+            });
+
+            // Update submit button
+            if (userAnswers[index] !== null) {
+                submitButton.textContent = 'Continue';
+                submitButton.disabled = false;
+                explanationContainer.classList.add('show');
+            }
+
+            // Update navigation buttons
+            updateNavigationButtons();
+        }
+
+        // Select option
+        function selectOption(optionIndex) {
+            // Remove selected class from all options
+            document.querySelectorAll('.option').forEach(opt => {
+                opt.classList.remove('selected');
+            });
+
+            // Add selected class to clicked option
+            const options = document.querySelectorAll('.option');
+            options[optionIndex].classList.add('selected');
+
+            // Store user's answer
+            userAnswers[currentQuestionIndex] = optionIndex;
+
+            // Enable Submit button
+            submitButton.disabled = false;
+        }
+
+        // Submit answer
+        function submitAnswer() {
+            if (userAnswers[currentQuestionIndex] === null) return;
+
+            const question = quizData[currentQuestionIndex];
+            const selectedOption = userAnswers[currentQuestionIndex];
+            const isCorrect = selectedOption === question.correctAnswer;
+
+            // Update score if correct
+            if (isCorrect) {
+                score++;
+                scoreDisplay.textContent = score;
+            }
+
+            // Show correct/incorrect states
+            const options = document.querySelectorAll('.option');
+            options.forEach((option, i) => {
+                if (i === selectedOption) {
+                    option.classList.add(isCorrect ? 'correct' : 'incorrect');
+                } else if (i === question.correctAnswer) {
+                    option.classList.add('correct');
+                }
+                option.style.cursor = 'default';
+            });
+
+            // Show explanation
+            explanationContainer.classList.add('show');
+
+            // Change button to Continue
+            submitButton.textContent = 'Continue';
+        }
+
+        // Continue to next question or show results
+        function continueToNext() {
+            if (currentQuestionIndex < quizData.length - 1) {
+                currentQuestionIndex++;
+                loadQuestion(currentQuestionIndex);
+            } else {
+                showResults();
+            }
+        }
+
+        // Show results
+        function showResults() {
+            quizCompleted = true;
+
+            finalScoreDisplay.textContent = `${score}/${quizData.length}`;
+            const percentage = (score / quizData.length) * 100;
+            resultsProgressFill.style.width = `${percentage}%`;
+
+            // Set result message based on score
+            if (percentage >= 90) {
+                resultsMessage.textContent = "Outstanding! You've mastered these concepts with flying colors!";
+            } else if (percentage >= 70) {
+                resultsMessage.textContent = "Great job! You have a solid understanding of these grammar rules.";
+            } else if (percentage >= 50) {
+                resultsMessage.textContent = "Good effort! Review the explanations to strengthen your knowledge.";
+            } else {
+                resultsMessage.textContent = "Keep practicing! Review the material and try again to improve your score.";
+            }
+
+            // Hide quiz and show results
+            quizContainer.style.display = 'none';
+            resultsContainer.style.display = 'block';
+        }
+
+        // Restart quiz
+        function restartQuiz() {
+            currentQuestionIndex = 0;
+            score = 0;
+            userAnswers = Array(quizData.length).fill(null);
+            quizCompleted = false;
+
+            scoreDisplay.textContent = '0';
+            quizContainer.style.display = 'block';
+            resultsContainer.style.display = 'none';
+
+            loadQuestion(0);
+        }
+
+        // Go to previous question
+        function prevQuestion() {
+            if (currentQuestionIndex > 0) {
+                currentQuestionIndex--;
+                loadQuestion(currentQuestionIndex);
+            }
+        }
+
+        // Go to next question
+        function nextQuestion() {
+            if (currentQuestionIndex < quizData.length - 1) {
+                if (userAnswers[currentQuestionIndex] === null) {
+                    return;
+                }
+                currentQuestionIndex++;
+                loadQuestion(currentQuestionIndex);
+            } else if (currentQuestionIndex === quizData.length - 1 && userAnswers[currentQuestionIndex] !== null) {
+                showResults();
+            }
+        }
+
+        // Update navigation buttons
+        function updateNavigationButtons() {
+            prevButton.disabled = currentQuestionIndex === 0;
+
+            if (currentQuestionIndex === quizData.length - 1) {
+                nextButton.disabled = userAnswers[currentQuestionIndex] === null;
+                nextButton.innerHTML = 'See Results <i class="fas fa-trophy"></i>';
+            } else {
+                nextButton.disabled = userAnswers[currentQuestionIndex] === null;
+                nextButton.innerHTML = 'Next <i class="fas fa-arrow-right"></i>';
+            }
+        }
+
+        // Event listeners
+        submitButton.addEventListener('click', () => {
+            if (submitButton.textContent.includes('Submit')) {
+                submitAnswer();
+            } else {
+                continueToNext();
+            }
+        });
+
+        prevButton.addEventListener('click', prevQuestion);
+        nextButton.addEventListener('click', nextQuestion);
+        restartButton.addEventListener('click', restartQuiz);
+
+        // Loading screen functionality
+        window.addEventListener('load', function() {
+            setTimeout(function() {
+                loadingScreen.style.opacity = '0';
+                setTimeout(function() {
+                    loadingScreen.style.display = 'none';
+                }, 500);
+            }, 2000); // 2 second loading time
+        });
+
+        // Initialize the quiz
+        initQuiz();
+    </script>
+</body>
+</html>
