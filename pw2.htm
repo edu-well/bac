@@ -1,0 +1,564 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Daily Focus | Professional Selector</title>
+    <style>
+        :root {
+            --primary-color: #0078d4;
+            --primary-light: #5ca9e9;
+            --primary-dark: #005a9e;
+            --success-color: #107c10;
+            --success-light: #5cc65c;
+            --error-color: #d83b01;
+            --background-color: #f3f2f1;
+            --card-color: #ffffff;
+            --text-color: #323130;
+            --text-light: #605e5c;
+            --shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+            --shadow-hover: 0 15px 35px rgba(0, 0, 0, 0.15);
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        body {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            color: var(--text-color);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 24px;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(0, 120, 212, 0.03) 0%, transparent 70%);
+            z-index: -1;
+        }
+
+        .floating-element {
+            position: absolute;
+            border-radius: 50%;
+            opacity: 0.6;
+            z-index: -1;
+        }
+
+        .floating-1 {
+            width: 180px;
+            height: 180px;
+            background: radial-gradient(circle, rgba(0, 120, 212, 0.12) 0%, transparent 70%);
+            top: 10%;
+            left: 10%;
+            animation: float 10s ease-in-out infinite;
+        }
+
+        .floating-2 {
+            width: 120px;
+            height: 120px;
+            background: radial-gradient(circle, rgba(16, 124, 16, 0.12) 0%, transparent 70%);
+            bottom: 20%;
+            right: 10%;
+            animation: float 15s ease-in-out infinite;
+        }
+
+        .floating-3 {
+            width: 100px;
+            height: 100px;
+            background: radial-gradient(circle, rgba(216, 59, 1, 0.12) 0%, transparent 70%);
+            bottom: 30%;
+            left: 15%;
+            animation: float 12s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(0px) rotate(0deg);
+            }
+            50% {
+                transform: translateY(-30px) rotate(180deg);
+            }
+            100% {
+                transform: translateY(0px) rotate(360deg);
+            }
+        }
+
+        .container {
+            width: 100%;
+            max-width: 480px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .card {
+            background: linear-gradient(145deg, rgba(255, 255, 255, 0.98), rgba(255, 255, 255, 0.95));
+            border-radius: 24px;
+            box-shadow: var(--shadow);
+            padding: 45px 35px;
+            margin-bottom: 32px;
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            transition: var(--transition);
+        }
+
+        .card:hover {
+            box-shadow: var(--shadow-hover);
+            transform: translateY(-5px);
+        }
+
+        .header {
+            margin-bottom: 40px;
+            text-align: center;
+            position: relative;
+        }
+
+        .header::after {
+            content: '';
+            position: absolute;
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary-color), var(--primary-light));
+            border-radius: 2px;
+            box-shadow: 0 2px 5px rgba(0, 120, 212, 0.3);
+        }
+
+        .step-indicator {
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--text-light);
+            margin-bottom: 20px;
+            letter-spacing: 0.5px;
+            background: rgba(0, 120, 212, 0.1);
+            padding: 10px 20px;
+            border-radius: 50px;
+            display: inline-block;
+            box-shadow: 0 3px 10px rgba(0, 120, 212, 0.1);
+        }
+
+        h1 {
+            font-size: 2.2rem;
+            font-weight: 800;
+            margin-bottom: 0;
+            line-height: 1.3;
+            letter-spacing: -0.8px;
+            color: var(--primary-color);
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        .habits-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .habit-item {
+            padding: 22px 25px;
+            border-radius: 18px;
+            cursor: pointer;
+            transition: var(--transition);
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border: 2px solid rgba(0, 0, 0, 0.08);
+            background: linear-gradient(145deg, rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.98));
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            will-change: transform;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        .habit-item:nth-child(1) { animation: fadeIn 0.5s 0.1s forwards; }
+        .habit-item:nth-child(2) { animation: fadeIn 0.5s 0.2s forwards; }
+        .habit-item:nth-child(3) { animation: fadeIn 0.5s 0.3s forwards; }
+        .habit-item:nth-child(4) { animation: fadeIn 0.5s 0.4s forwards; }
+        .habit-item:nth-child(5) { animation: fadeIn 0.5s 0.5s forwards; }
+        .habit-item:nth-child(6) { animation: fadeIn 0.5s 0.6s forwards; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .habit-item:hover {
+            background: linear-gradient(145deg, rgba(240, 248, 255, 0.95), rgba(255, 255, 255, 0.98));
+            border-color: rgba(0, 120, 212, 0.3);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0, 120, 212, 0.15);
+        }
+
+        .habit-item.selected {
+            background: linear-gradient(145deg, rgba(240, 248, 255, 0.98), rgba(255, 255, 255, 0.95));
+            border-color: var(--primary-color);
+            box-shadow: 0 8px 25px rgba(0, 120, 212, 0.2);
+            transform: translateY(-5px);
+        }
+
+        .habit-name {
+            font-weight: 600;
+            font-size: 1.1rem;
+            letter-spacing: -0.1px;
+            color: var(--text-color);
+            max-width: 85%;
+            line-height: 1.4;
+        }
+
+        .checkmark {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            border: 2px solid var(--text-light);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition);
+            flex-shrink: 0;
+            background: white;
+        }
+
+        .habit-item.selected .checkmark {
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
+            transform: scale(1.1);
+            box-shadow: 0 0 0 3px rgba(0, 120, 212, 0.2);
+        }
+
+        .checkmark::after {
+            content: '';
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background-color: white;
+            opacity: 0;
+            transition: var(--transition);
+        }
+
+        .habit-item.selected .checkmark::after {
+            opacity: 1;
+            animation: pulse 0.3s ease-out;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(0.5); opacity: 0; }
+            70% { transform: scale(1.2); opacity: 1; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        /* Back button */
+        .back-btn {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            padding: 8px 16px;
+            border: 2px solid var(--primary-color);
+            border-radius: 50px;
+            background: transparent;
+            color: var(--primary-color);
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .back-btn:hover {
+            background: rgba(0, 120, 212, 0.1);
+            transform: translateY(-2px);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 600px) {
+            body {
+                padding: 15px;
+            }
+            
+            .card {
+                padding: 35px 25px;
+                border-radius: 20px;
+            }
+            
+            h1 {
+                font-size: 1.8rem;
+            }
+            
+            .header::after {
+                width: 80px;
+            }
+            
+            .habit-item {
+                padding: 18px 20px;
+                border-radius: 16px;
+            }
+            
+            .habit-name {
+                font-size: 1rem;
+            }
+            
+            .checkmark {
+                width: 22px;
+                height: 22px;
+            }
+            
+            .back-btn {
+                padding: 6px 12px;
+                font-size: 12px;
+            }
+        }
+
+        @media (max-width: 400px) {
+            .card {
+                padding: 30px 20px;
+                border-radius: 18px;
+            }
+            
+            h1 {
+                font-size: 1.6rem;
+            }
+            
+            .habit-item {
+                padding: 16px 18px;
+            }
+            
+            .habit-name {
+                font-size: 0.95rem;
+            }
+            
+            .step-indicator {
+                font-size: 13px;
+                padding: 8px 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="floating-element floating-1"></div>
+    <div class="floating-element floating-2"></div>
+    <div class="floating-element floating-3"></div>
+    
+    <div class="container">
+        <!-- Main Selection Page -->
+        <div class="card" id="mainPage">
+            <div class="header">
+                <div class="step-indicator">Step 1: Select Your Focus Zone</div>
+                <h1>SELECT YOUR FOCUS ZONE</h1>
+            </div>
+
+            <div class="habits-list">
+                <div class="habit-item" data-focus="present-simple-continuous" data-name="Present Simple & Present Continuous">
+                    <div class="habit-name">Present Simple & Present Continuous</div>
+                    <div class="checkmark"></div>
+                </div>
+                
+                <div class="habit-item" data-focus="present-tenses" data-name="Present Tenses">
+                    <div class="habit-name">Present Tenses</div>
+                    <div class="checkmark"></div>
+                </div>
+                
+                <div class="habit-item" data-focus="present-perfect-simple" data-name="Present Perfect & Present Simple">
+                    <div class="habit-name">Present Perfect & Present Simple</div>
+                    <div class="checkmark"></div>
+                </div>
+
+                <div class="habit-item" data-focus="present-perfect-continuous" data-name="Present Perfect & Present Perfect Continuous">
+                    <div class="habit-name">Present Perfect & Present Perfect Continuous</div>
+                    <div class="checkmark"></div>
+                </div>
+
+                <div class="habit-item" data-focus="mixed-present" data-name="Mixed (Present Simple, Continuous, Perfect)">
+                    <div class="habit-name">Mixed (Present Simple, Continuous, Perfect)</div>
+                    <div class="checkmark"></div>
+                </div>
+
+                <div class="habit-item" data-focus="all-present" data-name="Present Simple, Present Continuous, Present Perfect">
+                    <div class="habit-name">Present Simple, Present Continuous, Present Perfect</div>
+                    <div class="checkmark"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Test Selection Page -->
+        <div class="card" id="testPage" style="display: none;">
+            <button class="back-btn" id="backBtn">← Back</button>
+            <div class="header">
+                <div class="step-indicator" id="testStepIndicator">Step 2: Select Your Test</div>
+                <h1 id="testTitle">SELECT YOUR TEST</h1>
+            </div>
+
+            <div class="habits-list" id="testList">
+                <!-- Test options will be dynamically generated here -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // DOM Elements
+            const mainPage = document.getElementById('mainPage');
+            const testPage = document.getElementById('testPage');
+            const backBtn = document.getElementById('backBtn');
+            const testTitle = document.getElementById('testTitle');
+            const testStepIndicator = document.getElementById('testStepIndicator');
+            const testList = document.getElementById('testList');
+            
+            const habitItems = document.querySelectorAll('.habit-item');
+            let selectedFocus = null;
+
+            // Test links configuration for each focus area
+            const testLinks = {
+                "present-simple-continuous": [
+                    { name: "Test 1: Basic Usage", link: "https://example.com/present-simple-continuous/test1" },
+                    { name: "Test 2: Time Expressions", link: "https://example.com/present-simple-continuous/test2" },
+                    { name: "Test 3: Stative Verbs", link: "https://example.com/present-simple-continuous/test3" },
+                    { name: "Test 4: Mixed Practice", link: "https://example.com/present-simple-continuous/test4" },
+                    { name: "Test 5: Advanced Challenge", link: "https://example.com/present-simple-continuous/test5" }
+                ],
+                "present-tenses": [
+                    { name: "Test 1: Tense Identification", link: "https://example.com/present-tenses/test1" },
+                    { name: "Test 2: Form Practice", link: "https://example.com/present-tenses/test2" },
+                    { name: "Test 3: Context Usage", link: "https://example.com/present-tenses/test3" },
+                    { name: "Test 4: Error Correction", link: "https://example.com/present-tenses/test4" },
+                    { name: "Test 5: Comprehensive Quiz", link: "https://example.com/present-tenses/test5" }
+                ],
+                "present-perfect-simple": [
+                    { name: "Test 1: Basic Differences", link: "https://example.com/present-perfect-simple/test1" },
+                    { name: "Test 2: Time Markers", link: "https://example.com/present-perfect-simple/test2" },
+                    { name: "Test 3: Experience & Change", link: "https://example.com/present-perfect-simple/test3" },
+                    { name: "Test 4: Mixed Contexts", link: "https://example.com/present-perfect-simple/test4" },
+                    { name: "Test 5: Advanced Application", link: "https://example.com/present-perfect-simple/test5" }
+                ],
+                "present-perfect-continuous": [
+                    { name: "Test 1: Form & Structure", link: "https://example.com/present-perfect-continuous/test1" },
+                    { name: "Test 2: Duration Focus", link: "https://example.com/present-perfect-continuous/test2" },
+                    { name: "Test 3: Result vs. Duration", link: "https://example.com/present-perfect-continuous/test3" },
+                    { name: "Test 4: Mixed Practice", link: "https://example.com/present-perfect-continuous/test4" },
+                    { name: "Test 5: Complex Situations", link: "https://example.com/present-perfect-continuous/test5" }
+                ],
+                "mixed-present": [
+                    { name: "Test 1: Tense Selection", link: "https://example.com/mixed-present/test1" },
+                    { name: "Test 2: Context Clues", link: "https://example.com/mixed-present/test2" },
+                    { name: "Test 3: Time Expressions", link: "https://example.com/mixed-present/test3" },
+                    { name: "Test 4: Error Detection", link: "https://example.com/mixed-present/test4" },
+                    { name: "Test 5: Final Challenge", link: "https://example.com/mixed-present/test5" }
+                ],
+                "all-present": [
+                    { name: "Test 1: Comprehensive Review", link: "https://example.com/all-present/test1" },
+                    { name: "Test 2: Advanced Usage", link: "https://example.com/all-present/test2" },
+                    { name: "Test 3: Real-world Contexts", link: "https://example.com/all-present/test3" },
+                    { name: "Test 4: Grammar in Action", link: "https://example.com/all-present/test4" },
+                    { name: "Test 5: Mastery Assessment", link: "https://example.com/all-present/test5" }
+                ]
+            };
+
+            // Add click event to each habit item on main page
+            habitItems.forEach(item => {
+                item.addEventListener('click', function() {
+                    // Remove selected class from all items
+                    habitItems.forEach(habit => {
+                        habit.classList.remove('selected');
+                    });
+                    
+                    // Add selected class to clicked item
+                    this.classList.add('selected');
+                    
+                    // Get selected focus data
+                    selectedFocus = {
+                        id: this.getAttribute('data-focus'),
+                        name: this.getAttribute('data-name')
+                    };
+                    
+                    // Update test page title and step indicator
+                    testTitle.textContent = `SELECT TEST: ${selectedFocus.name}`;
+                    testStepIndicator.textContent = `Step 2: Select Your Test for "${selectedFocus.name}"`;
+                    
+                    // Generate test options
+                    generateTestOptions(selectedFocus.id);
+                    
+                    // Hide main page and show test page
+                    mainPage.style.display = 'none';
+                    testPage.style.display = 'block';
+                    
+                    // Add click animation
+                    this.style.transform = 'scale(0.97) translateY(-3px)';
+                });
+            });
+
+            // Back button click handler
+            backBtn.addEventListener('click', function() {
+                // Hide test page and show main page
+                testPage.style.display = 'none';
+                mainPage.style.display = 'block';
+                
+                // Reset selected focus
+                selectedFocus = null;
+                habitItems.forEach(habit => {
+                    habit.classList.remove('selected');
+                });
+            });
+
+            // Generate test options based on selected focus
+            function generateTestOptions(focusId) {
+                // Clear existing test options
+                testList.innerHTML = '';
+                
+                // Get test links for the selected focus
+                const tests = testLinks[focusId];
+                
+                // Create test option elements
+                tests.forEach((test, index) => {
+                    const testItem = document.createElement('div');
+                    testItem.className = 'habit-item';
+                    testItem.setAttribute('data-link', test.link);
+                    testItem.innerHTML = `
+                        <div class="habit-name">${test.name}</div>
+                        <div class="checkmark"></div>
+                    `;
+                    
+                    // Add click event for test options
+                    testItem.addEventListener('click', function() {
+                        // Remove selected class from all test items
+                        document.querySelectorAll('#testList .habit-item').forEach(item => {
+                            item.classList.remove('selected');
+                        });
+                        
+                        // Add selected class to clicked item
+                        this.classList.add('selected');
+                        
+                        // Navigate to the test link after a short delay
+                        setTimeout(() => {
+                            window.location.href = this.getAttribute('data-link');
+                        }, 200);
+                    });
+                    
+                    // Add animation delay
+                    testItem.style.animationDelay = `${(index + 1) * 0.1}s`;
+                    
+                    testList.appendChild(testItem);
+                });
+            }
+        });
+    </script>
+</body>
+</html>
