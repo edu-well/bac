@@ -1,4 +1,4 @@
-
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -371,6 +371,17 @@
             color: var(--error-color);
             border: 2px solid rgba(216, 59, 1, 0.25);
             box-shadow: 0 4px 15px rgba(216, 59, 1, 0.1);
+        }
+
+        .explanation {
+            font-size: 1.1rem;
+            color: var(--text-color);
+            line-height: 1.6;
+            margin: 20px 0;
+            padding: 15px;
+            background: rgba(0, 0, 0, 0.03);
+            border-radius: 12px;
+            border-left: 4px solid var(--primary-color);
         }
 
         .feedback-popup button {
@@ -812,6 +823,7 @@
             <h3 id="feedback-title">Correct!</h3>
             <p id="feedback-message">You got it right!</p>
             <div class="correct-answer" id="correct-answer">The correct answer is: True</div>
+            <div class="explanation" id="explanation">This is where the explanation will appear.</div>
             <button id="continue-btn">Continue</button>
         </div>
 
@@ -838,27 +850,32 @@
     </div>
 
     <script>
-        // Quiz Questions Data
+        // Quiz Questions Data with explanations
         const quizQuestions = [
             {
                 question: "JavaScript is a programming language primarily used for web development.",
-                answer: true
+                answer: true,
+                explanation: "JavaScript is indeed primarily used for web development. It's the programming language of the web that allows developers to create interactive elements on websites."
             },
             {
                 question: "HTML stands for Hyper Text Markup Language.",
-                answer: true
+                answer: true,
+                explanation: "HTML stands for Hyper Text Markup Language. It's the standard markup language used to create web pages and web applications."
             },
             {
                 question: "CSS is used to add interactivity to websites.",
-                answer: false // JavaScript is used for interactivity, CSS for styling
+                answer: false, // JavaScript is used for interactivity, CSS for styling
+                explanation: "CSS (Cascading Style Sheets) is used for styling and layout of web pages, not for adding interactivity. JavaScript is the language used to add interactivity to websites."
             },
             {
                 question: "The 'console.log()' function is used to display output in the browser console.",
-                answer: true
+                answer: true,
+                explanation: "The console.log() function is a built-in JavaScript method that outputs messages to the browser's console. It's commonly used for debugging purposes."
             },
             {
                 question: "React is a backend framework for building server applications.",
-                answer: false // React is a frontend library
+                answer: false, // React is a frontend library
+                explanation: "React is actually a frontend JavaScript library for building user interfaces, not a backend framework. Backend frameworks include Node.js, Django, Ruby on Rails, etc."
             }
         ];
 
@@ -872,6 +889,7 @@
         const feedbackTitle = document.getElementById('feedback-title');
         const feedbackMessage = document.getElementById('feedback-message');
         const correctAnswerElement = document.getElementById('correct-answer');
+        const explanationElement = document.getElementById('explanation');
         const continueBtn = document.getElementById('continue-btn');
         const overlay = document.getElementById('overlay');
         const resultsScreen = document.getElementById('results-screen');
@@ -947,6 +965,8 @@
             overlay.classList.add('active');
             feedbackPopup.classList.add('active');
             
+            const currentQuestion = quizQuestions[currentQuestionIndex];
+            
             if (isCorrect) {
                 feedbackPopup.classList.add('correct');
                 feedbackPopup.classList.remove('incorrect');
@@ -954,13 +974,17 @@
                 feedbackMessage.textContent = 'Perfect! You got it right.';
                 correctAnswerElement.textContent = `The correct answer is: ${correctAnswer ? 'True' : 'False'}`;
                 feedbackTitle.style.color = 'var(--success-color)';
+                explanationElement.textContent = currentQuestion.explanation;
+                explanationElement.style.borderLeftColor = 'var(--success-color)';
             } else {
                 feedbackPopup.classList.add('incorrect');
                 feedbackPopup.classList.remove('correct');
                 feedbackTitle.textContent = 'Incorrect!';
-                feedbackMessage.textContent = 'Oops! Better luck next time.';
+                feedbackMessage.textContent = 'Let me explain this to you.';
                 correctAnswerElement.textContent = `The correct answer is: ${correctAnswer ? 'True' : 'False'}`;
                 feedbackTitle.style.color = 'var(--error-color)';
+                explanationElement.textContent = currentQuestion.explanation;
+                explanationElement.style.borderLeftColor = 'var(--error-color)';
             }
         }
 
@@ -1218,3 +1242,4 @@
     </script>
 </body>
 </html>
+```
