@@ -1,0 +1,76 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>QuizQcm | EduWell</title>
+    <link rel="shortcut icon" href="./assets/images/QuizQcm icon png.png" type="image/x-icon">
+    <link rel="stylesheet" href="./assets/css/style.css">
+    <style>
+    </style>
+</head>
+<body>
+    <div class="floating-element floating-1"></div>
+    <div class="floating-element floating-2"></div>
+    <div class="floating-element floating-3"></div>
+    
+    <div class="container">
+        <!-- Main Selection Page -->
+        <div class="card" id="mainPage">
+            <div class="header">
+                <div class="step-indicator">1ère étape : Pick ton chapitre</div>
+                <h1>SVT Challenge</h1>
+            </div>
+
+            <div class="habits-list">
+                <div class="habit-item" data-focus="Reproduction Humaine" data-name="Reproduction chez l'homme et la femme">
+                    <div class="habit-name">Reproduction Humaine
+</div>
+                    <div class="checkmark"></div>
+                </div>
+                
+                <div class="habit-item" data-focus="Evolution Biologique" data-name="Evolution Biologique">
+                    <div class="habit-name">Evolution Biologique</div>
+                    <div class="checkmark"></div>
+                </div>
+                
+                <div class="habit-item" data-focus="Genetique" data-name="Genetique humaine ">
+                    <div class="habit-name">Génétique humaine </div>
+                    <div class="checkmark"></div>
+                </div>
+
+                <div class="habit-item" data-focus="Neurophysiologie" data-name="Chapitre système nerveux">
+                    <div class="habit-name">Neurophysiologie</div>
+                    <div class="checkmark"></div>
+                </div>
+
+                <div class="habit-item" data-focus="Immunite" data-name="immunite ">
+                    <div class="habit-name">immunité</div>
+                    <div class="checkmark"></div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="card" id="testPage" style="display: none;">
+            <button class="back-btn" id="backBtn">← Retour</button>
+            <br><br>
+            <div class="header">
+                <div class="step-indicator" id="testStepIndicator">Step 2: </div>
+                <h1 id="testTitle">SELECT YOUR TEST</h1>
+            </div>
+
+            <div class="habits-list" id="testList">
+
+            </div>
+        </div>
+    </div>
+     
+ <script src="./assets/js/arc.js"></script>
+ <script src="./assets/js/link.js"></script>
+    <footer class="footer">
+    Built with code & care — Eduwell Quantum Group
+  </footer>
+</body>
+</html>
